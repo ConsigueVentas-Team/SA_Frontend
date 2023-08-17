@@ -5,6 +5,7 @@ import { Error404 } from "./pages/Error404";
 import { Login } from "./pages/auth/Login";
 import { OlvideContraseña } from "./pages/auth/OlvideContraseña";
 import { RestablecerContraseña } from "./pages/auth/RestablecerContraseña";
+import {CambiarContraseña} from "./pages/auth/CambiarContraseña";
 
 //Views Pages
 import { Home } from "./pages/views/Home";
@@ -38,6 +39,7 @@ function App() {
             <Route path="marcar-asistencia" element={<MarcarAsistencia />} />
             <Route path="cumpleaños" element={<Cumpleaños />} />
             <Route path="añadir-justificacion" element={<AñadirJustificacion />} />
+            <Route path="cambiar-contraseña" element={<CambiarContraseña />} />
 
             {hasRole('Lider Nucleo') && (
               <>

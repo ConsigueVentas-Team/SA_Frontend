@@ -98,7 +98,7 @@ export const Login = () => {
             } else {
               setMsg(responseData.message);
               const tokenD = responseData.accessToken
-              const token = AES.encrypt(tokenD, import.meta.env.VITE_KEY).toString()
+              const token = AES.encrypt(tokenD, import.meta.env.VITE_TOKEN_KEY).toString()
               localStorage.setItem('token', token);
               localStorage.setItem('iduser', responseData.user.id);
               localStorage.setItem('rol', responseData.rol);

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import LockResetIcon from '@mui/icons-material/LockReset';
-// import { RiEyeLine, RiEyeCloseLine } from 'react-icons/ri';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
@@ -12,7 +11,16 @@ export const RestablecerContraseña = () => {
 	const [errorMessage, setErrorMessage] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [passwordResetInfo, setPasswordResetInfo] = useState(null);
+
 	const [showPassword, setShowPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+	const handleTogglePassword = () => {
+		setShowPassword(!showPassword);
+	};
+	const handleToggleConfirmPassword = () => {
+		setShowConfirmPassword(!showConfirmPassword);
+	};
 
 	useEffect(() => {
 		document.title = 'Restablecer contraseña | Consigue Ventas';
@@ -109,10 +117,6 @@ export const RestablecerContraseña = () => {
 		obtenerInformacionRestablecimiento();
 	}, []);
 
-	const togglePasswordVisibility = () => {
-		setShowPassword(!showPassword);
-	};
-
 	return (
 		<>
 			<div className="fixed top-0 left-0 z-50 w-screen h-screen p-2.5 flex flex-col items-center justify-center bg-cv-secondary">
@@ -129,7 +133,7 @@ export const RestablecerContraseña = () => {
 								</label>
 								<div className="relative">
 									<input
-										className="bg-white border border-gray-300 text-gray-900 outline-none sm:text-sm rounded-lg focus:ring-cv-secondary focus:border-cv-primary block w-full p-2.5"
+										className="bg-white border border-gray-300 text-gray-900 outline-none sm:text-sm rounded-lg focus:ring-cv-secondary focus:border-cv-primary block w-full p-2.5 pr-8"
 										placeholder="Contraseña nueva"
 										id='password'
 										type={showPassword ? 'text' : 'password'}
@@ -137,16 +141,11 @@ export const RestablecerContraseña = () => {
 										onChange={handlePasswordChange}
 										required
 									/>
-									<div
-										className="absolute top-0 right-0 pr-3 h-full flex items-center"
-										onClick={togglePasswordVisibility}
-									>
-										{showPassword ? (
-											<VisibilityOffIcon className="text-cv-primary cursor-pointer" />
-										) : (
-											<VisibilityIcon className="text-cv-primary cursor-pointer" />
-										)}
-									</div>
+									{password && (
+										<button type="button" className='absolute inset-y-0 right-2' onClick={handleTogglePassword}>
+											{showPassword ? <VisibilityIcon sx={{ fontSize: 20 }} className="text-cv-primary cursor-pointer" /> : <VisibilityOffIcon sx={{ fontSize: 20 }} className="text-cv-primary cursor-pointer" />}
+										</button>
+									)}
 								</div>
 							</div>
 
@@ -156,7 +155,7 @@ export const RestablecerContraseña = () => {
 								</label>
 								<div className="relative">
 									<input
-										className={`bg-white border border-gray-300 text-gray-900 outline-none sm:text-sm rounded-lg focus:ring-cv-secondary block w-full p-2.5 ${passwordMatch ? 'focus:border-cv-primary ' : 'focus:border-red-500'
+										className={`bg-white border border-gray-300 text-gray-900 outline-none sm:text-sm rounded-lg focus:ring-cv-secondary block w-full p-2.5 pr-8 ${passwordMatch ? 'focus:border-cv-primary ' : 'focus:border-red-500'
 											}`}
 										id='confirm_password'
 										placeholder="Confirmar contraseña"
@@ -165,14 +164,19 @@ export const RestablecerContraseña = () => {
 										onChange={handleConfirmPasswordChange}
 										required
 									/>
-									{!passwordMatch && (
-										<p className="text-red-500 text-xs italic">Las contraseñas no coinciden.</p>
+									{confirmPassword && (
+										<button type="button" className='absolute inset-y-0 right-2' onClick={handleToggleConfirmPassword}>
+											{showConfirmPassword ? <VisibilityIcon sx={{ fontSize: 20 }} className="text-cv-primary cursor-pointer" /> : <VisibilityOffIcon sx={{ fontSize: 20 }} className="text-cv-primary cursor-pointer" />}
+										</button>
 									)}
 								</div>
+								{!passwordMatch && (
+									<p className="text-red-500 mt-1 text-xs italic">Las contraseñas no coinciden.</p>
+								)}
 							</div>
 							<div className="flex items-center justify-center">
 								<button
-									className="w-full shadow bg-cv-primary hover:bg-slate-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+									className="w-full shadow bg-cv-primary hover:bg-cv-secondary focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded active:scale-95 ease-in-out duration-300"
 									type="submit"
 									disabled={isLoading}
 								>

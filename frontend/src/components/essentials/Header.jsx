@@ -24,7 +24,7 @@ export const Header = () => {
 
   //Local Storage
   // const userId = localStorage.getItem("iduser");
-  // const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+  // const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
   // const token = tokenD.toString(enc.Utf8)
   const rol = localStorage.getItem('rol');
   const nombre = localStorage.getItem('name');
