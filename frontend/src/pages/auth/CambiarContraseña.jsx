@@ -40,7 +40,7 @@ export const CambiarContraseña = () => {
 
 	const navigate = useNavigate();
 	const cancelarChange = () => {
-		navigate('/home')
+		navigate('/')
 	}
 	const onsubmit = async (e) => {
 		e.preventDefault();
