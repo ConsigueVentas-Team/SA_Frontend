@@ -1,0 +1,66 @@
+.reloj-analogico {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #f2f2f2;
+    position: relative;
+    overflow: hidden;
+}
+
+.reloj-analogico__marca {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: bottom center;
+    background-color: #333;
+}
+
+.reloj-analogico__marca--hora {
+    width: 6px;
+    height: 60px;
+    margin-left: -3px;
+    margin-top: -60px;
+    border-radius: 5px 5px 0 0;
+}
+
+.reloj-analogico__marca--minuto {
+    width: 4px;
+    height: 80px;
+    margin-left: -2px;
+    margin-top: -80px;
+    border-radius: 5px 5px 0 0;
+}
+
+.reloj-analogico__marca--segundo {
+    width: 2px;
+    height: 90px;
+    margin-left: -1px;
+    margin-top: -90px;
+    border-radius: 5px 5px 0 0;
+}
+
+.reloj-analogico__numero {
+    position: absolute;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.reloj-analogico__numero--12 {
+    top: 10px;
+    left: calc(50% - 8px);
+}
+
+.reloj-analogico__numero--3 {
+    top: calc(50% - 8px);
+    right: 10px;
+}
+
+.reloj-analogico__numero--6 {
+    bottom: 10px;
+    left: calc(50% - 8px);
+}
+
+.reloj-analogico__numero--9 {
+    top: calc(50% - 8px);
+    left: 10px;
+}
