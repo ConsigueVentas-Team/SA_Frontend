@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
-import ListAltIcon from '@mui/icons-material/ListAlt';
+// import ListAltIcon from '@mui/icons-material/ListAlt';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -30,8 +30,7 @@ export const Header = () => {
   const nombre = localStorage.getItem('name');
   const avatar = localStorage.getItem('avatar');
   const apellido = localStorage.getItem('surname');
-  const firstName = nombre.split(" ")[0];
-  const firstSurname = apellido.split(" ")[0];
+  const name = nombre.split(" ")[0] + ' ' + apellido.split(" ")[0];
 
 
 //Cerrar Sesion
@@ -51,22 +50,18 @@ export const Header = () => {
           </h1>
         </div>
         <div className="flex items-center gap-2" >
-          <Tooltip title="Lista de tareas personales">
+          {/* <Tooltip title="Lista de tareas personales">
             <button onClick="" className="relative inline-flex items-center p-1 text-sm font-medium text-center text-white border border-cv-secondary hover:bg-cv-secondary rounded-lg ">
               <ListAltIcon sx={{ fontSize: 24 }} />
               <span className="sr-only">Tareas</span>
-              {/* {tasks.length > 0 && ( */}
-
               <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-600 border-2 border-cv-primary rounded-full -top-2 -right-2 ">
-                {/* {tasks.length} */}
                 20
               </div>
-              {/* )} */}
             </button>
-          </Tooltip>
-          <Avatar alt={firstName} src={avatar} />
+          </Tooltip> */}
+          <Avatar alt={name} src={avatar} className='ring-2 ring-cv-cyan'/>
           <div className="flex flex-col">
-            <p className="font-semibold whitespace-nowrap text-sm sm:text-base md:text-lg leading-tight">{firstName} {firstSurname}</p>
+            <p className="font-semibold whitespace-nowrap text-sm sm:text-base md:text-lg leading-tight">{name}</p>
             <p className="text-xs sm:text-sm text-cv-cyan leading-tight">{rol}</p>
           </div>
           <ClickAwayListener onClickAway={handleClickAway}>

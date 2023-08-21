@@ -1,5 +1,5 @@
 {
-  "name": "frontend-cv",
+  "name": "frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -15,10 +15,12 @@
     "@mui/icons-material": "^5.14.3",
     "@mui/material": "^5.14.5",
     "crypto-js": "^4.1.1",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-recaptcha": "^3.1.0",
-    "react-router-dom": "^6.15.0"
+    "react-router-dom": "^6.15.0",
+    "recharts": "^2.7.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

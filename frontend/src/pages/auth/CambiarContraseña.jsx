@@ -40,7 +40,7 @@ export const CambiarContraseña = () => {
 
 	const navigate = useNavigate();
 	const cancelarChange = () => {
-		navigate('/home')
+		navigate('/')
 	}
 	const onsubmit = async (e) => {
 		e.preventDefault();
@@ -50,7 +50,7 @@ export const CambiarContraseña = () => {
 			setSuccessMessage("");
 			return;
 		}
-		const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+		const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
 		const token = tokenD.toString(enc.Utf8)
 		setIsLoading(true);
 		try {
