@@ -18,7 +18,7 @@ const Formulario = () => {
       >
         <h2>Registrar nucleo</h2>
       </Link>
-      {/* <ModalBox
+      <ModalBox
         holder={"Sistemas"}
         valueDefault={"Sistemas"}
         title={"edite Departamento"}
@@ -29,7 +29,7 @@ const Formulario = () => {
         valueDefault={"Diseño"}
         title={"edite Nucleo"}
         label={"Núcleo: "}
-      ></ModalBox> */}
+      ></ModalBox>
     </div>
   );
 };
