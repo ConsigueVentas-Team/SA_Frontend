@@ -1,16 +1,20 @@
-import React, { useRef, useState } from 'react';
-import { BsFillCameraVideoFill, BsFillCameraVideoOffFill } from 'react-icons/bs';
-import PropTypes from 'prop-types';
+import React from 'react';
+// import { BsFillCameraVideoFill, BsFillCameraVideoOffFill } from "react-icons/bs";
 
-export const CameraSection = ({ videoEnabled, toggleCamera, handleCapture, mostrarBotonCamara }) => {
-
-    const [fotoUsuario, setFotoUsuario] = useState(null); // Agregar esta línea
-    const [capturing, setCapturing] = useState(false); // Agregar esta línea
-    const videoRef = useRef(null); // Agregar esta línea
-
+const CameraSection = ({
+    fotoUsuario,
+    videoEnabled,
+    capturing,
+    handleCapture,
+    toggleCamera,
+    cameraStream,
+    videoRef,
+    isMobile,
+    mostrarBotonCamara
+}) => {
     return (
-        <div className={`seccion-izquierda w-full ${isMobile ? 'mb-4' : ''}`}>
-            <div className={`w-full rounded-xl bg-slate-950 relative ${isMobile ? 'h-96' : 'h-4/6'}`}>
+        <div className={`seccion-izquierda w-full mb-4`}>
+            <div className={`w-full rounded-xl bg-slate-950 relative h-96`}>
                 <div className="absolute top-0 left-0 w-full h-full">
                     {fotoUsuario && (
                         <img src={fotoUsuario} alt="Foto capturada" className="w-full h-full object-cover" style={{ transform: "scaleX(-1)" }} />
@@ -29,8 +33,8 @@ export const CameraSection = ({ videoEnabled, toggleCamera, handleCapture, mostr
                             <div className="w-full h-full flex items-center justify-center">
                                 <span className="text-white text-xl">Cámara desactivada</span>
                             </div>
-                        )))
-                    }
+                        ))
+                    )}
                 </div>
                 <div className="absolute bottom-0 mb-4 w-full flex items-center justify-center">
                     {mostrarBotonCamara && (
@@ -74,11 +78,4 @@ export const CameraSection = ({ videoEnabled, toggleCamera, handleCapture, mostr
     );
 };
 
-CameraSection.propTypes = {
-    videoEnabled: PropTypes.bool.isRequired,
-    toggleCamera: PropTypes.func.isRequired,
-    handleCapture: PropTypes.func.isRequired,
-    mostrarBotonCamara: PropTypes.bool.isRequired,
-    videoRef: PropTypes.object.isRequired,
-    isMobile: PropTypes.bool.isRequired,
-};
+export default CameraSection;
