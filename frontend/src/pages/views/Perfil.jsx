@@ -5,7 +5,7 @@ import {
   FotoPerfil,
 } from "../../components/perfil";
 
-import { React, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { AES, enc } from "crypto-js";
 
@@ -34,8 +34,6 @@ export const Perfil = () => {
           const data = await response.json();
           setColaborador(data);
 
-          console.log(data.Usuario.user);
-          console.log(data.Usuario.user);
           setIsChecked(data?.Usuario[0]?.user[0]?.status === 1);
         } else {
           console.error("Error fetching data:", response.status);
@@ -53,6 +51,10 @@ export const Perfil = () => {
     setIsChecked(!isChecked);
   };
 
+  if (colaborador === null) {
+    // Puedes mostrar un mensaje de carga o cualquier otro contenido adecuado.
+    return <p>Cargando...</p>;
+  }
   return (
     <>
       {colaborador && colaborador.Usuario && colaborador.Usuario[0] && (

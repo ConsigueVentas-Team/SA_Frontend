@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 
 export const CajaDatos = ({ label, estilos, colaborador }) => {
   return (
@@ -7,4 +7,10 @@ export const CajaDatos = ({ label, estilos, colaborador }) => {
       <p className={estilos}>{colaborador}</p>
     </div>
   );
+};
+
+CajaDatos.propTypes = {
+  label: PropTypes.string.isRequired,
+  estilos: PropTypes.string.isRequired,
+  colaborador: PropTypes.string.isRequired,
 };

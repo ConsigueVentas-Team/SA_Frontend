@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import { CajaDatos } from "./CajaDatos/CajaDatos";
 
 export const DatosEmpresa = ({ colaborador }) => {
@@ -68,4 +68,8 @@ export const DatosEmpresa = ({ colaborador }) => {
       </div>
     </div>
   );
+};
+
+DatosEmpresa.propTypes = {
+  colaborador: PropTypes.object.isRequired,
 };
