@@ -40,6 +40,7 @@ function App() {
             <Route path="cumpleaños" element={<Cumpleaños />} />
             <Route path="añadir-justificacion" element={<AñadirJustificacion />} />
             <Route path="cambiar-contraseña" element={<CambiarContraseña />} />
+            <Route path="/login" element={<Login />} />
 
             {hasRole('Lider Nucleo') && (
               <>

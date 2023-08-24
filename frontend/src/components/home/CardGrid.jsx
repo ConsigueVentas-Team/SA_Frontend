@@ -10,19 +10,43 @@ export const CardGrid = () => {
 	const [birthday, setBirthday] = useState([])
 
 	//Obtener Cumpleaños
+	// useEffect(() => {
+	// 	const obtenerCumpleaños = async () => {
+	// 		try {
+	// 			const response = await fetch(import.meta.env.VITE_API_URL + `/birthday/details`,
+	// 				{
+	// 					headers: {
+	// 						"Content-Type": "application/json",
+	// 						Authorization: `Bearer ${token}`,
+	// 					},
+	// 				});
+	// 			const data = await response.json();
+	// 			if (response.ok) {
+	// 				setBirthday(data.users);
+	// 			} else {
+	// 				console.error('Error al obtener los usuarios:', data.error);
+	// 			}
+	// 		} catch (error) {
+	// 			console.error('Error al obtener los usuarios:', error);
+	// 		}
+	// 	};
+	// 	obtenerCumpleaños();
+	// }, [token]);
+
 	useEffect(() => {
 		const obtenerCumpleaños = async () => {
 			try {
-				const response = await fetch(import.meta.env.VITE_API_URL + `/birthday/details`,
-					{
-						headers: {
-							"Content-Type": "application/json",
-							Authorization: `Bearer ${token}`,
-						},
-					});
+				// const response = await fetch(import.meta.env.VITE_API_URL + '/birthday/nextBirthday/', {
+				const response = await fetch('http://127.0.0.1:8000/api/birthday/nextBirthday/', {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				});
 				const data = await response.json();
 				if (response.ok) {
-					setBirthday(data.users);
+					setBirthday(data);
 				} else {
 					console.error('Error al obtener los usuarios:', data.error);
 				}
@@ -32,6 +56,8 @@ export const CardGrid = () => {
 		};
 		obtenerCumpleaños();
 	}, [token]);
+
+	console.log(birthday)
 
 	return (
 		<div className="grid grid-cols-1 gap-4 lg:grid-cols-3 place-items-center">

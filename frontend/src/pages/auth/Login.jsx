@@ -97,16 +97,16 @@ export const Login = () => {
               setError(responseData.message);
             } else {
               setMsg(responseData.message);
-              const tokenD = responseData.accessToken
+              const tokenD = responseData.access_token
               const token = AES.encrypt(tokenD, import.meta.env.VITE_TOKEN_KEY).toString()
               localStorage.setItem('token', token);
               localStorage.setItem('iduser', responseData.user.id);
-              localStorage.setItem('rol', responseData.rol);
-              localStorage.setItem('area', responseData.profile.area);
+              localStorage.setItem('rol', responseData.role.name);
+              // localStorage.setItem('area', responseData.profile.area);
               localStorage.setItem('name', responseData.user.name);
-              localStorage.setItem('avatar', responseData.avatar)
+              localStorage.setItem('avatar', responseData.user.image)
               localStorage.setItem('surname', responseData.user.surname)
-              localStorage.setItem('shift', responseData.profile.shift)
+              // localStorage.setItem('shift', responseData.profile.shift)
               localStorage.setItem('login', true);
               navigate("/")
               window.location.reload();

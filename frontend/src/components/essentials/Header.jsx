@@ -26,6 +26,7 @@ export const Header = () => {
   // const userId = localStorage.getItem("iduser");
   // const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
   // const token = tokenD.toString(enc.Utf8)
+  const userId = localStorage.getItem('iduser');
   const rol = localStorage.getItem('rol');
   const nombre = localStorage.getItem('name');
   const avatar = localStorage.getItem('avatar');
@@ -59,7 +60,7 @@ export const Header = () => {
               </div>
             </button>
           </Tooltip> */}
-          <Avatar alt={name} src={avatar} className='ring-2 ring-cv-cyan'/>
+          <Avatar alt={name} src={`${import.meta.env.VITE_BACKEND_SERVER_URL}/photos/${userId}/${avatar}`} className='ring-2 ring-cv-cyan'/>
           <div className="flex flex-col">
             <p className="font-semibold whitespace-nowrap text-sm sm:text-base md:text-lg leading-tight">{name}</p>
             <p className="text-xs sm:text-sm text-cv-cyan leading-tight">{rol}</p>

@@ -77,7 +77,7 @@ export const OlvideContraseña = () => {
 			const interval = setInterval(() => {
 				setSecondsRemaining((prevSeconds) => prevSeconds - 1);
 			}, 1000);
-
+			
 			setTimeout(() => {
 				setCorreoEnviado(false);
 				setIsButtonDisabled(false);

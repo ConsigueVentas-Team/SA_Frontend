@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -25,6 +26,8 @@ export const RestablecerContraseña = () => {
 	useEffect(() => {
 		document.title = 'Restablecer contraseña | Consigue Ventas';
 	}, []);
+
+	const navigate = useNavigate();
 
 	const handlePasswordChange = (e) => {
 		setPassword(e.target.value);
@@ -68,8 +71,8 @@ export const RestablecerContraseña = () => {
 					setSuccessMessage('La contraseña fue restablecida.');
 					setErrorMessage('');
 					setTimeout(() => {
-						window.close();
-					}, 5000);
+						navigate("/login")
+					}, 1000);
 				} else {
 					setErrorMessage(data.message);
 					setSuccessMessage('');
@@ -159,7 +162,7 @@ export const RestablecerContraseña = () => {
 											}`}
 										id='confirm_password'
 										placeholder="Confirmar contraseña"
-										type={showPassword ? 'text' : 'password'}
+										type={showConfirmPassword ? 'text' : 'password'}
 										value={confirmPassword}
 										onChange={handleConfirmPasswordChange}
 										required
