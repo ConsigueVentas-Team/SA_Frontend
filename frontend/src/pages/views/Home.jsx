@@ -1,7 +1,7 @@
 import DescriptionIcon from "@mui/icons-material/Description";
 import CakeIcon from "@mui/icons-material/Cake";
 
-import { CardGrid, EstadisticasGrid, Saludo } from "../../components";
+import { CardGrid, EstadisticasGrid, Saludo } from "../../components/home";
 
 export const Home = () => {
   return (

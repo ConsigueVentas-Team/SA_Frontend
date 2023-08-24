@@ -41,6 +41,7 @@ function App() {
               element={<AñadirJustificacion />}
             />
             <Route path="cambiar-contraseña" element={<CambiarContraseña />} />
+            <Route path="/login" element={<Login />} />
 
             {hasRole("Lider Nucleo") && (
               <>

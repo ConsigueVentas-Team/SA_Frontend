@@ -26,11 +26,20 @@ export const Header = () => {
   // const userId = localStorage.getItem("iduser");
   // const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
   // const token = tokenD.toString(enc.Utf8)
+<<<<<<< HEAD
   const rol = localStorage.getItem("rol");
   const nombre = localStorage.getItem("name");
   const avatar = localStorage.getItem("avatar");
   const apellido = localStorage.getItem("surname");
   const name = nombre.split(" ")[0] + " " + apellido.split(" ")[0];
+=======
+  const userId = localStorage.getItem('iduser');
+  const rol = localStorage.getItem('rol');
+  const nombre = localStorage.getItem('name');
+  const avatar = localStorage.getItem('avatar');
+  const apellido = localStorage.getItem('surname');
+  const name = nombre.split(" ")[0] + ' ' + apellido.split(" ")[0];
+>>>>>>> 61095bd568a6db134f735b7dddcb1cf7bc3c976d
 
   //Cerrar Sesion
   function logoutSubmit() {
@@ -58,7 +67,11 @@ export const Header = () => {
               </div>
             </button>
           </Tooltip> */}
+<<<<<<< HEAD
           <Avatar alt={name} src={avatar} className="ring-2 ring-cv-cyan" />
+=======
+          <Avatar alt={name} src={`${import.meta.env.VITE_BACKEND_SERVER_URL}/photos/${userId}/${avatar}`} className='ring-2 ring-cv-cyan'/>
+>>>>>>> 61095bd568a6db134f735b7dddcb1cf7bc3c976d
           <div className="flex flex-col">
             <p className="font-semibold whitespace-nowrap text-sm sm:text-base md:text-lg leading-tight">
               {name}

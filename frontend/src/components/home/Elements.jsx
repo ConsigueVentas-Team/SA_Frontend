@@ -16,20 +16,17 @@ export const BirthdayImage = ({ item }) => {
 	const name = `${ item.name.split(" ")[0] } ${ item.surname.split(" ")[0]}`
 	return (
 		<div className="flex flex-col items-center justify-center gap-4">
-			<img src={item.media[0].original_url} alt={name} className="w-40 h-40 rounded-full shadow-lg ring-2 ring-cv-cyan" />
+			<img src={`${import.meta.env.VITE_BACKEND_SERVER_URL}/photos/${item.id}/${item.image}`} alt={name} className="w-40 h-40 rounded-full shadow-lg ring-2 ring-cv-cyan" />
 			<p className="text-xl font-medium text-white md:text-2xl ">{name}</p>
 		</div>
 	)
 }
 BirthdayImage.propTypes = {
 	item: PropTypes.shape({
-		media: PropTypes.arrayOf(
-			PropTypes.shape({
-				original_url: PropTypes.string.isRequired,
-			})
-		).isRequired,
 		name: PropTypes.string.isRequired,
 		surname: PropTypes.string.isRequired,
+		id: PropTypes.number.isRequired,
+		image: PropTypes.string.isRequired,
 	}).isRequired,
 };
 
