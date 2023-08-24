@@ -3,6 +3,9 @@ import { Submit } from "../../../../components/formulario";
 import Tabla from "../../../../components/formulario/Tabla";
 import { AES, enc } from "crypto-js";
 import Input from "../../../../components/formulario/Input";
+import ModalBox from "../../../../components/formulario/Modalbox";
+import Loading from "../../../../components/essentials/Loading";
+import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar";
 export const Departamento = () => {
   const [Users, setUsers] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
@@ -11,6 +14,8 @@ export const Departamento = () => {
   const [filterDate, setFilterDate] = useState("");
   const [filterShift, setFilterShift] = useState("");
   const [palabra, setPalabra] = useState("");
+  const [MostrarEditarModal, setMostrarEditarModal] = useState(false);
+  const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
     import.meta.env.VITE_TOKEN_KEY
@@ -80,7 +85,18 @@ export const Departamento = () => {
       console.error(`Error al agregar usuario: ${error}`);
     }
   };
-
+  const abrirEditarModal = () => {
+    setMostrarEditarModal(true);
+  };
+  const cerrarEditarModal = () => {
+    setMostrarEditarModal(false);
+  };
+  const abrirEliminarModal = () => {
+    setMostrarEliminarModal(true);
+  };
+  const cerrarEliminarModal = () => {
+    setMostrarEliminarModal(false);
+  };
   const manejarEnvio = (e) => {
     e.preventDefault();
     agregarUsuario();
@@ -100,12 +116,29 @@ export const Departamento = () => {
 
   if (Users === null) {
     // Puedes mostrar un mensaje de carga o cualquier otro contenido adecuado.
-    return <p>Cargando...</p>;
+    return <Loading></Loading>;
   }
 
   return (
     <>
       <div className="w-full">
+        {MostrarEditarModal && (
+          <ModalBox
+            holder={"Ui Ux"}
+            valueDefault={"Diseño"}
+            title={"edite Nucleo"}
+            label={"Núcleo: "}
+            cerrarEditarModal={cerrarEditarModal}
+          ></ModalBox>
+        )}
+        {MostrarEliminarModal && (
+          <ModalBoxEliminar
+            holder={"Ui Ux"}
+            valueDefault={"Diseño"}
+            title={"Estás seguro?"}
+            cerrarEliminarModal={cerrarEliminarModal}
+          ></ModalBoxEliminar>
+        )}
         <form
           className="w-full flex justify-center gap-11 flex-col md:flex-row  mt-7 items-center "
           onSubmit={manejarEnvio}
@@ -127,6 +160,8 @@ export const Departamento = () => {
           filterDepartment={filterDepartment}
           filterDate={filterDate}
           filterShift={filterShift}
+          abrirEliminarModal={abrirEliminarModal}
+          abrirEditarModal={abrirEditarModal}
         ></Tabla>
       </div>
     </>

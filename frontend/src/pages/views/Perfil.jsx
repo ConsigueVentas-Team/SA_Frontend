@@ -8,6 +8,7 @@ import {
 import { useState, useEffect } from "react";
 
 import { AES, enc } from "crypto-js";
+import Loading from "../../components/essentials/Loading";
 
 export const Perfil = () => {
   const [colaborador, setColaborador] = useState(null);
@@ -53,7 +54,7 @@ export const Perfil = () => {
 
   if (colaborador === null) {
     // Puedes mostrar un mensaje de carga o cualquier otro contenido adecuado.
-    return <p>Cargando...</p>;
+    return <Loading></Loading>;
   }
   return (
     <>

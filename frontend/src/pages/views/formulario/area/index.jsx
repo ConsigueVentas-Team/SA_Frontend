@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Submit, Inputs } from "../../../../components/formulario";
+import { Submit, InputArea } from "../../../../components/formulario";
+import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar";
 import Tabla from "../../../../components/formulario/Tabla";
 import { AES, enc } from "crypto-js";
 import ModalBox from "../../../../components/formulario/Modalbox";
 import Loading from "../../../../components/essentials/Loading";
-import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar";
-export const Nucleo = () => {
+export const Area = () => {
   const [Users, setUsers] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
   const [filterName, setFilterName] = useState("");
@@ -90,15 +90,15 @@ export const Nucleo = () => {
   const abrirEditarModal = () => {
     setMostrarEditarModal(true);
   };
+  const manejarEnvio = (e) => {
+    e.preventDefault();
+    agregarUsuario();
+  };
   const abrirEliminarModal = () => {
     setMostrarEliminarModal(true);
   };
   const cerrarEliminarModal = () => {
     setMostrarEliminarModal(false);
-  };
-  const manejarEnvio = (e) => {
-    e.preventDefault();
-    agregarUsuario();
   };
   const clearFilterDate = () => {
     setFilterDate("");
@@ -123,10 +123,10 @@ export const Nucleo = () => {
       <div className="w-full ">
         {MostrarEditarModal && (
           <ModalBox
-            holder={"Ui Ux"}
-            valueDefault={"Diseño"}
-            title={"edite Nucleo"}
-            label={"Núcleo: "}
+            holder={"Area"}
+            valueDefault={"FrontEnd"}
+            title={"edite Area"}
+            label={"Area: "}
             cerrarEditarModal={cerrarEditarModal}
           ></ModalBox>
         )}
@@ -142,7 +142,7 @@ export const Nucleo = () => {
           className="w-full flex justify-center gap-11 flex-col md:flex-row  mt-7 items-center "
           onSubmit={manejarEnvio}
         >
-          <Inputs valor={palabra} actualizarValor={setPalabra}></Inputs>
+          <InputArea valor={palabra} actualizarValor={setPalabra}></InputArea>
           <Submit></Submit>
         </form>
         <Tabla
@@ -151,8 +151,8 @@ export const Nucleo = () => {
           filterDepartment={filterDepartment}
           filterDate={filterDate}
           filterShift={filterShift}
-          abrirEliminarModal={abrirEliminarModal}
           abrirEditarModal={abrirEditarModal}
+          abrirEliminarModal={abrirEliminarModal}
         ></Tabla>
       </div>
     </>

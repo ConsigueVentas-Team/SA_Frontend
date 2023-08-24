@@ -19,6 +19,7 @@ import { AñadirJustificacion } from "./pages/views/justificaciones/AñadirJusti
 import { Nucleo } from "./pages/views/formulario/nucleo";
 import { Departamento } from "./pages/views/formulario/departamento";
 import Formulario from "./pages/views/formulario";
+import { Area } from "./pages/views/formulario/area";
 function App() {
   const rol = localStorage.getItem("rol");
   const isLoggedIn = localStorage.getItem("login") === "true";
@@ -53,6 +54,7 @@ function App() {
                   path="formulario/departamento"
                   element={<Departamento />}
                 />
+                <Route path="formulario/area" element={<Area></Area>} />
                 <Route path="formulario" element={<Formulario />} />
               </>
             )}

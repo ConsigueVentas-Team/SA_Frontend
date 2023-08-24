@@ -17,6 +17,7 @@ import TablePaginationActions from "./TablePaginationActions";
 export default function Tabla({
   data,
   abrirEditarModal,
+  abrirEliminarModal,
   // deleteUser,
   filterName,
   filterDepartment,
@@ -51,6 +52,9 @@ export default function Tabla({
     setPage(0);
   };
 
+  const showModalWarning = () => {
+    console.log("hola");
+  };
   //quita acentos en los filtros
   function removeAccents(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -109,7 +113,7 @@ export default function Tabla({
                       <EditIcon />
                     </button>
                     <button
-                      onClick={() => showModalWarning(users.id)}
+                      onClick={() => abrirEliminarModal(users.id)}
                       className="p-2 border rounded-md text-red-500 hover:bg-red-500 hover:text-white active:scale-95 ease-in-out duration-300"
                     >
                       <DeleteIcon />

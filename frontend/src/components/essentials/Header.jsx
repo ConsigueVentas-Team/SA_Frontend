@@ -111,14 +111,7 @@ export const Header = () => {
                       <ManageAccountsIcon sx={{ fontSize: 18 }} />
                       Cambiar Contraseña
                     </Link>
-                    <Link
-                      to="/formulario"
-                      onClick={handleShowMenu}
-                      className="w-full text-sm rounded-md hover:bg-cv-secondary flex items-center gap-2 p-1.5"
-                    >
-                      <ManageAccountsIcon sx={{ fontSize: 18 }} />
-                      Dep o Area
-                    </Link>
+                   
                     <Link
                       to="/login"
                       onClick={logoutSubmit}
