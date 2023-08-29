@@ -7,9 +7,14 @@ const ModalBox = ({
   title,
   label,
   cerrarEditarModal,
+  actualizarDepartamento,
 }) => {
   const [palabra, setPalabra] = useState(valueDefault);
-
+  const enviarDatos = () => {
+    
+    cerrarEditarModal(false);
+    actualizarDepartamento(palabra);
+  };
   return (
     <div className="  w-full h-full overflow-x-hidden overflow-y-auto  ">
       <div className=" fixed top-0 left-0 z-50  overflow-x-hidden overflow-y-auto  w-full h-full items-center flex sm:scale-100 scale-[0.9] ">
@@ -44,7 +49,7 @@ const ModalBox = ({
               <button
                 className="w-full py-2 px-8 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase active:scale-95 ease-in-out duration-300"
                 type="button"
-                onClick={() => cerrarEditarModal(false)}
+                onClick={enviarDatos}
               >
                 Guardar
               </button>

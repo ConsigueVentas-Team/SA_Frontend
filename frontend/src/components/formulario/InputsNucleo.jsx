@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import Input from "./Input";
-
-export const Inputs = ({ actualizarValor, valor }) => {
+import PropTypes from "prop-types";
+import ObtenerDatos from "./Helpers/hooks/ObtenerDatos";
+export const Inputs = ({ actualizarValor, valor, setDepartment_id }) => {
   const [filterShift, setFilterShift] = useState("Selecciona");
-
+  const [Areas, setAreas] = useState([]);
   const handleFilterShiftChange = (e) => {
     const selectedValue = e.target.value;
     setFilterShift(selectedValue);
+    setDepartment_id(selectedValue);
+    console.log(selectedValue);
     if (selectedValue === "Selecciona") {
       actualizarValor(""); // Reset the name when "Selecciona" is selected
     }
   };
+  ObtenerDatos("departments", setAreas);
 
   return (
     <div className="flex gap-8 w-full sm:items-center flex-col sm:flex-row items-start ">
@@ -27,19 +31,26 @@ export const Inputs = ({ actualizarValor, valor }) => {
         >
           <option>Selecciona</option>{" "}
           {/* Esta es la opción de marcador de posición */}
-          <option value="Mañana">Mañana</option>
-          <option value="Tarde">Tarde</option>
+          {Areas.map((area) => (
+            <option key={area.id} value={area.id}>
+              {area.name}
+            </option>
+          ))}
         </select>
       </div>
       <div className="flex gap-8 w-full sm:items-center flex-col sm:flex-row items-start ">
         <Input
           actualizarValor={actualizarValor}
           valor={valor}
-          filterShift={filterShift}
+          filterShift={setFilterShift}
           label={"Núcleo"}
           textoHolder={"Ingresa núcleo"}
         ></Input>
       </div>
     </div>
   );
+};
+Inputs.propTypes = {
+  valor: PropTypes.string.isRequired,
+  actualizarValor: PropTypes.func.isRequired,
 };

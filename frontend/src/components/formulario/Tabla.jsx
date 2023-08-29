@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,23 +9,14 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+
 import DeleteIcon from "@mui/icons-material/Delete";
-import ErrorIcon from "@mui/icons-material/Error";
+
 import Paper from "@mui/material/Paper";
 import TablePaginationActions from "./TablePaginationActions";
-export default function Tabla({
-  data,
-  abrirEditarModal,
-  abrirEliminarModal,
-  // deleteUser,
-  filterName,
-  filterDepartment,
-  filterDate,
-  filterShift,
-}) {
+export default function Tabla({ data, abrirEditarModal, abrirEliminarModal }) {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(6);
 
   // const [showWarning, setShowWarning] = useState(false);
   //const [rowDelete, setRowDelete] = useState(null)
@@ -39,7 +30,7 @@ export default function Tabla({
     </TableCell>
   );
 
-  const headers = ["Nombre", "Email", "DNI"];
+  const headers = ["id", "Nombre"];
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
@@ -84,43 +75,82 @@ export default function Tabla({
             </TableHead>
 
             <TableBody>
-              {data.map((users) => (
+              {/* {data.map((departamento) => (
                 <TableRow
-                  key={users.id}
+                  key={departamento.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell
-                    align="left"
+                    align="center"
                     width="auto"
-                    className="whitespace-nowrap "
+                    className="whitespace-nowrap"
                   >
-                    {users.user &&
-                      users.user[0]?.name + " " + users.user[0]?.surname}
+                    {departamento.id}
                   </TableCell>
-
-                  <TableCell align="left">
-                    {users.user && users.user[0]?.email}
-                  </TableCell>
-                  <TableCell align="center">{users.dni}</TableCell>
+                  <TableCell align="center">{departamento.name}</TableCell>
                   <TableCell
                     align="center"
                     className="sticky right-0 p-1 z-10 bg-white"
                   >
                     <button
-                      onClick={() => abrirEditarModal(users)}
+                      onClick={() =>
+                        abrirEditarModal(departamento.name, departamento.id)
+                      }
                       className="p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300"
                     >
                       <EditIcon />
                     </button>
                     <button
-                      onClick={() => abrirEliminarModal(users.id)}
+                      onClick={() => abrirEliminarModal(departamento.id)}
                       className="p-2 border rounded-md text-red-500 hover:bg-red-500 hover:text-white active:scale-95 ease-in-out duration-300"
                     >
                       <DeleteIcon />
                     </button>
                   </TableCell>
                 </TableRow>
-              ))}
+              ))} */}
+              {data
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((departamento) => (
+                  <TableRow
+                    key={departamento.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell
+                      align="center"
+                      width="auto"
+                      className="whitespace-nowrap"
+                    >
+                      {departamento.id}
+                    </TableCell>
+                    <TableCell align="center">{departamento.name}</TableCell>
+                    <TableCell
+                      align="center"
+                      className="sticky right-0 p-1 z-10 bg-white"
+                    >
+                      <button
+                        onClick={() =>
+                          abrirEditarModal(departamento.name, departamento.id)
+                        }
+                        className="p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300"
+                      >
+                        <EditIcon />
+                      </button>
+                      <button
+                        onClick={() => abrirEliminarModal(departamento.id)}
+                        className="p-2 border rounded-md text-red-500 hover:bg-red-500 hover:text-white active:scale-95 ease-in-out duration-300"
+                      >
+                        <DeleteIcon />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={12} />
+                </TableRow>
+              )}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={12} />
@@ -151,3 +181,9 @@ export default function Tabla({
     </Box>
   );
 }
+
+Tabla.propTypes = {
+  data: PropTypes.array.isRequired,
+  abrirEditarModal: PropTypes.func.isRequired,
+  abrirEliminarModal: PropTypes.func.isRequired,
+};

@@ -10,7 +10,7 @@ import ChecklistIcon from "@mui/icons-material/Checklist";
 // import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-
+import MapsHomeWorkOutlinedIcon from '@mui/icons-material/MapsHomeWorkOutlined';
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -163,11 +163,10 @@ export const Sidebar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/formulario"
-                    onClick={handleShowMenu}
-                    className="w-full text-sm rounded-md hover:bg-cv-secondary flex items-center gap-2 p-1.5"
+                    to="/empresa"
+                    className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-cv-secondary transition-colors"
                   >
-                    <ManageAccountsIcon sx={{ fontSize: 18 }} />
+                    <MapsHomeWorkOutlinedIcon />
                     Empresa
                   </Link>
                 </li>

@@ -49,13 +49,13 @@ function App() {
                 <Route path="colaboradores" element={<Colaboradores />} />
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
-                <Route path="formulario/registrar" element={<Nucleo />} />
+                <Route path="empresa/registrar" element={<Nucleo />} />
                 <Route
-                  path="formulario/departamento"
+                  path="empresa/departamento"
                   element={<Departamento />}
                 />
-                <Route path="formulario/area" element={<Area></Area>} />
-                <Route path="formulario" element={<Formulario />} />
+                <Route path="empresa/area" element={<Area></Area>} />
+                <Route path="empresa" element={<Formulario />} />
               </>
             )}
             {hasRole("Gerencia") && (

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 const Input = ({
   filterShift,
   valor,
@@ -35,3 +36,12 @@ const Input = ({
 };
 
 export default Input;
+
+Input.propTypes = {
+  filterShift: PropTypes.func,
+  valor: PropTypes.string.isRequired,
+  actualizarValor: PropTypes.func.isRequired,
+  textoHolder: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  colorLetter: PropTypes.string,
+};

@@ -13,6 +13,7 @@ import Loading from "../../components/essentials/Loading";
 export const Perfil = () => {
   const [colaborador, setColaborador] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
+  const userId = localStorage.getItem("iduser");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +24,7 @@ export const Perfil = () => {
         );
         const token = tokenD.toString(enc.Utf8);
         const response = await fetch(
-          import.meta.env.VITE_API_URL + "/profile",
+          import.meta.env.VITE_API_URL + `/users/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -35,7 +36,7 @@ export const Perfil = () => {
           const data = await response.json();
           setColaborador(data);
 
-          setIsChecked(data?.Usuario[0]?.user[0]?.status === 1);
+          setIsChecked(true);
         } else {
           console.error("Error fetching data:", response.status);
         }
@@ -58,7 +59,7 @@ export const Perfil = () => {
   }
   return (
     <>
-      {colaborador && colaborador.Usuario && colaborador.Usuario[0] && (
+      {colaborador && (
         <div className="grid grid-cols-1 md:grid-cols-5 grid-rows-8 gap-4 text-white ">
           <DatosPersonales
             colaborador={colaborador}

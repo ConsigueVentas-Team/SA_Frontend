@@ -1,8 +1,10 @@
-const ModalBoxEliminar = ({
-  title,
+import PropTypes from "prop-types";
+const ModalBoxEliminar = ({ title, eliminarDepartamento, cerrarEliminarModal }) => {
+  const eliminar = () => {
+    cerrarEliminarModal(false);
+    eliminarDepartamento();
+  };
 
-  cerrarEliminarModal,
-}) => {
   return (
     <div className="  w-full h-full overflow-x-hidden overflow-y-auto">
       <div className=" fixed top-0 left-0 z-50  overflow-x-hidden overflow-y-auto  w-full h-full items-center flex  sm:scale-100 scale-[0.9] ">
@@ -18,7 +20,7 @@ const ModalBoxEliminar = ({
               <button
                 className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-semibold uppercase active:scale-95 ease-in-out duration-300"
                 type="button"
-                onClick={() => cerrarEliminarModal(false)}
+                onClick={eliminar}
               >
                 Si
               </button>
@@ -39,3 +41,8 @@ const ModalBoxEliminar = ({
 };
 
 export default ModalBoxEliminar;
+ModalBoxEliminar.propTypes = {
+  title: PropTypes.string.isRequired,
+  eliminarDepartamento: PropTypes.func.isRequired,
+  cerrarEliminarModal: PropTypes.func.isRequired,
+};
