@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from 'prop-types';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchIcon from '@mui/icons-material/Search';
@@ -29,11 +29,11 @@ export const SearchBar = ({ onSearch }) => {
 		setSearchValue(event.target.value);
 	}
 
-	useEffect(() => {
-		if (searchValue.trim() === '') {
-			onSearch('');
-		}
-	}, [searchValue, onSearch]);
+	// useEffect(() => {
+	// 	if (searchValue.trim() === '') {
+	// 		onSearch('');
+	// 	}
+	// }, [searchValue, onSearch]);
 
 	const handleSearchButtonClick = () => {
 		if (searchValue.trim() !== '') {
@@ -51,7 +51,7 @@ export const SearchBar = ({ onSearch }) => {
 					className="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-l-md border border-solid border-cv-primary bg-transparent bg-clip-padding p-2 text-base font-normal leading-relaxed text-cv-cyan outline-none transition duration-200 ease-in-out"
 					placeholder="Buscar por nombre" />
 				<button
-					onClick={handleSearchButtonClick}
+					// onClick={handleSearchButtonClick}
 					className="relative z-[2] flex items-center rounded-r-md px-6 py-1.5 text-xs font-bold uppercase leading-tight text-cv-primary shadow-md bg-cv-cyan hover:bg-cv-cyan/90 active:bg-cv-cyan/75 active:shadow-lg active:scale-95 ease-in-out duration-300"
 					type="button">
 					<SearchIcon sx={{ fontSize: 24 }} />
@@ -65,48 +65,39 @@ SearchBar.propTypes = {
 	onSearch: PropTypes.func.isRequired,
 }
 
-
-export const SelectOption = ({ title, options, onSelect }) => {
-	const [selectedOption, setSelectedOption] = useState(null);
-
-	const handleChange = (event) => {
-		const selectedValue = parseInt(event.target.value);
-		setSelectedOption(selectedValue);
-		onSelect(selectedValue);
-	};
-
+export const SelectOption = ({ label, value, options, onChange, disabled = false }) => {
 	return (
-		<select
-			value={selectedOption}
-			onChange={handleChange}
-			className="w-full box-border w-50 h-50 border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
-		>
-			<option value={''}>{title}</option>
-			{options.map((option) => (
-				<option key={option.value} value={option.value}>
-					{option.label}
-				</option>
-			))}
-		</select>
+		<div className="w-full">
+			<select
+				value={value}
+				onChange={onChange}
+				disabled={disabled}
+				className="w-full box-border w-50 h-50 border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
+			>
+				<option>{label}</option>
+				{options.map((option) => (
+					<option key={option.value} value={option.value}>
+						{option.label}
+					</option>
+				))}
+			</select>
+		</div>
 	);
-};
+}
 
 SelectOption.propTypes = {
-	title: PropTypes.string.isRequired,
+	label: PropTypes.string.isRequired,
+	value: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf(
 		PropTypes.shape({
+			value: PropTypes.string.isRequired,
 			label: PropTypes.string.isRequired,
-			value: PropTypes.number.isRequired,
-			núcleo: PropTypes.arrayOf(
-				PropTypes.shape({
-					label: PropTypes.string.isRequired,
-					value: PropTypes.number.isRequired,
-				})
-			),
 		})
 	).isRequired,
-	onSelect: PropTypes.func.isRequired,
-};
+	onChange: PropTypes.func.isRequired,
+	disabled: PropTypes.bool,
+}
+
 
 export const ButtonClean = ({onClick}) => {
 	return (

@@ -1,156 +1,125 @@
-import { useState } from "react";
 import PropTypes from 'prop-types';
+import { useEffect, useState } from "react";
+import { AES, enc } from "crypto-js";
 import { ButtonAdd, ButtonClean, SearchBar, SelectOption } from "./Elements"
 
 
-export const FiltersGrid = ({ onSearch, toggleAgregarModal }) => {
+export const FiltersGrid = ({toggleAgregarModal}) => {
 
-	const data = [
-		{
-			label: "Administrativo",
-			value: 1,
-			núcleo: [
-				{
-					label: "Administración",
-					value: 1,
-					perfil: [
-						{ label: "Líder de Perfil Administrativo", value: 1 },
-						{ label: "Asistente Administrativo", value: 2 },
-					],
-				},
-				{
-					label: "Talento Humano",
-					value: 2,
-					perfil: [
-						{ label: "Líder de Perfil de Talento Humano", value: 3 },
-						{ label: "Asistente de Talento Humano", value: 4 },
-					],
-				},
-			],
-		},
-		{
-			label: "Comercial",
-			value: 2,
-			núcleo: [
-				{
-					label: "Comercial",
-					value: 3,
-					perfil: [
-						{ label: "Asistente Comercial", value: 5 },
-						{ label: "Asistente de Logística", value: 6 },
-					],
-				},
-				{
-					label: "Publicidad Digital",
-					value: 4,
-					perfil: [
-						{ label: "Asistente de Publicidad Digital", value: 7 },
-						{ label: "Líder de Perfil de Publicidad Digital", value: 8 },
-					],
-				},
-			],
-		},
-		{
-			label: "Operativo",
-			value: 3,
-			núcleo: [
-				{
-					label: "Creativo",
-					value: 5,
-					perfil: [
-						{ label: "Líder de Núcleo Creativo", value: 9 },
-						{ label: "Diseñador Gráfico", value: 10 },
-					],
-				},
-				{
-					label: "Sistemas",
-					value: 6,
-					perfil: [
-						{ label: "Líder de Perfil de Sistemas", value: 11 },
-						{ label: "Analista de Documentación", value: 12 },
-					],
-				},
-			],
-		},
-	];
-
+	const [departments, setDepartments] = useState([]);
+	const [cores, setCores] = useState([]);
+	const [profiles, setProfiles] = useState([]);
 	const [selectedDepartment, setSelectedDepartment] = useState('');
-	const [selectedNucleo, setSelectedNucleo] = useState('');
-	const [selectedPerfil, setSelectedPerfil] = useState('');
+	const [selectedCore, setSelectedCore] = useState('');
+	const [selectedProfile, setSelectedProfile] = useState('');
 
-	const handleDepartmentSelect = (value) => {
-		setSelectedDepartment(value);
-		setSelectedNucleo('');
-		setSelectedPerfil('');
+	const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
+	const token = tokenD.toString(enc.Utf8)
+
+	//** Rellenar Select Options */
+	useEffect(() => {
+		fetch(import.meta.env.VITE_API_URL + "/departments/list", {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => response.json())
+			.then((data) => setDepartments(data));
+
+		fetch(import.meta.env.VITE_API_URL + "/cores/list", {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => response.json())
+			.then((data) => setCores(data));
+
+		fetch(import.meta.env.VITE_API_URL + "/position/list", {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => response.json())
+			.then((data) => setProfiles(data));
+	}, [token]);
+
+	const departmentOptions = departments.map((department) => ({
+		value: department.id,
+		label: department.name
+	}));
+
+	const coreOptions = cores
+		.filter((core) => core.department_id === parseInt(selectedDepartment))
+		.map((core) => ({
+			value: core.id,
+			label: core.name
+		}));
+
+	const profileOptions = profiles
+		.filter((profile) => profile.core_id === parseInt(selectedCore))
+		.map((profile) => ({
+			value: profile.id,
+			label: profile.name
+		}));
+	const handleProfileChange = (event) => {
+		setSelectedProfile(event.target.value);
+		console.log(event.target.value);
 	};
-
-	const handleNucleoSelect = (value) => {
-		setSelectedNucleo(value);
-		setSelectedPerfil('');
-	};
-
-	const handlePerfilSelect = (value) => {
-		setSelectedPerfil(value);
-	};
-
-	const clearFilter = () => {
-		setSelectedDepartment('');
-		setSelectedNucleo('');
-		setSelectedPerfil('');
-		onSearch('');
-	};
-
 
 	return (
 		<>
 			<div className="w-full grid grid-cols-1 md:grid-cols-9 gap-2 gap-x-0 md:gap-4">
 				<div className="col-span-1 md:col-span-8 row-start-2 md:row-start-1">
-					<SearchBar onSearch={onSearch} />
+					<SearchBar />
 				</div>
 				<div className="col-span-2 md:col-start-1 md:row-start-2">
 					<SelectOption
-						options={data}
-						title={"Departamento"}
-						onSelect={handleDepartmentSelect}
+						label="Departamento"
+						value={selectedDepartment}
+						options={departmentOptions}
+						onChange={(e) => {
+							setSelectedDepartment(e.target.value);
+							setSelectedCore('');
+						}}
 					/>
 				</div>
 				<div className="col-span-2 md:col-start-3 md:row-start-2">
 					<SelectOption
-						options={
-							data.find((dept) => dept.value === selectedDepartment)?.núcleo ||
-							[]
-						}
-						title={"Núcleo"}
-						onSelect={handleNucleoSelect}
+						label="Núcleo"
+						value={selectedCore}
+						options={coreOptions}
+						onChange={(e) => setSelectedCore(e.target.value)}
+						disabled={!selectedDepartment}
 					/>
 				</div>
 				<div className="col-span-2 md:col-start-5 md:row-start-2">
 					<SelectOption
-						options={
-							data
-								.find((dept) => dept.value === selectedDepartment)
-								?.núcleo.find((nucleo) => nucleo.value === selectedNucleo)
-								?.perfil || []
-						}
-						title={"Perfil"}
-						onSelect={handlePerfilSelect}
+						label="Perfil"
+						value={selectedProfile}
+						options={profileOptions}
+						onChange={handleProfileChange}
+						disabled={!selectedCore}
 					/>
 
 				</div>
 				<div className="col-span-2 md:col-start-7 md:row-start-2">
 					<select
+						// value={shift} onChange={(e) => setShift(e.target.value)}
 						className="w-full box-border w-50 h-50 border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
 					>
 						<option>Turno</option>
-						<option value="1">Mañana</option>
-						<option value="2">Tarde</option>
+						<option value="Mañana">Mañana</option>
+						<option value="Tarde">Tarde</option>
 					</select>
 				</div>
 				<div className="col-span-1 md:col-start-9 row-start-1 md:row-start-1">
-					<ButtonAdd onClick={toggleAgregarModal}/>
+					<ButtonAdd onClick={toggleAgregarModal} />
 				</div>
 				<div className="col-span-1 md:col-start-9 row-start-7 md:row-start-2">
-					<ButtonClean onClick={clearFilter}/>
+					<ButtonClean onClick="" />
 				</div>
 			</div>
 		</>
@@ -159,5 +128,5 @@ export const FiltersGrid = ({ onSearch, toggleAgregarModal }) => {
 
 FiltersGrid.propTypes = {
 	onSearch: PropTypes.func.isRequired,
-	handleButtonClick: PropTypes.func.isRequired,
+	toggleAgregarModal: PropTypes.func.isRequired,
 }

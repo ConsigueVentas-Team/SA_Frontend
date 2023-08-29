@@ -33,8 +33,8 @@ BirthdayImage.propTypes = {
 export const BirthdayItem = ({name, item}) => {
 	return (
 		<div className="flex items-center justify-between gap-5">
-			<p className="w-full text-lg md:text-xl font-semibold">{name}:</p>
-			<p className="w-full text-base md:text-lg font-light">{item}</p>
+			<p className="w-full text-lg font-semibold">{name}:</p>
+			<p className="w-full text-base font-light">{item}</p>
 		</div>
 	)
 }

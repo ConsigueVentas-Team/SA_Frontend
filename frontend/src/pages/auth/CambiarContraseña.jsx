@@ -55,7 +55,7 @@ export const CambiarContraseña = () => {
 		setIsLoading(true);
 		try {
 
-			const response = await fetch(import.meta.env.VITE_API_URL + "/profile/changePassword", {
+			const response = await fetch(import.meta.env.VITE_API_URL + "/changePassword", {
 				method: "POST",
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -73,6 +73,7 @@ export const CambiarContraseña = () => {
 			if (response.ok) {
 				setSuccessMessage("Contraseña cambiada correctamente");
 				setErrorMessage("");
+				logoutSubmit();
 			} else {
 				setErrorMessage(responseData.message);
 			}
@@ -81,6 +82,13 @@ export const CambiarContraseña = () => {
 		} finally {
 			setIsLoading(false);
 		}
+	}
+
+	function logoutSubmit() {
+		localStorage.setItem('login', 'false');
+		localStorage.setItem('loginStatus', 'Cierre de sesión exitoso!');
+		navigate("/login")
+		window.location.reload();
 	}
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 // import { BsFillCameraVideoFill, BsFillCameraVideoOffFill } from "react-icons/bs";
 
-const CameraSection = ({
+export const CameraSection = ({
     fotoUsuario,
     videoEnabled,
     capturing,
@@ -17,12 +17,12 @@ const CameraSection = ({
             <div className={`w-full rounded-xl bg-slate-950 relative h-96`}>
                 <div className="absolute top-0 left-0 w-full h-full">
                     {fotoUsuario && (
-                        <img src={fotoUsuario} alt="Foto capturada" className="w-full h-full object-cover" style={{ transform: "scaleX(-1)" }} />
+                        <img src={fotoUsuario} alt="Foto capturada" className="w-full h-full object-contain" style={{ transform: "scaleX(-1)" }} />
                     )}
                     {!fotoUsuario && (
                         (videoEnabled ? (
                             <video
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain"
                                 ref={videoRef}
                                 style={{ display: videoEnabled ? 'block' : 'none' }}
                                 autoPlay
@@ -77,5 +77,3 @@ const CameraSection = ({
         </div>
     );
 };
-
-export default CameraSection;

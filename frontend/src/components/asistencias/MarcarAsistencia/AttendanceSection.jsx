@@ -3,7 +3,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import { RelojAnalogico } from './RelojAnalogico';
 
-const AttendanceSection = ({
+export const AttendanceSection = ({
     horaActual,
     mostrarBotonEntrada,
     mostrarBotonSalida,
@@ -17,7 +17,7 @@ const AttendanceSection = ({
     handleButtonClickAdmission
 }) => {
     return (
-        <div className="seccion-derecha bg-cv-primary flex flex-col items-center justify-start m-4 mb-96 -mt-2 rounded-xl">
+        <div className="seccion-derecha bg-cv-primary flex flex-col items-center justify-start m-4 mb-96 rounded-xl">
             <div className='mr-6 mt-5 ml-6'>
                 <RelojAnalogico hora={horaActual} />
             </div>
@@ -72,5 +72,3 @@ const AttendanceSection = ({
         </div>
     );
 };
-
-export default AttendanceSection;
