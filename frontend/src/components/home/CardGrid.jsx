@@ -9,7 +9,7 @@ export const CardGrid = () => {
 	const token = tokenD.toString(enc.Utf8)
 	const [birthday, setBirthday] = useState([])
 
-	//Obtener Cumpleaños
+	//* Obtener Cumpleaños
 	// useEffect(() => {
 	// 	const obtenerCumpleaños = async () => {
 	// 		try {
@@ -36,8 +36,7 @@ export const CardGrid = () => {
 	useEffect(() => {
 		const obtenerCumpleaños = async () => {
 			try {
-				// const response = await fetch(import.meta.env.VITE_API_URL + '/birthday/nextBirthday/', {
-				const response = await fetch('http://127.0.0.1:8000/api/birthday/nextBirthday/', {
+				const response = await fetch(import.meta.env.VITE_API_URL + '/birthday/nextBirthday/', {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
@@ -60,7 +59,7 @@ export const CardGrid = () => {
 	console.log(birthday)
 
 	return (
-		<div className="grid grid-cols-1 gap-4 lg:grid-cols-3 place-items-center">
+		<div className="grid grid-cols-1 gap-4 md:grid-cols-2  lg:grid-cols-3 place-items-center">
 			<CardItem data={birthday} />
 		</div>
 	)

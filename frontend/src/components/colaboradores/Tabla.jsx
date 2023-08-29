@@ -84,17 +84,10 @@ TablePaginationActions.propTypes = {
 };
 Tabla.propTypes = {
 	data: PropTypes.array.isRequired,
-	abrirEditarModal: PropTypes.func.isRequired,
-	deleteUser: PropTypes.func.isRequired,
-	filterName: PropTypes.string.isRequired,
-	filterDepartment: PropTypes.string.isRequired,
-	filterDate: PropTypes.string.isRequired,
-	filterShift: PropTypes.string.isRequired,
+	toggleEditarModal: PropTypes.func.isRequired,
 };
 export default function Tabla({ data,
-	// abrirEditarModal,
-	// deleteUser,
-	// filterName, filterDepartment, filterDate, filterShift 
+	toggleEditarModal
 }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -116,11 +109,11 @@ export default function Tabla({ data,
 		},
 	});
 
-	const roleNames = {
-		1: 'Gerencia',
-		2: 'Lider Nucleo',
-		3: 'Colaborador',
-	};
+	// const roleNames = {
+	// 	1: 'Gerencia',
+	// 	2: 'Lider Nucleo',
+	// 	3: 'Colaborador',
+	// };
 
 	//quita acentos en los filtros
 	// function removeAccents(str) {
@@ -152,31 +145,34 @@ export default function Tabla({ data,
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{data.slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length).map((users) => (
+							{data
+							.slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length)
+							.map((users) => (
 									<TableRow
 										key={users.id}
 										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 									>
 										<TableCell align="left" width="auto" className='whitespace-nowrap'>
-											{users.user && users.user[0]?.name + " " + users.user[0]?.surname}
+											{users.name + " " + users.surname}
+											{/* {users.user && users.user[0]?.name + " " + users.user[0]?.surname} */}
 										</TableCell>
 										<TableCell align="left">
 											{users.cellphone}
 										</TableCell>
 										<TableCell align="left">
-											{users.user && users.user[0]?.email}
+											{users.email}
 										</TableCell>
 										<TableCell align="center">
 											{users.dni}
 										</TableCell>
 										<TableCell align="left">
-											{users.department}
+											{users.position[0].core.department.name}
 										</TableCell>
 										<TableCell align="left" className='whitespace-nowrap'>
-											{users.area}
+										{users.position[0].core.name}
 										</TableCell>
 										<TableCell align="left" className='whitespace-nowrap'>
-											{users.profile_name}
+										{users.position[0].name}
 										</TableCell>
 										<TableCell align="center">
 											{users.shift}
@@ -184,26 +180,29 @@ export default function Tabla({ data,
 										<TableCell align="center" className='whitespace-nowrap'>
 											{users.date_start}
 										</TableCell>
-										<TableCell align="center" className='whitespace-nowrap'>{users.date_end}</TableCell>
+										<TableCell align="center" className='whitespace-nowrap'>
+											{users.date_end}
+										</TableCell>
 										<TableCell align="center" className='whitespace-nowrap'>
 											{users.birthday}
 										</TableCell>
 										<TableCell align="left" className='whitespace-nowrap'>
-											{users.user && users.role[0]?.role_id ? roleNames[users.role[0].role_id] : ''}
+											{/* {users.user && users.role[0]?.role_id ? roleNames[users.role[0].role_id] : ''} */}
 										</TableCell>
 										<TableCell align="center" className='whitespace-nowrap'>
-											{users.user && users.user[0].status === 1 ?
+										{users.status === 1 ?
 												<p>Activo</p> :
 												<div className='text-center'>
 													<p>Inactivo</p>
-													<p className=''>{users.user[0].status_description}</p>
+													<p className=''>{users.status_description}</p>
 												</div>
 											}
 										</TableCell>
 										<TableCell align="center" className='sticky right-0 p-1 z-10 bg-white'>
 											<div className='flex items-center justify-center flex-row space-x-2'>
 												<button
-													// onClick={() => abrirEditarModal(users)}
+												onClick={() => toggleEditarModal(users)}
+												// onClick={toggleEditarModal}
 													className='p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300'>
 													<EditIcon />
 												</button>

@@ -15,27 +15,27 @@ export const EstadisticasGrid = () => {
 	const [userData, setUserData] = useState([]);
 
 	//Obtener datos de Usuario
-	// useEffect(() => {
-	// 	const obtenerDataUser = async () => {
-	// 		try {
-	// 			const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
-	// 				headers: {
-	// 					"Content-Type": "application/json",
-	// 					Authorization: `Bearer ${token}`,
-	// 				},
-	// 			});
-	// 			const data = await response.json();
-	// 			if (response.ok) {
-	// 				setUserData(data);
-	// 			} else {
-	// 				console.error('Error al obtener los usuarios:', data.error);
-	// 			}
-	// 		} catch (error) {
-	// 			console.error('Error al obtener los usuarios:', error);
-	// 		}
-	// 	};
-	// 	obtenerDataUser();
-	// }, [userId, token]);
+	useEffect(() => {
+		const obtenerDataUser = async () => {
+			try {
+				const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				const data = await response.json();
+				if (response.ok) {
+					setUserData(data);
+				} else {
+					console.error('Error al obtener los usuarios:', data.error);
+				}
+			} catch (error) {
+				console.error('Error al obtener los usuarios:', error);
+			}
+		};
+		obtenerDataUser();
+	}, [userId, token]);
 
 	const cardAsistencia = [
 		{ title: "Asistencia", icon: <InsertEmoticonIcon sx={{ fontSize: 80, color: '#4caf50' }}/>, item: userData.Asistencia },
