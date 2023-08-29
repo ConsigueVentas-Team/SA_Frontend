@@ -1,2 +1,3 @@
 export * from './CameraSection'
-export * from './TimeSection'
+export * from './AttendanceSection'
+export * from './RelojAnalogico'

@@ -23,10 +23,10 @@ export const RelojAnalogico = () => {
       <div className="reloj-analogico__marca reloj-analogico__marca--hora" style={{ transform: `rotate(${horas}deg)` }} />
       <div className="reloj-analogico__marca reloj-analogico__marca--minuto" style={{ transform: `rotate(${minutos}deg)` }} />
       <div className="reloj-analogico__marca reloj-analogico__marca--segundo" style={{ transform: `rotate(${segundos}deg)` }} />
-      <div className="reloj-analogico__numero reloj-analogico__numero--12">12</div>
-      <div className="reloj-analogico__numero reloj-analogico__numero--3">3</div>
-      <div className="reloj-analogico__numero reloj-analogico__numero--6">6</div>
-      <div className="reloj-analogico__numero reloj-analogico__numero--9">9</div>
+      <div className="reloj-analogico__numero reloj-analogico__numero--12 text-black">12</div>
+      <div className="reloj-analogico__numero reloj-analogico__numero--3 text-black">3</div>
+      <div className="reloj-analogico__numero reloj-analogico__numero--6 text-black">6</div>
+      <div className="reloj-analogico__numero reloj-analogico__numero--9 text-black">9</div>
     </div>
   );
 };

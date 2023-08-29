@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useMediaQuery } from "@mui/material";
 import { AES, enc } from 'crypto-js';
-import CameraSection from '../../../components/asistencias/MarcarAsistencia/CameraSection';
-import AttendanceSection from '../../../components/asistencias/MarcarAsistencia/AttendanceSection';
+import { AttendanceSection, CameraSection } from '../../../components/asistencias/MarcarAsistencia';
 
 export const MarcarAsistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -80,7 +79,7 @@ export const MarcarAsistencia = () => {
 
     const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
     const token = tokenD.toString(enc.Utf8)
-    fetch(import.meta.env.VITE_API_URL + '/attendance/insert', {
+    fetch(import.meta.env.VITE_API_URL + '/attendance/create', {
       method: 'POST',
       body: formData,
       headers: {
