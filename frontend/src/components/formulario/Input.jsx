@@ -38,7 +38,7 @@ const Input = ({
 export default Input;
 
 Input.propTypes = {
-  filterShift: PropTypes.func,
+  filterShift: PropTypes.string,
   valor: PropTypes.string.isRequired,
   actualizarValor: PropTypes.func.isRequired,
   textoHolder: PropTypes.string.isRequired,

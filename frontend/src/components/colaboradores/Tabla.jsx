@@ -109,17 +109,6 @@ export default function Tabla({ data,
 		},
 	});
 
-	// const roleNames = {
-	// 	1: 'Gerencia',
-	// 	2: 'Lider Nucleo',
-	// 	3: 'Colaborador',
-	// };
-
-	//quita acentos en los filtros
-	// function removeAccents(str) {
-	// 	return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-	// }
-
 
 	return (
 		<>

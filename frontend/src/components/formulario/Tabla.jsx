@@ -1,4 +1,3 @@
-import * as React from "react";
 import PropTypes from "prop-types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,17 +8,14 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
-
 import DeleteIcon from "@mui/icons-material/Delete";
-
 import Paper from "@mui/material/Paper";
 import TablePaginationActions from "./TablePaginationActions";
-export default function Tabla({ data, abrirEditarModal, abrirEliminarModal }) {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(6);
+import { useEffect, useState } from "react";
 
-  // const [showWarning, setShowWarning] = useState(false);
-  //const [rowDelete, setRowDelete] = useState(null)
+export default function Tabla({ data, abrirEditarModal, abrirEliminarModal }) {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const CustomTableCell = ({ children }) => (
     <TableCell
       align="center"
@@ -35,28 +31,54 @@ export default function Tabla({ data, abrirEditarModal, abrirEliminarModal }) {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    const maxPage = Math.ceil(data.length / rowsPerPage) - 1;
+    if (newPage > maxPage) {
+      setPage(maxPage);
+    } else if (
+      data.slice(newPage * rowsPerPage, newPage * rowsPerPage + rowsPerPage)
+        .length === 0
+    ) {
+      setPage(newPage - 1);
+    } else {
+      setPage(newPage);
+    }
   };
+  useEffect(() => {
+    const maxPage = Math.ceil(data.length / rowsPerPage) - 1;
+    if (page > maxPage) {
+      setPage(maxPage);
+    } else if (
+      data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .length === 0 &&
+      page > 0
+    ) {
+      setPage(page - 1);
+    }
+  }, [data, page, rowsPerPage]);
+  // useEffect(() => {
+  //   const maxPage = Math.ceil(data.length / rowsPerPage) - 1;
+  //   if (page > maxPage) {
+  //     setPage(maxPage);
+  //   } else if (
+  //     data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  //       .length === 0 &&
+  //     page > 0
+  //   ) {
+  //     setPage(page - 1);
+  //   }
+  // }, [data, page, rowsPerPage]);
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const showModalWarning = () => {
-    console.log("hola");
-  };
-  //quita acentos en los filtros
-  function removeAccents(str) {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  }
-
   return (
     <Box
       sx={{ width: "100%" }}
       className="bg-white rounded-md overflow-hidden mt-20"
     >
-      <Paper sx={{ width: "100%", mb: 2 }}>
+      <Paper sx={{ width: "100%", mb: 1 }}>
         <TableContainer>
           <Table sx={{ minWidth: 500 }} aria-label="Tabla Evaluaciones">
             <TableHead className="bg-cv-primary">
@@ -75,40 +97,6 @@ export default function Tabla({ data, abrirEditarModal, abrirEliminarModal }) {
             </TableHead>
 
             <TableBody>
-              {/* {data.map((departamento) => (
-                <TableRow
-                  key={departamento.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell
-                    align="center"
-                    width="auto"
-                    className="whitespace-nowrap"
-                  >
-                    {departamento.id}
-                  </TableCell>
-                  <TableCell align="center">{departamento.name}</TableCell>
-                  <TableCell
-                    align="center"
-                    className="sticky right-0 p-1 z-10 bg-white"
-                  >
-                    <button
-                      onClick={() =>
-                        abrirEditarModal(departamento.name, departamento.id)
-                      }
-                      className="p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300"
-                    >
-                      <EditIcon />
-                    </button>
-                    <button
-                      onClick={() => abrirEliminarModal(departamento.id)}
-                      className="p-2 border rounded-md text-red-500 hover:bg-red-500 hover:text-white active:scale-95 ease-in-out duration-300"
-                    >
-                      <DeleteIcon />
-                    </button>
-                  </TableCell>
-                </TableRow>
-              ))} */}
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((departamento) => (
@@ -129,9 +117,7 @@ export default function Tabla({ data, abrirEditarModal, abrirEliminarModal }) {
                       className="sticky right-0 p-1 z-10 bg-white"
                     >
                       <button
-                        onClick={() =>
-                          abrirEditarModal(departamento.name, departamento.id)
-                        }
+                        onClick={() => abrirEditarModal(departamento)}
                         className="p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300"
                       >
                         <EditIcon />
@@ -146,7 +132,7 @@ export default function Tabla({ data, abrirEditarModal, abrirEliminarModal }) {
                   </TableRow>
                 ))}
 
-              {emptyRows > 0 && (
+              {/* {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={12} />
                 </TableRow>
@@ -155,7 +141,7 @@ export default function Tabla({ data, abrirEditarModal, abrirEliminarModal }) {
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={12} />
                 </TableRow>
-              )}
+              )} */}
             </TableBody>
           </Table>
         </TableContainer>
@@ -164,7 +150,7 @@ export default function Tabla({ data, abrirEditarModal, abrirEliminarModal }) {
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           colSpan={3}
-          page={page}
+          page={Math.min(page, Math.ceil(data.length / rowsPerPage) - 1)}
           count={data.length}
           rowsPerPage={rowsPerPage}
           SelectProps={{

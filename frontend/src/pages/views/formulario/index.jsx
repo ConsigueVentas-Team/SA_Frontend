@@ -4,7 +4,7 @@ import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import PortraitOutlinedIcon from "@mui/icons-material/PortraitOutlined";
 import Diversity3OutlinedIcon from "@mui/icons-material/Diversity3Outlined";
 import { Link } from "react-router-dom";
-import ModalBox from "../../../components/formulario/Modalbox";
+
 const Formulario = () => {
   return (
     <div className="w-full h-full flex items-center justify-center flex-wrap gap-x-48  sm:gap-y-14 gap-y-6 content-center">
@@ -46,7 +46,7 @@ const Formulario = () => {
             className="scale-150 mb-3"
           ></PortraitOutlinedIcon>
 
-          <h2 className="text-center">Administrar area</h2>
+          <h2 className="text-center">Administrar Rol</h2>
         </div>
       </Link>
     </div>

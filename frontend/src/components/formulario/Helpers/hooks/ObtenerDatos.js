@@ -1,13 +1,7 @@
-import { useEffect, useState } from "react";
-import { AES, enc } from "crypto-js";
-const tokenD = AES.decrypt(
-  localStorage.getItem("token"),
-  import.meta.env.VITE_TOKEN_KEY
-);
-const token = tokenD.toString(enc.Utf8);
+import { useEffect } from "react";
 
-const EnviarDatos = (url, setDepartamentos) => {
-  const ObtenerDatos = async () => {
+const ObtenerDatos = async (token, url) => {
+  if (url === "position" || url === "cores" || url === "departments") {
     try {
       const response = await fetch(
         import.meta.env.VITE_API_URL + `/${url}/list`,
@@ -19,16 +13,19 @@ const EnviarDatos = (url, setDepartamentos) => {
         }
       );
       const data = await response.json();
-      setDepartamentos(data);
+      return data;
     } catch (error) {
       console.error("Error al obtener los departamentos:", error);
     }
-  };
-
-  useEffect(() => {
-    ObtenerDatos();
-    console.log("envié datos");
-  }, []);
+  }
 };
 
-export default EnviarDatos;
+// Puedes mantener el efecto dentro de tu componente de función si lo deseas
+// const EnviarDatos = (token, url, setDepartamentos) => {
+//   useEffect(() => {
+//     setDepartamentos(ObtenerDatos(token, url));
+//   }, []);
+// };
+
+// export default EnviarDatos;
+export default ObtenerDatos;

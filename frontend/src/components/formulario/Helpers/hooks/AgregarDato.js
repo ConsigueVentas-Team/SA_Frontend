@@ -1,16 +1,10 @@
-import { AES, enc } from "crypto-js";
-import ObtenerDatos from "./ObtenerDatos";
-const tokenD = AES.decrypt(
-  localStorage.getItem("token"),
-  import.meta.env.VITE_TOKEN_KEY
-);
-const token = tokenD.toString(enc.Utf8);
-
 const AgregarDato = async (
+  token,
   palabra,
   url,
   department_id = "false",
-  core_id = "false"
+  core_id = "false",
+  setIsChecked
 ) => {
   try {
     let dataToSend = [];
@@ -44,8 +38,7 @@ const AgregarDato = async (
     );
 
     if (response.ok) {
-      console.log("Usuario agregado exitosamente");
-      //actualizar data
+      setIsChecked((prevIsChecked) => !prevIsChecked);
     } else {
       console.error("Error al guardar los datos");
     }

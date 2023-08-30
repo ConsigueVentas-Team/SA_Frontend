@@ -7,9 +7,17 @@ import ModalBox from "../../../../components/formulario/Modalbox";
 import Loading from "../../../../components/essentials/Loading";
 import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar";
 // import {ObtenerDatos,EliminarDato,AgregarDato,} from "../../../../components/formulario/Helpers/hooks"
-import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
 import AgregarDato from "../../../../components/formulario/Helpers/hooks/AgregarDato";
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
+import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
+import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
+
+const tokenD = AES.decrypt(
+  localStorage.getItem("token"),
+  import.meta.env.VITE_TOKEN_KEY
+);
+const token = tokenD.toString(enc.Utf8);
+
 export const Departamento = () => {
   const [Departamentos, setDepartamentos] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
@@ -24,12 +32,18 @@ export const Departamento = () => {
   const [MostrarEditarModal, setMostrarEditarModal] = useState(false);
   const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);
 
-  ObtenerDatos("departments", setDepartamentos);
+  useEffect(() => {
+    async function fetchData() {
+      const data = await ObtenerDatos(token, "departments");
+      setDepartamentos(data);
+    }
+    fetchData();
+  }, [isChecked]);
 
-  const abrirEditarModal = (name, id) => {
+  const abrirEditarModal = (departamento) => {
     setMostrarEditarModal(true);
-    setValueDefault(name);
-    setIdActualizar(id);
+    setValueDefault(departamento.name);
+    setIdActualizar(departamento.id);
   };
   const cerrarEditarModal = () => {
     setMostrarEditarModal(false);
@@ -44,24 +58,17 @@ export const Departamento = () => {
 
   const manejarEnvio = (e) => {
     e.preventDefault();
-    AgregarDato(
-      palabra,
-      "departments",
-      ObtenerDatos("departments", setDepartamentos)
-    );
-  };
-
-  const clearFilterDate = () => {
-    setFilterDate("");
-  };
-  const clearFilterShift = () => {
-    setFilterShift("");
-  };
-  const clearFilterDepartment = () => {
-    setFilterDepartment("");
-  };
-  const clearFilterName = () => {
-    setFilterName("");
+    if (palabra == "") return;
+    else {
+      AgregarDato(
+        token,
+        palabra,
+        "departments",
+        "false",
+        "false",
+        setIsChecked
+      );
+    }
   };
 
   if (Departamentos === null) {
@@ -71,49 +78,63 @@ export const Departamento = () => {
 
   return (
     <>
-      <div className="w-full">
-        {MostrarEditarModal && (
-          <ModalBox
-            holder={"Ui Ux"}
-            valueDefault={valueDefault}
-            title={"edite Nucleo"}
-            label={"Núcleo: "}
-            cerrarEditarModal={cerrarEditarModal}
-            actualizarDepartamento={actualizarDepartamento}
-          ></ModalBox>
-        )}
-        {MostrarEliminarModal && (
-          <ModalBoxEliminar
-            title={"Estás seguro?"}
-            eliminarDepartamento={() => EliminarDato(idEliminar, "departments")}
-            cerrarEliminarModal={cerrarEliminarModal}
-          ></ModalBoxEliminar>
-        )}
-        <form
-          className="w-full flex justify-center gap-11 flex-col md:flex-row  mt-7 items-center "
-          onSubmit={manejarEnvio}
-        >
-          <div className="flex gap-8 w-full sm:items-center flex-col sm:flex-row items-start ">
-            <Input
-              valor={palabra}
-              actualizarValor={setPalabra}
-              label={"Departamento"}
-              textoHolder={"Ingresa departamento"}
-            ></Input>
-          </div>
+      {Departamentos && (
+        <div className="w-full">
+          {MostrarEditarModal && (
+            <ModalBox
+              holder={"Departamento"}
+              valueDefault={valueDefault}
+              title={"edite Nucleo"}
+              label={"Núcleo: "}
+              cerrarEditarModal={cerrarEditarModal}
+              actualizarDepartamento={(valor) =>
+                ActualizarDato(
+                  token,
+                  valor,
+                  "departments",
+                  idActualizar,
+                  "false",
+                  "false",
+                  setIsChecked
+                )
+              }
+            ></ModalBox>
+          )}
+          {MostrarEliminarModal && (
+            <ModalBoxEliminar
+              title={"Estás seguro?"}
+              eliminarDepartamento={() =>
+                EliminarDato(token, idEliminar, "departments", setIsChecked)
+              }
+              cerrarEliminarModal={cerrarEliminarModal}
+            ></ModalBoxEliminar>
+          )}
+          <form
+            className="w-full flex justify-center gap-11 flex-col md:flex-row  mt-7 items-center "
+            onSubmit={manejarEnvio}
+          >
+            <div className="flex gap-8 w-full sm:items-center flex-col sm:flex-row items-start ">
+              <Input
+                valor={palabra}
+                actualizarValor={setPalabra}
+                label={"Departamento"}
+                textoHolder={"Ingresa departamento"}
+              ></Input>
+            </div>
 
-          <Submit></Submit>
-        </form>
-        <Tabla
-          data={Departamentos}
-          filterName={filterName}
-          filterDepartment={filterDepartment}
-          filterDate={filterDate}
-          filterShift={filterShift}
-          abrirEliminarModal={abrirEliminarModal}
-          abrirEditarModal={abrirEditarModal}
-        ></Tabla>
-      </div>
+            <Submit></Submit>
+          </form>
+          <Tabla
+            data={Departamentos}
+            filterName={filterName}
+            filterDepartment={filterDepartment}
+            filterDate={filterDate}
+            filterShift={filterShift}
+            abrirEliminarModal={abrirEliminarModal}
+            abrirEditarModal={abrirEditarModal}
+          ></Tabla>
+        </div>
+      )}
     </>
   );
 };

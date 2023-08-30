@@ -8,7 +8,14 @@ import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar
 import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
 import AgregarDato from "../../../../components/formulario/Helpers/hooks/AgregarDato";
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
+import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
+
 export const Nucleo = () => {
+  const tokenD = AES.decrypt(
+    localStorage.getItem("token"),
+    import.meta.env.VITE_TOKEN_KEY
+  );
+  const token = tokenD.toString(enc.Utf8);
   const [Nucleos, setNucleos] = useState(null);
 
   const [isChecked, setIsChecked] = useState(false);
@@ -22,13 +29,22 @@ export const Nucleo = () => {
   const [department_id, setDepartment_id] = useState("");
   const [MostrarEditarModal, setMostrarEditarModal] = useState(false);
   const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);
+  const [idActualizar, setIdActualizar] = useState("");
+  const [idDepartamento, setIdDepartamento] = useState("");
 
-  ObtenerDatos("cores", setNucleos);
+  useEffect(() => {
+    async function fetchData() {
+      const data = await ObtenerDatos(token, "cores");
+      setNucleos(data);
+    }
+    fetchData();
+  }, [isChecked]);
 
-  const abrirEditarModal = (name, id) => {
+  const abrirEditarModal = (departamento) => {
     setMostrarEditarModal(true);
-    setValueDefault(name);
-    setIdActualizar(id);
+    setValueDefault(departamento.name);
+    setIdActualizar(departamento.id);
+    setIdDepartamento(departamento.department_id);
   };
   const cerrarEditarModal = () => {
     setMostrarEditarModal(false);
@@ -42,19 +58,16 @@ export const Nucleo = () => {
   };
   const manejarEnvio = (e) => {
     e.preventDefault();
-    AgregarDato(palabra, "cores", department_id);
-  };
-  const clearFilterDate = () => {
-    setFilterDate("");
-  };
-  const clearFilterShift = () => {
-    setFilterShift("");
-  };
-  const clearFilterDepartment = () => {
-    setFilterDepartment("");
-  };
-  const clearFilterName = () => {
-    setFilterName("");
+    if (palabra == "") return;
+    else
+      AgregarDato(
+        token,
+        palabra,
+        "cores",
+        department_id,
+        "false",
+        setIsChecked
+      );
   };
 
   if (Nucleos === null) {
@@ -67,19 +80,30 @@ export const Nucleo = () => {
       <div className="w-full ">
         {MostrarEditarModal && (
           <ModalBox
-            holder={"Ui Ux"}
-            valueDefault={"Diseño"}
+            holder={"Nucleo"}
+            valueDefault={valueDefault}
             title={"edite Nucleo"}
             label={"Núcleo: "}
             cerrarEditarModal={cerrarEditarModal}
+            actualizarDepartamento={(valor) =>
+              ActualizarDato(
+                token,
+                valor,
+                "cores",
+                idActualizar,
+                idDepartamento,
+                "false",
+                setIsChecked
+              )
+            }
           ></ModalBox>
         )}
         {MostrarEliminarModal && (
           <ModalBoxEliminar
-            holder={"Ui Ux"}
-            valueDefault={"Diseño"}
             title={"Estás seguro?"}
-            eliminarDepartamento={() => EliminarDato(idEliminar, "cores")}
+            eliminarDepartamento={() =>
+              EliminarDato(token, idEliminar, "cores", setIsChecked)
+            }
             cerrarEliminarModal={cerrarEliminarModal}
           ></ModalBoxEliminar>
         )}
@@ -91,14 +115,12 @@ export const Nucleo = () => {
             valor={palabra}
             actualizarValor={setPalabra}
             setDepartment_id={setDepartment_id}
+            token={token}
           ></Inputs>
           <Submit></Submit>
         </form>
         <Tabla
           data={Nucleos}
-          filterName={filterName}
-          filterDepartment={filterDepartment}
-          filterDate={filterDate}
           abrirEliminarModal={abrirEliminarModal}
           abrirEditarModal={abrirEditarModal}
         ></Tabla>

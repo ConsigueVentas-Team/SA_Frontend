@@ -1,11 +1,6 @@
-import { AES, enc } from "crypto-js";
-const tokenD = AES.decrypt(
-  localStorage.getItem("token"),
-  import.meta.env.VITE_TOKEN_KEY
-);
-const token = tokenD.toString(enc.Utf8);
+import Obtenerdatos from "./ObtenerDatos";
 
-const EliminarDato = async (idEliminar, url) => {
+const EliminarDato = async (token, idEliminar, url, setIsChecked) => {
   try {
     const response = await fetch(
       import.meta.env.VITE_API_URL + `/${url}/delete/${idEliminar}`,
@@ -19,7 +14,8 @@ const EliminarDato = async (idEliminar, url) => {
     );
 
     if (response.ok) {
-      console.log("Dato eliminado exitosamente");
+      //actualizar data
+      setIsChecked((prevIsChecked) => !prevIsChecked);
     } else {
       console.error("Error al eliminar los datos");
     }

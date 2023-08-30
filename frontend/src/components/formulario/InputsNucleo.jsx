@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "./Input";
 import PropTypes from "prop-types";
 import ObtenerDatos from "./Helpers/hooks/ObtenerDatos";
-export const Inputs = ({ actualizarValor, valor, setDepartment_id }) => {
+
+export const Inputs = ({ actualizarValor, valor, setDepartment_id, token }) => {
   const [filterShift, setFilterShift] = useState("Selecciona");
   const [Areas, setAreas] = useState([]);
+  const [habilitar, setHabilidar] = useState(false);
   const handleFilterShiftChange = (e) => {
     const selectedValue = e.target.value;
     setFilterShift(selectedValue);
@@ -12,9 +14,17 @@ export const Inputs = ({ actualizarValor, valor, setDepartment_id }) => {
     console.log(selectedValue);
     if (selectedValue === "Selecciona") {
       actualizarValor(""); // Reset the name when "Selecciona" is selected
+      console.log("sadas");
     }
   };
-  ObtenerDatos("departments", setAreas);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await ObtenerDatos(token, "departments");
+      setAreas(data);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="flex gap-8 w-full sm:items-center flex-col sm:flex-row items-start ">
@@ -42,7 +52,7 @@ export const Inputs = ({ actualizarValor, valor, setDepartment_id }) => {
         <Input
           actualizarValor={actualizarValor}
           valor={valor}
-          filterShift={setFilterShift}
+          filterShift={filterShift}
           label={"Núcleo"}
           textoHolder={"Ingresa núcleo"}
         ></Input>

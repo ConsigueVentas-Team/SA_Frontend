@@ -8,32 +8,43 @@ import Loading from "../../../../components/essentials/Loading";
 import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
 import AgregarDato from "../../../../components/formulario/Helpers/hooks/AgregarDato";
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
+import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
+
+const tokenD = AES.decrypt(
+  localStorage.getItem("token"),
+  import.meta.env.VITE_TOKEN_KEY
+);
+const token = tokenD.toString(enc.Utf8);
+
 export const Area = () => {
   const [Position, setPosition] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
   const [department_id, setDepartment_id] = useState("");
   const [coreId, setCoreId] = useState("");
-  const [filterName, setFilterName] = useState("");
-  const [filterDepartment, setFilterDepartment] = useState("");
-  const [filterDate, setFilterDate] = useState("");
-  const [filterShift, setFilterShift] = useState("");
+
   const [idEliminar, setIdEliminar] = useState("");
   const [palabra, setPalabra] = useState("");
   const [idActualizar, setIdActualizar] = useState("");
   const [MostrarEditarModal, setMostrarEditarModal] = useState(false);
   const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);
-  // const tokenD = AES.decrypt(
-  //   localStorage.getItem("token"),
-  //   import.meta.env.VITE_TOKEN_KEY
-  // );
-  // const token = tokenD.toString(enc.Utf8);
+  const [valueDefault, setValueDefault] = useState("");
+  const [idDepartamento, setIdDepartamento] = useState("");
+  const [idArea, setIdArea] = useState("");
 
-  ObtenerDatos("position", setPosition);
+  useEffect(() => {
+    async function fetchData() {
+      const data = await ObtenerDatos(token, "position");
+      setPosition(data);
+    }
+    fetchData();
+  }, [isChecked]);
 
-  const abrirEditarModal = (name, id) => {
+  const abrirEditarModal = (departamento) => {
     setMostrarEditarModal(true);
-    setValueDefault(name);
-    setIdActualizar(id);
+    setValueDefault(departamento.name);
+    setIdActualizar(departamento.id);
+    setIdDepartamento(departamento.department_id);
+    setIdArea(departamento.core_id);
   };
   const cerrarEditarModal = () => {
     setMostrarEditarModal(false);
@@ -47,19 +58,16 @@ export const Area = () => {
   };
   const manejarEnvio = (e) => {
     e.preventDefault();
-    AgregarDato(palabra, "position", department_id, coreId);
-  };
-  const clearFilterDate = () => {
-    setFilterDate("");
-  };
-  const clearFilterShift = () => {
-    setFilterShift("");
-  };
-  const clearFilterDepartment = () => {
-    setFilterDepartment("");
-  };
-  const clearFilterName = () => {
-    setFilterName("");
+    if (palabra == "") return;
+    else
+      AgregarDato(
+        token,
+        palabra,
+        "position",
+        department_id,
+        coreId,
+        setIsChecked
+      );
   };
 
   if (Position === null) {
@@ -71,17 +79,30 @@ export const Area = () => {
       <div className="w-full ">
         {MostrarEditarModal && (
           <ModalBox
-            holder={"Area"}
-            valueDefault={"FrontEnd"}
+            holder={"Rol"}
+            valueDefault={valueDefault}
             title={"edite Area"}
             label={"Area: "}
+            actualizarDepartamento={(valor) =>
+              ActualizarDato(
+                token,
+                valor,
+                "position",
+                idActualizar,
+                idDepartamento,
+                idArea,
+                setIsChecked
+              )
+            }
             cerrarEditarModal={cerrarEditarModal}
           ></ModalBox>
         )}
         {MostrarEliminarModal && (
           <ModalBoxEliminar
             title={"Estás seguro?"}
-            eliminarDepartamento={() => EliminarDato(idEliminar, "position")}
+            eliminarDepartamento={() =>
+              EliminarDato(token, idEliminar, "position", setIsChecked)
+            }
             cerrarEliminarModal={cerrarEliminarModal}
           ></ModalBoxEliminar>
         )}
@@ -94,15 +115,12 @@ export const Area = () => {
             actualizarValor={setPalabra}
             setDepartment_id={setDepartment_id}
             setCoreId={setCoreId}
+            token={token}
           ></InputArea>
           <Submit></Submit>
         </form>
         <Tabla
           data={Position}
-          filterName={filterName}
-          filterDepartment={filterDepartment}
-          filterDate={filterDate}
-          filterShift={filterShift}
           abrirEliminarModal={abrirEliminarModal}
           abrirEditarModal={abrirEditarModal}
         ></Tabla>
