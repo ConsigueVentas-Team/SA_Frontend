@@ -92,8 +92,8 @@ export const InputArea = ({
         <Input
           actualizarValor={actualizarValor}
           valor={valor}
-          label={"Rol"}
-          textoHolder={"Ingresa su rol"}
+          label={"Perfil"}
+          textoHolder={"Ingresa su perfil"}
           filterShift={filterShift == 0 ? "Selecciona" : ""}
         ></Input>
       </div>

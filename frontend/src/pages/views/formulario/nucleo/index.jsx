@@ -96,6 +96,8 @@ export const Nucleo = () => {
                 setIsChecked
               )
             }
+            checkbox={2}
+            data={Nucleos}
           ></ModalBox>
         )}
         {MostrarEliminarModal && (
@@ -123,6 +125,7 @@ export const Nucleo = () => {
           data={Nucleos}
           abrirEliminarModal={abrirEliminarModal}
           abrirEditarModal={abrirEditarModal}
+          nucleo={"Núcleo"}
         ></Tabla>
       </div>
     </>

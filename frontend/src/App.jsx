@@ -49,12 +49,12 @@ function App() {
                 <Route path="colaboradores" element={<Colaboradores />} />
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
-                <Route path="empresa/registrar" element={<Nucleo />} />
+                <Route path="empresa/nucleo" element={<Nucleo />} />
                 <Route
                   path="empresa/departamento"
                   element={<Departamento />}
                 />
-                <Route path="empresa/area" element={<Area></Area>} />
+                <Route path="empresa/perfil" element={<Area></Area>} />
                 <Route path="empresa" element={<Formulario />} />
               </>
             )}

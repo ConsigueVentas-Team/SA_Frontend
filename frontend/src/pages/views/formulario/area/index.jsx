@@ -95,6 +95,8 @@ export const Area = () => {
               )
             }
             cerrarEditarModal={cerrarEditarModal}
+            checkbox={2}
+            data={Position}
           ></ModalBox>
         )}
         {MostrarEliminarModal && (
@@ -123,6 +125,8 @@ export const Area = () => {
           data={Position}
           abrirEliminarModal={abrirEliminarModal}
           abrirEditarModal={abrirEditarModal}
+          nucleo={"Núcleo"}
+          perfil={"Perfil"}
         ></Tabla>
       </div>
     </>

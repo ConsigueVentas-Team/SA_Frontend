@@ -10,7 +10,7 @@ const Formulario = () => {
     <div className="w-full h-full flex items-center justify-center flex-wrap gap-x-48  sm:gap-y-14 gap-y-6 content-center">
       <Link
         to="departamento"
-        className="sm:w-[18rem] sm:h-[15rem] w-44 h-40   text-sm rounded-md hover:bg-slate-500 bg-neutral-900 flex justify-center items-center "
+        className="sm:w-[18rem] sm:h-[15rem] w-44 h-40   text-sm rounded-md hover:bg-slate-500 bg-cv-primary flex justify-center items-center "
       >
         <div className=" w-3/4 h-1/2 flex justify-center items-center flex-col scale-125">
           <BusinessOutlinedIcon
@@ -23,8 +23,8 @@ const Formulario = () => {
       </Link>
 
       <Link
-        to="registrar"
-        className="sm:w-[18rem]  sm:h-[15rem] w-44 h-40  text-sm rounded-md hover:bg-slate-500 bg-neutral-900  justify-center flex items-center "
+        to="nucleo"
+        className="sm:w-[18rem]  sm:h-[15rem] w-44 h-40  text-sm rounded-md hover:bg-slate-500 bg-cv-primary  justify-center flex items-center "
       >
         <div className=" w-1/2 h-1/2 flex justify-center items-center flex-col scale-125">
           <Diversity3OutlinedIcon
@@ -37,8 +37,8 @@ const Formulario = () => {
       </Link>
 
       <Link
-        to="area"
-        className="sm:w-[18rem] sm:h-[15rem] w-44 h-40  flex-col text-sm rounded-md hover:bg-slate-500 bg-neutral-900  justify-center flex items-center  "
+        to="perfil"
+        className="sm:w-[18rem] sm:h-[15rem] w-44 h-40  flex-col text-sm rounded-md hover:bg-slate-500 bg-cv-primary  justify-center flex items-center  "
       >
         <div className=" w-1/2 h-1/2 flex justify-center items-center flex-col scale-125">
           <PortraitOutlinedIcon
@@ -46,7 +46,7 @@ const Formulario = () => {
             className="scale-150 mb-3"
           ></PortraitOutlinedIcon>
 
-          <h2 className="text-center">Administrar Rol</h2>
+          <h2 className="text-center">Administrar Perfil</h2>
         </div>
       </Link>
     </div>

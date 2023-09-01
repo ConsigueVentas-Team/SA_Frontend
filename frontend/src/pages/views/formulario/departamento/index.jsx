@@ -98,6 +98,7 @@ export const Departamento = () => {
                   setIsChecked
                 )
               }
+              checkbox={1}
             ></ModalBox>
           )}
           {MostrarEliminarModal && (

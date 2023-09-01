@@ -28,7 +28,7 @@ const ActualizarDato = async (
     const response = await fetch(
       import.meta.env.VITE_API_URL + `/${url}/update/${id}`,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
