@@ -17,10 +17,10 @@ import { Asistencias } from "./pages/views/asistencias/Asistencias";
 import { MarcarAsistencia } from "./pages/views/asistencias/MarcarAsistencia";
 import { Justificaciones } from "./pages/views/justificaciones/justificaciones";
 import { AñadirJustificacion } from "./pages/views/justificaciones/AñadirJustificacion";
-// import { Nucleo } from "./pages/views/formulario/nucleo";
-// import { Departamento } from "./pages/views/formulario/departamento";
-// import Formulario from "./pages/views/formulario";
-// import { Area } from "./pages/views/formulario/area";
+import { Nucleo } from "./pages/views/formulario/nucleo";
+import { Departamento } from "./pages/views/formulario/departamento";
+import Formulario from "./pages/views/formulario";
+import { Area } from "./pages/views/formulario/area";
 function App() {
   const rol = localStorage.getItem("rol");
   const isLoggedIn = localStorage.getItem("login") === "true";
