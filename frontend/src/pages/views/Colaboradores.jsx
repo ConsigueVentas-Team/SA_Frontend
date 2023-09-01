@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import { toast, Toaster } from "react-hot-toast";
 import { AES, enc } from "crypto-js";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
-import { FiltersGrid, ModalAgregar, ModalEditar } from '../../components/colaboradores';
-import Tabla from '../../components/colaboradores/Tabla';
+import { FiltersGrid, ModalAgregar, ModalEditar, Tabla } from '../../components/colaboradores';
 
 export const Colaboradores = () => {
 	const [users, setUsers] = useState([]);
@@ -108,23 +107,18 @@ export const Colaboradores = () => {
 		formData.append('birthday', updateUser.birthday);
 		formData.append('date_start', updateUser.dateStart);
 		formData.append('date_end', updateUser.dateEnd);
-		// formData.append('status', usuarioEditado.status);
-		// formData.append('status_description', usuarioEditado.statusDescription);
+		formData.append('status', updateUser.status);
+		formData.append('status_description', updateUser.statusDescription);
 		formData.append('_method', 'PUT');
-		// formData.append('department', usuarioEditado.Departament);
-		// formData.append('area', usuarioEditado.Area);
-		// formData.append('role_id', usuarioEditado.Role);
+		formData.append('role_id', updateUser.role);
 		formData.append('image', updateUser.avatar);
 
-		console.log(formData)
 
 		try {
 			const response = await fetch(import.meta.env.VITE_API_URL + `/users/${updateUser.id}/update`, {
 				method: 'POST',
 				headers: {
 					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-					Accept: 'application/json',
 				},
 				body: formData,
 			});
@@ -132,7 +126,6 @@ export const Colaboradores = () => {
 			if (response.ok) {
 				const usuariosActualizados = users.map((usuario) => {
 					if (usuario.id === updateUser.id) {
-						//return data;
 						return {
 							...usuario,
 							...updateUser,
@@ -142,21 +135,15 @@ export const Colaboradores = () => {
 				});
 				setUsers(usuariosActualizados);
 				toast.success('Datos de usuario modificado exitosamente');
-				// setShowAlert(true);
-				// cerrarEditarModal();
+				setShowEditarModal(!showEditarModal);
 				obtenerUsuarios();
-				console.log('Datos de usuario modificado exitosamente')
 			} else {
 				toast.error(`Error al modificar usuario: ${data.error}`);
-				// setShowAlert(true);
-				// cerrarEditarModal();
-				console.log(`Error al modificar usuario: ${data.error}`)
+				setShowEditarModal(!showEditarModal);
 			}
 		} catch (error) {
 			toast.error(`Error al modificar: ${error}`);
-			// setShowAlert(true);
-			// cerrarEditarModal();
-			console.log(`Error al modificar: ${error}`)
+			setShowEditarModal(!showEditarModal);
 		}
 	};
 
@@ -167,7 +154,6 @@ export const Colaboradores = () => {
 					<Diversity3Icon />
 					<span className='ml-1 text-base font-medium md:ml-2'>Colaboradores</span>
 				</h1>
-				{/* <ListaColaboradores toggleAgregarModal={toggleAgregarModal} toggleEditarModal={toggleEditarModal} /> */}
 				<FiltersGrid
 					shift={shift}
 					setShift={setShift}
