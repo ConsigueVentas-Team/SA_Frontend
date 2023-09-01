@@ -10,6 +10,7 @@ import {CambiarContraseña} from "./pages/auth/CambiarContraseña";
 //Views Pages
 import { Home } from "./pages/views/Home";
 import { Perfil } from "./pages/views/Perfil";
+import {PerfilColaborador} from './pages/views/PerfilColaborador'
 import { Cumpleaños } from "./pages/views/Cumpleaños";
 import { Colaboradores } from "./pages/views/Colaboradores";
 import { Asistencias } from "./pages/views/asistencias/Asistencias";
@@ -54,6 +55,7 @@ function App() {
                 <Route path="colaboradores" element={<Colaboradores />} />
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
+                <Route path="/colaborador/:id/perfil" element={<PerfilColaborador/>} />
               </>
             )}
             <Route path="/*" element={<Error404 />} />
