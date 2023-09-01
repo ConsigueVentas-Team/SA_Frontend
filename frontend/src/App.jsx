@@ -5,7 +5,7 @@ import { Error404 } from "./pages/Error404";
 import { Login } from "./pages/auth/Login";
 import { OlvideContraseña } from "./pages/auth/OlvideContraseña";
 import { RestablecerContraseña } from "./pages/auth/RestablecerContraseña";
-import {CambiarContraseña} from "./pages/auth/CambiarContraseña";
+import { CambiarContraseña } from "./pages/auth/CambiarContraseña";
 
 //Views Pages
 import { Home } from "./pages/views/Home";
@@ -17,14 +17,13 @@ import { Asistencias } from "./pages/views/asistencias/Asistencias";
 import { MarcarAsistencia } from "./pages/views/asistencias/MarcarAsistencia";
 import { Justificaciones } from "./pages/views/justificaciones/justificaciones";
 import { AñadirJustificacion } from "./pages/views/justificaciones/AñadirJustificacion";
-
-
-
-
+import { Nucleo } from "./pages/views/formulario/nucleo";
+import { Departamento } from "./pages/views/formulario/departamento";
+import Formulario from "./pages/views/formulario";
+import { Area } from "./pages/views/formulario/area";
 function App() {
-
-  const rol = localStorage.getItem('rol');
-  const isLoggedIn = localStorage.getItem('login') === 'true';
+  const rol = localStorage.getItem("rol");
+  const isLoggedIn = localStorage.getItem("login") === "true";
   // Función para verificar si el usuario tiene un rol específico
   const hasRole = (targetRole) => {
     return rol === targetRole;
@@ -39,18 +38,28 @@ function App() {
             <Route path="perfil" element={<Perfil />} />
             <Route path="marcar-asistencia" element={<MarcarAsistencia />} />
             <Route path="cumpleaños" element={<Cumpleaños />} />
-            <Route path="añadir-justificacion" element={<AñadirJustificacion />} />
+            <Route
+              path="añadir-justificacion"
+              element={<AñadirJustificacion />}
+            />
             <Route path="cambiar-contraseña" element={<CambiarContraseña />} />
             <Route path="/login" element={<Login />} />
 
-            {hasRole('Lider Nucleo') && (
+            {hasRole("Lider Nucleo") && (
               <>
                 <Route path="colaboradores" element={<Colaboradores />} />
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
+                <Route path="empresa/registrar" element={<Nucleo />} />
+                <Route
+                  path="empresa/departamento"
+                  element={<Departamento />}
+                />
+                <Route path="empresa/area" element={<Area></Area>} />
+                <Route path="empresa" element={<Formulario />} />
               </>
             )}
-            {hasRole('Gerencia') && (
+            {hasRole("Gerencia") && (
               <>
                 <Route path="colaboradores" element={<Colaboradores />} />
                 <Route path="justificaciones" element={<Justificaciones />} />
@@ -64,13 +73,16 @@ function App() {
           <>
             <Route path="/login" element={<Login />} />
             <Route path="/olvide-contraseña" element={<OlvideContraseña />} />
-            <Route path="/restablecer-contraseña" element={<RestablecerContraseña />} />
+            <Route
+              path="/restablecer-contraseña"
+              element={<RestablecerContraseña />}
+            />
             <Route path="/*" element={<Navigate to="/login" />} />
           </>
         )}
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

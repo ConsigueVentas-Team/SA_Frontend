@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import CakeIcon from "@mui/icons-material/Cake";
@@ -8,35 +8,48 @@ import CakeIcon from "@mui/icons-material/Cake";
 import BalanceIcon from "@mui/icons-material/Balance";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 // import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MapsHomeWorkOutlinedIcon from '@mui/icons-material/MapsHomeWorkOutlined';
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 const getRole = () => {
-  return localStorage.getItem('rol');
+  return localStorage.getItem("rol");
 };
 
 export const Sidebar = () => {
-
   const [showMenu, setShowMenu] = useState(false);
   const [showSubmenu, setShowSubmenu] = useState(false);
-
 
   const sidebarContent = {
     Colaborador: [
       { route: "perfil", title: "Perfil", icon: <AccountCircleIcon /> },
-      { route: "marcar-asistencia", title: "Asistencia", icon: <ChecklistIcon /> },
-      { route: "añadir-justificacion", title: "Justificacion", icon: <BalanceIcon /> },
+      {
+        route: "marcar-asistencia",
+        title: "Asistencia",
+        icon: <ChecklistIcon />,
+      },
+      {
+        route: "añadir-justificacion",
+        title: "Justificacion",
+        icon: <BalanceIcon />,
+      },
       { route: "cumpleaños", title: "Cumpleaños", icon: <CakeIcon /> },
     ],
     Gerencia: [
       { route: "perfil", title: "Perfil", icon: <AccountCircleIcon /> },
       { route: "asistencias", title: "Asistencias", icon: <ChecklistIcon /> },
-      { route: "justificaciones", title: "Justificaciones", icon: <BalanceIcon /> },
-      { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon /> },
+      {
+        route: "justificaciones",
+        title: "Justificaciones",
+        icon: <BalanceIcon />,
+      },
+      {
+        route: "colaboradores",
+        title: "Colaboradores",
+        icon: <Diversity3Icon />,
+      },
       { route: "cumpleaños", title: "Cumpleaños", icon: <CakeIcon /> },
     ],
   };
@@ -47,8 +60,9 @@ export const Sidebar = () => {
   return (
     <>
       <div
-        className={`xl:h-[100vh] fixed overflow-y-auto xl:static xl:w-auto h-full top-0 bg-cv-primary text-white p-4 flex flex-col justify-between z-50 ${showMenu ? "left-0" : "-left-full"
-          } transition-all`}
+        className={`xl:h-[100vh] fixed overflow-y-auto xl:static xl:w-auto h-full top-0 bg-cv-primary text-white p-4 flex flex-col justify-between z-50 ${
+          showMenu ? "left-0" : "-left-full"
+        } transition-all`}
       >
         <div>
           <div className="text-center text-2xl font-bold text-white mb-5">
@@ -65,11 +79,7 @@ export const Sidebar = () => {
               >
                 <div className="font-semibold flex items-center gap-x-4">
                   <span>{menu.icon}</span>
-                  <span
-                    className="origin-left duration-200"
-                  >
-                    {menu.title}
-                  </span>
+                  <span className="origin-left duration-200">{menu.title}</span>
                 </div>
               </Link>
             ))}
@@ -105,13 +115,15 @@ export const Sidebar = () => {
                       Justificaciones
                     </span>
                     <ChevronRightIcon
-                      className={`mt-1 ${showSubmenu && "rotate-90"
-                        } transition-all`}
+                      className={`mt-1 ${
+                        showSubmenu && "rotate-90"
+                      } transition-all`}
                     />
                   </button>
                   <ul
-                    className={` ${showSubmenu ? "h-auto" : "h-0"
-                      } overflow-y-hidden transition-all`}
+                    className={` ${
+                      showSubmenu ? "h-auto" : "h-0"
+                    } overflow-y-hidden transition-all`}
                   >
                     <li>
                       <Link
@@ -149,6 +161,15 @@ export const Sidebar = () => {
                     Cumpleaños
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/empresa"
+                    className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-cv-secondary transition-colors"
+                  >
+                    <MapsHomeWorkOutlinedIcon />
+                    Empresa
+                  </Link>
+                </li>
               </>
             )}
           </ul>
@@ -162,11 +183,11 @@ export const Sidebar = () => {
       </button>
     </>
   );
-}
+};
 
 Sidebar.propTypes = {
-  onPageClick: PropTypes.func
-}
+  onPageClick: PropTypes.func,
+};
 
 export const Logo = () => {
   return (
@@ -195,5 +216,5 @@ export const Logo = () => {
         ></path>
       </g>
     </svg>
-  )
-}
+  );
+};

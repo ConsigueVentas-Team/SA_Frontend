@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import {
   BarChart,
   Bar,
@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 export const DatosAsistencia = ({ colaborador }) => {
-  console.log(colaborador);
+
   return (
     <div className="col-span-1 md:col-span-2 row-span-3 md:col-start-4 md:row-start-6 bg-cv-primary rounded-2xl text-white p-5 order-4 md:order-4">
       <h2 className="text-xl mb-5 font-semibold text-center uppercase">
@@ -41,4 +41,8 @@ export const DatosAsistencia = ({ colaborador }) => {
       </div>
     </div>
   );
+};
+
+DatosAsistencia.propTypes = {
+  colaborador: PropTypes.object.isRequired,
 };
