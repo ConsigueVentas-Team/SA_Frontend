@@ -1,4 +1,4 @@
-import Obtenerdatos from "./ObtenerDatos";
+
 
 const EliminarDato = async (token, idEliminar, url, setIsChecked) => {
   try {

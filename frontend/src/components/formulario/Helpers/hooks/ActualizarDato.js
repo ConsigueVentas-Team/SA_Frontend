@@ -5,7 +5,9 @@ const ActualizarDato = async (
   id,
   department_id = "false",
   core_id = "false",
-  setIsChecked
+  setIsChecked,
+  area,
+  Departamento
 ) => {
   let dataToSend = [];
   if (department_id == "false" && core_id == "false") {
@@ -15,13 +17,16 @@ const ActualizarDato = async (
   } else if (core_id == "false") {
     dataToSend = {
       name: palabra,
-      department_id,
+      department_id: area,
     };
   } else {
     dataToSend = {
       name: palabra,
-      core_id,
+      core_id: area,
+      department_id: Departamento,
     };
+    console.log(area + " id area");
+    console.log(Departamento + " id departamento");
   }
 
   try {

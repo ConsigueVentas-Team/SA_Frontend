@@ -9,7 +9,7 @@ import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/Obtene
 import AgregarDato from "../../../../components/formulario/Helpers/hooks/AgregarDato";
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
-
+import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
 export const Nucleo = () => {
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
@@ -20,10 +20,8 @@ export const Nucleo = () => {
 
   const [isChecked, setIsChecked] = useState(false);
   const [valueDefault, setValueDefault] = useState("");
-  const [filterName, setFilterName] = useState("");
-  const [filterDepartment, setFilterDepartment] = useState("");
-  const [filterDate, setFilterDate] = useState("");
-  const [filterShift, setFilterShift] = useState("");
+  const [departments, setDepartments] = useState([]);
+
   const [idEliminar, setIdEliminar] = useState("");
   const [palabra, setPalabra] = useState("");
   const [department_id, setDepartment_id] = useState("");
@@ -35,7 +33,10 @@ export const Nucleo = () => {
   useEffect(() => {
     async function fetchData() {
       const data = await ObtenerDatos(token, "cores");
+      const department = await ObtenerDatos(token, "departments");
+
       setNucleos(data);
+      setDepartments(department);
     }
     fetchData();
   }, [isChecked]);
@@ -78,6 +79,7 @@ export const Nucleo = () => {
   return (
     <>
       <div className="w-full ">
+        <ActiveLastBreadcrumb actual={"nucleo"}></ActiveLastBreadcrumb>
         {MostrarEditarModal && (
           <ModalBox
             holder={"Nucleo"}
@@ -85,7 +87,7 @@ export const Nucleo = () => {
             title={"edite Nucleo"}
             label={"Núcleo: "}
             cerrarEditarModal={cerrarEditarModal}
-            actualizarDepartamento={(valor) =>
+            actualizarDepartamento={(valor, area, Departamento) =>
               ActualizarDato(
                 token,
                 valor,
@@ -93,11 +95,16 @@ export const Nucleo = () => {
                 idActualizar,
                 idDepartamento,
                 "false",
-                setIsChecked
+                setIsChecked,
+                area,
+                Departamento
               )
             }
             checkbox={2}
             data={Nucleos}
+            IdArea={idDepartamento}
+            idDepartamento={idDepartamento}
+            departments={departments}
           ></ModalBox>
         )}
         {MostrarEliminarModal && (
