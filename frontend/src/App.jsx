@@ -21,6 +21,8 @@ import { Nucleo } from "./pages/views/formulario/nucleo";
 import { Departamento } from "./pages/views/formulario/departamento";
 import Formulario from "./pages/views/formulario";
 import { Area } from "./pages/views/formulario/area";
+import { EvaluacionesColaborador } from "./pages/views/evaluaciones/EvaluacionesColaborador";
+import { EvaluacionesAdmin } from "./pages/views/evaluaciones/EvaluacionesAdmin";
 function App() {
   const rol = localStorage.getItem("rol");
   const isLoggedIn = localStorage.getItem("login") === "true";
@@ -42,6 +44,7 @@ function App() {
               path="añadir-justificacion"
               element={<AñadirJustificacion />}
             />
+            <Route path="evaluacion" element={<EvaluacionesColaborador/>}/>
             <Route path="cambiar-contraseña" element={<CambiarContraseña />} />
             <Route path="/login" element={<Login />} />
 
@@ -50,7 +53,9 @@ function App() {
                 <Route path="colaboradores" element={<Colaboradores />} />
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
+                <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
                 <Route path="empresa/nucleo" element={<Nucleo />} />
+                <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
                 <Route
                   path="empresa/departamento"
                   element={<Departamento />}
@@ -65,6 +70,7 @@ function App() {
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
                 <Route path="/colaborador/:id/perfil" element={<PerfilColaborador/>} />
+                <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
               </>
             )}
             <Route path="/*" element={<Error404 />} />

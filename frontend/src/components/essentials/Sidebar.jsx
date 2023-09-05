@@ -7,7 +7,7 @@ import CakeIcon from "@mui/icons-material/Cake";
 // import DescriptionIcon from "@mui/icons-material/Description";
 import BalanceIcon from "@mui/icons-material/Balance";
 import ChecklistIcon from "@mui/icons-material/Checklist";
-// import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MapsHomeWorkOutlinedIcon from '@mui/icons-material/MapsHomeWorkOutlined';
@@ -21,6 +21,7 @@ const getRole = () => {
 export const Sidebar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showSubmenu, setShowSubmenu] = useState(false);
+  const [showSubmenu2, setShowSubmenu2] = useState(false);
 
   const sidebarContent = {
     Colaborador: [
@@ -36,6 +37,7 @@ export const Sidebar = () => {
         icon: <BalanceIcon />,
       },
       { route: "cumpleaños", title: "Cumpleaños", icon: <CakeIcon /> },
+      { route: "evaluacion", title: "Evaluación", icon: <TrendingUpIcon /> },
     ],
     Gerencia: [
       { route: "perfil", title: "Perfil", icon: <AccountCircleIcon /> },
@@ -51,6 +53,7 @@ export const Sidebar = () => {
         icon: <Diversity3Icon />,
       },
       { route: "cumpleaños", title: "Cumpleaños", icon: <CakeIcon /> },
+      { route: "evaluaciones", title: "Evaluaciónes", icon: <TrendingUpIcon /> },
     ],
   };
 
@@ -160,6 +163,42 @@ export const Sidebar = () => {
                     <CakeIcon />
                     Cumpleaños
                   </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setShowSubmenu2(!showSubmenu)}
+                    className="w-full flex items-center justify-between py-2 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
+                  >
+                    <span className="flex items-center gap-4">
+                      <TrendingUpIcon />
+                      Evaluaciones
+                    </span>
+                    <ChevronRightIcon
+                      className={`mt-1 ${showSubmenu2 && "rotate-90"
+                        } transition-all`}
+                    />
+                  </button>
+                  <ul
+                    className={` ${showSubmenu2 ? "h-auto" : "h-0"
+                      } overflow-y-hidden transition-all`}
+                  >
+                    <li>
+                      <Link
+                        to="/evaluacion"
+                        className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-cv-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-cv-cyan hover:text-white transition-colors"
+                      >
+                        Evaluar
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/evaluaciones"
+                        className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-cv-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-cv-cyan hover:text-white transition-colors"
+                      >
+                        Gestionar Evaluaciones
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
                 <li>
                   <Link
