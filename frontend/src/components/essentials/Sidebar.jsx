@@ -54,6 +54,7 @@ export const Sidebar = () => {
       },
       { route: "cumpleaños", title: "Cumpleaños", icon: <CakeIcon /> },
       { route: "evaluaciones", title: "Evaluaciónes", icon: <TrendingUpIcon /> },
+      { route: "empresa", title: "Empresa", icon: <MapsHomeWorkOutlinedIcon /> }
     ],
   };
 
@@ -63,9 +64,8 @@ export const Sidebar = () => {
   return (
     <>
       <div
-        className={`xl:h-[100vh] fixed overflow-y-auto xl:static xl:w-auto h-full top-0 bg-cv-primary text-white p-4 flex flex-col justify-between z-50 ${
-          showMenu ? "left-0" : "-left-full"
-        } transition-all`}
+        className={`xl:h-[100vh] fixed overflow-y-auto xl:static xl:w-auto h-full top-0 bg-cv-primary text-white p-4 flex flex-col justify-between z-50 ${showMenu ? "left-0" : "-left-full"
+          } transition-all`}
       >
         <div>
           <div className="text-center text-2xl font-bold text-white mb-5">
@@ -118,15 +118,13 @@ export const Sidebar = () => {
                       Justificaciones
                     </span>
                     <ChevronRightIcon
-                      className={`mt-1 ${
-                        showSubmenu && "rotate-90"
-                      } transition-all`}
+                      className={`mt-1 ${showSubmenu && "rotate-90"
+                        } transition-all`}
                     />
                   </button>
                   <ul
-                    className={` ${
-                      showSubmenu ? "h-auto" : "h-0"
-                    } overflow-y-hidden transition-all`}
+                    className={` ${showSubmenu ? "h-auto" : "h-0"
+                      } overflow-y-hidden transition-all`}
                   >
                     <li>
                       <Link

@@ -104,15 +104,17 @@ export const Tabla = ({
 										{users.roles[0].name}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">
-										<div className="flex items-center">
+										<div className="flex flex-col items-center ">
 											{users.status === 1 ?
-												<div>
-													<span className="h-3 w-3 rounded-full bg-green-500 mr-2"></span>Activo
+												<div className='flex items-center justify-center'>
+													<div className="h-3 w-3 rounded-full bg-green-500 mr-2"></div>Activo
 												</div> :
-												<div className='text-center'>
-													<span className="h-3 w-3 rounded-full bg-red-500 mr-2"></span>Inactivo
-													<p className=''>{users.status_description}</p>
-												</div>
+												<>
+													<div className='flex items-center justify-center'>
+														<div className="h-3 w-3 rounded-full bg-red-500 mr-2"></div>Inactivo
+													</div>
+													<p className='text-center'>{users.status_description}</p>
+												</>
 											}
 										</div>
 									</td>
@@ -144,7 +146,7 @@ export const Tabla = ({
 							// onClick={() => handlePageChange(1)} disabled={currentPage === 1}
 							className={`flex items-center justify-center p-1 rounded-full`}
 						>
-							<FirstPageIcon/>
+							<FirstPageIcon />
 						</button>
 						<button
 							className={`flex items-center justify-center p-1 rounded-full`}

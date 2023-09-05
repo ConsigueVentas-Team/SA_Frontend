@@ -10,12 +10,12 @@ import { CambiarContraseña } from "./pages/auth/CambiarContraseña";
 //Views Pages
 import { Home } from "./pages/views/Home";
 import { Perfil } from "./pages/views/Perfil";
-import {PerfilColaborador} from './pages/views/PerfilColaborador'
+import { PerfilColaborador } from './pages/views/PerfilColaborador'
 import { Cumpleaños } from "./pages/views/Cumpleaños";
 import { Colaboradores } from "./pages/views/Colaboradores";
 import { Asistencias } from "./pages/views/asistencias/Asistencias";
 import { MarcarAsistencia } from "./pages/views/asistencias/MarcarAsistencia";
-import { Justificaciones } from "./pages/views/justificaciones/justificaciones";
+import { Justificaciones } from "./pages/views/justificaciones/Justificaciones";
 import { AñadirJustificacion } from "./pages/views/justificaciones/AñadirJustificacion";
 import { Nucleo } from "./pages/views/formulario/nucleo";
 import { Departamento } from "./pages/views/formulario/departamento";
@@ -44,7 +44,7 @@ function App() {
               path="añadir-justificacion"
               element={<AñadirJustificacion />}
             />
-            <Route path="evaluacion" element={<EvaluacionesColaborador/>}/>
+            <Route path="evaluacion" element={<EvaluacionesColaborador />} />
             <Route path="cambiar-contraseña" element={<CambiarContraseña />} />
             <Route path="/login" element={<Login />} />
 
@@ -54,14 +54,11 @@ function App() {
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
                 <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
-                <Route path="empresa/nucleo" element={<Nucleo />} />
                 <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
-                <Route
-                  path="empresa/departamento"
-                  element={<Departamento />}
-                />
-                <Route path="empresa/perfil" element={<Area></Area>} />
                 <Route path="empresa" element={<Formulario />} />
+                <Route path="empresa/departamento" element={<Departamento />} />
+                <Route path="empresa/nucleo" element={<Nucleo />} />
+                <Route path="empresa/perfil" element={<Area></Area>} />
               </>
             )}
             {hasRole("Gerencia") && (
@@ -69,8 +66,12 @@ function App() {
                 <Route path="colaboradores" element={<Colaboradores />} />
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
-                <Route path="/colaborador/:id/perfil" element={<PerfilColaborador/>} />
+                <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
                 <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
+                <Route path="empresa" element={<Formulario />} />
+                <Route path="empresa/departamento" element={<Departamento />} />
+                <Route path="empresa/nucleo" element={<Nucleo />} />
+                <Route path="empresa/perfil" element={<Area></Area>} />
               </>
             )}
             <Route path="/*" element={<Error404 />} />
