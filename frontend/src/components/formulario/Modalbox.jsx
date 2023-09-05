@@ -9,21 +9,45 @@ const ModalBox = ({
   cerrarEditarModal,
   actualizarDepartamento,
   checkbox,
-  data,
+  departments,
+  cores,
+  idDepartamento,
+  IdArea,
 }) => {
   const [palabra, setPalabra] = useState(valueDefault);
   const enviarDatos = () => {
     cerrarEditarModal(false);
-    actualizarDepartamento(palabra);
+    actualizarDepartamento(palabra, area, Departamento);
   };
-  const uniqueDepartments = new Map();
-  if (checkbox > 1) {
-    data.forEach((dato) => {
-      const { id, name } = dato.department;
-      uniqueDepartments.set(id, name);
-    });
-  }
+  const [area, setArea] = useState(IdArea);
+  const [Departamento, setDepartamento] = useState(idDepartamento);
+  // const uniqueDepartments = new Map();
+  // const uniqueCores = new Map();
 
+  // if (checkbox > 1) {
+  //   data.forEach((dato) => {
+  //     const { id, name } =
+  //       checkbox == 2 ? dato.department : dato.core.department;
+  //     uniqueDepartments.set(id, name);
+  //   });
+  // }
+
+  // if (checkbox == 3) {
+  //   data.forEach((dato) => {
+  //     const { id, name } = dato.core;
+  //     uniqueCores.set(id, name);
+  //   });
+  // }
+  const handleDepartamentoChange = (e) => {
+    const selectedValue = e.target.value;
+
+    setDepartamento(selectedValue);
+  };
+  const AreaShiftChange = (e) => {
+    const selectedValue = e.target.value;
+
+    setArea(selectedValue);
+  };
   return (
     <div className="w-full h-full overflow-x-hidden overflow-y-auto   ">
       <div className=" fixed top-0 left-0 z-50  overflow-x-hidden overflow-y-auto scale-90 w-full h-full items-center flex justify-center sm:scale-95  ">
@@ -45,17 +69,17 @@ const ModalBox = ({
                 <div className="w-full ">
                   <select
                     id="filerRole"
+                    value={Departamento}
+                    onChange={handleDepartamentoChange}
                     placeholder="Seleccionasadas"
                     className="w-full p-2 text-cv-primary rounded-md bg-white drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
                   >
                     <option>Selecciona</option>
-                    {Array.from(uniqueDepartments.entries()).map(
-                      ([id, name]) => (
-                        <option key={id} value={id}>
-                          {name}
-                        </option>
-                      )
-                    )}
+                    {departments.map((department) => (
+                      <option key={department.id} value={department.id}>
+                        {department.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -66,22 +90,44 @@ const ModalBox = ({
                   htmlFor="names"
                   className="block mb-1 font-medium text-cv-primary"
                 >
-                  Departamento:
+                  {checkbox == 2 ? "Departamento" : "Núcleo:"}
                 </label>
                 <div className="w-full ">
                   <select
                     id="filerRole"
-                    placeholder="Seleccionasadas"
+                    value={area}
+                    onChange={AreaShiftChange}
+                    placeholder="Selecciona"
                     className="w-full p-2 text-cv-primary rounded-md bg-white drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
                   >
                     <option>Selecciona</option>
-                    {Array.from(uniqueDepartments.entries()).map(
-                      ([id, name]) => (
-                        <option key={id} value={id}>
-                          {name}
-                        </option>
-                      )
-                    )}
+                    {/* {cores.map((core) => {
+                      if (core.department_id == Departamento) {
+                        return (
+                          <option key={core.id} value={core.id}>
+                            {core.name}
+                          </option>
+                        );
+                      }
+                    })} */}
+                    {cores
+                      ? cores.map((core) => {
+                          if (core.department_id == Departamento) {
+                            return (
+                              <option key={core.id} value={core.id}>
+                                {core.name}
+                              </option>
+                            );
+                          }
+                        })
+                      : // Aquí puedes colocar el código que deseas ejecutar cuando cores es null
+                        departments.map((core) => {
+                          return (
+                            <option key={core.id} value={core.id}>
+                              {core.name}
+                            </option>
+                          );
+                        })}
                   </select>
                 </div>
               </div>

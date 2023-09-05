@@ -3,15 +3,25 @@ import { useEffect, useState } from 'react';
 import { toast, Toaster } from "react-hot-toast";
 import { AES, enc } from "crypto-js";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
-import { FiltersGrid, ModalAgregar, ModalEditar, Tabla } from '../../components/colaboradores';
+import { ButtonAdd, ButtonClean, ModalAgregar, ModalEditar, SearchBar, SelectOption, Tabla } from '../../components/colaboradores';
 
 export const Colaboradores = () => {
 	const [users, setUsers] = useState([]);
-	const [shift, setShift] = useState("");
-	const [department, setDepartment] = useState("");
-	const [name, setName] = useState("");
-	const [core, setCore] = useState("");
-	const [position, setPosition] = useState('')
+
+	const [departments, setDepartments] = useState([]);
+	const [cores, setCores] = useState([]);
+	const [profiles, setProfiles] = useState([]);
+	const [selectedDepartment, setSelectedDepartment] = useState('');
+	const [selectedCore, setSelectedCore] = useState('');
+	const [selectedProfile, setSelectedProfile] = useState('');
+
+	const [name, setName] = useState('');
+	const [shift, setShift] = useState('');
+	// const [department, setDepartment] = useState('');
+	// const [core, setCore] = useState('');
+	// const [position, setPosition] = useState('');
+
+
 	const [showAgregarModal, setShowAgregarModal] = useState(false);
 	const [showEditarModal, setShowEditarModal] = useState(false)
 	const [selectUser, setSelectUser] = useState(null)
@@ -30,15 +40,75 @@ export const Colaboradores = () => {
 		setSelectUser(usuario);
 	}
 
+	//** Rellenar Select Options */
+	useEffect(() => {
+		fetch(import.meta.env.VITE_API_URL + "/departments/list", {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => response.json())
+			.then((data) => setDepartments(data));
+
+		fetch(import.meta.env.VITE_API_URL + "/cores/list", {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => response.json())
+			.then((data) => setCores(data));
+
+		fetch(import.meta.env.VITE_API_URL + "/position/list", {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => response.json())
+			.then((data) => setProfiles(data));
+	}, [token]);
+
+	const departmentOptions = departments.map((department) => ({
+		value: department.id,
+		label: department.name
+	}));
+
+	const coreOptions = cores
+		.filter((core) => core.department_id === parseInt(selectedDepartment))
+		.map((core) => ({
+			value: core.id,
+			label: core.name
+		}));
+
+	const profileOptions = profiles
+		.filter((profile) => profile.core_id === parseInt(selectedCore))
+		.map((profile) => ({
+			value: profile.id,
+			label: profile.name
+		}));
+
+	const handleProfileChange = (event) => {
+		setSelectedProfile(event.target.value);
+		console.log(event.target.value);
+	};
+
+	const handleShiftChange = (event) => {
+		setShift(event.target.value);
+		console.log(event.target.value);
+	};
+
+
 	useEffect(() => {
 		obtenerUsuarios();
 	}, []);
 
 	const obtenerUsuarios = async () => {
 		try {
-			const url = new URL(import.meta.env.VITE_API_URL + "/users");
-			const params = { shift, department, name, core, position };
-			Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+			const url = new URL(import.meta.env.VITE_API_URL + `/users?shift=${shift}&position=${selectedProfile}&department=${selectedDepartment}&core=${selectedCore}&name=${name}`);
+			// const params = { name, shift, department, core, position };
+			// Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 			const response = await fetch(url, {
 				headers: {
 					"Content-Type": "application/json",
@@ -81,7 +151,6 @@ export const Colaboradores = () => {
 				if (response.ok) {
 					setShowAgregarModal(!showAgregarModal);
 					toast.success('Usuario agregado exitosamente');
-					console.log('agregado exitosamente')
 					obtenerUsuarios();
 				} else {
 					throw new Error('Error al guardar los datos');
@@ -111,8 +180,7 @@ export const Colaboradores = () => {
 		formData.append('status_description', updateUser.statusDescription);
 		formData.append('_method', 'PUT');
 		formData.append('role_id', updateUser.role);
-		formData.append('image', updateUser.avatar);
-
+		formData.append('image_url', updateUser.avatar);
 
 		try {
 			const response = await fetch(import.meta.env.VITE_API_URL + `/users/${updateUser.id}/update`, {
@@ -154,21 +222,60 @@ export const Colaboradores = () => {
 					<Diversity3Icon />
 					<span className='ml-1 text-base font-medium md:ml-2'>Colaboradores</span>
 				</h1>
-				<FiltersGrid
-					shift={shift}
-					setShift={setShift}
-					filterDepartment={department}
-					filterSetDepartment={setDepartment}
-					filterName={name}
-					filterSetName={setName}
-					filterCore={core}
-					filterSetCore={setCore}
-					filerPosition={position}
-					filterSetPosition={setPosition}
-					toggleAgregarModal={toggleAgregarModal} />
+
+				<div className="w-full grid grid-cols-1 md:grid-cols-9 gap-2 gap-x-0 md:gap-4">
+					<div className="col-span-1 md:col-span-8 row-start-2 md:row-start-1">
+						<SearchBar onSearch={name} />
+					</div>
+					<div className="col-span-2 md:col-start-1 md:row-start-2">
+						<SelectOption
+							label="Departamento"
+							value={selectedDepartment}
+							options={departmentOptions}
+							onChange={(e) => {
+								setSelectedDepartment(e.target.value);
+								setSelectedCore('');
+							}}
+						/>
+					</div>
+					<div className="col-span-2 md:col-start-3 md:row-start-2">
+						<SelectOption
+							label="Núcleo"
+							value={selectedCore}
+							options={coreOptions}
+							onChange={(e) => setSelectedCore(e.target.value)}
+							disabled={!selectedDepartment}
+						/>
+					</div>
+					<div className="col-span-2 md:col-start-5 md:row-start-2">
+						<SelectOption
+							label="Perfil"
+							value={selectedProfile}
+							options={profileOptions}
+							onChange={handleProfileChange}
+							disabled={!selectedCore}
+						/>
+
+					</div>
+					<div className="col-span-2 md:col-start-7 md:row-start-2">
+						<select
+							value={shift} onChange={handleShiftChange}
+							className="w-full box-border w-50 h-50 border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
+						>
+							<option>Turno</option>
+							<option value="Mañana">Mañana</option>
+							<option value="Tarde">Tarde</option>
+						</select>
+					</div>
+					<div className="col-span-1 md:col-start-9 row-start-1 md:row-start-1">
+						<ButtonAdd onClick={toggleAgregarModal} />
+					</div>
+					<div className="col-span-1 md:col-start-9 row-start-7 md:row-start-2">
+						<ButtonClean onClick={''} />
+					</div>
+				</div>
 				<div className="w-full">
 					<Tabla data={users} toggleEditarModal={toggleEditarModal} />
-					{/* <Tabla data={users} toggleEditarModal={toggleEditarModal} /> */}
 				</div>
 				<Toaster />
 			</section >

@@ -11,13 +11,14 @@ import AgregarDato from "../../../../components/formulario/Helpers/hooks/Agregar
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
 import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
-
+import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
 export const Departamento = () => {
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
     import.meta.env.VITE_TOKEN_KEY
   );
   const token = tokenD.toString(enc.Utf8);
+
   const [Departamentos, setDepartamentos] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
   const [valueDefault, setValueDefault] = useState("");
@@ -79,12 +80,13 @@ export const Departamento = () => {
     <>
       {Departamentos && (
         <div className="w-full">
+          <ActiveLastBreadcrumb actual={"departamento"}></ActiveLastBreadcrumb>
           {MostrarEditarModal && (
             <ModalBox
               holder={"Departamento"}
               valueDefault={valueDefault}
-              title={"edite Nucleo"}
-              label={"Núcleo: "}
+              title={"edite departamento"}
+              label={"Departamento: "}
               cerrarEditarModal={cerrarEditarModal}
               actualizarDepartamento={(valor) =>
                 ActualizarDato(

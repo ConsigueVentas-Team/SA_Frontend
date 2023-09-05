@@ -18,16 +18,16 @@ ProfileItem.propTypes = {
 	value: PropTypes.string.isRequired
 }
 
-export const ProfileAvatar = ({ user }) => {
+export const ProfileAvatar = ({ image }) => {
 	return (
 		<div className='w-full h-full flex items-center justify-center'>
-			<img src={`${import.meta.env.VITE_BACKEND_SERVER_URL}/photos/${user.id}/${user.image}`} alt="" className='w-60 h-60 flex items-center justify-center rounded-full ring ring-cv-cyan object-cover bg-cv-primary' />
+			<img src={image} alt="" className='w-60 h-60 flex items-center justify-center rounded-full ring ring-cv-cyan object-cover bg-cv-primary' />
 		</div>
 	)
 }
 
 ProfileAvatar.propTypes = {
-	user: PropTypes.string.isRequired
+	image: PropTypes.string.isRequired
 }
 
 export const ProfileTitle = ({ children }) => {

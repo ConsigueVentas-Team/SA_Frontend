@@ -43,7 +43,7 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 		setCellphone(user.cellphone);
 		setShift(user.shift);
 		setBirthday(user.birthday);
-		setAvatar(`${import.meta.env.VITE_BACKEND_SERVER_URL}/photos/${user.id}/${user.image}`);
+		setAvatar(user.image_url);
 		setDateStart(user.date_start);
 		setDateEnd(user.date_end);
 		setStatus(user.status);
@@ -145,7 +145,16 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 
 	const handleImageChange = (file) => {
 		setAvatar(file);
+		console.log(file);
 	};
+
+	// const [avatarLocal, setAvatarLocal] = useState(null);
+	// const handleImageChange = (event) => {
+	// 	const file = event.target.files[0];
+	// 	setAvatar(file);
+	// 	setAvatarLocal(file)
+	// };
+
 
 	const handleDateStartChange = (event) => {
 		setDateStart(event.target.value);

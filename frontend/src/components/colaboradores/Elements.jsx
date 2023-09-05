@@ -51,7 +51,7 @@ export const SearchBar = ({ onSearch }) => {
 					className="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-l-md border border-solid border-cv-primary bg-transparent bg-clip-padding p-2 text-base font-normal leading-relaxed text-cv-cyan outline-none transition duration-200 ease-in-out"
 					placeholder="Buscar por nombre" />
 				<button
-					// onClick={handleSearchButtonClick}
+					onClick={handleSearchButtonClick}
 					className="relative z-[2] flex items-center rounded-r-md px-6 py-1.5 text-xs font-bold uppercase leading-tight text-cv-primary shadow-md bg-cv-cyan hover:bg-cv-cyan/90 active:bg-cv-cyan/75 active:shadow-lg active:scale-95 ease-in-out duration-300"
 					type="button">
 					<SearchIcon sx={{ fontSize: 24 }} />
@@ -99,7 +99,7 @@ SelectOption.propTypes = {
 }
 
 
-export const ButtonClean = ({onClick}) => {
+export const ButtonClean = ({ onClick }) => {
 	return (
 		<>
 			<button
@@ -112,6 +112,6 @@ export const ButtonClean = ({onClick}) => {
 		</>
 	)
 }
-ButtonClean.propTypes={
+ButtonClean.propTypes = {
 	onClick: PropTypes.func.isRequired,
 }

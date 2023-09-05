@@ -63,7 +63,7 @@ export const PerfilColaborador = () => {
 					</div>
 					<div className="col-span-1 md:col-span-2 row-span-5 md:col-start-4 bg-cv-primary rounded-2xl p-5 order-1 md:order-2">
 						<ProfileAvatar
-							user={user.usuario}
+							image={user.usuario.image_url}
 						/>
 					</div>
 					<div className="col-span-1 md:col-span-3 row-span-3 md:row-start-6  bg-cv-primary rounded-2xl p-5 order-3 md:order-3">

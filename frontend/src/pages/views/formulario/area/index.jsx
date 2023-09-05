@@ -9,6 +9,7 @@ import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/Obtene
 import AgregarDato from "../../../../components/formulario/Helpers/hooks/AgregarDato";
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
+import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
 
 export const Area = () => {
   const tokenD = AES.decrypt(
@@ -20,7 +21,7 @@ export const Area = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [department_id, setDepartment_id] = useState("");
   const [coreId, setCoreId] = useState("");
-
+  const [departments, setDepartments] = useState([]);
   const [idEliminar, setIdEliminar] = useState("");
   const [palabra, setPalabra] = useState("");
   const [idActualizar, setIdActualizar] = useState("");
@@ -29,11 +30,15 @@ export const Area = () => {
   const [valueDefault, setValueDefault] = useState("");
   const [idDepartamento, setIdDepartamento] = useState("");
   const [idArea, setIdArea] = useState("");
-
+  const [cores, setCores] = useState([]);
   useEffect(() => {
     async function fetchData() {
       const data = await ObtenerDatos(token, "position");
+      const department = await ObtenerDatos(token, "departments");
+      const core = await ObtenerDatos(token, "cores");
+      setCores(core);
       setPosition(data);
+      setDepartments(department);
     }
     fetchData();
   }, [isChecked]);
@@ -42,8 +47,10 @@ export const Area = () => {
     setMostrarEditarModal(true);
     setValueDefault(departamento.name);
     setIdActualizar(departamento.id);
-    setIdDepartamento(departamento.department_id);
-    setIdArea(departamento.core_id);
+    setIdDepartamento(departamento.core.department.id);
+    setIdArea(departamento.core.id);
+    // console.log(departamento.core_id + " nucleo");
+    // console.log(departamento.core.department.id);
   };
   const cerrarEditarModal = () => {
     setMostrarEditarModal(false);
@@ -75,14 +82,15 @@ export const Area = () => {
   }
   return (
     <>
+      <ActiveLastBreadcrumb actual={"perfil"}></ActiveLastBreadcrumb>
       <div className="w-full ">
         {MostrarEditarModal && (
           <ModalBox
             holder={"Rol"}
             valueDefault={valueDefault}
-            title={"edite Area"}
-            label={"Area: "}
-            actualizarDepartamento={(valor) =>
+            title={"edite perfil"}
+            label={"Perfil: "}
+            actualizarDepartamento={(valor, area, Departamento) =>
               ActualizarDato(
                 token,
                 valor,
@@ -90,12 +98,17 @@ export const Area = () => {
                 idActualizar,
                 idDepartamento,
                 idArea,
-                setIsChecked
+                setIsChecked,
+                area,
+                Departamento
               )
             }
             cerrarEditarModal={cerrarEditarModal}
-            checkbox={2}
-            data={Position}
+            checkbox={3}
+            departments={departments}
+            cores={cores}
+            idDepartamento={idDepartamento}
+            IdArea={idArea}
           ></ModalBox>
         )}
         {MostrarEliminarModal && (

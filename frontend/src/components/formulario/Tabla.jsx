@@ -33,11 +33,15 @@ export default function Tabla({
   //   </TableCell>
   // );
   const CustomTableCell = styled(TableCell)(({ theme }) => ({
-    borderBottom: `1px solid #fff2`,
+    borderBottom: `1px solid #515151
+    `,
     color: "white",
     whiteSpace: "nowrap",
     alignContent: "center",
     textAlign: "center",
+    fontSize: "1.05rem",
+    textTransform: "uppercase",
+    fontWeight: "bold",
   }));
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "& td": {
@@ -90,124 +94,128 @@ export default function Tabla({
       sx={{ width: "100%" }}
       className=" bg-cv-primary rounded-md overflow-hidden mt-20"
     >
-      <Paper sx={{ width: "100%", mb: 1 }}>
-        <TableContainer className="bg-cv-primary ">
-          <Table sx={{ minWidth: 500 }} aria-label="Tabla Evaluaciones">
-            <TableHead className="bg-black ">
-              <TableRow>
-                {headers.map((header, index) => {
-                  if (nucleo === null && perfil === null) {
-                    if (header === "id" || header === "Departamento") {
-                      return (
-                        <CustomTableCell key={index}>{header} </CustomTableCell>
-                      );
-                    }
-                  } else if (nucleo !== null && perfil === null) {
-                    if (header != null) {
-                      return (
-                        <CustomTableCell key={index}>{header}</CustomTableCell>
-                      );
-                    }
-                  } else {
-                    // Show all headers
+      <TableContainer className="bg-gray-200 ">
+        <Table sx={{ minWidth: 500 }} aria-label="Tabla Evaluaciones">
+          <TableHead className="bg-cv-primary ">
+            <TableRow>
+              {headers.map((header, index) => {
+                if (nucleo === null && perfil === null) {
+                  if (header === "id" || header === "Departamento") {
+                    return (
+                      <CustomTableCell key={index}>{header} </CustomTableCell>
+                    );
+                  }
+                } else if (nucleo !== null && perfil === null) {
+                  if (header != null) {
                     return (
                       <CustomTableCell key={index}>{header}</CustomTableCell>
                     );
                   }
+                } else {
+                  // Show all headers
+                  return (
+                    <CustomTableCell key={index}>{header}</CustomTableCell>
+                  );
+                }
 
-                  return null; // Skip rendering for other headers
-                })}
-                <CustomTableCell
-                  align="center"
-                  style={{ color: "white", width: "200px" }}
+                return null; // Skip rendering for other headers
+              })}
+              <CustomTableCell
+                align="center"
+                style={{
+                  color: "white",
+                  position: "sticky",
+                  right: 0,
+                  background: "#16232B",
+                  // borderBottom:"1px solid #fff2"
+                }}
+              >
+                Editar
+              </CustomTableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {data
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((dato) => (
+                <StyledTableRow
+                  key={dato.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  Editar
-                </CustomTableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {data
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((dato) => (
-                  <StyledTableRow
+                  <TableCell
+                    align="center"
+                    width="auto"
+                    className="whitespace-nowrap "
                     key={dato.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    style={{ color: "black" }}
                   >
-                    <TableCell
-                      align="center"
-                      width="auto"
-                      className="whitespace-nowrap "
-                      key={dato.id}
-                      style={{ color: "white" }}
-                    >
-                      {dato.id}
-                    </TableCell>
+                    {dato.id}
+                  </TableCell>
 
-                    {(perfil != null || (perfil != null && nucleo != null)) && (
-                      <TableCell align="center" style={{ color: "white" }}>
-                        {dato.core.department.name}
-                      </TableCell>
-                    )}
-                    {nucleo != null && perfil == null && (
-                      <TableCell align="center" style={{ color: "white" }}>
-                        {dato.department.name}
-                      </TableCell>
-                    )}
-                    {perfil != null && nucleo != null && (
-                      <TableCell align="center" style={{ color: "white" }}>
-                        {dato.core.name}
-                      </TableCell>
-                    )}
-
-                    <TableCell align="center" style={{ color: "white" }}>
-                      {dato.name}
+                  {(perfil != null || (perfil != null && nucleo != null)) && (
+                    <TableCell align="center" style={{ color: "black" }}>
+                      {dato.core.department.name}
                     </TableCell>
-                    <TableCell
-                      align="center"
-                      className="sticky right-0 p-1 z-10"
+                  )}
+                  {nucleo != null && perfil == null && (
+                    <TableCell align="center" style={{ color: "black" }}>
+                      {dato.department.name}
+                    </TableCell>
+                  )}
+                  {perfil != null && nucleo != null && (
+                    <TableCell align="center" style={{ color: "black" }}>
+                      {dato.core.name}
+                    </TableCell>
+                  )}
+
+                  <TableCell align="center" style={{ color: "black" }}>
+                    {dato.name}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className="sticky right-0 p-1 z-10 bg-gray-200"
+                  >
+                    <button
+                      onClick={() => abrirEditarModal(dato)}
+                      className="p-2 border border-green-500 rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300"
                     >
-                      <button
-                        onClick={() => abrirEditarModal(dato)}
-                        className="p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300"
-                      >
-                        <EditIcon />
-                      </button>
-                      {/* <button
+                      <EditIcon />
+                    </button>
+                    {/* <button
             onClick={() => abrirEliminarModal(dato.id)}
             className="p-2 border rounded-md text-red-500 hover:bg-red-500 hover:text-white active:scale-95 ease-in-out duration-300"
           >
             <DeleteIcon />
           </button> */}
-                    </TableCell>
-                  </StyledTableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <div className="bg-cv-primary">
-          {" "}
-          <ThemeProvider theme={darkTheme}>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              colSpan={3}
-              page={Math.min(page, Math.ceil(data.length / rowsPerPage) - 1)}
-              count={data.length}
-              rowsPerPage={rowsPerPage}
-              SelectProps={{
-                inputProps: {
-                  "aria-label": "Filas por Pagina",
-                },
-                native: true,
-              }}
-              ActionsComponent={TablePaginationActions}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </ThemeProvider>
-        </div>
-      </Paper>
+                  </TableCell>
+                </StyledTableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <div className="bg-cv-primary">
+        {" "}
+        <ThemeProvider theme={darkTheme}>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            colSpan={3}
+            page={Math.min(page, Math.ceil(data.length / rowsPerPage) - 1)}
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            SelectProps={{
+              inputProps: {
+                "aria-label": "Filas por Pagina",
+              },
+              native: true,
+            }}
+            ActionsComponent={TablePaginationActions}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </ThemeProvider>
+      </div>
     </Box>
   );
 }
