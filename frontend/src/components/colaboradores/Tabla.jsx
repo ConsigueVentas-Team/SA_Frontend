@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-// import { useState } from 'react';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
@@ -8,10 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from 'react-router-dom';
 
-export const Tabla = ({
-	data,
-	toggleEditarModal
-}) => {
+export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal }) => {
 
 	return (
 		<>
@@ -132,44 +128,71 @@ export const Tabla = ({
 									</td>
 								</tr>
 							))}
-							{/* {hasIncompletePage && (
-								<tr style={{ height: `${53 * emptyRows}px` }}>
-									<td colSpan={12} />
-								</tr>
-							)} */}
 						</tbody>
 					</table>
 				</div>
-				<nav className="w-full flex items-center justify-center md:justify-end px-6 py-4 gap-2">
-					<div className='inline-flex items-center gap-1 whitespace-nowrap'>
-						<button
-							// onClick={() => handlePageChange(1)} disabled={currentPage === 1}
-							className={`flex items-center justify-center p-1 rounded-full`}
-						>
-							<FirstPageIcon />
-						</button>
-						<button
-							className={`flex items-center justify-center p-1 rounded-full`}
-						>
-							<KeyboardArrowLeft />
-						</button>
-						<button
-							className={`flex items-center justify-center p-1 rounded-full`}
-						>
-							<KeyboardArrowRight />
-						</button>
-						<button
-							className={`flex items-center justify-center p-1 rounded-full`}
-						>
-							<LastPageIcon />
-						</button>
+				<nav className="w-full flex items-center justify-center md:justify-between px-6 py-4 gap-2">
+					<div className='w-full'>
+						<p className='text-sm font-normal whitespace-nowrap'>
+							{`Página ${pagination.current_page} de ${pagination.last_page}`}
+						</p>
+					</div>
+					<div className='w-full flex items-center justify-center md:justify-end gap-2'>
+						<p className='text-sm font-normal whitespace-nowrap'>
+							{`${pagination.from} - ${pagination.to} de ${pagination.total}`}
+						</p>
+						<div className='inline-flex items-center gap-1 whitespace-nowrap'>
+							<button
+								onClick={() => handlePageChange(1)}
+								disabled={pagination.current_page === 1}
+								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === 1
+									? 'text-white/25'
+									: 'text-white hover:bg-cv-secondary'
+									} `}
+							>
+								<FirstPageIcon />
+							</button>
+							<button
+								onClick={() => handlePageChange(pagination.current_page - 1)}
+								disabled={pagination.current_page === 1}
+								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === 1
+									? 'text-white/25'
+									: 'text-white hover:bg-cv-secondary'
+									} `}
+							>
+								<KeyboardArrowLeft />
+							</button>
+							<button
+								onClick={() => handlePageChange(pagination.current_page + 1)}
+								disabled={pagination.current_page === pagination.last_page}
+								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === pagination.last_page
+									? 'text-white/25'
+									: 'text-white hover:bg-cv-secondary'
+									} `}
+							>
+								<KeyboardArrowRight />
+							</button>
+							<button
+								onClick={() => handlePageChange(pagination.last_page)}
+								disabled={pagination.current_page === pagination.last_page}
+								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === pagination.last_page
+									? 'text-white/25'
+									: 'text-white hover:bg-cv-secondary'
+									} `}
+							>
+								<LastPageIcon />
+							</button>
+						</div>
 					</div>
 				</nav>
 			</div>
 		</>
 	)
 }
+
 Tabla.propTypes = {
 	data: PropTypes.array.isRequired,
+	pagination: PropTypes.object.isRequired,
+	handlePageChange: PropTypes.func.isRequired,
 	toggleEditarModal: PropTypes.func.isRequired,
 };

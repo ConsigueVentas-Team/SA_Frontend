@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AES, enc } from "crypto-js";
 import Person2Icon from '@mui/icons-material/Person2';
 import CloseIcon from '@mui/icons-material/Close';
-import { InputText, ModalButton, Select, SelectRole, Switch, UpdateAvatar } from './ModalElements';
+import { InputText, ModalButton, Select, SelectRole, Switch } from './ModalElements';
 
 export const ModalEditar = ({ close, updateUser, user }) => {
 	// UseStates de campos a insertar
@@ -17,7 +17,8 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 	const [cellphone, setCellphone] = useState('');
 	const [shift, setShift] = useState('');
 	const [birthday, setBirthday] = useState('');
-	const [avatar, setAvatar] = useState(null);
+	// const [avatar, setAvatar] = useState(null);
+	// const [avatarUrl, setAvatarUrl] = useState('');
 	const [dateStart, setDateStart] = useState('');
 	const [dateEnd, setDateEnd] = useState('');
 	const [status, setStatus] = useState('')
@@ -43,7 +44,8 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 		setCellphone(user.cellphone);
 		setShift(user.shift);
 		setBirthday(user.birthday);
-		setAvatar(user.image_url);
+		// setAvatar(user.image);
+		// setAvatarUrl(user.image_url);
 		setDateStart(user.date_start);
 		setDateEnd(user.date_end);
 		setStatus(user.status);
@@ -143,18 +145,10 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 		setBirthday(event.target.value);
 	};
 
-	const handleImageChange = (file) => {
-		setAvatar(file);
-		console.log(file);
-	};
-
-	// const [avatarLocal, setAvatarLocal] = useState(null);
 	// const handleImageChange = (event) => {
 	// 	const file = event.target.files[0];
 	// 	setAvatar(file);
-	// 	setAvatarLocal(file)
 	// };
-
 
 	const handleDateStartChange = (event) => {
 		setDateStart(event.target.value);
@@ -192,7 +186,7 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 			cellphone,
 			shift,
 			birthday,
-			avatar,
+			// avatar,
 			dateStart,
 			dateEnd,
 			status,
@@ -223,12 +217,13 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 						</div>
 						{/* <!-- Modal body --> */}
 						<div className="relative p-2 md:p-6 flex-auto space-y-4">
-							<UpdateAvatar
+							{/* <UpdateAvatar
+								avatarUrl={avatarUrl}
+								deleteImage={deleteImage}
 								onChange={handleImageChange}
-								value={avatar}
-								remove={() => setAvatar(null)}
-							/>
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+							/> */}
+
+							< div className="grid grid-cols-1 sm:grid-cols-2 gap-8" >
 								<div className="w-full flex flex-col space-y-1">
 									<InputText
 										label="Nombres completos"
@@ -337,16 +332,16 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 										onChange={handleDateEndChange}
 									/>
 								</div>
-							</div>
-						</div>
+							</div >
+						</div >
 						{/* <!-- Modal footer --> */}
-						<div className="flex flex-col-reverse md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-cv-primary rounded-b gap-2 md:gap-4">
+						< div className="flex flex-col-reverse md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-cv-primary rounded-b gap-2 md:gap-4" >
 							<ModalButton label="Cancelar" onClick={close} className="text-cv-primary bg-white border-cv-primary hover:text-white hover:bg-cv-primary" />
 							<ModalButton label="Guardar" onClick={handleSubmit} className="text-white bg-cv-primary border-cv-primary hover:bg-cv-primary" />
-						</div>
-					</div>
-				</div>
-			</div>
+						</div >
+					</div >
+				</div >
+			</div >
 		</>
 	)
 }
