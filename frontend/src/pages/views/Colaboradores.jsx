@@ -3,10 +3,19 @@ import { useEffect, useState } from 'react';
 import { toast, Toaster } from "react-hot-toast";
 import { AES, enc } from "crypto-js";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
-import { ButtonAdd, ButtonClean, ModalAgregar, ModalEditar, SearchBar, SelectOption, Tabla } from '../../components/colaboradores';
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import SearchIcon from '@mui/icons-material/Search';
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import { Button, ModalAgregar, ModalEditar, SearchBar, SelectOption, Tabla } from '../../components/colaboradores';
 
 export const Colaboradores = () => {
 	const [users, setUsers] = useState([]);
+	const [pagination, setPagination] = useState({
+		current_page: 1,
+		last_page: 1,
+		per_page: 10,
+		total: 0,
+	});
 
 	const [departments, setDepartments] = useState([]);
 	const [cores, setCores] = useState([]);
@@ -17,9 +26,9 @@ export const Colaboradores = () => {
 
 	const [name, setName] = useState('');
 	const [shift, setShift] = useState('');
-	// const [department, setDepartment] = useState('');
-	// const [core, setCore] = useState('');
-	// const [position, setPosition] = useState('');
+	const [department, setDepartment] = useState('');
+	const [core, setCore] = useState('');
+	const [position, setPosition] = useState('');
 
 
 	const [showAgregarModal, setShowAgregarModal] = useState(false);
@@ -91,12 +100,15 @@ export const Colaboradores = () => {
 
 	const handleProfileChange = (event) => {
 		setSelectedProfile(event.target.value);
-		console.log(event.target.value);
+		setPosition(event.target.value)
 	};
 
 	const handleShiftChange = (event) => {
 		setShift(event.target.value);
-		console.log(event.target.value);
+	};
+
+	const handleNameChange = (event) => {
+		setName(event.target.value);
 	};
 
 
@@ -104,20 +116,29 @@ export const Colaboradores = () => {
 		obtenerUsuarios();
 	}, []);
 
-	const obtenerUsuarios = async () => {
+	const obtenerUsuarios = async (page) => {
 		try {
-			const url = new URL(import.meta.env.VITE_API_URL + `/users?shift=${shift}&position=${selectedProfile}&department=${selectedDepartment}&core=${selectedCore}&name=${name}`);
-			// const params = { name, shift, department, core, position };
-			// Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+			const url = new URL(import.meta.env.VITE_API_URL + '/users');
+
+			url.searchParams.append('page', page);
+
+			url.searchParams.append('shift', shift);
+			url.searchParams.append('position', position);
+			url.searchParams.append('department', department);
+			url.searchParams.append('core', core);
+			url.searchParams.append('name', name);
+
 			const response = await fetch(url, {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
 				},
 			});
+
 			const data = await response.json();
 			if (response.ok) {
 				setUsers(data.data);
+				setPagination(data);
 			} else {
 				console.error('Error al obtener los usuarios:', data.error);
 			}
@@ -126,7 +147,6 @@ export const Colaboradores = () => {
 		}
 	};
 
-	//* Agregar Colaborador
 
 	const agregarUsuario = async (nuevoUsuario) => {
 
@@ -176,11 +196,11 @@ export const Colaboradores = () => {
 		formData.append('birthday', updateUser.birthday);
 		formData.append('date_start', updateUser.dateStart);
 		formData.append('date_end', updateUser.dateEnd);
+		// formData.append('image', updateUser.avatar);
+		formData.append('role_id', updateUser.role);
 		formData.append('status', updateUser.status);
 		formData.append('status_description', updateUser.statusDescription);
 		formData.append('_method', 'PUT');
-		formData.append('role_id', updateUser.role);
-		formData.append('image_url', updateUser.avatar);
 
 		try {
 			const response = await fetch(import.meta.env.VITE_API_URL + `/users/${updateUser.id}/update`, {
@@ -191,6 +211,7 @@ export const Colaboradores = () => {
 				body: formData,
 			});
 			const data = await response.json();
+			console.log(data);
 			if (response.ok) {
 				const usuariosActualizados = users.map((usuario) => {
 					if (usuario.id === updateUser.id) {
@@ -215,6 +236,31 @@ export const Colaboradores = () => {
 		}
 	};
 
+	const handlePageChange = (newPage) => {
+		obtenerUsuarios(newPage);
+	};
+
+	const handleSearchClick = () => {
+		obtenerUsuarios();
+	}
+
+	const clear = () => {
+		setSelectedDepartment('');
+		setSelectedCore('');
+		setSelectedProfile('');
+		setDepartment('');
+		setCore('');
+		setPosition('');
+		setName('');
+		setShift('');
+		obtenerUsuarios()
+	}
+
+	const handleClearFilter = () => {
+		clear();
+
+	}
+
 	return (
 		<>
 			<section className="w-full flex flex-col justify-center items-center gap-4">
@@ -225,7 +271,10 @@ export const Colaboradores = () => {
 
 				<div className="w-full grid grid-cols-1 md:grid-cols-9 gap-2 gap-x-0 md:gap-4">
 					<div className="col-span-1 md:col-span-8 row-start-2 md:row-start-1">
-						<SearchBar onSearch={name} />
+						<SearchBar
+							value={name}
+							onChange={handleNameChange}
+						/>
 					</div>
 					<div className="col-span-2 md:col-start-1 md:row-start-2">
 						<SelectOption
@@ -235,6 +284,7 @@ export const Colaboradores = () => {
 							onChange={(e) => {
 								setSelectedDepartment(e.target.value);
 								setSelectedCore('');
+								setDepartment(e.target.value);
 							}}
 						/>
 					</div>
@@ -243,7 +293,11 @@ export const Colaboradores = () => {
 							label="Núcleo"
 							value={selectedCore}
 							options={coreOptions}
-							onChange={(e) => setSelectedCore(e.target.value)}
+							onChange={(e) => {
+								setSelectedCore(e.target.value);
+								setCore(e.target.value);
+							}
+							}
 							disabled={!selectedDepartment}
 						/>
 					</div>
@@ -262,20 +316,24 @@ export const Colaboradores = () => {
 							value={shift} onChange={handleShiftChange}
 							className="w-full box-border w-50 h-50 border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
 						>
-							<option>Turno</option>
+							<option value="">Turno</option>
 							<option value="Mañana">Mañana</option>
 							<option value="Tarde">Tarde</option>
 						</select>
 					</div>
 					<div className="col-span-1 md:col-start-9 row-start-1 md:row-start-1">
-						<ButtonAdd onClick={toggleAgregarModal} />
+						<Button title="Agregar colaborador" onClick={toggleAgregarModal} label='Agregar' icon={<PersonAddIcon />} />
 					</div>
 					<div className="col-span-1 md:col-start-9 row-start-7 md:row-start-2">
-						<ButtonClean onClick={''} />
+						<div className='w-full flex flex-col items-center justify-between gap-2 sm:flex-row '>
+							<Button title="Aplicar filtros" onClick={handleSearchClick} label='Buscar' icon={<SearchIcon />} />
+							<Button title="Limpiar filtros" onClick={() => { handleClearFilter(); handleClearFilter(); }} label='Limpiar' icon={<CleaningServicesIcon />} />
+						</div>
 					</div>
 				</div>
+
 				<div className="w-full">
-					<Tabla data={users} toggleEditarModal={toggleEditarModal} />
+					<Tabla data={users} pagination={pagination} handlePageChange={handlePageChange} toggleEditarModal={toggleEditarModal} />
 				</div>
 				<Toaster />
 			</section >
