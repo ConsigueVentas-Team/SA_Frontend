@@ -4,7 +4,6 @@ import { toast, Toaster } from "react-hot-toast";
 import { AES, enc } from "crypto-js";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import SearchIcon from '@mui/icons-material/Search';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import { Button, ModalAgregar, ModalEditar, SearchBar, SelectOption, Tabla } from '../../components/colaboradores';
 
@@ -112,21 +111,28 @@ export const Colaboradores = () => {
 	};
 
 
-	useEffect(() => {
-		obtenerUsuarios();
-	}, []);
+	// useEffect(() => {
+	// 	obtenerUsuarios();
+	// }, []);
 
+	useEffect(() => {
+		obtenerUsuarios(shift, position, department, core, name);
+	}, [shift, position, department, core, name]);
+
+	//* Listar Colaboradores
 	const obtenerUsuarios = async (page) => {
 		try {
 			const url = new URL(import.meta.env.VITE_API_URL + '/users');
 
 			url.searchParams.append('page', page);
 
-			url.searchParams.append('shift', shift);
-			url.searchParams.append('position', position);
-			url.searchParams.append('department', department);
-			url.searchParams.append('core', core);
-			url.searchParams.append('name', name);
+			if (shift) url.searchParams.append('shift', shift);
+			if (position) url.searchParams.append('position', position);
+			if (department) url.searchParams.append('department', department);
+			if (core) url.searchParams.append('core', core);
+			if (name) url.searchParams.append('name', name);
+
+			console.log(url)
 
 			const response = await fetch(url, {
 				headers: {
@@ -147,21 +153,21 @@ export const Colaboradores = () => {
 		}
 	};
 
-
-	const agregarUsuario = async (nuevoUsuario) => {
+	//* Agregar Colaborador
+	const agregarUsuario = async (newUser) => {
 
 		const formData = new FormData();
-		formData.append('name', nuevoUsuario.name);
-		formData.append('surname', nuevoUsuario.surname);
-		formData.append('email', nuevoUsuario.email);
-		formData.append('dni', nuevoUsuario.dni);
-		formData.append('position_id', nuevoUsuario.selectedProfile);
-		formData.append('cellphone', nuevoUsuario.cellphone);
-		formData.append('shift', nuevoUsuario.shift);
-		formData.append('birthday', nuevoUsuario.birthday);
-		formData.append('image', nuevoUsuario.avatar);
-		formData.append('date_start', nuevoUsuario.dateStart);
-		formData.append('date_end', nuevoUsuario.dateEnd);
+		formData.append('name', newUser.name);
+		formData.append('surname', newUser.surname);
+		formData.append('email', newUser.email);
+		formData.append('dni', newUser.dni);
+		formData.append('position_id', newUser.selectedProfile);
+		formData.append('cellphone', newUser.cellphone);
+		formData.append('shift', newUser.shift);
+		formData.append('birthday', newUser.birthday);
+		formData.append('image', newUser.avatar);
+		formData.append('date_start', newUser.dateStart);
+		formData.append('date_end', newUser.dateEnd);
 
 		fetch(import.meta.env.VITE_API_URL + '/register', {
 			method: 'POST',
@@ -182,7 +188,6 @@ export const Colaboradores = () => {
 	};
 
 	//* Editar Colaborador
-
 	const editarUsuario = async (updateUser) => {
 
 		const formData = new FormData();
@@ -236,29 +241,21 @@ export const Colaboradores = () => {
 		}
 	};
 
+	//* Paginación
 	const handlePageChange = (newPage) => {
 		obtenerUsuarios(newPage);
 	};
 
-	const handleSearchClick = () => {
-		obtenerUsuarios();
-	}
-
-	const clear = () => {
+	//* Filtrado
+	const handleClearFilter = () => {
+		setShift('');
+		setPosition('');
+		setDepartment('');
+		setCore('');
+		setName('');
 		setSelectedDepartment('');
 		setSelectedCore('');
 		setSelectedProfile('');
-		setDepartment('');
-		setCore('');
-		setPosition('');
-		setName('');
-		setShift('');
-		obtenerUsuarios()
-	}
-
-	const handleClearFilter = () => {
-		clear();
-
 	}
 
 	return (
@@ -325,10 +322,10 @@ export const Colaboradores = () => {
 						<Button title="Agregar colaborador" onClick={toggleAgregarModal} label='Agregar' icon={<PersonAddIcon />} />
 					</div>
 					<div className="col-span-1 md:col-start-9 row-start-7 md:row-start-2">
-						<div className='w-full flex flex-col items-center justify-between gap-2 sm:flex-row '>
+						{/* <div className='w-full flex flex-col items-center justify-between gap-2 sm:flex-row '>
 							<Button title="Aplicar filtros" onClick={handleSearchClick} label='Buscar' icon={<SearchIcon />} />
-							<Button title="Limpiar filtros" onClick={() => { handleClearFilter(); handleClearFilter(); }} label='Limpiar' icon={<CleaningServicesIcon />} />
-						</div>
+						</div> */}
+						<Button title="Limpiar filtros" onClick={() => { handleClearFilter(); handleClearFilter(); }} label='Limpiar' icon={<CleaningServicesIcon />} />
 					</div>
 				</div>
 
