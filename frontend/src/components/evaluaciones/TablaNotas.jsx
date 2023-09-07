@@ -70,32 +70,43 @@ function TablaNotas() {
 
     return (
       <div key={title}>
-        <table className="w-full table-auto bg-cv-primary rounded-2xl p-5 order-2 md:order-1 mt-4">
-          <thead>
-            <tr>
-              <th className="text-center p-2 border" colSpan={numNotas + 2}>{title}</th>
-              <th className="text-center p-2 border" rowSpan="2">Promedio <br />General</th>
-            </tr>
-            <tr>
-              <th className="text-center p-2 border">MES</th>
-              {notasHeader}
-              <th className="text-center p-2 border">Promedio</th>
-            </tr>
-          </thead>
-          <tbody>
-            {meses.map((mes, index) => (
-              <FilaNota
-                key={mes}
-                mes={mes}
-                notas={registros[index]}
-                numNotas={numNotas}
-              />
-            ))}
-            <tr>
-              <td className="text-center p-2 border promedioGeneral" rowSpan={numNotas}>{promedioGeneral}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="flex items-center justify-center pb-5 pt-2">
+          <div className="w-full">
+            <table className="w-full table-auto bg-cv-primary rounded-2xl ">
+              <thead>
+                <tr>
+                  <th className="text-center p-2 border" colSpan={numNotas + 2}>
+                    {title}
+                  </th>
+                </tr>
+                <tr>
+                  <th className="text-center p-2 border">MES</th>
+                  {notasHeader}
+                  <th className="text-center p-2 border">Promedio</th>
+                </tr>
+              </thead>
+              <tbody>
+                {meses.map((mes, index) => (
+                  <FilaNota
+                    key={mes}
+                    mes={mes}
+                    notas={registros[index]}
+                    numNotas={numNotas}
+                  />
+                ))}
+                <tr>
+                  <th className="text-center p-2 border" colSpan={numNotas + 1}>
+                    Promedio General
+                  </th>
+                  <td className="font-bold text-center bg-cv-light p-2 border promedioGeneral">
+                    {promedioGeneral}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     );
   };
@@ -107,7 +118,7 @@ function TablaNotas() {
       {/* Encabezado de la sección de evaluaciones */}
       <Encabezado nombre={nombre} notaFinal={notaFinal} />
 
-      <div>
+      <div >
         {/* Renderiza las tablas de evaluaciones */}
         {evaluaciones.map((evaluacion, index) => (
           <div key={index}>

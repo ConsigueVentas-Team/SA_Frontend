@@ -30,6 +30,7 @@ function FilaNota({ mes, notas }) {
 
     return (
       <tr>
+        
         <td className="text-center p-2 border">{mes}</td>
         {notas.map((nota, index) => (
           <td key={index} className="text-center p-2 border">{nota}</td>
@@ -42,6 +43,7 @@ function FilaNota({ mes, notas }) {
     return (
       <tr>
         <td className="text-center p-2 border">{mes}</td>
+
         <td className="text-center p-2 border" colSpan={notas.length + 1}>Datos de nota no válidos</td>
       </tr>
     );
