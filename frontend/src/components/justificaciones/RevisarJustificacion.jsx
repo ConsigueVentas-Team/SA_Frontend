@@ -9,6 +9,13 @@ import { FechData } from './helpers/FechData'
 export const RevisarJustificacion = () => {
     const { id } = useParams()
     const [faltasList, setFaltasList] = useState([])
+
+    const rol = localStorage.getItem('rol')
+
+    const hasRole = (targetRole) => {
+        return rol === targetRole
+    }
+
     useEffect(() => {
         FechData()
             .then((e) => setFaltasList(e))
@@ -51,7 +58,7 @@ export const RevisarJustificacion = () => {
                     </ol>
                 </nav>
             </div>
-            <div className='rounded-lg mt-5'>
+            <div className='rounded-lg mt-2'>
                 {faltasList
                     .filter((item) => {
                         const idConvertido = Number(id)
@@ -63,14 +70,14 @@ export const RevisarJustificacion = () => {
                     })
                     .map((item) => (
                         <div key={item.id} className='mb-6'>
-                            <div className='flex flex-col md:flex-row gap-4'>
-                                <div className='bg-cv-primary text-white flex flex-col p-6 rounded-lg md:w-3/5 '>
-                                    <h2 className='text-xl font-semibold text-center'>
+                            <div className='flex flex-col md:flex-row gap-2'>
+                                <div className='bg-cv-primary text-white flex flex-col p-4 rounded-lg md:w-3/5 border border-gray-500'>
+                                    <h2 className='text-lg font-semibold text-center'>
                                         JUSTIFICACIÓN Nº {item.id}
                                     </h2>
                                     <div className='mt-6 bg-cv-primary text-white rounded'>
-                                        <div className='w-full flex flex-col md:flex-row md:space-x-12 items-center justify-between'>
-                                            <div className='w-full md:w-auto'>
+                                        <div className='w-full flex flex-col md:flex-row md:space-x-12 items-center '>
+                                            <div className='w-full md:w-auto flex-1'>
                                                 <div className='text-sm font-medium'>
                                                     <label className='text-slate-400 text-base'>
                                                         Tipo:
@@ -82,7 +89,7 @@ export const RevisarJustificacion = () => {
                                                     }`}</p>
                                                 </div>
                                             </div>
-                                            <div className='w-full md:w-auto'>
+                                            <div className='w-full md:w-auto flex-1'>
                                                 <div className='text-sm font-medium'>
                                                     <label className='text-slate-400 text-base'>
                                                         Fecha:
@@ -94,6 +101,20 @@ export const RevisarJustificacion = () => {
                                                     </p>
                                                 </div>
                                             </div>
+                                            {hasRole('Lider Nucleo') && (
+                                                <div className='w-full md:w-auto flex-1'>
+                                                    <div className='text-sm font-medium'>
+                                                        <label className='font-medium text-slate-400 text-base'>
+                                                            Estado:
+                                                        </label>
+                                                        <p className='capitalize text-lg'>
+                                                            {isRechazadoOrAceptado(
+                                                                item
+                                                            )}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                         <div className='mt-4 text-sm font-medium'>
                                             <label className='text-slate-400 text-base'>
@@ -104,40 +125,82 @@ export const RevisarJustificacion = () => {
                                     </div>
                                 </div>
 
-                                <div className='bg-cv-primary text-white flex flex-col p-6 rounded-lg md:w-2/5'>
-                                    <h2 className='text-xl uppercase font-semibold text-center'>
-                                        Información
-                                    </h2>
-                                    <div className='mt-6 space-y-4 bg-cv-primary text-white rounded'>
-                                        <div className='w-full md:w-auto'>
-                                            <div className='text-sm font-medium'>
-                                                <label className='font-medium text-slate-400 text-base'>
-                                                    Estado:
-                                                </label>
-                                                <p className='capitalize text-lg'>
-                                                    {isRechazadoOrAceptado(
-                                                        item
-                                                    )}
-                                                </p>
+                                {hasRole('Colaborador') ? (
+                                    <div className='bg-cv-primary text-white flex flex-col p-4 rounded-lg md:w-2/5 border border-gray-500'>
+                                        <h2 className='text-lg uppercase font-semibold text-center'>
+                                            Información
+                                        </h2>
+                                        <div className='mt-6 space-y-4 bg-cv-primary text-white rounded'>
+                                            <div className='w-full md:w-auto'>
+                                                <div className='text-sm font-medium'>
+                                                    <label className='font-medium text-slate-400 text-base'>
+                                                        Estado:
+                                                    </label>
+                                                    <p className='capitalize text-lg'>
+                                                        {isRechazadoOrAceptado(
+                                                            item
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            {isRechazadoOrAceptado(item) ===
+                                                'Rechazado' && (
+                                                <div className='w-full md:w-auto'>
+                                                    <label className='font-medium text-slate-400 text-base'>
+                                                        Motivo:
+                                                    </label>
+                                                    <p className='text-left mt-2'>
+                                                        {item.reason_decline}
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className='bg-cv-primary text-white flex flex-col p-4 rounded-lg md:w-2/5 border border-gray-500'>
+                                        <h2 className='text-lg uppercase font-semibold text-center'>
+                                            Datos Usuario
+                                        </h2>
+                                        <div className='mt-6 space-y-4 bg-cv-primary text-white rounded'>
+                                            <div className='w-full md:w-auto'>
+                                                <div className='text-sm font-medium'>
+                                                    <label className='font-medium text-slate-400 text-base'>
+                                                        Nombre:
+                                                    </label>
+                                                    <p className='capitalize text-lg'>
+                                                        {'Moises'}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className='w-full flex flex-col md:flex-row md:space-x-12 items-center '>
+                                                <div className='w-full md:w-auto flex-1'>
+                                                    <div className='text-sm font-medium'>
+                                                        <label className='text-slate-400 text-base'>
+                                                            DNI:
+                                                        </label>
+                                                        <p className='capitalize text-lg'>
+                                                            {'1345678'}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className='w-full md:w-auto flex-1'>
+                                                    <div className='text-sm font-medium'>
+                                                        <label className='text-slate-400 text-base'>
+                                                            Teléfono:
+                                                        </label>
+                                                        <p className='capitalize text-lg'>
+                                                            {'9877232778'}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        {isRechazadoOrAceptado(item) ===
-                                            'Rechazado' && (
-                                            <div className='w-full md:w-auto'>
-                                                <label className='font-medium text-slate-400 text-base'>
-                                                    Motivo:
-                                                </label>
-                                                <p className='text-left mt-2'>
-                                                    {item.reason_decline}
-                                                </p>
-                                            </div>
-                                        )}
                                     </div>
-                                </div>
+                                )}
                             </div>
-                            <div className='bg-cv-primary mt-3 rounded-xl p-8'>
+                            <div className='bg-cv-primary mt-3 rounded-xl p-4 border border-gray-500'>
                                 <div className='font-semibold text-center text-white mb-8'>
-                                    <p className='uppercase text-xl'>
+                                    <p className='uppercase text-lg'>
                                         Evidencia
                                     </p>
                                 </div>

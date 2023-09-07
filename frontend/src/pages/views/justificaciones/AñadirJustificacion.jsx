@@ -39,9 +39,16 @@ export const AñadirJustificacion = () => {
         FechData()
             .then((e) => {
                 setCards(e)
-                console.log(e)
+                // console.log(e)
             })
             .catch((e) => setCards(e))
+    }
+
+    const limpiar = () => {
+        setbuscador_tipoJustificacion('')
+        setBuscadorStatus('')
+        setBuscadorFechaInicio('')
+        setBuscadorFecha('')
     }
 
     useEffect(() => {
@@ -96,9 +103,9 @@ export const AñadirJustificacion = () => {
 
                     <div className='w-full flex flex-col md:flex-row items-center justify-between gap-5'>
                         {/* Buscador por tipo de justificación: falta o tardanza */}
-                        <div className='w-full text-black'>
+                        <div className='w-full text-white'>
                             <select
-                                className='px-3 py-1 rounded-md outline-none bg-gray-200 w-full'
+                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
                                 value={buscador_tipoJustificacion}
                                 onChange={(e) =>
                                     setbuscador_tipoJustificacion(
@@ -111,9 +118,9 @@ export const AñadirJustificacion = () => {
                             </select>
                         </div>
                         {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
-                        <div className='w-full text-black'>
+                        <div className='w-full text-white'>
                             <select
-                                className='px-3 py-1 rounded-md outline-none bg-gray-200 w-full'
+                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
                                 value={buscadorStatus}
                                 onChange={(e) =>
                                     setBuscadorStatus(e.target.value)
@@ -124,9 +131,9 @@ export const AñadirJustificacion = () => {
                                 <option value='3'>En proceso</option>
                             </select>
                         </div>
-                        <div className='w-full text-black'>
+                        <div className='w-full text-white'>
                             <input
-                                className='px-3 py-1 rounded-md outline-none bg-gray-200 w-full'
+                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
                                 type='date'
                                 id='fecha'
                                 value={buscadorFechaInicio}
@@ -136,9 +143,9 @@ export const AñadirJustificacion = () => {
                             />
                         </div>
                         {/* adecuar */}
-                        <div className='w-full text-black'>
+                        <div className='w-full text-white'>
                             <input
-                                className='px-3 py-1 rounded-md outline-none bg-gray-200 w-full'
+                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
                                 type='date'
                                 id='fecha'
                                 value={buscadorFecha}
@@ -149,9 +156,9 @@ export const AñadirJustificacion = () => {
                         </div>
                         <div className=''>
                             <button
-                                className='w-full text-black outline-none px-4 py-2 font-bold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
-                                onClick={handleBuscar}>
-                                Buscar
+                                className='w-full text-black outline-none px-4 py-2 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
+                                onClick={limpiar}>
+                                Limpiar
                             </button>
                         </div>
                     </div>
