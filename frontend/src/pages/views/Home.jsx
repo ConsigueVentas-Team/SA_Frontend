@@ -1,11 +1,9 @@
-
 import DescriptionIcon from "@mui/icons-material/Description";
 import CakeIcon from "@mui/icons-material/Cake";
 
 import { CardGrid, EstadisticasGrid, Saludo } from "../../components/home";
 
 export const Home = () => {
-  
   return (
     <>
       <section className="w-full flex flex-col justify-center items-center gap-4">
@@ -26,5 +24,5 @@ export const Home = () => {
         </div>
       </section>
     </>
-  )
-}
+  );
+};

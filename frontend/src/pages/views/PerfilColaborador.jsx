@@ -2,6 +2,7 @@ import { AES, enc } from "crypto-js";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Breadcumb, ProfileAvatar, ProfileGrafic, ProfileItem, ProfileTitle } from "../../components/colaboradores";
+import Loading from "../../components/essentials/Loading";
 
 export const PerfilColaborador = () => {
 	const { id } = useParams();
@@ -27,6 +28,11 @@ export const PerfilColaborador = () => {
 		}
 		Profile();
 	}, [id, token])
+
+	if (user === null) {
+		// Puedes mostrar un mensaje de carga o cualquier otro contenido adecuado.
+		return <Loading></Loading>;
+	}
 
 	return (
 		<>

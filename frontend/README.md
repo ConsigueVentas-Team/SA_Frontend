@@ -17,7 +17,11 @@
 
 3. Instala las dependencias:
 
-	- `npm run install`: Instala todas las dependencias del proyecto.
+	`npm install`: Instala todas las dependencias del proyecto.
+
+4.	Configura las variables de entorno:
+
+	Realiza una copia del archivo `.env.local.example` y renombrarlo a `.env.local`
 
 ## Comandos disponibles
 

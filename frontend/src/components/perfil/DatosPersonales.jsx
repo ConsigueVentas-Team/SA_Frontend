@@ -1,7 +1,9 @@
-import React from "react";
 import moment from "moment/moment";
 import { CajaDatos } from "./CajaDatos/CajaDatos";
+import PropTypes from "prop-types";
+
 export const DatosPersonales = ({ colaborador }) => {
+  
   return (
     <div className="col-span-1 md:col-span-3 row-span-5 bg-cv-primary rounded-2xl p-5 order-2 md:order-1">
       <h2 className="text-xl mb-5 font-semibold text-center uppercase">
@@ -11,38 +13,38 @@ export const DatosPersonales = ({ colaborador }) => {
         <CajaDatos
           label={"Nombres completos:"}
           estilos={"text-base md:text-xl font-semibold leading-tight"}
-          colaborador={
-            colaborador.Usuario[0].user[0].name +
-            " " +
-            colaborador.Usuario[0].user[0].surname
-          }
+          colaborador={colaborador.usuario.name + " " + colaborador.usuario.surname}
         ></CajaDatos>
         <div className="w-full flex items-center justify-center gap-5">
           <CajaDatos
             label={"DNI:"}
             estilos={"text-base md:text-xl font-semibold leading-tight"}
-            colaborador={colaborador.Usuario && colaborador.Usuario[0].dni}
+            colaborador={colaborador && colaborador.usuario.dni}
           ></CajaDatos>
           <CajaDatos
             label={"Fecha de nacimiento:"}
             estilos={"text-base md:text-xl font-semibold leading-tight"}
             colaborador={
-              colaborador.Usuario &&
-              moment(colaborador.Usuario[0].birthday).format("DD/MM/YYYY")
+              colaborador && moment(colaborador.usuario.birthday).format("DD/MM/YYYY")
             }
           ></CajaDatos>
           <CajaDatos
             label={"Teléfono:"}
             estilos={"text-base md:text-xl font-semibold leading-tight"}
-            colaborador={colaborador.Usuario[0].cellphone}
+            // colaborador={colaborador.usuario.Usuario[0].cellphone}
+            colaborador={colaborador.usuario.cellphone}
           ></CajaDatos>
         </div>
         <CajaDatos
           label={"Correo electrónico:"}
           estilos={"text-base md:text-xl font-semibold leading-tight"}
-          colaborador={colaborador.Usuario[0].user[0].email}
+          colaborador={colaborador.usuario.email}
         ></CajaDatos>
       </div>
     </div>
   );
+};
+
+DatosPersonales.propTypes = {
+  colaborador: PropTypes.object.isRequired,
 };

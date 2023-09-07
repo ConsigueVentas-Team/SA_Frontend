@@ -1,250 +1,198 @@
-import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TablePagination from '@mui/material/TablePagination';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import { useTheme } from '@mui/material/styles';
-import { createTheme, ThemeProvider } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Link } from 'react-router-dom';
 
-
-function TablePaginationActions(props) {
-	const theme = useTheme({
-
-	});
-	const { count, page, rowsPerPage, onPageChange } = props;
-
-	const handleFirstPageButtonClick = (event) => {
-		onPageChange(event, 0);
-	};
-
-	const handleBackButtonClick = (event) => {
-		onPageChange(event, page - 1);
-	};
-
-	const handleNextButtonClick = (event) => {
-		onPageChange(event, page + 1);
-	};
-
-	const handleLastPageButtonClick = (event) => {
-		onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-	};
-
-	return (
-		<Box sx={{ flexShrink: 0, ml: 2.5 }}>
-			<IconButton
-				onClick={handleFirstPageButtonClick}
-				disabled={page === 0}
-				aria-label="Primera Pagina"
-			>
-				{theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-			</IconButton>
-			<IconButton
-				onClick={handleBackButtonClick}
-				disabled={page === 0}
-				aria-label="Atras"
-			>
-				{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-			</IconButton>
-			<IconButton
-				onClick={handleNextButtonClick}
-				disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-				aria-label="Siguiente"
-			>
-				{theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-			</IconButton>
-			<IconButton
-				onClick={handleLastPageButtonClick}
-				disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-				aria-label="Ultima Pagina"
-			>
-				{theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-			</IconButton>
-		</Box>
-	);
-}
-
-TablePaginationActions.propTypes = {
-	count: PropTypes.number.isRequired,
-	onPageChange: PropTypes.func.isRequired,
-	page: PropTypes.number.isRequired,
-	rowsPerPage: PropTypes.number.isRequired,
-};
-Tabla.propTypes = {
-	data: PropTypes.array.isRequired,
-	abrirEditarModal: PropTypes.func.isRequired,
-	deleteUser: PropTypes.func.isRequired,
-	filterName: PropTypes.string.isRequired,
-	filterDepartment: PropTypes.string.isRequired,
-	filterDate: PropTypes.string.isRequired,
-	filterShift: PropTypes.string.isRequired,
-};
-export default function Tabla({ data,
-	// abrirEditarModal,
-	// deleteUser,
-	// filterName, filterDepartment, filterDate, filterShift 
-}) {
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
-
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
-
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(parseInt(event.target.value, 10));
-		setPage(0);
-	};
-
-	const darkTheme = createTheme({
-		palette: {
-			mode: 'dark',
-		},
-	});
-
-	const roleNames = {
-		1: 'Gerencia',
-		2: 'Lider Nucleo',
-		3: 'Colaborador',
-	};
-
-	//quita acentos en los filtros
-	// function removeAccents(str) {
-	// 	return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-	// }
-
+export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal }) => {
 
 	return (
 		<>
-			<div className='bg-white rounded-md overflow-hidden'>
-				<TableContainer >
-					<Table sx={{ minWidth: 500 }} aria-label="Tabla Evaluaciones">
-						<TableHead className='bg-cv-primary'>
-							<TableRow >
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Nombre</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Teléfono</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Email</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>DNI</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Departamento</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Núcleo</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Perfil</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Turno</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>F. Ingreso</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>F. Finalización</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>F. Nacimiento</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Rol</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Estado</TableCell>
-								<TableCell align="center" style={{ color: "white", width: '200px' }} className='whitespace-nowrap sticky right-0 bg-cv-primary'>Acciones</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{data.slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length).map((users) => (
-									<TableRow
-										key={users.id}
-										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-									>
-										<TableCell align="left" width="auto" className='whitespace-nowrap'>
-											{users.user && users.user[0]?.name + " " + users.user[0]?.surname}
-										</TableCell>
-										<TableCell align="left">
-											{users.cellphone}
-										</TableCell>
-										<TableCell align="left">
-											{users.user && users.user[0]?.email}
-										</TableCell>
-										<TableCell align="center">
-											{users.dni}
-										</TableCell>
-										<TableCell align="left">
-											{users.department}
-										</TableCell>
-										<TableCell align="left" className='whitespace-nowrap'>
-											{users.area}
-										</TableCell>
-										<TableCell align="left" className='whitespace-nowrap'>
-											{users.profile_name}
-										</TableCell>
-										<TableCell align="center">
-											{users.shift}
-										</TableCell>
-										<TableCell align="center" className='whitespace-nowrap'>
-											{users.date_start}
-										</TableCell>
-										<TableCell align="center" className='whitespace-nowrap'>{users.date_end}</TableCell>
-										<TableCell align="center" className='whitespace-nowrap'>
-											{users.birthday}
-										</TableCell>
-										<TableCell align="left" className='whitespace-nowrap'>
-											{users.user && users.role[0]?.role_id ? roleNames[users.role[0].role_id] : ''}
-										</TableCell>
-										<TableCell align="center" className='whitespace-nowrap'>
-											{users.user && users.user[0].status === 1 ?
-												<p>Activo</p> :
-												<div className='text-center'>
-													<p>Inactivo</p>
-													<p className=''>{users.user[0].status_description}</p>
-												</div>
+			<div className='w-full bg-[#0e161b] shadow-md  rounded-lg overflow-hidden'>
+				<div className="w-full min-w-full overflow-x-auto">
+					<table className="w-full text-sm text-left text-white">
+						<thead className="text-base uppercase">
+							<tr>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									Nombre
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									Teléfono
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									Email
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									DNI
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									Departamento
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									Núcleo
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									Perfil
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									Turno
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									F. Nacimiento
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									F. Ingreso
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									F. Finalización
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									Rol
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+									Estado
+								</th>
+								<th scope="col" className="px-6 py-4 sticky right-0 bg-[#0e161b] text-center">
+									Acciones
+								</th>
+							</tr>
+						</thead>
+						<tbody className='bg-cv-primary'>
+							{data.map((users) => (
+								<tr key={users.id} className="border-b border-cv-secondary">
+									<th scope="row" className="px-6 py-4 whitespace-nowrap">
+										{users.name + " " + users.surname}
+									</th>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.cellphone}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.email}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.dni}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.position[0].core.department.name}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.position[0].core.name}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.position[0].name}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.shift}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.birthday}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.date_start}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.date_end}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{users.roles[0].name}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										<div className="flex flex-col items-center ">
+											{users.status === 1 ?
+												<div className='flex items-center justify-center'>
+													<div className="h-3 w-3 rounded-full bg-green-500 mr-2"></div>Activo
+												</div> :
+												<>
+													<div className='flex items-center justify-center'>
+														<div className="h-3 w-3 rounded-full bg-red-500 mr-2"></div>Inactivo
+													</div>
+													<p className='text-center'>{users.status_description}</p>
+												</>
 											}
-										</TableCell>
-										<TableCell align="center" className='sticky right-0 p-1 z-10 bg-white'>
-											<div className='flex items-center justify-center flex-row space-x-2'>
-												<button
-													// onClick={() => abrirEditarModal(users)}
-													className='p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300'>
-													<EditIcon />
-												</button>
-												<Link to={`/colaborador/perfil/${users.id}`} className='p-2 border rounded-md text-cv-primary hover:bg-cv-primary hover:text-white active:scale-95 ease-in-out duration-300'>
-													<VisibilityIcon />
-												</Link>
-											</div>
-										</TableCell>
-									</TableRow>
-								))}
-							{emptyRows > 0 && (
-								<TableRow style={{ height: 53 * emptyRows }}>
-									<TableCell colSpan={12} />
-								</TableRow>
-							)}
-						</TableBody>
-					</Table>
-				</TableContainer>
-				<div className='flex justify-end bg-cv-primary'>
-					<ThemeProvider theme={darkTheme}>
-						<TablePagination
-							rowsPerPageOptions={[5, 10, 25,
-								//{ label: 'Todos', value: -1 }
-							]}
-							colSpan={3}
-							count={data.length}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							SelectProps={{
-								inputProps: {
-									'aria-label': 'Filas por Pagina',
-								},
-								native: true,
-							}}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-							ActionsComponent={TablePaginationActions}
-						/>
-					</ThemeProvider>
+										</div>
+									</td>
+									<td className="w-48 px-6 py-4 text-center sticky right-0 p-1 bg-cv-primary">
+										<div className='flex items-center justify-center flex-row space-x-2'>
+											<button
+												onClick={() => toggleEditarModal(users)}
+												className='p-2 border border-cv-secondary rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300'>
+												<EditIcon />
+											</button>
+											<Link to={`/colaborador/${users.id}/perfil`} className='p-2 border border-cv-secondary rounded-md text-cv-cyan hover:bg-cv-cyan hover:text-cv-primary active:scale-95 ease-in-out duration-300'>
+												<VisibilityIcon />
+											</Link>
+										</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
 				</div>
+				<nav className="w-full flex items-center justify-center md:justify-between px-6 py-4 gap-2">
+					<div className='w-full'>
+						<p className='text-sm font-normal whitespace-nowrap'>
+							{`Página ${pagination.current_page} de ${pagination.last_page}`}
+						</p>
+					</div>
+					<div className='w-full flex items-center justify-center md:justify-end gap-2'>
+						<p className='text-sm font-normal whitespace-nowrap'>
+							{`${pagination.from} - ${pagination.to} de ${pagination.total}`}
+						</p>
+						<div className='inline-flex items-center gap-1 whitespace-nowrap'>
+							<button
+								onClick={() => handlePageChange(1)}
+								disabled={pagination.current_page === 1}
+								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === 1
+									? 'text-white/25'
+									: 'text-white hover:bg-cv-secondary'
+									} `}
+							>
+								<FirstPageIcon />
+							</button>
+							<button
+								onClick={() => handlePageChange(pagination.current_page - 1)}
+								disabled={pagination.current_page === 1}
+								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === 1
+									? 'text-white/25'
+									: 'text-white hover:bg-cv-secondary'
+									} `}
+							>
+								<KeyboardArrowLeft />
+							</button>
+							<button
+								onClick={() => handlePageChange(pagination.current_page + 1)}
+								disabled={pagination.current_page === pagination.last_page}
+								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === pagination.last_page
+									? 'text-white/25'
+									: 'text-white hover:bg-cv-secondary'
+									} `}
+							>
+								<KeyboardArrowRight />
+							</button>
+							<button
+								onClick={() => handlePageChange(pagination.last_page)}
+								disabled={pagination.current_page === pagination.last_page}
+								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === pagination.last_page
+									? 'text-white/25'
+									: 'text-white hover:bg-cv-secondary'
+									} `}
+							>
+								<LastPageIcon />
+							</button>
+						</div>
+					</div>
+				</nav>
 			</div>
 		</>
-	);
+	)
 }
+
+Tabla.propTypes = {
+	data: PropTypes.array.isRequired,
+	pagination: PropTypes.object.isRequired,
+	handlePageChange: PropTypes.func.isRequired,
+	toggleEditarModal: PropTypes.func.isRequired,
+};

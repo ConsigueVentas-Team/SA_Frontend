@@ -1,40 +1,39 @@
-import React from "react";
+import PropTypes from "prop-types";
 import { CajaDatos } from "./CajaDatos/CajaDatos";
 
 export const DatosEmpresa = ({ colaborador }) => {
   const colaboradorInfo = [
     {
       label: "Departamento:",
-      value: colaborador.Usuario && colaborador.Usuario[0].department,
+      value: colaborador && colaborador.usuario.position[0].core.department.name,
     },
     {
       label: "Núcleo:",
-      value: colaborador.Usuario && colaborador.Usuario[0].area,
+      value: colaborador && colaborador.usuario.position[0].core.name,
     },
     {
       label: "Perfil:",
-      value: colaborador.Usuario && colaborador.Usuario[0].profile_name,
+      value: colaborador && colaborador.usuario.username,
     },
     {
       label: "Rol:",
-      value: colaborador.rol,
+      value: colaborador.usuario.position[0].name,
     },
     {
       label: "Fecha de ingreso:",
-      value: colaborador.Usuario && colaborador.Usuario[0].date_start,
+      value: colaborador && colaborador.usuario.date_start,
     },
     {
       label: "Fecha de salida:",
-      value: colaborador.Usuario[0].date_end,
+      value: colaborador.usuario.date_end,
     },
     {
       label: "Turno:",
-      value: colaborador.Usuario && colaborador.Usuario[0].shift,
+      value: colaborador && colaborador.usuario.shift,
     },
     {
       label: "Estado:",
-      value:
-        colaborador?.Usuario[0]?.user[0]?.status === 1 ? "Activo" : "Inactivo",
+      value: colaborador.usuario.status === 1 ? "Activo" : "Inactivo",
     },
   ];
 
@@ -68,4 +67,8 @@ export const DatosEmpresa = ({ colaborador }) => {
       </div>
     </div>
   );
+};
+
+DatosEmpresa.propTypes = {
+  colaborador: PropTypes.object.isRequired,
 };
