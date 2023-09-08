@@ -17,9 +17,6 @@ export default {
         "cv-dark": "#000000", // Nuevo color oscuro
         "cv-light": "#445666", // Nuevo color más claro
       },
-      scale: {
-        "80": "0.8", // 90% de la escala original
-      },
     },
   },
   plugins: [],
