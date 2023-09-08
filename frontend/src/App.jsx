@@ -1,6 +1,6 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { LayoutAdmin } from "./layouts";
-import { Error404 } from "./pages/Error404";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { LayoutAdmin } from './layouts'
+import { Error404 } from './pages/Error404'
 //Auth Pages
 import { Login } from "./pages/auth/Login";
 import { OlvideContraseña } from "./pages/auth/OlvideContraseña";
@@ -23,6 +23,7 @@ import Formulario from "./pages/views/formulario";
 import { Area } from "./pages/views/formulario/area";
 import { EvaluacionesColaborador } from "./pages/views/evaluaciones/EvaluacionesColaborador";
 import { EvaluacionesAdmin } from "./pages/views/evaluaciones/EvaluacionesAdmin";
+import { RevisarJustificacion } from './components/justificaciones/RevisarJustificacion';
 function App() {
   const rol = localStorage.getItem("rol");
   const isLoggedIn = localStorage.getItem("login") === "true";
@@ -44,6 +45,7 @@ function App() {
               path="añadir-justificacion"
               element={<AñadirJustificacion />}
             />
+            <Route path='details/:id' element={<RevisarJustificacion/>} />
             <Route path="evaluacion" element={<EvaluacionesColaborador />} />
             <Route path="cambiar-contraseña" element={<CambiarContraseña />} />
             <Route path="/login" element={<Login />} />
