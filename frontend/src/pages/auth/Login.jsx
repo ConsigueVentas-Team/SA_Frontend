@@ -102,11 +102,10 @@ export const Login = () => {
               localStorage.setItem('token', token);
               localStorage.setItem('iduser', responseData.user.id);
               localStorage.setItem('rol', responseData.role.name);
-              // localStorage.setItem('area', responseData.profile.area);
               localStorage.setItem('name', responseData.user.name);
               localStorage.setItem('avatar', responseData.user.image)
               localStorage.setItem('surname', responseData.user.surname)
-              // localStorage.setItem('shift', responseData.profile.shift)
+              localStorage.setItem('shift', responseData.user.shift)
               localStorage.setItem('login', true);
               navigate("/")
               window.location.reload();
