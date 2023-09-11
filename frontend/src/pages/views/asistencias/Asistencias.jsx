@@ -10,74 +10,86 @@ import { Link } from "react-router-dom";
 import { Tabla } from '../../../components/asistencias/Asistencias/Tabla';
 
 export const Asistencias = () => {
+
   const [attendance, setAttendance] = useState([]);
+
   const [pagination, setPagination] = useState({
     current_page: 1,
     last_page: 1,
     per_page: 10,
     total: 0,
   });
-  const [selectedDate, setSelectedDate] = useState('');
-  const [isInputReady, setIsInputReady] = useState(false);
-  const [showImageModal, setShowImageModal] = useState(false);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [filterDate, setFilterDate] = useState(selectedDate || '');
-  const [filterEmployee, setFilterEmployee] = useState('');
-  const [filterDepartment, setFilterDepartment] = useState('');
-  const [filterArea, setFilterArea] = useState('');
-  const [filterShift, setFilterShift] = useState('');
+
+  const [departments, setDepartments] = useState([]);
+  const [cores, setCores] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedCore, setSelectedCore] = useState('');
+
+  const [name, setName] = useState('');
+  const [shift, setShift] = useState('');
+  const [department, setDepartment] = useState('');
+  const [core, setCore] = useState('');
+
+  const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
+  const token = tokenD.toString(enc.Utf8)
+
+  //** Rellenar Select Options */
+  useEffect(() => {
+    fetch(import.meta.env.VITE_API_URL + "/departments/list", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setDepartments(data));
+
+    fetch(import.meta.env.VITE_API_URL + "/cores/list", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setCores(data));
+
+
+  }, [token]);
+
+  const departmentOptions = departments.map((department) => ({
+    value: department.id,
+    label: department.name
+  }));
+
+  const coreOptions = cores
+    .filter((core) => core.department_id === parseInt(selectedDepartment))
+    .map((core) => ({
+      value: core.id,
+      label: core.name
+    }));
+
+  const handleShiftChange = (event) => {
+    setShift(event.target.value);
+  };
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
 
   useEffect(() => {
-    const currentDate = moment().format('YYYY-MM-DD');
-    setSelectedDate(currentDate);
-  }, []);
-
-  useEffect(() => {
-    obtenerAsistencia();
-  }, []);
-
-  useEffect(() => {
-    setFilterDate(selectedDate || '');
-  }, [selectedDate]);
-
-  const handleDateChange = (event) => {
-    setFilterDate(event.target.value);
-    setSelectedDate(event.target.value);
-  };
-
-  const openImageModal = () => {
-    setShowImageModal(true);
-  };
-
-  const closeImageModal = () => {
-    setShowImageModal(false);
-  };
-
-  const clearFilterEmployee = () => {
-    setFilterEmployee('');
-  };
-
-  const clearFilterDepartment = () => {
-    setFilterDepartment('');
-  };
-
-  const clearFilterArea = () => {
-    setFilterArea('');
-  };
-
-  const clearFilterShift = () => {
-    setFilterShift('');
-  };
+		obtenerAsistencia(shift, department, core, name);
+	}, [shift, department, core, name]);
 
   const obtenerAsistencia = async (page) => {
     try {
-      const tokenD = AES.decrypt(
-        localStorage.getItem('token'),
-        import.meta.env.VITE_TOKEN_KEY
-      );
-      const token = tokenD.toString(enc.Utf8);
-      const url = new URL(import.meta.env.VITE_API_URL + `/attendance/list`);
+      const url = new URL(import.meta.env.VITE_API_URL + `/attendance`);
       url.searchParams.append('page', page);
+
+			if (shift) url.searchParams.append('shift', shift);
+			if (department) url.searchParams.append('department', department);
+			if (core) url.searchParams.append('core', core);
+			if (name) url.searchParams.append('name', name);
+
       const response = await fetch(
         url,
         {
@@ -90,6 +102,8 @@ export const Asistencias = () => {
       const data = await response.json();
       if (response.ok) {
         setAttendance(data.data);
+        setPagination(data);
+        console.log(attendance)
       } else {
         console.error('Error al obtener las asistencias1:', data.error);
       }
@@ -100,6 +114,24 @@ export const Asistencias = () => {
 
   const handlePageChange = (newPage) => {
     obtenerAsistencia(newPage);
+  };
+
+  //* Filtrado
+  const handleClearFilter = () => {
+    setShift('');
+    setDepartment('');
+    setCore('');
+    setName('');
+    setSelectedDepartment('');
+    setSelectedCore('');
+  }
+
+  const formatSelectedDate = (dateValue) => {
+    if (!dateValue) return '';
+
+    const date = moment(dateValue, 'YYYY-MM-DD').toDate();
+    const formattedDate = moment(date).locale('es').format('LL');
+    return formattedDate;
   };
 
   return (
@@ -125,31 +157,44 @@ export const Asistencias = () => {
           <div className="w-full flex flex-col md:flex-row justify-between gap-3">
             <Leyenda />
             <div className="w-full md:w-4/6 space-y-3 mt-3">
-              <Filtros
-                filterDepartment={filterDepartment}
-                setFilterDepartment={setFilterDepartment}
-                filterArea={filterArea}
-                setFilterArea={setFilterArea}
-                filterShift={filterShift}
-                setFilterShift={setFilterShift}
-                filterEmployee={filterEmployee}
-                setFilterEmployee={setFilterEmployee}
-                setIsInputReady={setIsInputReady}
-                clearFilterEmployee={clearFilterEmployee}
-                selectedDate={selectedDate}
-                handleDateChange={handleDateChange}
-              />
+              <div className="w-full bg-cv-primary rounded-lg">
+                <div className="w-full flex items-center justify-between p-2 space-x-3">
+                  <h2 className="text-white text-center text-sm sm:text-lg md:text-xl uppercase font-semibold">Fecha:</h2>
+                  {/* <div className="w-full flex items-center justify-between relative">
+                    <input type="date" defaultValue={selectedDate}
+                      onChange={handleDateChange} className='date w-full p-1 outline-none font-semibold text-cv-primary bg-cv-primary rounded-lg' />
+                    <p className="text-white bg-cv-primary text-center text-sm sm:text-lg md:text-xl uppercase font-semibold absolute">{formatSelectedDate(selectedDate)}</p>
+                  </div> */}
+                </div>
+              </div>
             </div>
           </div>
+          <Filtros
+            name={name}
+            shift={shift}
+            department={department}
+            core={core}
+            departmentOptions={departmentOptions}
+            coreOptions={coreOptions}
+            selectedDepartment={selectedDepartment}
+            selectedCore={selectedCore}
+            handleShiftChange={handleShiftChange}
+            handleNameChange={handleNameChange}
+            handleClearFilter={handleClearFilter}
+            setDepartment={setDepartment}
+            setCore={setCore}
+            setSelectedDepartment={setSelectedDepartment}
+            setSelectedCore={setSelectedCore}
+          />
 
           {/* Tabla de asistencias */}
           <Tabla data={attendance} pagination={pagination} handlePageChange={handlePageChange} />
           {/* <TablaAsistencias data={attendance} openImageModal={openImageModal} setImageUrl={setImageUrl} filterDate={filterDate} filterEmployee={filterEmployee} filterDepartment={filterDepartment} filterArea={filterArea} filterShift={filterShift} /> */}
 
           {/* Modal de imagen */}
-          {showImageModal && (
+          {/* {showImageModal && (
             <ModalImagen imageUrl={imageUrl} closeImageModal={closeImageModal} />
-          )}
+          )} */}
         </div>
       </div>
     </>

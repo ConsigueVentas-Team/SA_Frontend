@@ -14,18 +14,18 @@ export const CameraSection = ({
 }) => {
     return (
         <div className={`seccion-izquierda w-full mb-4 p-4 sm:p-6 lg:p-8`}>
-            <div className={`w-full h-[66.001%] rounded-xl ${!fotoUsuario && !videoEnabled ? 'bg-slate-950' : ''} relative `}>
-                <div className="absolute top-0 left-0 w-full h-full">
+            <div className={`w-full h-[66.001%] rounded-xl ${!fotoUsuario && !videoEnabled ? 'bg-slate-950 border-cv-cyan border-2' : ''} relative `}>
+                <div className="absolute top-0 left-0 w-full h-full rounded-xl">
                     {fotoUsuario && (
                         <div>
-                            <img src={fotoUsuario} alt="Foto capturada" className="rounded-xl object-contain" style={{ transform: "scaleX(-1)" }} />
+                            <img src={fotoUsuario} alt="Foto capturada" className="rounded-xl object-contain border-2 border-cv-cyan" style={{ transform: "scaleX(-1)" }} />
                         </div>
                     )}
                     {!fotoUsuario && (
                         (videoEnabled ? (
-                            <div className=''>
+                            <div className='relative'>
                                 <video
-                                    className="rounded-xl object-contain"
+                                    className="rounded-xl object-contain border-2 border-cv-cyan" 
                                     ref={videoRef}
                                     style={{ display: videoEnabled ? 'block' : 'none' }}
                                     autoPlay
@@ -40,7 +40,7 @@ export const CameraSection = ({
                         ))
                     )}
                 </div>
-                <div className={`absolute bottom-0 sm:p-6 lg:p-8 w-full flex items-center justify-center ${!fotoUsuario && !videoEnabled ? '' : '-mb-20'}`}>
+                <div className={`absolute bottom-0 sm:p-6 lg:p-8 w-full flex items-center justify-center ${!fotoUsuario && !videoEnabled ? '' : 'sm:-mb-20 md:mb-5 lg:-mb-20'}`}>
                     {mostrarBotonCamara && (
                         <button
                             style={{
@@ -68,7 +68,7 @@ export const CameraSection = ({
             <div className='grid justify-items-center p-4 sm:p-6 lg:p-8'>
                 {videoEnabled && (
                     <button
-                        className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12"
+                        className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-32 sm:mt-32 md:mt-20 lg:mt-24 xl:mt-32"
                         onClick={handleCapture}
                         disabled={capturing}
                     >
