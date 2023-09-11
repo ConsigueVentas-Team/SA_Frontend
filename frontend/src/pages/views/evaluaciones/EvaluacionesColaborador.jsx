@@ -1,4 +1,4 @@
-import TablaNotas from "../../../components/evaluaciones/TablaNotas";
+import {TablaNotas} from "../../../components/evaluaciones/";
 
 
 export const EvaluacionesColaborador = () => {
