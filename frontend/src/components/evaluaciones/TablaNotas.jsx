@@ -64,19 +64,20 @@ function TablaNotas() {
   const renderTabla = ({ title, meses, registros, promedioGeneral }) => {
     const numNotas = registros[0].length;
 
-    const centerTextClass = "text-center p-2"; // Clase para centrar texto
+    // Clase para centrar texto en celdas
+    const centerTextClass = "text-center p-2";
 
+    // Generar encabezados de notas
     const notasHeader = Array.from({ length: numNotas }, (_, index) => (
       <th key={index} className={`${centerTextClass} border-r`}>{`Nota ${index + 1}`}</th>
     ));
 
     return (
-      <div className="mb-7">
-        <table className="w-full table-auto bg-cv-primary rounded-2xl top-[130px] md:left-[148px] text-[1rem] text-center pb-3 pl-2 font-bold "
-        >
+      <div className="mb-7  sm:w-auto sm:h-auto ">
+        <table className="text-xs md:text-[1rem] lg:text-[1rem] w-full table-auto bg-cv-primary rounded-2xl">
           <thead className='border-b'>
             <tr>
-              <th className={`${centerTextClass} uppercase`} colSpan={numNotas + 2}>
+              <th className={`${centerTextClass} uppercase sm:px-auto`} colSpan={numNotas + 2}>
                 {title}
               </th>
             </tr>
@@ -95,7 +96,7 @@ function TablaNotas() {
                 numNotas={numNotas}
               />
             ))}
-            <tr className='border-t p'>
+            <tr className='border-t '>
               <th className={`${centerTextClass} border-r`} colSpan={numNotas + 1}>
                 Promedio General
               </th>
@@ -109,16 +110,15 @@ function TablaNotas() {
     );
   };
 
-  const nombre = localStorage.getItem("name") + " " + localStorage.getItem("surname");
+  // Obtener el nombre del usuario desde localStorage
+  const nombre = `${localStorage.getItem("name")} ${localStorage.getItem("surname")}`;
 
   return (
-    <div className='border overflow-x-auto relative'>
+    <div className='border overflow-x-auto'>
       {/* Encabezado de la sección de evaluaciones */}
       <Encabezado nombre={nombre} notaFinal={notaFinal} />
 
-      <div className='pb-5 pt-2'></div>
-
-      <div>
+      <div className='pb-5 pt-3'>
         {/* Renderiza las tablas de evaluaciones */}
         {evaluaciones.map((evaluacion, index) => (
           <div key={index}>

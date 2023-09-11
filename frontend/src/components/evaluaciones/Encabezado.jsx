@@ -4,12 +4,12 @@ function Encabezado({ notaFinal }) {
 
   return (
     <>
-      <div className="sticky top-0 z-10">
-        <div className="top-[130px] md:left-[148px] text-[1rem] text-center pb-3 pl-2 font-bold ">
+      <div>
+        <div className="text-gray-400 text-left uppercase text-sm md:text-lg pb-3 font-medium ">
           DETALLES DE EVALUACIÓN
         </div>
         <div className="">
-          <table className="col-span-1 md:col-span-3 row-span-5 bg-cv-primary rounded-2xl p-5 order-2 md:order-1 pb-6 w-full table-auto">
+          <table className=" w-full table-auto col-span-1 bg-cv-primary rounded-2xl p-5">
             <tbody>
               <tr>
                 <td className="font-bold text-sm text-gray-400 pl-5 pt-2">Nombre:</td>
