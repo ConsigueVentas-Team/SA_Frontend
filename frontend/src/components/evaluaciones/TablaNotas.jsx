@@ -82,9 +82,9 @@ function TablaNotas() {
               </th>
             </tr>
             <tr className='border-t'>
-              <th className={`${centerTextClass} border-r border-l`}>MES</th>
+              <th className={`${centerTextClass} border-r `}>MES</th>
               {notasHeader}
-              <th className={`${centerTextClass} border-r`}>Promedio</th>
+              <th className={`${centerTextClass} `}>Promedio</th>
             </tr>
           </thead>
           <tbody>
@@ -100,7 +100,7 @@ function TablaNotas() {
               <th className={`${centerTextClass} border-r`} colSpan={numNotas + 1}>
                 Promedio General
               </th>
-              <td className="font-bold text-center bg-cv-light p-2 rounded-br-2xl">
+              <td className={`${centerTextClass} font-bold  bg-cv-light  rounded-br-2xl `}>
                 {promedioGeneral}
               </td>
             </tr>
@@ -114,11 +114,11 @@ function TablaNotas() {
   const nombre = `${localStorage.getItem("name")} ${localStorage.getItem("surname")}`;
 
   return (
-    <div className='border overflow-x-auto'>
+    <div className=' overflow-x-auto'>
       {/* Encabezado de la sección de evaluaciones */}
       <Encabezado nombre={nombre} notaFinal={notaFinal} />
 
-      <div className='pb-5 pt-3'>
+      <div className='pb-5 pt-7'>
         {/* Renderiza las tablas de evaluaciones */}
         {evaluaciones.map((evaluacion, index) => (
           <div key={index}>

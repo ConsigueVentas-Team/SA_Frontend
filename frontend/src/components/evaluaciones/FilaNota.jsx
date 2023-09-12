@@ -10,14 +10,14 @@ function FilaNota({ mes, notas }) {
 
   return (
     <tr className={isValidData ? 'border-t' : ''}>
-      <td className="text-center p-2 uppercase border border-r">{mes}</td>
+      <td className="text-center p-2 uppercase  border-r">{mes}</td>
       {notas.map((nota, index) => (
-        <td key={index} className={`text-center p-2 border border-r`}>
+        <td key={index} className={`text-center p-2  border-r`}>
           {isValidData ? nota : 'Datos de nota no válidos'}
         </td>
       ))}
       {isValidData && (
-        <td className="text-center p-2 border">{calcularPromedio(notas).toFixed(2)}</td>
+        <td className="text-center p-2 ">{calcularPromedio(notas).toFixed(2)}</td>
       )}
     </tr>
   );
