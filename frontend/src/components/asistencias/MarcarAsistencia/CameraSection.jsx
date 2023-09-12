@@ -14,25 +14,50 @@ export const CameraSection = ({
 }) => {
     return (
         <div className={`seccion-izquierda w-full mb-4 p-4 sm:p-6 lg:p-8`}>
-            <div className={`w-full h-[66.001%] rounded-xl ${!fotoUsuario && !videoEnabled ? 'bg-slate-950' : ''} relative `}>
-                <div className="absolute top-0 left-0 w-full h-full">
+            <div className={`w-full h-[80%] rounded-xl ${!fotoUsuario && !videoEnabled ? 'bg-slate-950 border-cv-cyan border-2' : ''} relative `}>
+                <div className="absolute w-full h-full rounded-xl">
                     {fotoUsuario && (
                         <div>
-                            <img src={fotoUsuario} alt="Foto capturada" className="rounded-xl object-contain" style={{ transform: "scaleX(-1)" }} />
+                            <img src={fotoUsuario} alt="Foto capturada" className="rounded-xl object-contain border-2 border-cv-cyan" style={{ transform: "scaleX(-1)" }} />
                         </div>
                     )}
                     {!fotoUsuario && (
                         (videoEnabled ? (
-                            <div className=''>
-                                <video
-                                    className="rounded-xl object-contain"
-                                    ref={videoRef}
-                                    style={{ display: videoEnabled ? 'block' : 'none' }}
-                                    autoPlay
-                                    playsInline
-                                    muted
-                                />
+                            <div className='h-[80%]'>
+                                <div>
+                                    <video
+                                        className="rounded-xl h-full object-contain border-2 z-10 border-cv-cyan"
+                                        ref={videoRef}
+                                        style={{ display: videoEnabled ? 'block' : 'none' }}
+                                        autoPlay
+                                        playsInline
+                                        muted
+                                    />
+                                    {mostrarBotonCamara && videoEnabled &&(
+                                        <div className='flex items-center  justify-center -mt-14 z-20 relative'>
+                                            <button
+                                            className='w-12 h-12 max-[460px]:w-8 max-[460px]:h-8'
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    borderRadius: "50%",
+                                                    background: videoEnabled ? "transparent" : "#EF4444",
+                                                    color: "#fff",
+                                                    border: videoEnabled ? "2px solid #FFFFFF" : "2px solid #EF4444",
+                                                }}
+                                                onClick={toggleCamera}
+                                            >
+                                                <div className='text-xs'>
+                                                <VideocamIcon
+                                                className='text-gray-300 text-xs w-1 h-1' />
+                                                </div>
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
+
                         ) : (
                             <div className="w-full h-full flex items-center justify-center">
                                 <span className="text-white text-xl">Cámara desactivada</span>
@@ -40,8 +65,9 @@ export const CameraSection = ({
                         ))
                     )}
                 </div>
-                <div className={`absolute bottom-0 sm:p-6 lg:p-8 w-full flex items-center justify-center ${!fotoUsuario && !videoEnabled ? '' : '-mb-20'}`}>
-                    {mostrarBotonCamara && (
+                <div className={`absolute bottom-0 sm:p-6 lg:p-8 w-full flex items-center 
+                justify-center`}>
+                    {mostrarBotonCamara && !videoEnabled &&(
                         <button
                             style={{
                                 display: "flex",
@@ -56,11 +82,7 @@ export const CameraSection = ({
                             }}
                             onClick={toggleCamera}
                         >
-                            {videoEnabled ? (
-                                <VideocamIcon style={{ color: "#FFFFFF" }} />
-                            ) : (
-                                <VideocamOffIcon style={{ color: "#FFFFFF" }} />
-                            )}
+                            <VideocamOffIcon style={{ color: "#FFFFFF" }} />
                         </button>
                     )}
                 </div>
@@ -68,7 +90,7 @@ export const CameraSection = ({
             <div className='grid justify-items-center p-4 sm:p-6 lg:p-8'>
                 {videoEnabled && (
                     <button
-                        className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12"
+                        className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-32 sm:mt-32 md:mt-20 lg:mt-24 xl:mt-32"
                         onClick={handleCapture}
                         disabled={capturing}
                     >

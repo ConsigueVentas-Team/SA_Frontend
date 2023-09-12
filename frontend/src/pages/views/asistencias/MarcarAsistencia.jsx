@@ -22,7 +22,7 @@ export const MarcarAsistencia = () => {
   const [capturing, setCapturing] = useState(false);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
-  const isMobile = useMediaQuery("(max-width:768px)");
+  const isMobile = useMediaQuery("(max-width:968px)");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,15 +46,16 @@ export const MarcarAsistencia = () => {
       import.meta.env.VITE_TOKEN_KEY
     );
     const token = tokenD.toString(enc.Utf8);
-    fetch(import.meta.env.VITE_API_URL + '/attendance/id', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+      fetch(import.meta.env.VITE_API_URL + '/attendance/id', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => response.json())
       .then((data) => {
-        const asistenciasHoy = data.attendance.filter((asistencia) => asistencia.date === fecha);
+        const asistenciasHoy = data.attendance.find((asistencia) => asistencia.date === fecha);
+        console.log(asistenciasHoy)
         if (asistenciasHoy.length === 0) {
           setSegundaFotoTomada(false)
         } else {
@@ -74,15 +75,10 @@ export const MarcarAsistencia = () => {
     const fecha = new Date().toISOString().slice(0, 10);
 
     const formData = new FormData();
-    formData.append('date', fecha);
-    formData.append(`${tipo}_time`, horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-
     const shift = localStorage.getItem('shift');
     const iduser = localStorage.getItem('iduser');
     const photoName = `${shift.charAt(0)}-${iduser}-${tipo === 'admission' ? 'e' : 's'}-${fecha}.jpg`;
     formData.append(`${tipo}_image`, fotoCapturada, photoName);
-
-    console.log("Cuerpo de la solicitud:", formData);
 
     const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY);
     const token = tokenD.toString(enc.Utf8);
@@ -260,7 +256,7 @@ export const MarcarAsistencia = () => {
       </nav>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-2/3">
-          <div className={`registro-Entrada mt-5 min-h-screen flex ${isMobile ? 'flex-col' : 'justify-center'}`}>
+          <div className={`registro-Entrada mt-5 min-h-screen flex justify-center`}>
             <CameraSection
               fotoUsuario={fotoUsuario}
               videoEnabled={videoEnabled}

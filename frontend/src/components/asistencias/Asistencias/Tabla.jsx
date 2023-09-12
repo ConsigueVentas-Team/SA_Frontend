@@ -7,8 +7,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from 'react-router-dom';
 
-export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal }) => {
+export const Tabla = ({ data, pagination, handlePageChange }) => {
 	console.log(data)
+	console.log(pagination)
+
 
 	return (
 		<>
@@ -43,75 +45,46 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 									<th scope="row" className="px-6 py-4 whitespace-nowrap">
 										{attendance.user.position_id}
 									</th>
-								</tr>
-							))}
-							{/* {data.map((users) => (
-								<tr key={users.id} className="border-b border-cv-secondary">
+									<td className="px-6 py-4 whitespace-nowrap">
+										{attendance.user.position_id}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{attendance.user.shift}
+									</td>
 									<th scope="row" className="px-6 py-4 whitespace-nowrap">
-										{users.name + " " + users.surname}
+										{attendance.user.name + " " + attendance.user.surname}
+									</th>
+									<th scope="row" className="px-6 py-4 whitespace-nowrap">
+										<div className='flex items-center justify-center'>
+											{attendance.attendance === 1 && (
+												<div className="w-10 h-10 rounded-full bg-[#24FF00]"></div>
+											)}
+											{attendance.delay === 1 && attendance.justification !== 1 && (
+												<div className="w-10 h-10 rounded-full bg-[#FAFF00]"></div>
+											)}
+											{attendance.absence === 1 && attendance.justification !== 1 && (
+												<div className="w-10 h-10 rounded-full bg-[#FF0000]"></div>
+											)}
+											{(attendance.justification === 1) && (
+												<div className="w-10 h-10 rounded-full bg-[#57F3FF]"></div>
+											)}
+											{attendance.non_working_days === 1 && (
+												<div className="w-10 h-10 rounded-full bg-[#9A9A9A]"></div>
+											)}
+										</div>
 									</th>
 									<td className="px-6 py-4 whitespace-nowrap">
-										{users.cellphone}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.email}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.dni}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.position[0].core.department.name}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.position[0].core.name}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.position[0].name}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.shift}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.birthday}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.date_start}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.date_end}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.roles[0].name}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										<div className="flex flex-col items-center ">
-											{users.status === 1 ?
-												<div className='flex items-center justify-center'>
-													<div className="h-3 w-3 rounded-full bg-green-500 mr-2"></div>Activo
-												</div> :
-												<>
-													<div className='flex items-center justify-center'>
-														<div className="h-3 w-3 rounded-full bg-red-500 mr-2"></div>Inactivo
-													</div>
-													<p className='text-center'>{users.status_description}</p>
-												</>
-											}
-										</div>
-									</td>
-									<td className="w-48 px-6 py-4 text-center sticky right-0 p-1 bg-cv-primary">
-										<div className='flex items-center justify-center flex-row space-x-2'>
-											<button
-												onClick={() => toggleEditarModal(users)}
-												className='p-2 border border-cv-secondary rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300'>
-												<EditIcon />
+										<div className='flex items-center justify-center'>
+											<button 
+											// onClick={() => handleViewClick(attendance)} 
+											className='p-2 w-full border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
+												<VisibilityIcon className='sm:mr-2' />
+												<span className='hidden sm:inline'>Ver mas</span>
 											</button>
-											<Link to={`/colaborador/${users.id}/perfil`} className='p-2 border border-cv-secondary rounded-md text-cv-cyan hover:bg-cv-cyan hover:text-cv-primary active:scale-95 ease-in-out duration-300'>
-												<VisibilityIcon />
-											</Link>
 										</div>
 									</td>
 								</tr>
-							))} */}
+							))}
 						</tbody>
 					</table>
 				</div>
@@ -177,6 +150,5 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 Tabla.propTypes = {
 	data: PropTypes.array.isRequired,
 	pagination: PropTypes.object.isRequired,
-	handlePageChange: PropTypes.func.isRequired,
-	toggleEditarModal: PropTypes.func.isRequired,
+	handlePageChange: PropTypes.func.isRequired
 };
