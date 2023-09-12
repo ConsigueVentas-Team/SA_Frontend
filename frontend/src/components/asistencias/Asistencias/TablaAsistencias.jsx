@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,7 +15,6 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { useTheme } from '@mui/material/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -77,22 +76,21 @@ TablePaginationActions.propTypes = {
     page: PropTypes.number.isRequired,
     rowsPerPage: PropTypes.number.isRequired,
 };
-TablaAsistencias.propTypes = {
-    data: PropTypes.array.isRequired,
-    openImageModal: PropTypes.func.isRequired,
-    setImageUrl: PropTypes.func.isRequired,
-    filterDate: PropTypes.string.isRequired,
-    filterEmployee: PropTypes.string.isRequired,
-    filterDepartment: PropTypes.string.isRequired,
-    filterArea: PropTypes.string.isRequired,
-    filterShift: PropTypes.string.isRequired,
-};
 
-export default function TablaAsistencias({ data, openImageModal, setImageUrl, filterDate, filterEmployee, filterDepartment, filterArea, filterShift }) {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-
+export default function TablaAsistencias({
+    data,
+    openImageModal,
+    setImageUrl,
+    filterDate,
+    filterEmployee,
+    filterDepartment,
+    filterArea,
+    filterShift,
+    page,
+    rowsPerPage,
+    setPage,
+    obtenerAsistencia
+}) {
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
     const handleChangePage = (event, newPage) => {
@@ -100,8 +98,8 @@ export default function TablaAsistencias({ data, openImageModal, setImageUrl, fi
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
+        obtenerAsistencia(rowsPerPage);
     };
 
     const handleViewClick = (item) => {
@@ -117,12 +115,12 @@ export default function TablaAsistencias({ data, openImageModal, setImageUrl, fi
     return (
         <>
             <div className='bg-white rounded-md overflow-hidden'>
-                <TableContainer >
+                <TableContainer>
                     <Table sx={{ minWidth: 500 }} aria-label="Tabla Evaluaciones">
                         <TableHead className='bg-cv-primary'>
-                            <TableRow >
+                            <TableRow>
                                 <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Departamento</TableCell>
-                                <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Núcleo</TableCell>
+                                <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Área</TableCell>
                                 <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Turno</TableCell>
                                 <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Colaborador</TableCell>
                                 <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Asistencia</TableCell>
@@ -155,9 +153,9 @@ export default function TablaAsistencias({ data, openImageModal, setImageUrl, fi
 
                                 .filter((item) =>
                                     item.date.toLowerCase().includes(filterDate.toLowerCase()) &&
-                                    (item.profile[0].department && item.profile[0].department.toLowerCase().includes(filterDepartment.toLowerCase())) &&
-                                    (item.profile[0].area && item.profile[0].area.toLowerCase().includes(filterArea.toLowerCase())) &&
-                                    (item.profile[0].shift && item.profile[0].shift.toLowerCase().includes(filterShift.toLowerCase()))
+                                    (item.user.department && item.user.department.toLowerCase().includes(filterDepartment.toLowerCase())) &&
+                                    (item.user.area && item.user.area.toLowerCase().includes(filterArea.toLowerCase())) &&
+                                    (item.user.shift && item.user.shift.toLowerCase().includes(filterShift.toLowerCase()))
                                 )
 
                                 .slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length).map((item) => (
@@ -165,9 +163,9 @@ export default function TablaAsistencias({ data, openImageModal, setImageUrl, fi
                                         key={item.id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell align="left" width="auto" className='whitespace-nowrap'>{item.profile[0].department}</TableCell>
-                                        <TableCell align="left">{item.profile[0].area}</TableCell>
-                                        <TableCell align="left">{item.profile[0].shift}</TableCell>
+                                        <TableCell align="left" width="auto" className='whitespace-nowrap'>{item.user.department}</TableCell>
+                                        <TableCell align="left">{item.user.area}</TableCell>
+                                        <TableCell align="left">{item.user.shift}</TableCell>
                                         <TableCell align="left" className='whitespace-nowrap' width="auto">{item.user.name + ' ' + item.user.surname}</TableCell>
                                         <TableCell align="center">
                                             <div className='flex items-center justify-center'>
@@ -228,3 +226,19 @@ export default function TablaAsistencias({ data, openImageModal, setImageUrl, fi
         </>
     );
 }
+
+
+TablaAsistencias.propTypes = {
+    data: PropTypes.array.isRequired,
+    openImageModal: PropTypes.func.isRequired,
+    setImageUrl: PropTypes.func.isRequired,
+    filterDate: PropTypes.string.isRequired,
+    filterEmployee: PropTypes.string.isRequired,
+    filterDepartment: PropTypes.string.isRequired,
+    filterArea: PropTypes.string.isRequired,
+    filterShift: PropTypes.string.isRequired,
+    page: PropTypes.number.isRequired,
+    rowsPerPage: PropTypes.number.isRequired,
+    setPage: PropTypes.func.isRequired,
+    obtenerAsistencia: PropTypes.func.isRequired,
+};

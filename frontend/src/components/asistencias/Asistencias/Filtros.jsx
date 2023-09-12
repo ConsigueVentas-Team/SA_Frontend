@@ -1,85 +1,81 @@
 import React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
+import moment from 'moment';
+import { SearchBar, SelectOption } from './Elements';
 
 export const Filtros = (props) => {
     const {
-        filterDepartment,
-        setFilterDepartment,
-        filterArea,
-        setFilterArea,
-        filterShift,
-        setFilterShift,
-        clearFilterDepartment,
-        clearFilterArea,
-        clearFilterShift,
-      } = props;
+        name,
+        shift,
+        department,
+        core,
+        departmentOptions,
+        coreOptions,
+        selectedDepartment,
+        selectedCore,
+        handleShiftChange,
+        handleNameChange,
+        handleClearFilter,
+        setDepartment,
+        setCore,
+        setSelectedDepartment,
+        setSelectedCore
+    } = props;
+
+    
     return (
         <div className="flex flex-col space-y-2">
+            
+            <div className='flex flex-col items-center space-y-3 sm:flex-row sm:space-x-3 sm:space-y-0'>
+                <div className="relative w-full mt-7 mb-7">
+                    <SearchBar
+                        value={name}
+                        onChange={handleNameChange}
+                        />
+                    {/* <button onClick={clearFilterEmployee} className="absolute inset-y-0 right-0 flex items-center px-3 py-2 rounded-md text-cv-primary hover:bg-cv-cyan">
+                        <CloseIcon />
+                    </button> */}
+                </div>
+            </div>
             {/* Filtros adicionales */}
             <div className="flex flex-col items-end space-y-4 md:flex-row md:space-y-0 md:space-x-4">
                 <div className="w-full">
-                    <label
-                        htmlFor="filterDepartment"
-                        className="block mb-1 text-sm font-thin text-cv-cyan"
-                    >
-                        Filtrar por Departamento
-                    </label>
-                    <div className="flex items-center justify-between w-full rounded-md bg-slate-300">
-                        <select
-                            id="filterDepartment"
-                            value={filterDepartment} onChange={(e) => setFilterDepartment(e.target.value)}
-                            className="w-full p-2 text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
-                        >
-                            <option>Selecciona</option>
-                            <option value="Administrativo">Administrativo</option>
-                            <option value="Comercial">Comercial</option>
-                            <option value="Operativo">Operativo</option>
-                        </select>
-                        <button onClick={clearFilterDepartment} className="p-2 rounded-md text-cv-primary hover:bg-cv-cyan">
-                            {/* <CloseIcon /> */}
-                        </button>
+                    <div className="flex items-center justify-between w-full rounded-md ">
+                        <SelectOption
+                            label="Departamento"
+							value={selectedDepartment}
+							options={departmentOptions}
+							onChange={(e) => {
+								setSelectedDepartment(e.target.value);
+								setSelectedCore('');
+								setDepartment(e.target.value);
+							}}/>
                     </div>
                 </div>
                 <div className="w-full">
-                    <label
-                        htmlFor="filterArea"
-                        className="block mb-1 text-sm font-thin text-cv-cyan"
-                    >
-                        Filtrar por Núcleo
-                    </label>
-                    <div className="flex items-center justify-between w-full rounded-md bg-slate-300">
-                        <input
-                            type="text"
-                            id="filterNames"
-                            value={filterArea}
-                            onChange={(e) => setFilterArea(e.target.value)}
-                            placeholder="Ingresa el nombre del núcleo"
-                            className="w-full p-2 text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
-                        />
-                        <button onClick={clearFilterArea} className="p-2 rounded-md text-cv-primary hover:bg-cv-cyan">
-                            {/* <CloseIcon /> */}
-                        </button>
+                    <div className="flex items-center justify-between w-full rounded-md ">
+                        <SelectOption
+                            label="Núcleo"
+							value={selectedCore}
+							options={coreOptions}
+							onChange={(e) => {
+								setSelectedCore(e.target.value);
+								setCore(e.target.value);
+							}
+							}
+							disabled={!selectedDepartment}/>
                     </div>
                 </div>
                 <div className="w-full">
-                    <label
-                        htmlFor="filterRole"
-                        className="block mb-1 text-sm font-thin text-cv-cyan"
-                    >
-                        Filtrar por Turno
-                    </label>
-                    <div className="flex items-center justify-between w-full rounded-md bg-slate-300">
-                        <select
-                            id="filterRole"
-                            value={filterShift} onChange={(e) => setFilterShift(e.target.value)}
-                            className="w-full p-2 text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
-                        >
-                            <option>Selecciona</option>
-                            <option value="Mañana">Mañana</option>
-                            <option value="Tarde">Tarde</option>
-                        </select>
-                        <button onClick={clearFilterShift} className="p-2 rounded-md text-cv-primary hover:bg-cv-cyan">
-                            {/* <CloseIcon /> */}
-                        </button>
+                    <div className="flex items-center justify-between w-full rounded-md ">
+                    <select
+							value={shift} onChange={handleShiftChange}
+							className="w-full box-border w-50 h-50 border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
+						>
+							<option value="">Turno</option>
+							<option value="Mañana">Mañana</option>
+							<option value="Tarde">Tarde</option>
+						</select>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,10 @@
-
+import TablaNotas from "../../../components/evaluaciones/TablaNotas";
 
 export const EvaluacionesColaborador = () => {
+
+
   return (
-	<div>EvaluacionesColaborador</div>
-  )
-}
+    <TablaNotas />
+  );
+
+};

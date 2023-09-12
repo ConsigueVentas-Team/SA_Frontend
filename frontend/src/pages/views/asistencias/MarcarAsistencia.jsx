@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { useMediaQuery } from "@mui/material";
 import { AES, enc } from 'crypto-js';
 import { AttendanceSection, CameraSection } from '../../../components/asistencias/MarcarAsistencia';
+import { Toaster, toast } from 'react-hot-toast';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import { Link } from "react-router-dom";
 
 export const MarcarAsistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -18,7 +22,7 @@ export const MarcarAsistencia = () => {
   const [capturing, setCapturing] = useState(false);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
-  const isMobile = useMediaQuery("(max-width:768px)");
+  const isMobile = useMediaQuery("(max-width:968px)");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,14 +46,16 @@ export const MarcarAsistencia = () => {
       import.meta.env.VITE_TOKEN_KEY
     );
     const token = tokenD.toString(enc.Utf8);
-    fetch(import.meta.env.VITE_API_URL + '/attendance/id', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+      fetch(import.meta.env.VITE_API_URL + '/attendance/id', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => response.json())
       .then((data) => {
-        const asistenciasHoy = data.attendance.filter((asistencia) => asistencia.date === fecha);
+        const asistenciasHoy = data.attendance.find((asistencia) => asistencia.date === fecha);
+        console.log(asistenciasHoy)
         if (asistenciasHoy.length === 0) {
           setSegundaFotoTomada(false)
         } else {
@@ -69,16 +75,13 @@ export const MarcarAsistencia = () => {
     const fecha = new Date().toISOString().slice(0, 10);
 
     const formData = new FormData();
-    formData.append('date', fecha);
-    formData.append(`${tipo}_time`, horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-
     const shift = localStorage.getItem('shift');
     const iduser = localStorage.getItem('iduser');
     const photoName = `${shift.charAt(0)}-${iduser}-${tipo === 'admission' ? 'e' : 's'}-${fecha}.jpg`;
     formData.append(`${tipo}_image`, fotoCapturada, photoName);
 
-    const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
-    const token = tokenD.toString(enc.Utf8)
+    const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY);
+    const token = tokenD.toString(enc.Utf8);
     fetch(import.meta.env.VITE_API_URL + '/attendance/create', {
       method: 'POST',
       body: formData,
@@ -98,6 +101,7 @@ export const MarcarAsistencia = () => {
           setFotoCapturada(null);
           setMostrarBotonCamara(true);
           setVideoEnabled(false)
+          toast.success("Entrada Marcada")
           if (
             (turno === 'Mañana' && (hora >= 8 && minutos >= 10) && (hora <= 13))
           ) {
@@ -122,7 +126,7 @@ export const MarcarAsistencia = () => {
           setFotoCapturada(null);
           setVideoEnabled(false);
           setCameraStream(null);
-
+          toast.success("Salida Marcada")
           localStorage.setItem(`salida_${fecha}`, 'true');
         }
       })
@@ -131,7 +135,7 @@ export const MarcarAsistencia = () => {
       });
   };
 
-  const verificarHorario = () => {};
+  const verificarHorario = () => { };
 
   useEffect(() => {
     verificarHorario();
@@ -233,48 +237,53 @@ export const MarcarAsistencia = () => {
 
   return (
     <>
-      <nav className="flex" >
+    <Toaster />
+      <nav className="flex">
         <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
           <li className="inline-flex items-center">
-            {/* <Link to="/asistencias" className="inline-flex items-center text-base font-medium text-gray-400 hover:text-white">
+            <Link to="/asistencias" className="inline-flex items-center text-base font-medium text-gray-400 hover:text-white">
               <ChecklistIcon />
               <span className='ml-1 text-base font-medium md:ml-2'>Asistencias</span>
-            </Link> */}
+            </Link>
           </li>
           <li >
             <div className="flex items-center text-gray-500 ">
-              {/* <ChevronRightIcon /> */}
+              <ChevronRightIcon />
               <span className="ml-1 text-base font-medium md:ml-2">Marcar asistencia</span>
             </div>
           </li>
         </ol>
       </nav>
-      <div className={`registro-Entrada mt-5 min-h-screen flex ${isMobile ? 'flex-col' : 'justify-center'}`}>
-        <CameraSection
-          fotoUsuario={fotoUsuario}
-          videoEnabled={videoEnabled}
-          capturing={capturing}
-          handleCapture={handleCapture}
-          toggleCamera={toggleCamera}
-          cameraStream={cameraStream}
-          videoRef={videoRef}
-          mostrarBotonCamara={mostrarBotonCamara}
-        />
-
-        <AttendanceSection
-          horaActual={horaActual}
-          mostrarBotonEntrada={mostrarBotonEntrada}
-          mostrarBotonSalida={mostrarBotonSalida}
-          entradaMarcada={entradaMarcada}
-          salidaMarcada={salidaMarcada}
-          tardanzaMañana={tardanzaMañana}
-          tardanzaTarde={tardanzaTarde}
-          buttonClicked={buttonClicked}
-          buttonClickedAdmission={buttonClickedAdmission}
-          handleButtonClick={handleButtonClick}
-          handleButtonClickAdmission={handleButtonClickAdmission}
-        />
-        {/* <Toaster /> */}
+      <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-2/3">
+          <div className={`registro-Entrada mt-5 min-h-screen flex justify-center`}>
+            <CameraSection
+              fotoUsuario={fotoUsuario}
+              videoEnabled={videoEnabled}
+              capturing={capturing}
+              handleCapture={handleCapture}
+              toggleCamera={toggleCamera}
+              cameraStream={cameraStream}
+              videoRef={videoRef}
+              mostrarBotonCamara={mostrarBotonCamara}
+            />
+          </div>
+        </div>
+        <div className={`w-full md:w-1/3 ${fotoCapturada ? '-mt-1' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-3' : 'mt-11'}`}>
+          <AttendanceSection
+            horaActual={horaActual}
+            mostrarBotonEntrada={mostrarBotonEntrada}
+            mostrarBotonSalida={mostrarBotonSalida}
+            entradaMarcada={entradaMarcada}
+            salidaMarcada={salidaMarcada}
+            tardanzaMañana={tardanzaMañana}
+            tardanzaTarde={tardanzaTarde}
+            buttonClicked={buttonClicked}
+            buttonClickedAdmission={buttonClickedAdmission}
+            handleButtonClick={handleButtonClick}
+            handleButtonClickAdmission={handleButtonClickAdmission}
+          />
+        </div>
       </div>
     </>
   );
