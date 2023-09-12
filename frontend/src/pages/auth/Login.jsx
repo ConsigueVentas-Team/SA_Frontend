@@ -107,6 +107,7 @@ export const Login = () => {
               localStorage.setItem('avatar', responseData.user.image)
               localStorage.setItem('surname', responseData.user.surname)
               // localStorage.setItem('shift', responseData.profile.shift)
+              localStorage.setItem('shift', responseData.user.shift)
               localStorage.setItem('login', true);
               navigate("/")
               window.location.reload();

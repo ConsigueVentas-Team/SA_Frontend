@@ -5,10 +5,13 @@ import {
     ModalAgregar,
     ModalAlert,
 } from '../../../components/justificaciones'
-import { Alert, Box, Modal, Snackbar } from '@mui/material'
+import { Alert, Box, Modal, Pagination, Snackbar } from '@mui/material'
 import { FechData } from '../../../components/justificaciones/helpers/FechData'
 
 export const AñadirJustificacion = () => {
+    const [page, setPage] = useState(1)
+    // const [currentPage, setCurrentPage] = useState(1)
+    const [countPage, setCountPage] = useState(null)
     const [cards, setCards] = useState([])
     // estas dos estados es para manejar las modales
     const [modal, setModal] = useState(false)
@@ -18,7 +21,7 @@ export const AñadirJustificacion = () => {
     const [buscador_tipoJustificacion, setbuscador_tipoJustificacion] =
         useState('')
     const [buscadorStatus, setBuscadorStatus] = useState('')
-    const [buscadorFechaInicio, setBuscadorFechaInicio] = useState('')
+    // const [buscadorFechaInicio, setBuscadorFechaInicio] = useState('')
     const [buscadorFecha, setBuscadorFecha] = useState('')
 
     // Para Toas Alert Success
@@ -35,11 +38,11 @@ export const AñadirJustificacion = () => {
         setModalAlert(true)
     }
 
-    const handleBuscar = () => {
-        FechData()
+    const handleBuscar = (page) => {
+        FechData({ page })
             .then((e) => {
-                setCards(e)
-                // console.log(e)
+                setCards(e.data)
+                setCountPage(e.total)
             })
             .catch((e) => setCards(e))
     }
@@ -47,13 +50,13 @@ export const AñadirJustificacion = () => {
     const limpiar = () => {
         setbuscador_tipoJustificacion('')
         setBuscadorStatus('')
-        setBuscadorFechaInicio('')
         setBuscadorFecha('')
+        setPage(1)
     }
 
     useEffect(() => {
-        handleBuscar()
-    }, [])
+        handleBuscar(page)
+    }, [page])
 
     return (
         <>
@@ -90,20 +93,23 @@ export const AñadirJustificacion = () => {
                 </Box>
             </Modal>
 
-            <div className='min-h-screen px-8 py-8'>
+            <div className='min-h-screen px-8'>
+                <p className='ml-1 text-base font-medium md:ml-2 uppercase text-gray-400 hover:text-white'>
+                    justificacion
+                </p>
                 <div className='space-y-5'>
-                    <div className='flex flex-wrap justify-center'>
+                    {/* <div className='flex flex-wrap justify-center'>
                         <button
                             type='button'
                             className='w-full md:w-1/3 text-center bg-cv-cyan rounded-lg py-3 px-6 text-cv-primary font-semibold uppercase whitespace-nowrap active:scale-95 ease-in-out duration-300 '
                             onClick={onShowTerminos}>
                             AGREGAR JUSTIFICACIÓN
                         </button>
-                    </div>
+                    </div> */}
 
                     <div className='w-full flex flex-col md:flex-row items-center justify-between gap-5'>
                         {/* Buscador por tipo de justificación: falta o tardanza */}
-                        <div className='w-full text-white'>
+                        <div className='w-full text-gray-400'>
                             <select
                                 className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
                                 value={buscador_tipoJustificacion}
@@ -118,7 +124,7 @@ export const AñadirJustificacion = () => {
                             </select>
                         </div>
                         {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
-                        <div className='w-full text-white'>
+                        <div className='w-full text-gray-400'>
                             <select
                                 className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
                                 value={buscadorStatus}
@@ -131,7 +137,7 @@ export const AñadirJustificacion = () => {
                                 <option value='3'>En proceso</option>
                             </select>
                         </div>
-                        <div className='w-full text-white'>
+                        {/* <div className='w-full text-white'>
                             <input
                                 className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
                                 type='date'
@@ -141,9 +147,9 @@ export const AñadirJustificacion = () => {
                                     setBuscadorFechaInicio(e.target.value)
                                 }
                             />
-                        </div>
+                        </div> */}
                         {/* adecuar */}
-                        <div className='w-full text-white'>
+                        <div className='w-full text-gray-400'>
                             <input
                                 className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
                                 type='date'
@@ -161,14 +167,36 @@ export const AñadirJustificacion = () => {
                                 Limpiar
                             </button>
                         </div>
+                        <div className=''>
+                            <button
+                                className='w-full text-black outline-none px-4 py-2 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
+                                onClick={onShowTerminos}>
+                                Agregar
+                            </button>
+                        </div>
                     </div>
 
                     <ItemJustificaciones
                         cards={cards}
+                        page={page}
                         buscador_tipoJustificacion={buscador_tipoJustificacion}
                         buscadorStatus={buscadorStatus}
-                        buscadorFechaInicio={buscadorFechaInicio}
                         buscadorFecha={buscadorFecha}
+                    />
+
+                    <Pagination
+                        className='flex justify-center'
+                        count={Math.ceil(countPage / 6)}
+                        page={page}
+                        onChange={(event, value) => {
+                            setPage(value)
+                            handleBuscar(value)
+                        }}
+                        sx={{
+                            '& .MuiPaginationItem-root': {
+                                color: '#57F3FF', // Cambia '#colorDeseado' por el color que quieras.
+                            },
+                        }}
                     />
                 </div>
             </div>

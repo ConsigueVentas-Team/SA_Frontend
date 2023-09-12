@@ -260,7 +260,7 @@ export const ModalAgregar = ({
                                     CANCELAR
                                 </button>
                                 <button
-                                    className='text-white uppercase border-2 border-cv-primary bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'
+                                    className='uppercase border-2 border-cv-primary hover:bg-cv-primary hover:text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300 text-black'
                                     onClick={handleSubmit}
                                     type='submit'>
                                     GUARDAR
