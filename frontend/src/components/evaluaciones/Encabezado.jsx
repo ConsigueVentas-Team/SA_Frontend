@@ -8,7 +8,7 @@ function Encabezado({ notaFinal }) {
         <div className="text-gray-400 text-left uppercase text-sm md:text-lg pb-3 font-medium ">
           DETALLES DE EVALUACIÓN
         </div>
-        <div className="">
+        <div>
           <table className=" w-full table-auto col-span-1 bg-cv-primary rounded-2xl p-5">
             <tbody>
               <tr>
