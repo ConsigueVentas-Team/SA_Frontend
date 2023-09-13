@@ -1,20 +1,55 @@
 import ReportProblemIcon from '@mui/icons-material/ReportProblem'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { AES, enc } from 'crypto-js'
+// import { useNavigate } from 'react-router-dom'
 
 export const ModalRechazado = ({ setShowModalRechazado, itemData }) => {
-    const [messages] = useState('')
+    // const navigate = useNavigate()
+    const [messages, setMessage] = useState('')
     const [reason_decline, setReason_decline] = useState('')
 
     const onCloseModalRechazo = () => {
         setShowModalRechazado((e) => !e)
     }
 
-    // const onOpenModalRechazo = () => {}
+    const onClickRechazar = (id) => {
+        const tokenD = AES.decrypt(
+            localStorage.getItem('token'),
+            import.meta.env.VITE_TOKEN_KEY
+        )
+        const token = tokenD.toString(enc.Utf8)
 
-    // const onClickRechazar =() => {
+        if (!reason_decline) {
+            setMessage('Por favor, proporciona un motivo de rechazo')
+            return
+        }
 
-    // }
+        fetch(import.meta.env.VITE_API_URL + `/justification/decline/${id}`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ reason_decline }),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((data) => {
+                        throw new Error(data.message)
+                    })
+                }
+                return response.json()
+            })
+            .then((data) => {
+                console.log(data)
+            })
+            .catch((error) => {
+                setMessage(error.message)
+            })
+        setShowModalRechazado(false)
+        // navigate(`/justificaciones`)
+    }
 
     return (
         <div className='fixed inset-0 flex items-center justify-center z-10'>
@@ -48,7 +83,12 @@ export const ModalRechazado = ({ setShowModalRechazado, itemData }) => {
                             Cancelar
                         </button>
                         <button
-                            //   onClick={(e) => onClickRechazar(e, selectedItem.id, selectedItem.user_id)}
+                            onClick={() =>
+                                onClickRechazar(
+                                    itemData.id
+                                    // itemData.user_id
+                                )
+                            }
                             className='text-white uppercase border-2 border-cv-primary bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'>
                             Enviar
                         </button>

@@ -6,6 +6,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { FechData } from './helpers/FechData'
 import { FechDataJustificaciones } from './helpers/FechDataJustificaciones'
 import { ModalRechazado } from './componentes/ModalRechazado'
+import { AES, enc } from 'crypto-js'
 
 export const RevisarJustificacion = () => {
     const { id } = useParams()
@@ -19,6 +20,43 @@ export const RevisarJustificacion = () => {
     const handleRechazar = (item) => {
         setItemData(item)
         setShowModalRechazado(true)
+    }
+
+    const handleAceptar = (item) => {
+        const tokenD = AES.decrypt(
+            localStorage.getItem('token'),
+            import.meta.env.VITE_TOKEN_KEY
+        )
+        const token = tokenD.toString(enc.Utf8)
+
+        fetch(
+            import.meta.env.VITE_API_URL + `/justification/accept/${item.id}`,
+            {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        )
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((data) => {
+                        throw new Error(data.message)
+                    })
+                }
+                return response.json()
+            })
+            // .then((data) => {
+
+            //   // Maneja la respuesta exitosa si es necesario
+            //   // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
+            // })
+            .catch((error) => {
+                console.log(error.message)
+            })
+
+        // setShowModalAceptado(false);
+        // navigate(`/justificaciones`)
     }
 
     const rol = localStorage.getItem('rol')
@@ -277,7 +315,9 @@ export const RevisarJustificacion = () => {
                                             className='border border-cv-cyan rounded-lg px-4 text-cv-cyan'>
                                             Rechazar
                                         </button>
-                                        <button className='border border-cv-cyan rounded-lg px-4 text-cv-cyan'>
+                                        <button
+                                            onClick={() => handleAceptar(item)}
+                                            className='border border-cv-cyan rounded-lg px-4 text-cv-cyan'>
                                             Aceptar
                                         </button>
                                     </div>
