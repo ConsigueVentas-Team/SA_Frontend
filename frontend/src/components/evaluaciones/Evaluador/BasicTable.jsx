@@ -27,28 +27,22 @@ export default function BasicTable() {
   const columns = [
     {
       header: 'ID',
-      accessorKey: 'id',
-      footer: 'ID'
+      accessorKey: 'id'
     }, {
       header: 'DNI',
-      accessorKey: 'dni',
-      footer: 'DNI'
+      accessorKey: 'dni'
     }, {
       header: 'Colaborador',
-      accessorKey: 'colaborador',
-      footer: 'colaborador'
+      accessorKey: 'colaborador'
     }, {
       header: 'Rol',
-      accessorKey: 'rol',
-      footer: 'Rol'
+      accessorKey: 'rol'
     }, {
       header: 'Estado',
-      accessorKey: 'estado',
-      footer: 'Estado'
+      accessorKey: 'estado'
     }, {
       header: 'Acciones',
-      accessorKey: 'acciones',
-      footer: 'Acciones'
+      accessorKey: 'acciones'
     },
   ]
 
@@ -56,6 +50,10 @@ export default function BasicTable() {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+
   })
 
 
@@ -63,8 +61,7 @@ export default function BasicTable() {
 
     <div>
 
-      <table className="text-xs md:text-[1rem] lg:text-[1rem] w-full table-auto bg-cv-primary rounded"
-      >
+      <table className="text-xs md:text-[1rem] lg:text-[1rem] w-full table-auto bg-cv-primary rounded">
         {table.getHeaderGroups().map(headerGroup => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map(header => <th key={header.id}>
@@ -73,9 +70,9 @@ export default function BasicTable() {
           </tr>
         ))}
 
-        <tbody>
-          {table.getRowModel().rows.map((row, i )=> (
-            <tr key={row.id} className={` text-center p-4 ${i % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}
+        <tbody >
+          {table.getRowModel().rows.map((row, i) => (
+            <tr key={row.id} className={` rounded text-center p-4 ${i % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}
             `}>
               {row.getVisibleCells().map(cell => (
                 <td key={cell.id}>
@@ -86,6 +83,29 @@ export default function BasicTable() {
           ))}
         </tbody>
       </table>
+      <div className='pt-2 gap-6'>
+        <button
+          className="p-1  text-xs md:text-[1rem] lg:text-[1rem]  bg-cv-primary rounded"
+          onClick={() => table.setPageIndex(0)}>
+          {'<<'}
+        </button>
+        <button
+          className="p-1 text-xs md:text-[1rem] lg:text-[1rem]  bg-cv-primary rounded"
+          onClick={() => table.previousPage()}>
+          Previous Page
+        </button>
+        <button
+          disabled={!table.getCanNextPage()}
+          className="p-1 text-xs md:text-[1rem] lg:text-[1rem]  bg-cv-primary rounded"
+          onClick={() => table.nextPage()}>
+          Next Page
+        </button>
+        <button
+          className="p-1 text-xs md:text-[1rem] lg:text-[1rem]  bg-cv-primary rounded"
+          onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
+          {'>>'}
+        </button>
+      </div>
     </div>
 
 
