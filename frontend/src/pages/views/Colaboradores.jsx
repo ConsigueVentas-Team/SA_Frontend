@@ -110,11 +110,6 @@ export const Colaboradores = () => {
 		setName(event.target.value);
 	};
 
-
-	// useEffect(() => {
-	// 	obtenerUsuarios();
-	// }, []);
-
 	useEffect(() => {
 		obtenerUsuarios(shift, position, department, core, name);
 	}, [shift, position, department, core, name]);
@@ -131,8 +126,6 @@ export const Colaboradores = () => {
 			if (department) url.searchParams.append('department', department);
 			if (core) url.searchParams.append('core', core);
 			if (name) url.searchParams.append('name', name);
-
-			console.log(url)
 
 			const response = await fetch(url, {
 				headers: {
@@ -216,7 +209,6 @@ export const Colaboradores = () => {
 				body: formData,
 			});
 			const data = await response.json();
-			console.log(data);
 			if (response.ok) {
 				const usuariosActualizados = users.map((usuario) => {
 					if (usuario.id === updateUser.id) {
@@ -260,14 +252,14 @@ export const Colaboradores = () => {
 
 	return (
 		<>
-			<section className="w-full flex flex-col justify-center items-center gap-4">
-				<h1 className="w-full inline-flex items-center text-base font-medium uppercase text-white">
+			<section className="flex flex-col items-center justify-center w-full gap-4">
+				<h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
 					<Diversity3Icon />
 					<span className='ml-1 text-base font-medium md:ml-2'>Colaboradores</span>
 				</h1>
 
-				<div className="w-full grid grid-cols-1 md:grid-cols-9 gap-2 gap-x-0 md:gap-4">
-					<div className="col-span-1 md:col-span-8 row-start-2 md:row-start-1">
+				<div className="grid w-full grid-cols-1 gap-2 md:grid-cols-9 gap-x-0 md:gap-4">
+					<div className="col-span-1 row-start-2 md:col-span-8 md:row-start-1">
 						<SearchBar
 							value={name}
 							onChange={handleNameChange}
@@ -311,18 +303,18 @@ export const Colaboradores = () => {
 					<div className="col-span-2 md:col-start-7 md:row-start-2">
 						<select
 							value={shift} onChange={handleShiftChange}
-							className="w-full box-border w-50 h-50 border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
+							className="box-border w-full p-2 border rounded-md outline-none w-50 h-50 border-cv-primary bg-cv-secondary"
 						>
 							<option value="">Turno</option>
 							<option value="Mañana">Mañana</option>
 							<option value="Tarde">Tarde</option>
 						</select>
 					</div>
-					<div className="col-span-1 md:col-start-9 row-start-1 md:row-start-1">
+					<div className="col-span-1 row-start-1 md:col-start-9 md:row-start-1">
 						<Button title="Agregar colaborador" onClick={toggleAgregarModal} label='Agregar' icon={<PersonAddIcon />} />
 					</div>
-					<div className="col-span-1 md:col-start-9 row-start-7 md:row-start-2">
-						{/* <div className='w-full flex flex-col items-center justify-between gap-2 sm:flex-row '>
+					<div className="col-span-1 row-start-7 md:col-start-9 md:row-start-2">
+						{/* <div className='flex flex-col items-center justify-between w-full gap-2 sm:flex-row '>
 							<Button title="Aplicar filtros" onClick={handleSearchClick} label='Buscar' icon={<SearchIcon />} />
 						</div> */}
 						<Button title="Limpiar filtros" onClick={() => { handleClearFilter(); handleClearFilter(); }} label='Limpiar' icon={<CleaningServicesIcon />} />
