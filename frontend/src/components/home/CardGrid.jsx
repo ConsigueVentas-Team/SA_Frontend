@@ -9,30 +9,6 @@ export const CardGrid = () => {
 	const token = tokenD.toString(enc.Utf8)
 	const [birthday, setBirthday] = useState([])
 
-	//* Obtener Cumpleaños
-	// useEffect(() => {
-	// 	const obtenerCumpleaños = async () => {
-	// 		try {
-	// 			const response = await fetch(import.meta.env.VITE_API_URL + `/birthday/details`,
-	// 				{
-	// 					headers: {
-	// 						"Content-Type": "application/json",
-	// 						Authorization: `Bearer ${token}`,
-	// 					},
-	// 				});
-	// 			const data = await response.json();
-	// 			if (response.ok) {
-	// 				setBirthday(data.users);
-	// 			} else {
-	// 				console.error('Error al obtener los usuarios:', data.error);
-	// 			}
-	// 		} catch (error) {
-	// 			console.error('Error al obtener los usuarios:', error);
-	// 		}
-	// 	};
-	// 	obtenerCumpleaños();
-	// }, [token]);
-
 	useEffect(() => {
 		const obtenerCumpleaños = async () => {
 			try {
@@ -55,8 +31,6 @@ export const CardGrid = () => {
 		};
 		obtenerCumpleaños();
 	}, [token]);
-
-	console.log(birthday)
 
 	return (
 		<div className="grid grid-cols-1 gap-4 md:grid-cols-2  lg:grid-cols-3 place-items-center">

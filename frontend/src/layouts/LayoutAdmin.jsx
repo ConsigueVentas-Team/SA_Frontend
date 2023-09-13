@@ -22,7 +22,7 @@ export const LayoutAdmin = () => {
 			<Sidebar onPageClick={handlePageClick} />
 			<div className="xl:col-span-5">
 				<Header currentPage={currentPage} onPageClick={handlePageClick} />
-				<div className="h-[90vh] overflow-y-auto p-2.5 sm:p-5 bg-cv-secondary text-white ">
+				<div className="h-[90vh] overflow-y-auto p-2.5 sm:p-5 bg-cv-secondary text-white scrollbar scrollbar-w-3 scrollbar-thumb-cv-cyan scrollbar-track-transparent scrollbar-thumb-rounded-full">
 					<Outlet />
 				</div>
 			</div>
