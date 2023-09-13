@@ -13,24 +13,25 @@ export const Saludo = () => {
 }
 
 export const BirthdayImage = ({ item }) => {
-	const name = `${ item.name.split(" ")[0] } ${ item.surname.split(" ")[0]}`
+	const name = `${item.name.split(" ")[0]} ${item.surname.split(" ")[0]}`
 	return (
 		<div className="flex flex-col items-center justify-center gap-4">
-			<img src={`${import.meta.env.VITE_BACKEND_SERVER_URL}/photos/${item.id}/${item.image}`} alt={name} className="w-40 h-40 rounded-full shadow-lg ring-2 ring-cv-cyan" />
+			<img src={item.image_url} alt={name} className="w-40 h-40 rounded-full shadow-lg ring-2 ring-cv-cyan" />
 			<p className="text-xl font-medium text-white md:text-2xl ">{name}</p>
 		</div>
 	)
 }
+
 BirthdayImage.propTypes = {
 	item: PropTypes.shape({
 		name: PropTypes.string.isRequired,
 		surname: PropTypes.string.isRequired,
 		id: PropTypes.number.isRequired,
-		image: PropTypes.string.isRequired,
+		image_url: PropTypes.string.isRequired,
 	}).isRequired,
 };
 
-export const BirthdayItem = ({name, item}) => {
+export const BirthdayItem = ({ name, item }) => {
 	return (
 		<div className="flex items-center justify-between gap-5">
 			<p className="w-full text-lg font-semibold">{name}:</p>

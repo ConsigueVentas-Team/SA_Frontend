@@ -13,9 +13,12 @@ export default {
         "cv-primary": "#16232B",
         "cv-secondary": "#283C4C",
         "cv-cyan": "#57F3FF",
+        "cv-cyan-hover": "#46c2cc",
         "cv-tbody": "#8D8D8D",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-scrollbar"),
+  ],
 };
