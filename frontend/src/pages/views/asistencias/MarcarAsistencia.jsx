@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { useMediaQuery } from "@mui/material";
 import { AES, enc } from 'crypto-js';
 import { AttendanceSection, CameraSection } from '../../../components/asistencias/MarcarAsistencia';
 import { Toaster, toast } from 'react-hot-toast';
@@ -15,14 +14,13 @@ export const MarcarAsistencia = () => {
   const [salidaMarcada, setSalidaMarcada] = useState(false);
   const [tardanzaMañana, setTardanzaMañana] = useState(false);
   const [tardanzaTarde, setTardanzaTarde] = useState(false);
-  const [fotoUsuario, setFotoUsuario] = useState(null);
+  const [fotoUsuario, setFotoUsuario] = useState(false);
   const [fotoCapturada, setFotoCapturada] = useState(null);
   const [cameraStream, setCameraStream] = useState(null);
   const [videoEnabled, setVideoEnabled] = useState(false);
   const [capturing, setCapturing] = useState(false);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
-  const isMobile = useMediaQuery("(max-width:968px)");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -54,13 +52,13 @@ export const MarcarAsistencia = () => {
       })
       .then((response) => response.json())
       .then((data) => {
-        const asistenciasHoy = data.attendance.find((asistencia) => asistencia.date === fecha);
-        console.log(asistenciasHoy)
+        const asistenciasHoy = data.attendance.filter((asistencia) => asistencia.date === fecha);
         if (asistenciasHoy.length === 0) {
           setSegundaFotoTomada(false)
         } else {
           setSegundaFotoTomada(true)
         }
+        
       })
       .catch((error) => {
         console.error('Error al obtener las asistencias:', error);
@@ -91,13 +89,12 @@ export const MarcarAsistencia = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (tipo === 'admission') {
           const hora = horaActual.getHours();
           const minutos = horaActual.getMinutes();
           const turno = localStorage.getItem('shift');
           setMostrarBotonEntrada(false)
-          setFotoUsuario(null);
+          setFotoUsuario(false);
           setFotoCapturada(null);
           setMostrarBotonCamara(true);
           setVideoEnabled(false)
@@ -122,7 +119,7 @@ export const MarcarAsistencia = () => {
         } else {
           setMostrarBotonSalida(false)
           setMostrarBotonCamara(false)
-          setFotoUsuario(null);
+          setFotoUsuario(false);
           setFotoCapturada(null);
           setVideoEnabled(false);
           setCameraStream(null);
@@ -256,20 +253,19 @@ export const MarcarAsistencia = () => {
       </nav>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-2/3">
-          <div className={`registro-Entrada mt-5 min-h-screen flex justify-center`}>
+          <div className={`registro-Entrada min-h-[10vh] flex justify-center`}>
             <CameraSection
               fotoUsuario={fotoUsuario}
               videoEnabled={videoEnabled}
               capturing={capturing}
               handleCapture={handleCapture}
               toggleCamera={toggleCamera}
-              cameraStream={cameraStream}
               videoRef={videoRef}
               mostrarBotonCamara={mostrarBotonCamara}
             />
           </div>
         </div>
-        <div className={`w-full md:w-1/3 ${fotoCapturada ? '-mt-1' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-3' : 'mt-11'}`}>
+        <div className={`w-full md:w-1/3 ${fotoCapturada ? '-mt-0' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-3' : 'mt-11'}`}>
           <AttendanceSection
             horaActual={horaActual}
             mostrarBotonEntrada={mostrarBotonEntrada}
