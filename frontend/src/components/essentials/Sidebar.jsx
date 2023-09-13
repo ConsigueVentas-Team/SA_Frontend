@@ -68,8 +68,8 @@ export const Sidebar = () => {
           } transition-all`}
       >
         <div>
-          <div className="text-center text-2xl font-bold text-white mb-5">
-            <Link to="/" className="w-full flex items-center justify-center">
+          <div className="mb-5 text-2xl font-bold text-center text-white">
+            <Link to="/" className="flex items-center justify-center w-full">
               <Logo />
             </Link>
           </div>
@@ -78,11 +78,11 @@ export const Sidebar = () => {
               <Link
                 key={index}
                 to={`/${menu.route}`}
-                className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
+                className="flex items-center p-2 rounded-md cursor-pointer hover:bg-cv-secondary"
               >
-                <div className="font-semibold flex items-center gap-x-4">
+                <div className="flex items-center font-semibold gap-x-4">
                   <span>{menu.icon}</span>
-                  <span className="origin-left duration-200">{menu.title}</span>
+                  <span className="duration-200 origin-left">{menu.title}</span>
                 </div>
               </Link>
             ))}
@@ -92,7 +92,7 @@ export const Sidebar = () => {
                 <li>
                   <Link
                     to="/perfil"
-                    className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-cv-secondary transition-colors"
+                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
                   >
                     <AccountCircleIcon />
                     Perfil
@@ -101,7 +101,7 @@ export const Sidebar = () => {
                 <li>
                   <Link
                     to="/asistencias"
-                    className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-cv-secondary transition-colors"
+                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
                   >
                     <ChecklistIcon />
                     Asistencia
@@ -111,7 +111,7 @@ export const Sidebar = () => {
                 <li>
                   <button
                     onClick={() => setShowSubmenu(!showSubmenu)}
-                    className="w-full flex items-center justify-between py-2 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
+                    className="flex items-center justify-between w-full px-4 py-2 transition-colors rounded-lg hover:bg-secondary-900"
                   >
                     <span className="flex items-center gap-4">
                       <BalanceIcon />
@@ -147,7 +147,7 @@ export const Sidebar = () => {
                 <li>
                   <Link
                     to="/colaboradores"
-                    className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-cv-secondary transition-colors"
+                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
                   >
                     <Diversity3Icon />
                     Colaboradores
@@ -156,7 +156,7 @@ export const Sidebar = () => {
                 <li>
                   <Link
                     to="/cumpleaños"
-                    className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-cv-secondary transition-colors"
+                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
                   >
                     <CakeIcon />
                     Cumpleaños
@@ -165,7 +165,7 @@ export const Sidebar = () => {
                 <li>
                   <button
                     onClick={() => setShowSubmenu2(!showSubmenu)}
-                    className="w-full flex items-center justify-between py-2 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
+                    className="flex items-center justify-between w-full px-4 py-2 transition-colors rounded-lg hover:bg-secondary-900"
                   >
                     <span className="flex items-center gap-4">
                       <TrendingUpIcon />
@@ -201,7 +201,7 @@ export const Sidebar = () => {
                 <li>
                   <Link
                     to="/empresa"
-                    className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-cv-secondary transition-colors"
+                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
                   >
                     <MapsHomeWorkOutlinedIcon />
                     Empresa
@@ -214,7 +214,7 @@ export const Sidebar = () => {
       </div>
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="xl:hidden fixed bottom-4 right-4 bg-cv-primary text-white p-2 rounded-full z-50"
+        className="fixed z-50 p-2 text-white border rounded-full xl:hidden border-cv-secondary bottom-4 right-4 bg-cv-primary"
       >
         {showMenu ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
       </button>
