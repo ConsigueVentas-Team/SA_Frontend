@@ -13,7 +13,7 @@ export const CameraSection = ({
 }) => {
     return (
         <div className={`seccion-izquierda w-full mb-4 p-4 sm:p-6 lg:p-8`}>
-            <div className={`w-full rounded-xl ${!fotoUsuario && !videoEnabled ? 'bg-slate-950 border-cv-cyan border-2 h-[60vh] mt-5' : 'h-[50vh] mt-5'} relative `}>
+            <div className={`w-full rounded-xl ${!fotoUsuario && !videoEnabled ? 'bg-slate-950 border-cv-cyan border-2 h-[60vh] mt-5' : ' mt-5'} relative `}>
                 <div className=" w-full h-full rounded-xl flex justify-center">
                     {fotoUsuario && (
                         <div>

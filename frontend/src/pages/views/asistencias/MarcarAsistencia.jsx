@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
-import { AES, enc } from 'crypto-js';
-import { AttendanceSection, CameraSection } from '../../../components/asistencias/MarcarAsistencia';
-import { Toaster, toast } from 'react-hot-toast';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChecklistIcon from '@mui/icons-material/Checklist';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { AES, enc } from 'crypto-js';
+import { useEffect, useRef, useState } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
 import { Link } from "react-router-dom";
+import { AttendanceSection, CameraSection } from '../../../components/asistencias/MarcarAsistencia';
 
 export const MarcarAsistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -265,7 +265,7 @@ export const MarcarAsistencia = () => {
             />
           </div>
         </div>
-        <div className={`w-full md:w-1/3 ${fotoCapturada ? '-mt-0' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-3' : 'mt-11'}`}>
+        <div className={`w-full md:w-1/3 ${fotoCapturada ? '-mt-0' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-3' : ' md:mt-11'}`}>
           <AttendanceSection
             horaActual={horaActual}
             mostrarBotonEntrada={mostrarBotonEntrada}
