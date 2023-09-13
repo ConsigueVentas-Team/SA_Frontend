@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { AES, enc } from 'crypto-js';
-import CloseIcon from '@mui/icons-material/Close';
 import { Filtros, Leyenda, ModalImagen } from '../../../components/asistencias/Asistencias';
-import TablaAsistencias from '../../../components/asistencias/Asistencias/TablaAsistencias';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import { Link } from "react-router-dom";
@@ -12,6 +10,9 @@ import { Tabla } from '../../../components/asistencias/Asistencias/Tabla';
 export const Asistencias = () => {
 
   const [attendance, setAttendance] = useState([]);
+
+  const [showImageModal, setShowImageModal] = useState(false)
+  const [image, setImage] = useState([]);
 
   const [pagination, setPagination] = useState({
     current_page: 1,
@@ -33,7 +34,6 @@ export const Asistencias = () => {
   const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
   const token = tokenD.toString(enc.Utf8)
 
-  //** Rellenar Select Options */
   useEffect(() => {
     fetch(import.meta.env.VITE_API_URL + "/departments/list", {
       headers: {
@@ -77,18 +77,18 @@ export const Asistencias = () => {
   };
 
   useEffect(() => {
-		obtenerAsistencia(shift, department, core, name);
-	}, [shift, department, core, name]);
+    obtenerAsistencia(shift, department, core, name);
+  }, [shift, department, core, name]);
 
   const obtenerAsistencia = async (page) => {
     try {
       const url = new URL(import.meta.env.VITE_API_URL + `/attendance`);
       url.searchParams.append('page', page);
 
-			if (shift) url.searchParams.append('shift', shift);
-			if (department) url.searchParams.append('department', department);
-			if (core) url.searchParams.append('core', core);
-			if (name) url.searchParams.append('name', name);
+      if (shift) url.searchParams.append('shift', shift);
+      if (department) url.searchParams.append('department', department);
+      if (core) url.searchParams.append('core', core);
+      if (name) url.searchParams.append('name', name);
 
       const response = await fetch(
         url,
@@ -133,6 +133,13 @@ export const Asistencias = () => {
     const formattedDate = moment(date).locale('es').format('LL');
     return formattedDate;
   };
+
+  const openImageModal = () => {
+    setShowImageModal(true)
+  }
+  const closeImageModal = () => {
+    setShowImageModal(false)
+  }
 
   return (
     <>
@@ -185,16 +192,24 @@ export const Asistencias = () => {
             setCore={setCore}
             setSelectedDepartment={setSelectedDepartment}
             setSelectedCore={setSelectedCore}
+            openImageModal={openImageModal}
+            setImage={setImage}
           />
 
-          {/* Tabla de asistencias */}
-          <Tabla data={attendance} pagination={pagination} handlePageChange={handlePageChange} />
-          {/* <TablaAsistencias data={attendance} openImageModal={openImageModal} setImageUrl={setImageUrl} filterDate={filterDate} filterEmployee={filterEmployee} filterDepartment={filterDepartment} filterArea={filterArea} filterShift={filterShift} /> */}
+          <Tabla
+            data={attendance}
+            pagination={pagination}
+            handlePageChange={handlePageChange}
+            openImageModal={openImageModal}
+            setImage={setImage}
+          />
 
-          {/* Modal de imagen */}
-          {/* {showImageModal && (
-            <ModalImagen imageUrl={imageUrl} closeImageModal={closeImageModal} />
-          )} */}
+          {showImageModal && (
+            <ModalImagen
+              image={image}
+              closeImageModal={closeImageModal}
+            />
+          )}
         </div>
       </div>
     </>
