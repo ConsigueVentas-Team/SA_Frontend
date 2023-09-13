@@ -5,9 +5,9 @@ import PropTypes from 'prop-types'
 
 export const ItemJustificaciones = ({
     cards,
+    page,
     buscador_tipoJustificacion,
     buscadorStatus,
-    buscadorFechaInicio,
     buscadorFecha,
 }) => {
     const navigate = useNavigate()
@@ -35,7 +35,8 @@ export const ItemJustificaciones = ({
     }
 
     const mostrarDetalles = (id) => {
-        navigate(`/details/${id}`)
+        // console.log(currentPage)
+        navigate(`/details/${id}`, { state: { page } })
     }
 
     return (
@@ -77,29 +78,12 @@ export const ItemJustificaciones = ({
                     }
                 })
                 .filter((post) => {
-                    if (buscadorFechaInicio === '' && buscadorFecha === '') {
+                    if (buscadorFecha === '') {
                         return true
-                    } else if (
-                        buscadorFechaInicio !== '' &&
-                        buscadorFecha === ''
-                    ) {
-                        const fechaPost = post.justification_date
-                        return fechaPost >= buscadorFechaInicio
-                    } else if (
-                        buscadorFechaInicio === '' &&
-                        buscadorFecha !== ''
-                    ) {
+                    } else if (buscadorFecha !== '') {
                         const fechaPost = post.justification_date
                         const fechaBuscador = buscadorFecha
                         return fechaPost === fechaBuscador
-                    } else {
-                        const fechaPost = post.justification_date
-                        const fechaBuscadorInicio = buscadorFechaInicio
-                        const fechaBuscador = buscadorFecha
-                        return (
-                            fechaPost >= fechaBuscadorInicio &&
-                            fechaPost <= fechaBuscador
-                        )
                     }
                 })
                 .map((card, index) => (
@@ -109,7 +93,7 @@ export const ItemJustificaciones = ({
                         <div className='w-full flex flex-col items-center justify-between p-4 overflow-hidden'>
                             {/* Contenido de la tarjeta */}
                             <div className='flex items-center'>
-                                <div className='text-white font-semibold'>
+                                <div className=' font-semibold text-gray-400'>
                                     <h1>JUSTIFICACIÓN Nº{card.id}</h1>
                                 </div>
                             </div>
@@ -118,7 +102,7 @@ export const ItemJustificaciones = ({
                                 <ul className='w-full space-y-0.5'>
                                     <li className='text-sm font-normal flex items-center'>
                                         <p>
-                                            <span className='mr-2 uppercase font-semibold mb-1'>
+                                            <span className='mr-2 text-gray-400 uppercase font-semibold mb-1'>
                                                 Estado:{' '}
                                             </span>{' '}
                                             {isRechazadoOrAceptado(card)}
@@ -135,7 +119,7 @@ export const ItemJustificaciones = ({
                                         </div>
                                     </li>
                                     <li className='text-sm font-normal flex items-center'>
-                                        <label className='mr-2 uppercase font-semibold mb-1'>
+                                        <label className='mr-2 text-gray-400 uppercase font-semibold mb-1'>
                                             Fecha:{' '}
                                         </label>
                                         <div className='w-1/4'>
@@ -149,7 +133,7 @@ export const ItemJustificaciones = ({
                                     </li>
                                     <li className='text-sm font-normal flex items-center'>
                                         <p>
-                                            <span className='mr-2 uppercase font-semibold mb-1'>
+                                            <span className='mr-2 text-gray-400 uppercase font-semibold mb-1'>
                                                 {' '}
                                                 Tipo:{' '}
                                             </span>{' '}
@@ -159,7 +143,7 @@ export const ItemJustificaciones = ({
                                         </p>
                                     </li>
                                     <li className='w-full text-sm font-normal'>
-                                        <span className='mr-2 uppercase font-semibold mb-1'>
+                                        <span className='mr-2 uppercase text-gray-400 font-semibold mb-1'>
                                             Motivo:
                                         </span>
                                         <div className='whitespace-normal'>
@@ -187,8 +171,12 @@ export const ItemJustificaciones = ({
 
 ItemJustificaciones.propTypes = {
     cards: PropTypes.array.isRequired,
+    page: PropTypes.number.isRequired,
     buscador_tipoJustificacion: PropTypes.string.isRequired,
     buscadorStatus: PropTypes.string.isRequired,
-    buscadorFechaInicio: PropTypes.string.isRequired,
     buscadorFecha: PropTypes.string.isRequired,
+}
+
+ItemJustificaciones.defaultProps = {
+    cards: [],
 }

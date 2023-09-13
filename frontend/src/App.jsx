@@ -6,7 +6,6 @@ import { Login } from "./pages/auth/Login";
 import { OlvideContraseña } from "./pages/auth/OlvideContraseña";
 import { RestablecerContraseña } from "./pages/auth/RestablecerContraseña";
 import { CambiarContraseña } from "./pages/auth/CambiarContraseña";
-
 //Views Pages
 import { Home } from "./pages/views/Home";
 import { Perfil } from "./pages/views/Perfil";

@@ -1,27 +1,41 @@
 import { AES, enc } from 'crypto-js'
 
-export const FechData = async () => {
+export const FechData = async ({ page, bandera = false }) => {
+    let url = ''
     try {
-        // Realiza la llamada a tu API para obtener los datos de la base de datos
         const tokenD = AES.decrypt(
             localStorage.getItem('token'),
             import.meta.env.VITE_TOKEN_KEY
         )
         const token = tokenD.toString(enc.Utf8)
-        const response = await fetch(
-            import.meta.env.VITE_API_URL + '/justification/list',
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+
+        const rol = localStorage.getItem('rol')
+        const turno = localStorage.getItem('shift')
+        const user_id = localStorage.getItem('iduser')
+
+        if (rol === 'Colaborador') {
+            url = `${
+                import.meta.env.VITE_API_URL
+            }/justification?page=${page}&shift=${turno}&user_id=${user_id}`
+        } else if (rol === 'Lider Nucleo') {
+            if (bandera) {
+                url = `${import.meta.env.VITE_API_URL}/justification`
+            } else {
+                url = `${
+                    import.meta.env.VITE_API_URL
+                }/justification?page=${page}&shift=${turno}&user_id=${user_id}`
             }
-        )
+        }
+
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
         const data = await response.json()
 
-        // Actualiza el estado "cards" con los datos recibidos de la API
-        // const justifications = data.Justificaciones
-        // console.log(data)
-        return data
+        console.log(data.Justifications)
+        return data.Justifications
     } catch (error) {
         // Manejo de errores en caso de fallo en la llamada a la API
         console.error('Error al obtener los datos de la API:', error)

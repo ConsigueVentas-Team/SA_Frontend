@@ -1,4 +1,3 @@
-import React from "react";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 
 import PortraitOutlinedIcon from "@mui/icons-material/PortraitOutlined";

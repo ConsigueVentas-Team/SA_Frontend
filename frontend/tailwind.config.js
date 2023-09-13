@@ -15,6 +15,8 @@ export default {
         "cv-cyan": "#57F3FF",
         "cv-cyan-hover": "#46c2cc",
         "cv-tbody": "#8D8D8D",
+        "cv-dark": "#000000", // Nuevo color oscuro
+        "cv-light": "#445666", // Nuevo color más claro
       },
     },
   },
