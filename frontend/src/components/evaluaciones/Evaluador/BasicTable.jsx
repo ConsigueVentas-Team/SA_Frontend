@@ -83,28 +83,82 @@ export default function BasicTable() {
           ))}
         </tbody>
       </table>
-      <div className='pt-2 gap-6'>
+
+
+
+      <div className="flex items-center justify-end mt-2 gap-2">
         <button
-          className="p-1  text-xs md:text-[1rem] lg:text-[1rem]  bg-cv-primary rounded"
+          disabled={!table.getCanPreviousPage()}
+          className="p-1  bg-cv-primary rounded px-2 disabled:opacity-30"
           onClick={() => table.setPageIndex(0)}>
           {'<<'}
         </button>
+
+
         <button
-          className="p-1 text-xs md:text-[1rem] lg:text-[1rem]  bg-cv-primary rounded"
-          onClick={() => table.previousPage()}>
-          Previous Page
+          onClick={() => {
+            table.previousPage();
+          }}
+          disabled={!table.getCanPreviousPage()}
+          className="p-1  bg-cv-primary rounded px-2 disabled:opacity-30"
+        >
+          {"<"}
         </button>
+
+        <span className="flex items-center gap-1">
+          <div>Página</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} de{" "}
+            {table.getPageCount()}
+          </strong>
+        </span>
+        <span className="flex items-center gap-1">
+          | Ir a página:
+          <input
+            type="number"
+            defaultValue={table.getState().pagination.pageIndex + 1}
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              table.setPageIndex(page);
+            }}
+            className="text-center  p-1  w-10 bg-cv-primary rounded"
+          />
+        </span>
+
+
+        <button
+          onClick={() => {
+            table.nextPage();
+          }}
+          disabled={!table.getCanNextPage()}
+          className="p-1  bg-cv-primary rounded px-2 disabled:opacity-30"
+        >
+          {">"}
+        </button>
+
         <button
           disabled={!table.getCanNextPage()}
-          className="p-1 text-xs md:text-[1rem] lg:text-[1rem]  bg-cv-primary rounded"
-          onClick={() => table.nextPage()}>
-          Next Page
-        </button>
-        <button
-          className="p-1 text-xs md:text-[1rem] lg:text-[1rem]  bg-cv-primary rounded"
+          className="p-1  bg-cv-primary rounded px-2 disabled:opacity-30"
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
           {'>>'}
         </button>
+
+        <select
+          value={table.getState().pagination.pageSize}
+          onChange={(e) => {
+            table.setPageSize(Number(e.target.value));
+          }}
+          className="p-2 bg-cv-primary rounded"
+        >
+          {[10, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize} className="text-center  p-1  w-10 bg-cv-primary rounded">
+              Mostrar {pageSize}
+            </option>
+          ))}
+        </select>
+
+
+
       </div>
     </div>
 
