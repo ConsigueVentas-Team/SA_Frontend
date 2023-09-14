@@ -10,10 +10,10 @@ import ChecklistIcon from "@mui/icons-material/Checklist";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import MapsHomeWorkOutlinedIcon from '@mui/icons-material/MapsHomeWorkOutlined';
+import MapsHomeWorkOutlinedIcon from "@mui/icons-material/MapsHomeWorkOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-
+import BarChartIcon from '@mui/icons-material/BarChart';
 const getRole = () => {
   return localStorage.getItem("rol");
 };
@@ -53,8 +53,21 @@ export const Sidebar = () => {
         icon: <Diversity3Icon />,
       },
       { route: "cumpleaños", title: "Cumpleaños", icon: <CakeIcon /> },
-      { route: "evaluaciones", title: "Evaluaciónes", icon: <TrendingUpIcon /> },
-      { route: "empresa", title: "Empresa", icon: <MapsHomeWorkOutlinedIcon /> }
+      {
+        route: "evaluaciones",
+        title: "Evaluaciónes",
+        icon: <TrendingUpIcon />,
+      },
+      {
+        route: "empresa",
+        title: "Empresa",
+        icon: <MapsHomeWorkOutlinedIcon />,
+      },
+      {
+        route: "reportes",
+        title: "Reportes",
+        icon: <BarChartIcon />,
+      },
     ],
   };
 
@@ -64,8 +77,9 @@ export const Sidebar = () => {
   return (
     <>
       <div
-        className={`xl:h-[100vh] fixed overflow-y-auto xl:static xl:w-auto h-full top-0 bg-cv-primary text-white p-4 flex flex-col justify-between z-50 ${showMenu ? "left-0" : "-left-full"
-          } transition-all`}
+        className={`xl:h-[100vh] fixed overflow-y-auto xl:static xl:w-auto h-full top-0 bg-cv-primary text-white p-4 flex flex-col justify-between z-50 ${
+          showMenu ? "left-0" : "-left-full"
+        } transition-all`}
       >
         <div>
           <div className="mb-5 text-2xl font-bold text-center text-white">
@@ -118,13 +132,15 @@ export const Sidebar = () => {
                       Justificaciones
                     </span>
                     <ChevronRightIcon
-                      className={`mt-1 ${showSubmenu && "rotate-90"
-                        } transition-all`}
+                      className={`mt-1 ${
+                        showSubmenu && "rotate-90"
+                      } transition-all`}
                     />
                   </button>
                   <ul
-                    className={` ${showSubmenu ? "h-auto" : "h-0"
-                      } overflow-y-hidden transition-all`}
+                    className={` ${
+                      showSubmenu ? "h-auto" : "h-0"
+                    } overflow-y-hidden transition-all`}
                   >
                     <li>
                       <Link
@@ -172,13 +188,15 @@ export const Sidebar = () => {
                       Evaluaciones
                     </span>
                     <ChevronRightIcon
-                      className={`mt-1 ${showSubmenu2 && "rotate-90"
-                        } transition-all`}
+                      className={`mt-1 ${
+                        showSubmenu2 && "rotate-90"
+                      } transition-all`}
                     />
                   </button>
                   <ul
-                    className={` ${showSubmenu2 ? "h-auto" : "h-0"
-                      } overflow-y-hidden transition-all`}
+                    className={` ${
+                      showSubmenu2 ? "h-auto" : "h-0"
+                    } overflow-y-hidden transition-all`}
                   >
                     <li>
                       <Link
@@ -205,6 +223,15 @@ export const Sidebar = () => {
                   >
                     <MapsHomeWorkOutlinedIcon />
                     Empresa
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/reportes"
+                    className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-cv-secondary transition-colors"
+                  >
+                    <BarChartIcon />
+                    Reportes
                   </Link>
                 </li>
               </>

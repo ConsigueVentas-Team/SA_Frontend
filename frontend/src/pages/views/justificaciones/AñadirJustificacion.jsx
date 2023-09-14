@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices'
+import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import {
     ItemJustificaciones,
     ModalAgregar,
@@ -94,19 +95,10 @@ export const AñadirJustificacion = () => {
             </Modal>
 
             <div className='min-h-screen px-8'>
-                <p className='ml-1 text-base font-medium md:ml-2 uppercase text-gray-400 hover:text-white'>
+                <p className='ml-1 text-base mb-3 font-medium md:ml-2 uppercase text-gray-400 hover:text-white'>
                     justificacion
                 </p>
                 <div className='space-y-5'>
-                    {/* <div className='flex flex-wrap justify-center'>
-                        <button
-                            type='button'
-                            className='w-full md:w-1/3 text-center bg-cv-cyan rounded-lg py-3 px-6 text-cv-primary font-semibold uppercase whitespace-nowrap active:scale-95 ease-in-out duration-300 '
-                            onClick={onShowTerminos}>
-                            AGREGAR JUSTIFICACIÓN
-                        </button>
-                    </div> */}
-
                     <div className='w-full flex flex-col md:flex-row items-center justify-between gap-5'>
                         {/* Buscador por tipo de justificación: falta o tardanza */}
                         <div className='w-full text-gray-400'>
@@ -137,18 +129,7 @@ export const AñadirJustificacion = () => {
                                 <option value='3'>En proceso</option>
                             </select>
                         </div>
-                        {/* <div className='w-full text-white'>
-                            <input
-                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
-                                type='date'
-                                id='fecha'
-                                value={buscadorFechaInicio}
-                                onChange={(e) =>
-                                    setBuscadorFechaInicio(e.target.value)
-                                }
-                            />
-                        </div> */}
-                        {/* adecuar */}
+
                         <div className='w-full text-gray-400'>
                             <input
                                 className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
@@ -162,16 +143,16 @@ export const AñadirJustificacion = () => {
                         </div>
                         <div className=''>
                             <button
-                                className='w-full text-black outline-none px-4 py-2 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
+                                className='w-full text-black outline-none px-8 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
                                 onClick={limpiar}>
-                                Limpiar
+                                <CleaningServicesIcon />
                             </button>
                         </div>
                         <div className=''>
                             <button
-                                className='w-full text-black outline-none px-4 py-2 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
+                                className='w-full text-black outline-none px-6 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
                                 onClick={onShowTerminos}>
-                                Agregar
+                                <NoteAddIcon />
                             </button>
                         </div>
                     </div>

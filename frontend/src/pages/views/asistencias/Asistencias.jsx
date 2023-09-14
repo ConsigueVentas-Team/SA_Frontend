@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
-import moment from 'moment';
 import { AES, enc } from 'crypto-js';
-import CloseIcon from '@mui/icons-material/Close';
-import { Filtros, Leyenda, ModalImagen } from '../../../components/asistencias/Asistencias';
-import TablaAsistencias from '../../../components/asistencias/Asistencias/TablaAsistencias';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ChecklistIcon from '@mui/icons-material/Checklist';
-import { Link } from "react-router-dom";
-import { Tabla } from '../../../components/asistencias/Asistencias/Tabla';
+import { Breadcumb, Calendar, Filtros, Leyenda, ModalImagen, Tabla } from '../../../components/asistencias/Asistencias';
 
 export const Asistencias = () => {
 
   const [attendance, setAttendance] = useState([]);
+
+  const [showImageModal, setShowImageModal] = useState(false)
+  const [image, setImage] = useState([]);
+
+  const [month, setMonth] = useState(new Date().toLocaleString('es-ES', { month: 'long' }).toUpperCase());
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const [viewCalendar, setViewCalendar] = useState(false)
+  const [viewLeyenda, setViewLeyenda] = useState(false)
 
   const [pagination, setPagination] = useState({
     current_page: 1,
@@ -25,15 +27,14 @@ export const Asistencias = () => {
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [selectedCore, setSelectedCore] = useState('');
 
+  const [date, setDate] = useState('')
   const [name, setName] = useState('');
   const [shift, setShift] = useState('');
   const [department, setDepartment] = useState('');
   const [core, setCore] = useState('');
-
   const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
   const token = tokenD.toString(enc.Utf8)
 
-  //** Rellenar Select Options */
   useEffect(() => {
     fetch(import.meta.env.VITE_API_URL + "/departments/list", {
       headers: {
@@ -77,18 +78,19 @@ export const Asistencias = () => {
   };
 
   useEffect(() => {
-		obtenerAsistencia(shift, department, core, name);
-	}, [shift, department, core, name]);
+    obtenerAsistencia(date, shift, department, core, name);
+  }, [date, shift, department, core, name]);
 
   const obtenerAsistencia = async (page) => {
     try {
       const url = new URL(import.meta.env.VITE_API_URL + `/attendance`);
       url.searchParams.append('page', page);
 
-			if (shift) url.searchParams.append('shift', shift);
-			if (department) url.searchParams.append('department', department);
-			if (core) url.searchParams.append('core', core);
-			if (name) url.searchParams.append('name', name);
+      if (date) url.searchParams.append("date", date);
+      if (shift) url.searchParams.append('shift', shift);
+      if (department) url.searchParams.append('department', department);
+      if (core) url.searchParams.append('core', core);
+      if (name) url.searchParams.append('name', name);
 
       const response = await fetch(
         url,
@@ -116,7 +118,6 @@ export const Asistencias = () => {
     obtenerAsistencia(newPage);
   };
 
-  //* Filtrado
   const handleClearFilter = () => {
     setShift('');
     setDepartment('');
@@ -126,75 +127,99 @@ export const Asistencias = () => {
     setSelectedCore('');
   }
 
-  const formatSelectedDate = (dateValue) => {
-    if (!dateValue) return '';
+  const openImageModal = () => {
+    setShowImageModal(true)
+  }
+  const closeImageModal = () => {
+    setShowImageModal(false)
+  }
 
-    const date = moment(dateValue, 'YYYY-MM-DD').toDate();
-    const formattedDate = moment(date).locale('es').format('LL');
-    return formattedDate;
+  const openUtil = () => {
+    setViewLeyenda(true)
+    setViewCalendar(true)
+  }
+
+  const closeUtil = () => {
+    setViewLeyenda(false)
+    setViewCalendar(false)
+  }
+
+  const handleDayClick = (selectedDay) => {
+    const formattedDate = selectedDay.toISOString().split('T')[0];
+    setSelectedDate(formattedDate);
+    setDate(formattedDate)
   };
 
   return (
     <>
-      <nav className="flex" >
-        <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
-          <li className="inline-flex items-center">
-            <div className="inline-flex items-center text-base font-medium text-gray-400">
-              <ChecklistIcon />
-              <span className='ml-1 text-base font-medium md:ml-2'>Asistencias</span>
-            </div>
-          </li>
-          <li >
-            <Link to="/marcar-asistencia" className="flex items-center text-gray-500 hover:text-white ">
-              <ChevronRightIcon />
-              <span className="ml-1 text-base font-medium md:ml-2">Marcar asistencia</span>
-            </Link>
-          </li>
-        </ol>
-      </nav>
+      <Breadcumb/>
       <div className='h-full bg-cv-secondary mt-5'>
-        <div className="space-y-3">
-          <div className="w-full flex flex-col md:flex-row justify-between gap-3">
-            <Leyenda />
-            <div className="w-full md:w-4/6 space-y-3 mt-3">
-              <div className="w-full bg-cv-primary rounded-lg">
-                <div className="w-full flex items-center justify-between p-2 space-x-3">
-                  <h2 className="text-white text-center text-sm sm:text-lg md:text-xl uppercase font-semibold">Fecha:</h2>
-                  {/* <div className="w-full flex items-center justify-between relative">
-                    <input type="date" defaultValue={selectedDate}
-                      onChange={handleDateChange} className='date w-full p-1 outline-none font-semibold text-cv-primary bg-cv-primary rounded-lg' />
-                    <p className="text-white bg-cv-primary text-center text-sm sm:text-lg md:text-xl uppercase font-semibold absolute">{formatSelectedDate(selectedDate)}</p>
-                  </div> */}
+        <div className="space-y-3 w-full">
+          {viewCalendar && viewLeyenda ? (
+            <div className="w-full flex flex-col md:flex-row justify-start gap-3">
+              <div className='w-full md:w-1/3 mt-10'>
+                <Leyenda />
+              </div>
+              <div className=" w-full md:w-4/6 space-y-3 ">
+                <div className="w-full bg-cv-primary rounded-lg">
+                  <div className="w-full flex flex-col items-center justify-between">
+                    <Calendar
+                      setSelectedMonth={setMonth}
+                      onDayClick={handleDayClick}
+                      selectedDay={date}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
+          ) : (
+            <div className='hidden'>asd</div>
+          )}
+          <div className='flex w-full'>
+            <div>
+              {viewCalendar && viewLeyenda ? (
+                <button className='p-2 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold flex items-center justify-center mr-3' onClick={closeUtil}>Cerrar</button>
+              ) : (
+                <button className='p-2 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold flex items-center justify-center mr-3' onClick={openUtil}>Abrir</button>
+              )}
+            </div>
+            <div className='w-full'>
+              <Filtros
+                name={name}
+                shift={shift}
+                department={department}
+                core={core}
+                departmentOptions={departmentOptions}
+                coreOptions={coreOptions}
+                selectedDepartment={selectedDepartment}
+                selectedCore={selectedCore}
+                handleShiftChange={handleShiftChange}
+                handleNameChange={handleNameChange}
+                handleClearFilter={handleClearFilter}
+                setDepartment={setDepartment}
+                setCore={setCore}
+                setSelectedDepartment={setSelectedDepartment}
+                setSelectedCore={setSelectedCore}
+                openImageModal={openImageModal}
+                setImage={setImage}
+              />
+            </div>
+
           </div>
-          <Filtros
-            name={name}
-            shift={shift}
-            department={department}
-            core={core}
-            departmentOptions={departmentOptions}
-            coreOptions={coreOptions}
-            selectedDepartment={selectedDepartment}
-            selectedCore={selectedCore}
-            handleShiftChange={handleShiftChange}
-            handleNameChange={handleNameChange}
-            handleClearFilter={handleClearFilter}
-            setDepartment={setDepartment}
-            setCore={setCore}
-            setSelectedDepartment={setSelectedDepartment}
-            setSelectedCore={setSelectedCore}
+          <Tabla
+            data={attendance}
+            pagination={pagination}
+            handlePageChange={handlePageChange}
+            openImageModal={openImageModal}
+            setImage={setImage}
           />
 
-          {/* Tabla de asistencias */}
-          <Tabla data={attendance} pagination={pagination} handlePageChange={handlePageChange} />
-          {/* <TablaAsistencias data={attendance} openImageModal={openImageModal} setImageUrl={setImageUrl} filterDate={filterDate} filterEmployee={filterEmployee} filterDepartment={filterDepartment} filterArea={filterArea} filterShift={filterShift} /> */}
-
-          {/* Modal de imagen */}
-          {/* {showImageModal && (
-            <ModalImagen imageUrl={imageUrl} closeImageModal={closeImageModal} />
-          )} */}
+          {showImageModal && (
+            <ModalImagen
+              image={image}
+              closeImageModal={closeImageModal}
+            />
+          )}
         </div>
       </div>
     </>

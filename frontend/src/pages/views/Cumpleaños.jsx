@@ -24,8 +24,6 @@ export const Cumpleaños = () => {
 			url.searchParams.append('m', selectedMonth);
 			url.searchParams.append('d', selectedDay);
 
-			console.log(url)
-
 			const response = await fetch(url, {
 				headers: {
 					"Content-Type": "application/json",

@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
-
-import { CardList, SearchBar } from '../../../components/justificaciones'
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices'
+import {
+    CardList,
+    // Circular,
+    SearchBar,
+} from '../../../components/justificaciones'
 import { Pagination } from '@mui/material'
 import { FechDataJustificaciones } from '../../../components/justificaciones/helpers/FechDataJustificaciones'
 
@@ -24,9 +28,8 @@ export const Justificaciones = () => {
 
     const handleNameChange = (event) => {
         setName(event.target.value)
+        // console.log(event.target.value)
     }
-
-    // let bandera = true
 
     const handleBuscar = (page) => {
         FechDataJustificaciones({ page })
@@ -46,8 +49,11 @@ export const Justificaciones = () => {
 
     return (
         <>
+            {/* <div className='grid grid-cols-2'> */}
+            {/* <Circular /> */}
+            {/* </div> */}
             <div className='min-h-screen px-8'>
-                <p className='ml-1 text-base font-medium md:ml-2 uppercase text-gray-400 hover:text-white'>
+                <p className='ml-1 text-base mb-3 font-medium md:ml-2 uppercase text-gray-400 hover:text-white'>
                     justificacion
                 </p>
 
@@ -97,9 +103,9 @@ export const Justificaciones = () => {
                         </div>
                         <div className=''>
                             <button
-                                className='w-full text-black outline-none px-4 py-2 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
+                                className='w-full text-black outline-none px-8 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
                                 onClick={limpiar}>
-                                Limpiar
+                                <CleaningServicesIcon />
                             </button>
                         </div>
                     </div>
@@ -111,6 +117,7 @@ export const Justificaciones = () => {
                     buscador_tipoJustificacion={buscador_tipoJustificacion}
                     buscadorStatus={buscadorStatus}
                     buscadorFecha={buscadorFecha}
+                    searchName={name}
                 />
 
                 <Pagination

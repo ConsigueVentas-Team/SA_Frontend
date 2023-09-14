@@ -23,6 +23,7 @@ import { Area } from "./pages/views/formulario/area";
 import { EvaluacionesColaborador } from "./pages/views/evaluaciones/EvaluacionesColaborador";
 import { EvaluacionesAdmin } from "./pages/views/evaluaciones/EvaluacionesAdmin";
 import { RevisarJustificacion } from './components/justificaciones/RevisarJustificacion';
+import Reportes from './pages/views/Reportes';
 function App() {
   const rol = localStorage.getItem("rol");
   const isLoggedIn = localStorage.getItem("login") === "true";
@@ -60,6 +61,7 @@ function App() {
                 <Route path="empresa/departamento" element={<Departamento />} />
                 <Route path="empresa/nucleo" element={<Nucleo />} />
                 <Route path="empresa/perfil" element={<Area></Area>} />
+                <Route path="reportes" element={<Reportes></Reportes>} />
               </>
             )}
             {hasRole("Gerencia") && (
@@ -73,6 +75,7 @@ function App() {
                 <Route path="empresa/departamento" element={<Departamento />} />
                 <Route path="empresa/nucleo" element={<Nucleo />} />
                 <Route path="empresa/perfil" element={<Area></Area>} />
+                <Route path="reportes" element={<Reportes></Reportes>} />
               </>
             )}
             <Route path="/*" element={<Error404 />} />

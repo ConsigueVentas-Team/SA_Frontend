@@ -7,7 +7,9 @@ export const CardList = ({
     buscador_tipoJustificacion,
     buscadorStatus,
     buscadorFecha,
+    searchName,
 }) => {
+    console.log(cards)
     return (
         <>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5'>
@@ -58,6 +60,17 @@ export const CardList = ({
                             return fechaPost === fechaBuscador
                         }
                     })
+                    .filter((post) => {
+                        if (
+                            post.user.name
+                                .toUpperCase()
+                                .includes(searchName.toUpperCase())
+                        ) {
+                            return true
+                        }
+
+                        return false
+                    })
                     .map((card, index) => (
                         <Card key={index} card={card} page={page} />
                     ))}
@@ -72,6 +85,7 @@ CardList.propTypes = {
     buscador_tipoJustificacion: PropTypes.string.isRequired,
     buscadorStatus: PropTypes.string.isRequired,
     buscadorFecha: PropTypes.string.isRequired,
+    searchName: PropTypes.string,
 }
 
 CardList.defaultProps = {

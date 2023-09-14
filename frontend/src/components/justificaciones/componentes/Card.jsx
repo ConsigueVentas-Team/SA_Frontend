@@ -13,6 +13,7 @@ export const Card = ({ card, page }) => {
             return 'Aceptado'
         }
     }
+
     const mostrarDetalles = (id) => {
         navigate(`/details/${id}`, {
             state: { page },

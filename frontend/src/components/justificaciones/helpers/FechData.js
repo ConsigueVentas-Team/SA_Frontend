@@ -16,14 +16,14 @@ export const FechData = async ({ page, bandera = false }) => {
         if (rol === 'Colaborador') {
             url = `${
                 import.meta.env.VITE_API_URL
-            }/justification?page=${page}&shift=${turno}&user_id=${user_id}`
+            }/justification?page=${page}&shift=${turno}&user=${user_id}`
         } else if (rol === 'Lider Nucleo') {
             if (bandera) {
-                url = `${import.meta.env.VITE_API_URL}/justification`
+                url = `${import.meta.env.VITE_API_URL}/justification${page}`
             } else {
                 url = `${
                     import.meta.env.VITE_API_URL
-                }/justification?page=${page}&shift=${turno}&user_id=${user_id}`
+                }/justification?page=${page}&shift=${turno}&user=${user_id}`
             }
         }
 
@@ -34,7 +34,7 @@ export const FechData = async ({ page, bandera = false }) => {
         })
         const data = await response.json()
 
-        console.log(data.Justifications)
+        // console.log(data.Justifications)
         return data.Justifications
     } catch (error) {
         // Manejo de errores en caso de fallo en la llamada a la API

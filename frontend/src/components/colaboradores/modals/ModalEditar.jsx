@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AES, enc } from "crypto-js";
 import Person2Icon from '@mui/icons-material/Person2';
 import CloseIcon from '@mui/icons-material/Close';
-import { InputText, ModalButton, Select, SelectRole, Switch } from './ModalElements';
+import { Avatar, InputText, ModalButton, Select, SelectRole, Switch } from './ModalElements';
 
 export const ModalEditar = ({ close, updateUser, user }) => {
 	// UseStates de campos a insertar
@@ -17,8 +17,9 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 	const [cellphone, setCellphone] = useState('');
 	const [shift, setShift] = useState('');
 	const [birthday, setBirthday] = useState('');
-	// const [avatar, setAvatar] = useState(null);
-	// const [avatarUrl, setAvatarUrl] = useState('');
+	const [avatar, setAvatar] = useState(null);
+	const [avatarUrl, setAvatarUrl] = useState('');
+	const [imageUrl, setImageUrl] = useState(null);
 	const [dateStart, setDateStart] = useState('');
 	const [dateEnd, setDateEnd] = useState('');
 	const [status, setStatus] = useState('')
@@ -44,8 +45,8 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 		setCellphone(user.cellphone);
 		setShift(user.shift);
 		setBirthday(user.birthday);
-		// setAvatar(user.image);
-		// setAvatarUrl(user.image_url);
+		setAvatar(user.image);
+		setAvatarUrl(user.image_url);
 		setDateStart(user.date_start);
 		setDateEnd(user.date_end);
 		setStatus(user.status);
@@ -145,10 +146,11 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 		setBirthday(event.target.value);
 	};
 
-	// const handleImageChange = (event) => {
-	// 	const file = event.target.files[0];
-	// 	setAvatar(file);
-	// };
+	const handleImageChange = (event) => {
+		const file = event.target.files[0];
+		setAvatar(file);
+		setImageUrl(URL.createObjectURL(file));
+	};
 
 	const handleDateStartChange = (event) => {
 		setDateStart(event.target.value);
@@ -159,10 +161,9 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 	}
 
 	const handleStatusChange = (event) => {
-		//setStatus(event.target.checked ? 1 : 0);
 		const newStatus = event.target.checked ? 1 : 0;
 		setStatus(newStatus);
-		setStatusDescription(newStatus === 1 ? 'NULL' : 'Termino su convenio');
+		setStatusDescription(newStatus === 1 ? ' ' : 'Termino su convenio');
 	};
 
 	const handleStatusDescriptionChange = (event) => {
@@ -186,7 +187,7 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 			cellphone,
 			shift,
 			birthday,
-			// avatar,
+			avatar,
 			dateStart,
 			dateEnd,
 			status,
@@ -205,26 +206,67 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 					{/* <!-- Modal content --> */}
 					<div className="relative bg-white rounded-lg shadow">
 						{/* <!-- Modal header --> */}
-						<div className="flex items-start justify-between p-4 border-b border-cv-primary rounded-t">
-							<h3 className="text-xl font-semibold text-cv-primary inline-flex items-center gap-2">
+						<div className="flex items-start justify-between p-4 border-b rounded-t border-cv-primary">
+							<h3 className="inline-flex items-center gap-2 text-xl font-semibold text-cv-primary">
 								<Person2Icon />
 								Editar Colaborador
 							</h3>
-							<button type="button" onClick={close} className="text-cv-secondary bg-transparent hover:bg-cv-primary hover:text-cv-cyan rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center active:scale-95 ease-in-out duration-300">
+							<button type="button" onClick={close} className="inline-flex items-center justify-center w-8 h-8 ml-auto text-sm duration-300 ease-in-out bg-transparent rounded-lg text-cv-secondary hover:bg-cv-primary hover:text-cv-cyan active:scale-95">
 								<CloseIcon sx={{ fontSize: 32 }} />
 								<span className="sr-only">Close modal</span>
 							</button>
 						</div>
 						{/* <!-- Modal body --> */}
-						<div className="relative p-2 md:p-6 flex-auto space-y-4">
-							{/* <UpdateAvatar
-								avatarUrl={avatarUrl}
-								deleteImage={deleteImage}
+						<div className="relative flex-auto p-2 space-y-4 md:p-6">
+							{/* <Avatar
 								onChange={handleImageChange}
+								value={avatar}
+								remove={() => setAvatar(null)}
 							/> */}
 
-							< div className="grid grid-cols-1 sm:grid-cols-2 gap-8" >
-								<div className="w-full flex flex-col space-y-1">
+							<div className="flex flex-col items-center justify-between w-full gap-5 sm:flex-row">
+								<div>
+									{imageUrl ? (
+										<div className='relative w-40 h-40'>
+											<img
+												src={imageUrl}
+												className="object-cover object-center w-40 h-40 mx-auto border rounded-full" name="avatar" alt="" />
+										</div>
+									) : (
+										<div className='relative w-40 h-40'>
+											<img src={avatarUrl} className="object-cover object-center w-40 h-40 mx-auto border rounded-full" name="avatar" alt="" />
+										</div>
+									)}
+								</div>
+								<label
+									htmlFor="fileImage"
+									className="flex items-center justify-center w-full p-2 py-8 transition-all border-2 border-gray-200 border-dashed rounded-md appearance-none cursor-pointer hover:border-primary-300"
+								>
+									<div className="flex flex-col items-center justify-center space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+										<div className="w-64 text-center text-gray-600 md:text-start">
+											<p className="text-xs font-medium md:text-base text-cv-secondary hover:text-cv-primary">
+												{avatar ? `Seleccionaste: ${avatar}` : "Seleccione un archivo de imagen"}
+											</p>
+											<p className="text-xs text-gray-500 md:text-sm">
+												{avatar ? '' : "Formatos permitidos: JPG, JPEG, PNG"}
+											</p>
+										</div>
+										<button className='duration-300 ease-in-out active:scale-95'>
+											<label
+												htmlFor="fileImage"
+												className="flex items-center justify-center px-4 py-2 text-sm font-semibold uppercase transition-all duration-150 ease-linear bg-white border-2 rounded-md text-cv-primary border-cv-primary hover:text-white hover:bg-cv-primary"
+											>
+												Seleccionar
+											</label>
+										</button>
+									</div>
+									<input id="fileImage" accept="image/png,image/jpeg,image/jpg" type="file" className="sr-only" onChange={handleImageChange} />
+								</label>
+							</div>
+
+
+							< div className="grid grid-cols-1 gap-8 sm:grid-cols-2" >
+								<div className="flex flex-col w-full space-y-1">
 									<InputText
 										label="Nombres completos"
 										type="text"
@@ -276,7 +318,7 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 										status_onChange={handleStatusDescriptionChange}
 									/>
 								</div>
-								<div className="w-full flex flex-col space-y-1">
+								<div className="flex flex-col w-full space-y-1">
 									<Select
 										label="Departamento"
 										id="department"
@@ -335,8 +377,8 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 							</div >
 						</div >
 						{/* <!-- Modal footer --> */}
-						< div className="flex flex-col-reverse md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-cv-primary rounded-b gap-2 md:gap-4" >
-							<ModalButton label="Cancelar" onClick={close} className="text-cv-primary bg-white border-cv-primary hover:text-white hover:bg-cv-primary" />
+						< div className="flex flex-col-reverse items-center justify-between gap-2 p-2 border-t border-solid rounded-b md:flex-row md:p-6 border-cv-primary md:gap-4" >
+							<ModalButton label="Cancelar" onClick={close} className="bg-white text-cv-primary border-cv-primary hover:text-white hover:bg-cv-primary" />
 							<ModalButton label="Guardar" onClick={handleSubmit} className="text-white bg-cv-primary border-cv-primary hover:bg-cv-primary" />
 						</div >
 					</div >
