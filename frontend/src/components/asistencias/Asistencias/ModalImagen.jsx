@@ -2,7 +2,6 @@ import { DefaultImage } from "./DefaultImage";
 import PropTypes from 'prop-types';
 
 export const ModalImagen = ({ image, closeImageModal }) => {
-    console.log("asdas"+ image)
     return (
         <div>
             <div
@@ -104,4 +103,5 @@ export const ModalImagen = ({ image, closeImageModal }) => {
 
 ModalImagen.propTypes = {
 	image: PropTypes.array.isRequired,
+    closeImageModal: PropTypes.func.isRequired
 };

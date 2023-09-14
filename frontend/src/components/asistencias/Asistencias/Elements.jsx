@@ -79,3 +79,16 @@ Button.propTypes = {
 	label: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 }
+
+
+export const ButtonNavigation = ({ onClick, children }) => {
+    return (
+        <span onClick={onClick} className='flex items-center justify-center p-1 text-white duration-300 ease-in-out rounded-full hover:bg-cv-secondary active:scale-95'>
+            {children}
+        </span>
+    )
+}
+ButtonNavigation.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+}
