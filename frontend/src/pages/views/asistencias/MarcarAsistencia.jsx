@@ -1,10 +1,7 @@
-import ChecklistIcon from '@mui/icons-material/Checklist';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { AES, enc } from 'crypto-js';
 import { useEffect, useRef, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { Link } from "react-router-dom";
-import { AttendanceSection, CameraSection } from '../../../components/asistencias/MarcarAsistencia';
+import { AttendanceSection, Breadcumb, CameraSection } from '../../../components/asistencias/MarcarAsistencia';
 
 export const MarcarAsistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -44,12 +41,12 @@ export const MarcarAsistencia = () => {
       import.meta.env.VITE_TOKEN_KEY
     );
     const token = tokenD.toString(enc.Utf8);
-      fetch(import.meta.env.VITE_API_URL + '/attendance/id', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    fetch(import.meta.env.VITE_API_URL + '/attendance/id', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const asistenciasHoy = data.attendance.filter((asistencia) => asistencia.date === fecha);
@@ -58,7 +55,7 @@ export const MarcarAsistencia = () => {
         } else {
           setSegundaFotoTomada(true)
         }
-        
+
       })
       .catch((error) => {
         console.error('Error al obtener las asistencias:', error);
@@ -234,23 +231,8 @@ export const MarcarAsistencia = () => {
 
   return (
     <>
-    <Toaster />
-      <nav className="flex">
-        <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
-          <li className="inline-flex items-center">
-            <Link to="/asistencias" className="inline-flex items-center text-base font-medium text-gray-400 hover:text-white">
-              <ChecklistIcon />
-              <span className='ml-1 text-base font-medium md:ml-2'>Asistencias</span>
-            </Link>
-          </li>
-          <li >
-            <div className="flex items-center text-gray-500 ">
-              <ChevronRightIcon />
-              <span className="ml-1 text-base font-medium md:ml-2">Marcar asistencia</span>
-            </div>
-          </li>
-        </ol>
-      </nav>
+      <Toaster />
+      <Breadcumb/>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-2/3">
           <div className={`registro-Entrada min-h-[10vh] flex justify-center`}>

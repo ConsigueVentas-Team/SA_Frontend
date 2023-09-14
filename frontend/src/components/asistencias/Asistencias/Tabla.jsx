@@ -3,17 +3,9 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Link } from 'react-router-dom';
-
-
-
-
 
 export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setImage }) => {
-	console.log(data)
-	console.log(pagination)
 
 	const handleViewClick = (attendance) => {
 		openImageModal();
@@ -27,19 +19,22 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 					<table className="w-full text-sm text-left text-white">
 						<thead className="text-base uppercase">
 							<tr>
-								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+								<th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
 									Departamento
 								</th>
-								<th scope="col" className="px-6 py-4 whitespace-nowrap">
-									Área
+								<th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
+									Nucleo
 								</th>
-								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+								<th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
 									Turno
 								</th>
-								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+								<th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
 									Colaborador
 								</th>
-								<th scope="col" className="px-6 py-4 whitespace-nowrap">
+								<th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
+									Fecha
+								</th>
+								<th scope="col" className="px-6 py-4 whitespace-nowrap text-center">
 									Asistencia
 								</th>
 								<th scope="col" className="px-6 py-4 sticky right-0 bg-[#0e161b] text-center">
@@ -50,19 +45,22 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 						<tbody className='bg-cv-primary'>
 							{data.map((attendance) => (
 								<tr key={attendance.id} className='border-b border-cv-secondary'>
-									<th scope="row" className="px-6 py-4 whitespace-nowrap">
+									<th scope="row" className="px-6 py-4 whitespace-nowrap text-center">
 										{attendance.user.position_id}
 									</th>
-									<td className="px-6 py-4 whitespace-nowrap">
+									<td className="px-6 py-4 whitespace-nowrap text-center">
 										{attendance.user.position_id}
 									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
+									<td className="px-6 py-4 whitespace-nowrap text-center">
 										{attendance.user.shift}
 									</td>
-									<th scope="row" className="px-6 py-4 whitespace-nowrap">
+									<th scope="row" className="px-6 py-4 whitespace-nowrap text-center">
 										{attendance.user.name + " " + attendance.user.surname}
 									</th>
-									<th scope="row" className="px-6 py-4 whitespace-nowrap">
+									<th scope="row" className="px-6 py-4 whitespace-nowrap text-center">
+										{attendance.date}
+									</th>
+									<th scope="row" className="px-6 py-4 whitespace-nowrap text-center">
 										<div className='flex items-center justify-center'>
 											{attendance.attendance === 1 && (
 												<div className="w-10 h-10 rounded-full bg-[#24FF00]"></div>
@@ -81,13 +79,12 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 											)}
 										</div>
 									</th>
-									<td className="px-6 py-4 whitespace-nowrap">
+									<td className=" whitespace-nowrap sticky right-0 bg-cv-primary text-center">
 										<div className='flex items-center justify-center'>
 											<button
 												onClick={() => handleViewClick(attendance)}
-												className='p-2 w-full border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
-												<VisibilityIcon className='sm:mr-2' />
-												<span className='hidden sm:inline'>Ver mas</span>
+												className='p-2 border border-cv-secondary rounded-md text-cv-cyan hover:bg-cv-cyan hover:text-cv-primary active:scale-95 ease-in-out duration-300'>
+												<VisibilityIcon  />
 											</button>
 										</div>
 									</td>
@@ -97,7 +94,7 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 					</table>
 				</div>
 				<nav className="w-full flex items-center justify-center md:justify-between px-6 py-4 gap-2">
-					{/* <div className='w-full'>
+					<div className='w-full'>
 						<p className='text-sm font-normal whitespace-nowrap'>
 							{`Página ${pagination.current_page} de ${pagination.last_page}`}
 						</p>
@@ -148,7 +145,7 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 								<LastPageIcon />
 							</button>
 						</div>
-					</div> */}
+					</div>
 				</nav>
 			</div>
 		</>
