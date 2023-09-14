@@ -194,7 +194,7 @@ export const Colaboradores = () => {
 		formData.append('birthday', updateUser.birthday);
 		formData.append('date_start', updateUser.dateStart);
 		formData.append('date_end', updateUser.dateEnd);
-		// formData.append('image', updateUser.avatar);
+		formData.append('image', updateUser.avatar);
 		formData.append('role_id', updateUser.role);
 		formData.append('status', updateUser.status);
 		formData.append('status_description', updateUser.statusDescription);
@@ -314,9 +314,6 @@ export const Colaboradores = () => {
 						<Button title="Agregar colaborador" onClick={toggleAgregarModal} label='Agregar' icon={<PersonAddIcon />} />
 					</div>
 					<div className="col-span-1 row-start-7 md:col-start-9 md:row-start-2">
-						{/* <div className='flex flex-col items-center justify-between w-full gap-2 sm:flex-row '>
-							<Button title="Aplicar filtros" onClick={handleSearchClick} label='Buscar' icon={<SearchIcon />} />
-						</div> */}
 						<Button title="Limpiar filtros" onClick={() => { handleClearFilter(); handleClearFilter(); }} label='Limpiar' icon={<CleaningServicesIcon />} />
 					</div>
 				</div>
