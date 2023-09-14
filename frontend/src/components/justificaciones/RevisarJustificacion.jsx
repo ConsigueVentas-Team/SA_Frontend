@@ -129,35 +129,36 @@ export const RevisarJustificacion = () => {
                 </Alert>
             </Snackbar>
 
-            <div className='w-[70%] m-auto'>
-                <div className='w-full flex flex-col md:flex-row items-center text-white relative'>
-                    <nav className='flex'>
-                        <ol className='inline-flex items-center space-x-1 md:space-x-3 uppercase'>
-                            <li className='inline-flex items-center'>
-                                <Link
-                                    to={
-                                        hasRole('Lider Nucleo')
-                                            ? '/justificaciones'
-                                            : '/añadir-justificacion'
-                                    }
-                                    className='inline-flex items-center text-base font-medium text-gray-400 hover:text-white'>
-                                    <BalanceIcon />
-                                    <span className='ml-1 text-base font-medium md:ml-2'>
-                                        Justificaciones
-                                    </span>
-                                </Link>
-                            </li>
-                            <li>
-                                <div className='flex items-center text-gray-500 '>
-                                    <ChevronRightIcon />
-                                    <span className='ml-1 text-base font-medium md:ml-2'>
-                                        Detalle justificacion
-                                    </span>
-                                </div>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
+            <div className='w-full flex flex-col md:flex-row items-center text-white relative px-8'>
+                <nav className='flex'>
+                    <ol className='inline-flex items-center space-x-1 md:space-x-3 uppercase'>
+                        <li className='inline-flex items-center'>
+                            <Link
+                                to={
+                                    hasRole('Lider Nucleo')
+                                        ? '/justificaciones'
+                                        : '/añadir-justificacion'
+                                }
+                                className='inline-flex items-center text-base font-medium text-gray-400 hover:text-white'>
+                                <BalanceIcon />
+                                <span className='ml-1 text-base font-medium md:ml-2'>
+                                    Justificaciones
+                                </span>
+                            </Link>
+                        </li>
+                        <li>
+                            <div className='flex items-center text-gray-500 '>
+                                <ChevronRightIcon />
+                                <span className='ml-1 text-base font-medium md:ml-2'>
+                                    Detalle justificacion
+                                </span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div className='w-[70%] m-auto mt-5'>
                 <div className='rounded-lg mt-2'>
                     {faltasList
                         .filter((item) => {
@@ -171,7 +172,7 @@ export const RevisarJustificacion = () => {
                         .map((item) => (
                             <div key={item.id} className='mb-6'>
                                 <div className='flex flex-col md:flex-row gap-2'>
-                                    <div className='bg-cv-primary text-white flex flex-col p-4 rounded-lg md:w-3/5 border border-gray-500'>
+                                    <div className='bg-cv-primary text-slate-400 flex flex-col p-4 rounded-lg md:w-3/5 border border-gray-500'>
                                         <h2 className='text-lg font-semibold text-center'>
                                             JUSTIFICACIÓN Nº {item.id}
                                         </h2>
@@ -261,7 +262,7 @@ export const RevisarJustificacion = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className='bg-cv-primary text-white flex flex-col p-4 rounded-lg md:w-2/5 border border-gray-500'>
+                                        <div className='bg-cv-primary text-slate-400 flex flex-col p-4 rounded-lg md:w-2/5 border border-gray-500'>
                                             <h2 className='text-lg uppercase font-semibold text-center'>
                                                 Datos Usuario
                                             </h2>
@@ -341,12 +342,12 @@ export const RevisarJustificacion = () => {
                                     <div className='flex justify-center gap-10 mt-4'>
                                         <button
                                             onClick={() => handleRechazar(item)}
-                                            className='border border-gray-300 rounded-lg px-4 text-gray-300 hover:bg-cv-cyan hover:border-2 hover:border-cv-primary hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
+                                            className='border border-gray-300 rounded-lg px-4 text-gray-300 hover:bg-cv-cyan hover:border-none hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
                                             Rechazar
                                         </button>
                                         <button
                                             onClick={() => handleAceptar(item)}
-                                            className='border border-gray-300 rounded-lg px-4 text-gray-300 hover:bg-cv-cyan hover:border-2 hover:border-cv-primary hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
+                                            className='border border-gray-300 rounded-lg py-1 px-4 text-gray-300 hover:bg-cv-cyan hover:border-none  hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
                                             Aceptar
                                         </button>
                                     </div>
