@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices'
-import { CardList, SearchBar } from '../../../components/justificaciones'
+import {
+    CardList,
+    // Circular,
+    SearchBar,
+} from '../../../components/justificaciones'
 import { Pagination } from '@mui/material'
 import { FechDataJustificaciones } from '../../../components/justificaciones/helpers/FechDataJustificaciones'
 
@@ -45,6 +49,9 @@ export const Justificaciones = () => {
 
     return (
         <>
+            {/* <div className='grid grid-cols-2'> */}
+            {/* <Circular /> */}
+            {/* </div> */}
             <div className='min-h-screen px-8'>
                 <p className='ml-1 text-base mb-3 font-medium md:ml-2 uppercase text-gray-400 hover:text-white'>
                     justificacion
