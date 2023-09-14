@@ -7,6 +7,7 @@ import { FechData } from './helpers/FechData'
 import { FechDataJustificaciones } from './helpers/FechDataJustificaciones'
 import { ModalRechazado } from './componentes/ModalRechazado'
 import { AES, enc } from 'crypto-js'
+import { Alert, Snackbar } from '@mui/material'
 
 export const RevisarJustificacion = () => {
     const { id } = useParams()
@@ -20,6 +21,14 @@ export const RevisarJustificacion = () => {
     const handleRechazar = (item) => {
         setItemData(item)
         setShowModalRechazado(true)
+    }
+    // Alerta
+    const [toasSuccess, setToasSuccess] = useState(false)
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return
+        }
+        setToasSuccess(false)
     }
 
     const handleAceptar = (item) => {
@@ -46,11 +55,13 @@ export const RevisarJustificacion = () => {
                 }
                 return response.json()
             })
-            // .then((data) => {
-
-            //   // Maneja la respuesta exitosa si es necesario
-            //   // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
-            // })
+            .then(() => {
+                // setData(data)
+                setToasSuccess(true)
+                window.location.replace('')
+                // Maneja la respuesta exitosa si es necesario
+                // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
+            })
             .catch((error) => {
                 console.log(error.message)
             })
@@ -101,8 +112,22 @@ export const RevisarJustificacion = () => {
                 <ModalRechazado
                     itemData={itemData}
                     setShowModalRechazado={setShowModalRechazado}
+                    setToasSuccess={setToasSuccess}
                 />
             )}
+
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={toasSuccess}
+                autoHideDuration={5000}
+                onClose={handleClose}>
+                <Alert
+                    onClose={handleClose}
+                    severity='success'
+                    sx={{ width: '100%' }}>
+                    Se realizó con éxito!
+                </Alert>
+            </Snackbar>
 
             <div className='w-[70%] m-auto'>
                 <div className='w-full flex flex-col md:flex-row items-center text-white relative'>
@@ -110,7 +135,11 @@ export const RevisarJustificacion = () => {
                         <ol className='inline-flex items-center space-x-1 md:space-x-3 uppercase'>
                             <li className='inline-flex items-center'>
                                 <Link
-                                    to='/añadir-justificacion'
+                                    to={
+                                        hasRole('Lider Nucleo')
+                                            ? '/justificaciones'
+                                            : '/añadir-justificacion'
+                                    }
                                     className='inline-flex items-center text-base font-medium text-gray-400 hover:text-white'>
                                     <BalanceIcon />
                                     <span className='ml-1 text-base font-medium md:ml-2'>
@@ -309,15 +338,15 @@ export const RevisarJustificacion = () => {
                                 </div>
 
                                 {hasRole('Lider Nucleo') && (
-                                    <div className='flex justify-center gap-10 mt-8'>
+                                    <div className='flex justify-center gap-10 mt-4'>
                                         <button
                                             onClick={() => handleRechazar(item)}
-                                            className='border border-cv-cyan rounded-lg px-4 text-cv-cyan'>
+                                            className='border border-gray-300 rounded-lg px-4 text-gray-300 hover:bg-cv-cyan hover:border-2 hover:border-cv-primary hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
                                             Rechazar
                                         </button>
                                         <button
                                             onClick={() => handleAceptar(item)}
-                                            className='border border-cv-cyan rounded-lg px-4 text-cv-cyan'>
+                                            className='border border-gray-300 rounded-lg px-4 text-gray-300 hover:bg-cv-cyan hover:border-2 hover:border-cv-primary hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
                                             Aceptar
                                         </button>
                                     </div>

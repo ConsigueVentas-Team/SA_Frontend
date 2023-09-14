@@ -7,6 +7,7 @@ export const FechDataJustificaciones = async ({ page }) => {
             localStorage.getItem('token'),
             import.meta.env.VITE_TOKEN_KEY
         )
+
         const token = tokenD.toString(enc.Utf8)
 
         url = `${import.meta.env.VITE_API_URL}/justification?page=${page}`
@@ -16,6 +17,7 @@ export const FechDataJustificaciones = async ({ page }) => {
                 Authorization: `Bearer ${token}`,
             },
         })
+
         const data = await response.json()
 
         // console.log(data.Justifications)
