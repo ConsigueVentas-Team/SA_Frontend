@@ -32,7 +32,6 @@ export const Asistencias = () => {
   const [shift, setShift] = useState('');
   const [department, setDepartment] = useState('');
   const [core, setCore] = useState('');
-
   const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
   const token = tokenD.toString(enc.Utf8)
 
