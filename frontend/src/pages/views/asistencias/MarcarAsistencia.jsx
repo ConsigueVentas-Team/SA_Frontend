@@ -1,7 +1,10 @@
 import { AES, enc } from 'crypto-js';
 import { useEffect, useRef, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { AttendanceSection, Breadcumb, CameraSection } from '../../../components/asistencias/MarcarAsistencia';
+import { Link } from 'react-router-dom';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import { AttendanceSection,  CameraSection } from '../../../components/asistencias/MarcarAsistencia';
 
 export const MarcarAsistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -42,7 +45,6 @@ export const MarcarAsistencia = () => {
     );
     const token = tokenD.toString(enc.Utf8);
     fetch(import.meta.env.VITE_API_URL + '/attendance/id', {
-      method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -229,10 +231,32 @@ export const MarcarAsistencia = () => {
     handleRegistroAsistencia('departure');
   };
 
+  const rol = localStorage.getItem("rol");
+    const hasRole = (targetRole) => {
+        return rol !== targetRole;
+    };
+
   return (
     <>
       <Toaster />
-      <Breadcumb/>
+      <nav className="flex">
+            <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
+                {hasRole("Colaborador") && (
+                    <li className="inline-flex items-center">
+                        <Link to="/asistencias" className="inline-flex items-center text-base font-medium text-gray-400 hover:text-white">
+                            <ChecklistIcon />
+                            <span className='ml-1 text-base font-medium md:ml-2'>Asistencias</span>
+                        </Link>
+                    </li>
+                )}
+                <li >
+                    <div className="flex items-center text-gray-500 ">
+                        <ChevronRightIcon />
+                        <span className="ml-1 text-base font-medium md:ml-2">Marcar asistencia</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-2/3">
           <div className={`registro-Entrada min-h-[10vh] flex justify-center`}>
