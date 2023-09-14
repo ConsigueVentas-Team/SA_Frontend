@@ -7,10 +7,18 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from 'react-router-dom';
 
-export const Tabla = ({ data, pagination, handlePageChange }) => {
+
+
+
+
+export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setImage }) => {
 	console.log(data)
 	console.log(pagination)
 
+	const handleViewClick = (attendance) => {
+		openImageModal();
+		setImage(attendance)
+	};
 
 	return (
 		<>
@@ -62,7 +70,7 @@ export const Tabla = ({ data, pagination, handlePageChange }) => {
 											{attendance.delay === 1 && attendance.justification !== 1 && (
 												<div className="w-10 h-10 rounded-full bg-[#FAFF00]"></div>
 											)}
-											{attendance.absence === 1 && attendance.justification !== 1 && (
+											{attendance.delay === 0 && attendance.justification !== 1 && (
 												<div className="w-10 h-10 rounded-full bg-[#FF0000]"></div>
 											)}
 											{(attendance.justification === 1) && (
@@ -75,9 +83,9 @@ export const Tabla = ({ data, pagination, handlePageChange }) => {
 									</th>
 									<td className="px-6 py-4 whitespace-nowrap">
 										<div className='flex items-center justify-center'>
-											<button 
-											// onClick={() => handleViewClick(attendance)} 
-											className='p-2 w-full border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
+											<button
+												onClick={() => handleViewClick(attendance)}
+												className='p-2 w-full border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
 												<VisibilityIcon className='sm:mr-2' />
 												<span className='hidden sm:inline'>Ver mas</span>
 											</button>
@@ -150,5 +158,7 @@ export const Tabla = ({ data, pagination, handlePageChange }) => {
 Tabla.propTypes = {
 	data: PropTypes.array.isRequired,
 	pagination: PropTypes.object.isRequired,
-	handlePageChange: PropTypes.func.isRequired
+	handlePageChange: PropTypes.func.isRequired,
+	openImageModal: PropTypes.func.isRequired,
+	setImage: PropTypes.func.isRequired,
 };

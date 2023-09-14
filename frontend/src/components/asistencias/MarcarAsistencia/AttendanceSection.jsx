@@ -1,6 +1,4 @@
-import React from 'react';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ChecklistIcon from '@mui/icons-material/Checklist';
+import PropTypes from 'prop-types';
 import { RelojAnalogico } from './RelojAnalogico';
 
 export const AttendanceSection = ({
@@ -30,12 +28,6 @@ export const AttendanceSection = ({
                         className="bg-cv-cyan hover:bg-cv-secondary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12"
                         onClick={handleButtonClickAdmission}
                         disabled={
-                            (localStorage.getItem('shift') === 'Mañana' && (
-                                (horaActual.getHours() < 8) || (horaActual.getHours() >= 13)
-                            )) ||
-                            (localStorage.getItem('shift') === 'Tarde' && (
-                                (horaActual.getHours() < 14) || (horaActual.getHours() >= 19 && horaActual.getMinutes() > 0)
-                            )) ||
                             buttonClickedAdmission
                         }
                     >
@@ -48,12 +40,6 @@ export const AttendanceSection = ({
                         className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12"
                         onClick={handleButtonClick}
                         disabled={
-                            (localStorage.getItem('shift') === 'Mañana' && (
-                                (horaActual.getHours() < 8) || (horaActual.getHours() >= 13)
-                            )) ||
-                            (localStorage.getItem('shift') === 'Tarde' && (
-                                (horaActual.getHours() < 14) || (horaActual.getHours() >= 19 && horaActual.getMinutes() > 0)
-                            )) ||
                             buttonClicked
                         }
                     >
@@ -71,4 +57,18 @@ export const AttendanceSection = ({
             </div>
         </div>
     );
+};
+
+AttendanceSection.propTypes = {
+    horaActual: PropTypes.instanceOf(Date).isRequired,
+    mostrarBotonEntrada: PropTypes.bool.isRequired,
+    mostrarBotonSalida: PropTypes.bool.isRequired,
+    entradaMarcada: PropTypes.bool.isRequired,
+    salidaMarcada: PropTypes.bool.isRequired,
+    tardanzaMañana: PropTypes.bool.isRequired,
+    tardanzaTarde: PropTypes.bool.isRequired,
+    buttonClicked: PropTypes.bool.isRequired,
+    buttonClickedAdmission: PropTypes.bool.isRequired,
+    handleButtonClick: PropTypes.func.isRequired,
+    handleButtonClickAdmission: PropTypes.func.isRequired
 };
