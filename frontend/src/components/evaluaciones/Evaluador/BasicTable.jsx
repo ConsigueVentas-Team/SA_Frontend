@@ -1,4 +1,5 @@
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
+import { useState } from "react";
 import fakeData from './fakeData.json'
 import { useMemo } from 'react'
 import SearchBar from './SearchBar'
@@ -17,6 +18,8 @@ export default function BasicTable() {
   // }
 
   const data = useMemo(() => fakeData, [])
+
+  const [globalFilter, setGlobalFilter] = useState('')
 
   const columns = [
     {
@@ -43,6 +46,9 @@ export default function BasicTable() {
   const table = useReactTable({
     data,
     columns,
+    state: {
+      globalFilter
+    },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -55,7 +61,10 @@ export default function BasicTable() {
 
     <div className='p-2 max-w-5xl- mx-auto'>
       <div className='flex justify-between mb-2'>
-        <SearchBar />
+        <SearchBar value={globalFilter ?? ""}
+                   onChange={(value) => setGlobalFilter(String(value))} 
+                  placeholder="Filtrar columna por"
+                  className="text-left  p-2   bg-cv-primary rounded"/>
       </div>
 
       <table className="text-xs md:text-[1rem] lg:text-[1rem] w-full table-auto bg-cv-primary rounded">

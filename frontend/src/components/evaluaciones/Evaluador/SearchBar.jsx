@@ -1,8 +1,33 @@
+import { useState, useEffect } from "react"
 
-function SearchBar() {
+
+
+const SearchBar = ({
+  value: initValue,
+  onChange,
+  debounce = 500,
+  ...props
+}) => {
+  const [value, setValue] = useState(initValue);
+  useEffect(() => {
+    setValue(initValue);
+  }, [initValue]);
+
+  // *  0.5s after set value in state
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      onChange(value);
+    }, debounce);
+    return () => clearTimeout(timeout);
+  }, [value]);
+
   return (
-    <div>SearchBar</div>
-  )
-}
+    <input
+      {...props}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+};
 
-export default SearchBar
+export default SearchBar;
