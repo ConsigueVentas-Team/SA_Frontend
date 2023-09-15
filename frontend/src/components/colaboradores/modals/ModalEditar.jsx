@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AES, enc } from "crypto-js";
 import Person2Icon from '@mui/icons-material/Person2';
 import CloseIcon from '@mui/icons-material/Close';
-import { Avatar, InputText, ModalButton, Select, SelectRole, Switch } from './ModalElements';
+import { AvatarUpdate, InputText, ModalButton, Select, SelectRole, Switch } from './ModalElements';
 
 export const ModalEditar = ({ close, updateUser, user }) => {
 	// UseStates de campos a insertar
@@ -218,54 +218,14 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 						</div>
 						{/* <!-- Modal body --> */}
 						<div className="relative flex-auto p-2 space-y-4 md:p-6">
-							{/* <Avatar
-								onChange={handleImageChange}
+							<AvatarUpdate
+								urlLocal={imageUrl}
 								value={avatar}
-								remove={() => setAvatar(null)}
-							/> */}
+								url={avatarUrl}
+								onChange={handleImageChange}
+							/>
 
-							<div className="flex flex-col items-center justify-between w-full gap-5 sm:flex-row">
-								<div>
-									{imageUrl ? (
-										<div className='relative w-40 h-40'>
-											<img
-												src={imageUrl}
-												className="object-cover object-center w-40 h-40 mx-auto border rounded-full" name="avatar" alt="" />
-										</div>
-									) : (
-										<div className='relative w-40 h-40'>
-											<img src={avatarUrl} className="object-cover object-center w-40 h-40 mx-auto border rounded-full" name="avatar" alt="" />
-										</div>
-									)}
-								</div>
-								<label
-									htmlFor="fileImage"
-									className="flex items-center justify-center w-full p-2 py-8 transition-all border-2 border-gray-200 border-dashed rounded-md appearance-none cursor-pointer hover:border-primary-300"
-								>
-									<div className="flex flex-col items-center justify-center space-y-2 md:flex-row md:space-y-0 md:space-x-2">
-										<div className="w-64 text-center text-gray-600 md:text-start">
-											<p className="text-xs font-medium md:text-base text-cv-secondary hover:text-cv-primary">
-												{avatar ? `Seleccionaste: ${avatar}` : "Seleccione un archivo de imagen"}
-											</p>
-											<p className="text-xs text-gray-500 md:text-sm">
-												{avatar ? '' : "Formatos permitidos: JPG, JPEG, PNG"}
-											</p>
-										</div>
-										<button className='duration-300 ease-in-out active:scale-95'>
-											<label
-												htmlFor="fileImage"
-												className="flex items-center justify-center px-4 py-2 text-sm font-semibold uppercase transition-all duration-150 ease-linear bg-white border-2 rounded-md text-cv-primary border-cv-primary hover:text-white hover:bg-cv-primary"
-											>
-												Seleccionar
-											</label>
-										</button>
-									</div>
-									<input id="fileImage" accept="image/png,image/jpeg,image/jpg" type="file" className="sr-only" onChange={handleImageChange} />
-								</label>
-							</div>
-
-
-							< div className="grid grid-cols-1 gap-8 sm:grid-cols-2" >
+							<div className="grid grid-cols-1 gap-8 sm:grid-cols-2" >
 								<div className="flex flex-col w-full space-y-1">
 									<InputText
 										label="Nombres completos"
@@ -377,7 +337,7 @@ export const ModalEditar = ({ close, updateUser, user }) => {
 							</div >
 						</div >
 						{/* <!-- Modal footer --> */}
-						< div className="flex flex-col-reverse items-center justify-between gap-2 p-2 border-t border-solid rounded-b md:flex-row md:p-6 border-cv-primary md:gap-4" >
+						<div className="flex flex-col-reverse items-center justify-between gap-2 p-2 border-t border-solid rounded-b md:flex-row md:p-6 border-cv-primary md:gap-4" >
 							<ModalButton label="Cancelar" onClick={close} className="bg-white text-cv-primary border-cv-primary hover:text-white hover:bg-cv-primary" />
 							<ModalButton label="Guardar" onClick={handleSubmit} className="text-white bg-cv-primary border-cv-primary hover:bg-cv-primary" />
 						</div >
