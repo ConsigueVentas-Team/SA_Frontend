@@ -40,7 +40,7 @@ export const Card = ({ card, page }) => {
                     <ul className='w-full space-y-0.5'>
                         <li className='text-sm font-normal flex items-center '>
                             <p>
-                                <span className='mr-2 uppercase font-semibold mb-1'>
+                                <span className='mr-2 uppercase text-gray-400 font-semibold mb-1'>
                                     Turno:
                                 </span>
                                 <span>{card.user.shift}</span>
@@ -61,7 +61,7 @@ export const Card = ({ card, page }) => {
                         </li>
                         <li className='text-sm font-normal flex items-center '>
                             <p>
-                                <span className='mr-2 uppercase font-semibold mb-1'>
+                                <span className='mr-2 uppercase text-gray-400 font-semibold mb-1'>
                                     Estado:
                                 </span>
                                 <span>

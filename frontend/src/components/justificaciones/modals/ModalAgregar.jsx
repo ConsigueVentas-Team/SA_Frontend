@@ -6,6 +6,7 @@ export const ModalAgregar = ({
     cancelarModalAlert,
     setToasSuccess,
     handleBuscar,
+    setMensajeAlerta,
 }) => {
     const [messages, setMessage] = useState('')
     const [justification_type, setJustification_type] = useState('')
@@ -73,6 +74,7 @@ export const ModalAgregar = ({
             })
             // eslint-disable-next-line no-unused-vars
             .then((data) => {
+                setMensajeAlerta(data.message)
                 setToasSuccess((e) => !e)
                 handleBuscar()
             })
@@ -285,4 +287,5 @@ ModalAgregar.propTypes = {
     cancelarModalAlert: PropTypes.func.isRequired,
     setToasSuccess: PropTypes.func.isRequired,
     handleBuscar: PropTypes.func.isRequired,
+    setMensajeAlerta: PropTypes.func,
 }

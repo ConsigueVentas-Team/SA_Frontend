@@ -33,6 +33,7 @@ export const AñadirJustificacion = () => {
         }
         setToasSuccess(false)
     }
+    const [mensajeAlerta, setMensajeAlerta] = useState('Exitoso!')
 
     const onShowTerminos = () => {
         setModal(true)
@@ -70,7 +71,7 @@ export const AñadirJustificacion = () => {
                     onClose={handleClose}
                     severity='success'
                     sx={{ width: '100%' }}>
-                    Fue exitoso su envío de justificación!
+                    {mensajeAlerta}
                 </Alert>
             </Snackbar>
             <Modal
@@ -89,21 +90,22 @@ export const AñadirJustificacion = () => {
                             cancelarModalAlert={setModal}
                             setToasSuccess={setToasSuccess}
                             handleBuscar={handleBuscar}
+                            setMensajeAlerta={setMensajeAlerta}
                         />
                     )}
                 </Box>
             </Modal>
 
             <div className='min-h-screen px-8'>
-                <p className='ml-1 text-base mb-3 font-medium md:ml-2 uppercase text-gray-400 hover:text-white'>
-                    justificacion
+                <p className='ml-1 text-base mb-3 font-medium md:ml-2 uppercase text-white hover:text-white'>
+                    Añadir justificacion
                 </p>
                 <div className='space-y-5'>
                     <div className='w-full flex flex-col md:flex-row items-center justify-between gap-5'>
                         {/* Buscador por tipo de justificación: falta o tardanza */}
-                        <div className='w-full text-gray-400'>
+                        <div className='w-full text-white'>
                             <select
-                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
+                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 value={buscador_tipoJustificacion}
                                 onChange={(e) =>
                                     setbuscador_tipoJustificacion(
@@ -116,9 +118,9 @@ export const AñadirJustificacion = () => {
                             </select>
                         </div>
                         {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
-                        <div className='w-full text-gray-400'>
+                        <div className='w-full text-white'>
                             <select
-                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
+                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 value={buscadorStatus}
                                 onChange={(e) =>
                                     setBuscadorStatus(e.target.value)
@@ -130,9 +132,9 @@ export const AñadirJustificacion = () => {
                             </select>
                         </div>
 
-                        <div className='w-full text-gray-400'>
+                        <div className='w-full text-white'>
                             <input
-                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
+                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 type='date'
                                 id='fecha'
                                 value={buscadorFecha}
