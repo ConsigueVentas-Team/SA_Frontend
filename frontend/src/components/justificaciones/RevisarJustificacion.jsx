@@ -30,6 +30,7 @@ export const RevisarJustificacion = () => {
         }
         setToasSuccess(false)
     }
+    const [message, setMessage] = useState('Exitoso!')
 
     const handleAceptar = (item) => {
         const tokenD = AES.decrypt(
@@ -55,10 +56,13 @@ export const RevisarJustificacion = () => {
                 }
                 return response.json()
             })
-            .then(() => {
-                // setData(data)
-                setToasSuccess(true)
-                window.location.replace('')
+            .then((data) => {
+                setMessage(data.message)
+
+                if (data.message !== '') {
+                    setToasSuccess(true)
+                }
+                // window.location.replace('')
                 // Maneja la respuesta exitosa si es necesario
                 // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
             })
@@ -92,10 +96,6 @@ export const RevisarJustificacion = () => {
         }
     }
 
-    useEffect(() => {
-        fechtDataPorRol(page)
-    }, [page])
-
     const isRechazadoOrAceptado = (prop) => {
         if (prop.status === 2) {
             return 'Rechazado'
@@ -106,6 +106,10 @@ export const RevisarJustificacion = () => {
         }
     }
 
+    useEffect(() => {
+        fechtDataPorRol(page)
+    }, [page])
+
     return (
         <>
             {showModalRechazado && (
@@ -113,6 +117,7 @@ export const RevisarJustificacion = () => {
                     itemData={itemData}
                     setShowModalRechazado={setShowModalRechazado}
                     setToasSuccess={setToasSuccess}
+                    setMensaje={setMessage}
                 />
             )}
 
@@ -125,7 +130,7 @@ export const RevisarJustificacion = () => {
                     onClose={handleClose}
                     severity='success'
                     sx={{ width: '100%' }}>
-                    Se realizó con éxito!
+                    {message}
                 </Alert>
             </Snackbar>
 

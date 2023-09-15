@@ -53,7 +53,7 @@ export const Justificaciones = () => {
             {/* <Circular /> */}
             {/* </div> */}
             <div className='min-h-screen px-8'>
-                <p className='ml-1 text-base mb-3 font-medium md:ml-2 uppercase text-gray-400 hover:text-white'>
+                <p className='ml-1 text-base mb-3 font-medium md:ml-2 uppercase text-white hover:text-white'>
                     justificacion
                 </p>
 
@@ -62,9 +62,9 @@ export const Justificaciones = () => {
 
                     <div className='w-full flex flex-col md:flex-row items-center justify-between gap-5'>
                         {/* Buscador por tipo de justificación: falta o tardanza */}
-                        <div className='w-full text-gray-400'>
+                        <div className='w-full text-white'>
                             <select
-                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
+                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 value={buscador_tipoJustificacion}
                                 onChange={(e) =>
                                     setbuscador_tipoJustificacion(
@@ -77,9 +77,9 @@ export const Justificaciones = () => {
                             </select>
                         </div>
                         {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
-                        <div className='w-full text-gray-400'>
+                        <div className='w-full text-white'>
                             <select
-                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
+                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 value={buscadorStatus}
                                 onChange={(e) =>
                                     setBuscadorStatus(e.target.value)
@@ -90,9 +90,9 @@ export const Justificaciones = () => {
                                 <option value='3'>En proceso</option>
                             </select>
                         </div>
-                        <div className='w-full text-gray-400'>
+                        <div className='w-full text-white'>
                             <input
-                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-black w-full'
+                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 type='date'
                                 id='fecha'
                                 value={buscadorFecha}
@@ -103,7 +103,7 @@ export const Justificaciones = () => {
                         </div>
                         <div className=''>
                             <button
-                                className='w-full text-black outline-none px-8 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
+                                className='w-full text-cv-primary outline-none px-8 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
                                 onClick={limpiar}>
                                 <CleaningServicesIcon />
                             </button>

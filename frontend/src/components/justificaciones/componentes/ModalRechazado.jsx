@@ -7,6 +7,7 @@ export const ModalRechazado = ({
     setShowModalRechazado,
     itemData,
     setToasSuccess,
+    setMensaje,
 }) => {
     const [messages, setMessage] = useState('')
     const [reason_decline, setReason_decline] = useState('')
@@ -43,7 +44,8 @@ export const ModalRechazado = ({
                 }
                 return response.json()
             })
-            .then(() => {
+            .then((data) => {
+                setMensaje(data.message)
                 setToasSuccess((e) => !e)
                 onCloseModalRechazo()
             })
@@ -111,4 +113,5 @@ ModalRechazado.propTypes = {
     setShowModalRechazado: PropTypes.func,
     itemData: PropTypes.object.isRequired,
     setToasSuccess: PropTypes.func,
+    setMensaje: PropTypes.func,
 }
