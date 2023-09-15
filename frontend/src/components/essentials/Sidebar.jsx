@@ -77,9 +77,8 @@ export const Sidebar = () => {
   return (
     <>
       <div
-        className={`xl:h-[100vh] fixed overflow-y-auto xl:static xl:w-auto h-full top-0 bg-cv-primary text-white p-4 flex flex-col justify-between z-50 ${
-          showMenu ? "left-0" : "-left-full"
-        } transition-all`}
+        className={`xl:h-[100vh] fixed overflow-y-auto xl:static xl:w-auto h-full top-0 bg-cv-primary text-white p-4 flex flex-col justify-between z-50 ${showMenu ? "left-0" : "-left-full"
+          } transition-all`}
       >
         <div>
           <div className="mb-5 text-2xl font-bold text-center text-white">
@@ -132,15 +131,13 @@ export const Sidebar = () => {
                       Justificaciones
                     </span>
                     <ChevronRightIcon
-                      className={`mt-1 ${
-                        showSubmenu && "rotate-90"
-                      } transition-all`}
+                      className={`mt-1 ${showSubmenu && "rotate-90"
+                        } transition-all`}
                     />
                   </button>
                   <ul
-                    className={` ${
-                      showSubmenu ? "h-auto" : "h-0"
-                    } overflow-y-hidden transition-all`}
+                    className={` ${showSubmenu ? "h-auto" : "h-0"
+                      } overflow-y-hidden transition-all`}
                   >
                     <li>
                       <Link
@@ -180,7 +177,7 @@ export const Sidebar = () => {
                 </li>
                 <li>
                   <button
-                    onClick={() => setShowSubmenu2(!showSubmenu)}
+                    onClick={() => setShowSubmenu2(!showSubmenu2)}
                     className="flex items-center justify-between w-full px-4 py-2 transition-colors rounded-lg hover:bg-secondary-900"
                   >
                     <span className="flex items-center gap-4">
@@ -188,15 +185,13 @@ export const Sidebar = () => {
                       Evaluaciones
                     </span>
                     <ChevronRightIcon
-                      className={`mt-1 ${
-                        showSubmenu2 && "rotate-90"
-                      } transition-all`}
+                      className={`mt-1 ${showSubmenu2 && "rotate-90"
+                        } transition-all`}
                     />
                   </button>
                   <ul
-                    className={` ${
-                      showSubmenu2 ? "h-auto" : "h-0"
-                    } overflow-y-hidden transition-all`}
+                    className={` ${showSubmenu2 ? "h-auto" : "h-0"
+                      } overflow-y-hidden transition-all`}
                   >
                     <li>
                       <Link
@@ -228,7 +223,7 @@ export const Sidebar = () => {
                 <li>
                   <Link
                     to="/reportes"
-                    className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-cv-secondary transition-colors"
+                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
                   >
                     <BarChartIcon />
                     Reportes

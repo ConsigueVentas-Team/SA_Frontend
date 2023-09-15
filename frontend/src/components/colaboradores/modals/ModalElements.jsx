@@ -41,11 +41,11 @@ export const Avatar = ({ onChange, value, remove }) => {
 	}
 
 	return (
-		<div className="w-full flex flex-col sm:flex-row items-center justify-between gap-5">
+		<div className="flex flex-col items-center justify-between w-full gap-5 sm:flex-row">
 			<div>
 				{draggedImage || avatarLocal ? (
-					<div className='w-40 h-40 relative'>
-						<img src={draggedImage || URL.createObjectURL(avatarLocal)} className="w-40 h-40 mx-auto border rounded-full object-cover object-center" name="avatar" alt="" />
+					<div className='relative w-40 h-40'>
+						<img src={draggedImage || URL.createObjectURL(avatarLocal)} className="object-cover object-center w-40 h-40 mx-auto border rounded-full" name="avatar" alt="" />
 						<button onClick={deleteImage} type='button' className="absolute inline-flex items-center justify-center p-0.5 w-8 h-8 text-xs font-bold text-white bg-red-600 border-2 border-white rounded-full bottom-2 right-3 ">
 							<DeleteIcon />
 						</button>
@@ -56,23 +56,23 @@ export const Avatar = ({ onChange, value, remove }) => {
 			</div>
 			<label
 				htmlFor="fileImage"
-				className="w-full flex cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-2 py-8 transition-all hover:border-primary-300"
+				className="flex items-center justify-center w-full p-2 py-8 transition-all border-2 border-gray-200 border-dashed rounded-md appearance-none cursor-pointer hover:border-primary-300"
 				onDragOver={(e) => e.preventDefault()}
 				onDrop={handleDrop}
 			>
-				<div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 items-center justify-center">
-					<div className="text-gray-600 text-center md:text-start w-64">
-						<p className="text-xs md:text-base font-medium text-cv-secondary hover:text-cv-primary">
+				<div className="flex flex-col items-center justify-center space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+					<div className="w-64 text-center text-gray-600 md:text-start">
+						<p className="text-xs font-medium md:text-base text-cv-secondary hover:text-cv-primary">
 							{value ? `Seleccionaste: ${value.name}` : "Seleccione un archivo de imagen"}
 						</p>
-						<p className="text-xs md:text-sm text-gray-500">
+						<p className="text-xs text-gray-500 md:text-sm">
 							{value ? '' : "Formatos permitidos: JPG, JPEG, PNG"}
 						</p>
 					</div>
-					<button className='active:scale-95 ease-in-out duration-300'>
+					<button className='duration-300 ease-in-out active:scale-95'>
 						<label
 							htmlFor="fileImage"
-							className="py-2 px-4 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-sm font-semibold uppercase ease-linear transition-all duration-150"
+							className="flex items-center justify-center px-4 py-2 text-sm font-semibold uppercase transition-all duration-150 ease-linear bg-white border-2 rounded-md text-cv-primary border-cv-primary hover:text-white hover:bg-cv-primary"
 						>
 							Seleccionar
 						</label>
@@ -90,10 +90,65 @@ Avatar.propTypes = {
 	remove: PropTypes.func.isRequired,
 }
 
+export const AvatarUpdate = ({ urlLocal, value, url, onChange }) => {
+	return (
+		<div className="flex flex-col items-center justify-between w-full gap-5 sm:flex-row">
+			<div>
+				{urlLocal ? (
+					<div className='relative w-40 h-40'>
+						<img
+							src={urlLocal}
+							className="object-cover object-center w-40 h-40 mx-auto border rounded-full" name="avatar" alt="" />
+					</div>
+				) : (
+					<div className='relative w-40 h-40'>
+						<img src={url} className="object-cover object-center w-40 h-40 mx-auto border rounded-full" name="avatar" alt="" />
+					</div>
+				)}
+			</div>
+			<label
+				htmlFor="fileImage"
+				className="flex items-center justify-center w-full p-2 py-8 transition-all border-2 border-gray-200 border-dashed rounded-md appearance-none cursor-pointer hover:border-primary-300"
+			>
+				<div className="flex flex-col items-center justify-center space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+					<div className="w-64 text-center text-gray-600 md:text-start">
+						<p className="text-xs font-medium md:text-base text-cv-secondary hover:text-cv-primary">
+							{value && typeof value === 'object' ? `Seleccionaste: ${value.name}` : "Seleccione un archivo de imagen"}
+						</p>
+						<p className="text-xs text-gray-500 md:text-sm">
+							{value && typeof value === 'object' ? '' : "Formatos permitidos: JPG, JPEG, PNG"}
+						</p>
+					</div>
+					<button className='duration-300 ease-in-out active:scale-95'>
+						<label
+							htmlFor="fileImage"
+							className="flex items-center justify-center px-4 py-2 text-sm font-semibold uppercase transition-all duration-150 ease-linear bg-white border-2 rounded-md text-cv-primary border-cv-primary hover:text-white hover:bg-cv-primary"
+						>
+							Seleccionar
+						</label>
+					</button>
+				</div>
+				<input id="fileImage" accept="image/png,image/jpeg,image/jpg" type="file" className="sr-only" onChange={onChange} />
+			</label>
+		</div>
+	)
+}
+
+AvatarUpdate.propTypes = {
+	urlLocal: PropTypes.string,
+	value: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.shape({
+			name: PropTypes.string
+		})
+	]),
+	url: PropTypes.string,
+	onChange: PropTypes.func
+};
 
 export const AvatarDefault = () => {
 	return (
-		<div className="w-40 h-40 flex justify-center rounded-full overflow-hidden border">
+		<div className="flex justify-center w-40 h-40 overflow-hidden border rounded-full">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="140"
@@ -119,7 +174,7 @@ export const InputText = ({ label, type, id, value, onChange }) => {
 				id={id}
 				value={value}
 				onChange={onChange}
-				className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
+				className="w-full p-2 font-semibold text-gray-900 placeholder-gray-500 bg-white border-b-2 border-gray-300 rounded-md outline-none drop-shadow-md sm:text-md"
 				placeholder={placeholderText}
 			/>
 		</div>
@@ -145,7 +200,7 @@ export const Select = ({ label, id, value, options, onChange, disabled = false }
 				value={value}
 				onChange={onChange}
 				disabled={disabled}
-				className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300 bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
+				className="w-full p-2 font-semibold text-gray-900 placeholder-gray-500 bg-white border-b-2 border-gray-300 rounded-md outline-none drop-shadow-md sm:text-md"
 			>
 				<option>Selecciona</option>
 				{options.map((option) => (
@@ -187,7 +242,7 @@ export const SelectRole = ({ label, id, value, options, onChange }) => {
 				value={value}
 				onChange={onChange}
 				disabled={localStorage.getItem('rol') === 'Gerencia' ? false : (value === 1 ? true : false)}
-				className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
+				className="w-full p-2 font-semibold text-gray-900 placeholder-gray-500 bg-white border-b-2 border-gray-300 rounded-md outline-none drop-shadow-md sm:text-md"
 
 			>
 				<option value="">Selecciona</option>
@@ -240,7 +295,7 @@ export const Switch = ({ label, id, value, onChange, statusValue, status_onChang
 					<select
 						value={statusValue}
 						onChange={status_onChange}
-						className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300 bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
+						className="w-full p-2 font-semibold text-gray-900 placeholder-gray-500 bg-white border-b-2 border-gray-300 rounded-md outline-none drop-shadow-md sm:text-md"
 					>
 						<option value="Termino su convenio">Termino Convenio</option>
 						<option value="Retirado">Retirado</option>

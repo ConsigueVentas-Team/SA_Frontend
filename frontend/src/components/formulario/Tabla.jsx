@@ -94,9 +94,9 @@ export default function Tabla({
       sx={{ width: "100%" }}
       className=" bg-cv-primary rounded-md overflow-hidden mt-20"
     >
-      <TableContainer className="bg-gray-200 ">
+      <TableContainer className="bg-cv-primary ">
         <Table sx={{ minWidth: 500 }} aria-label="Tabla Evaluaciones">
-          <TableHead className="bg-cv-primary ">
+          <TableHead className="bg-[#0e161b] ">
             <TableRow>
               {headers.map((header, index) => {
                 if (nucleo === null && perfil === null) {
@@ -122,11 +122,12 @@ export default function Tabla({
               })}
               <CustomTableCell
                 align="center"
+                className="bg-[#0e161b]"
                 style={{
                   color: "white",
                   position: "sticky",
                   right: 0,
-                  background: "#16232B",
+                  background: "#0e161b",
                   // borderBottom:"1px solid #fff2"
                 }}
               >
@@ -148,33 +149,33 @@ export default function Tabla({
                     width="auto"
                     className="whitespace-nowrap "
                     key={dato.id}
-                    style={{ color: "black" }}
+                    style={{ color: "white" }}
                   >
                     {dato.id}
                   </TableCell>
 
                   {(perfil != null || (perfil != null && nucleo != null)) && (
-                    <TableCell align="center" style={{ color: "black" }}>
+                    <TableCell align="center" style={{ color: "white" }}>
                       {dato.core.department.name}
                     </TableCell>
                   )}
                   {nucleo != null && perfil == null && (
-                    <TableCell align="center" style={{ color: "black" }}>
+                    <TableCell align="center" style={{ color: "white" }}>
                       {dato.department.name}
                     </TableCell>
                   )}
                   {perfil != null && nucleo != null && (
-                    <TableCell align="center" style={{ color: "black" }}>
+                    <TableCell align="center" style={{ color: "white" }}>
                       {dato.core.name}
                     </TableCell>
                   )}
 
-                  <TableCell align="center" style={{ color: "black" }}>
+                  <TableCell align="center" style={{ color: "white" }}>
                     {dato.name}
                   </TableCell>
                   <TableCell
                     align="center"
-                    className="sticky right-0 p-1 z-10 bg-gray-200"
+                    className="sticky right-0 p-1 z-10 bg-cv-primary"
                   >
                     <button
                       onClick={() => abrirEditarModal(dato)}
@@ -194,7 +195,7 @@ export default function Tabla({
           </TableBody>
         </Table>
       </TableContainer>
-      <div className="bg-cv-primary">
+      <div className="bg-[#0e161b]">
         {" "}
         <ThemeProvider theme={darkTheme}>
           <TablePagination

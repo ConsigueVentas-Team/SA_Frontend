@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Avatar from "@mui/material/Avatar";
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -67,6 +67,21 @@ ListItem.propTypes = {
 };
 
 export const CardModal = ({ userData, close }) => {
+    const modalRef = useRef(null);
+
+    const handleClickOutside = (event) => {
+        if (modalRef.current && !modalRef.current.contains(event.target)) {
+            close();
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const transformDate = (dateString) => {
         const date = new Date(dateString);
         const timezoneOffset = date.getTimezoneOffset() * 60000;
@@ -84,7 +99,7 @@ export const CardModal = ({ userData, close }) => {
                     <CloseIcon />
                     <span className="sr-only">Cerrar modal</span>
                 </button>
-                <div className="w-full max-w-md overflow-hidden text-white shadow-lg bg-cv-primary rounded-xl shadow-cv-cyan/40">
+                <div ref={modalRef} className="w-full max-w-md overflow-hidden text-white shadow-lg bg-cv-primary rounded-xl shadow-cv-cyan/40">
                     <div className="p-4 space-y-4">
                         <BirthdayImage item={userData} />
                         <div className="space-y-2">
