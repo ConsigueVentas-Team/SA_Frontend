@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-table'
 import fakeData from './fakeData.json'
 import { useMemo } from 'react'
+import SearchBar from './SearchBar'
 
 
 export default function BasicTable() {
@@ -59,7 +60,10 @@ export default function BasicTable() {
 
   return (
 
-    <div>
+    <div className='p-2 max-w-5xl- mx-auto'>
+      <div className='flex justify-between mb-2'>
+        <SearchBar />
+      </div>
 
       <table className="text-xs md:text-[1rem] lg:text-[1rem] w-full table-auto bg-cv-primary rounded">
         {table.getHeaderGroups().map(headerGroup => (
@@ -156,8 +160,6 @@ export default function BasicTable() {
             </option>
           ))}
         </select>
-
-
 
       </div>
     </div>
