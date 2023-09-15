@@ -1,0 +1,1602 @@
+[
+  {
+    "id": 1,
+    "dni": "96-2264310",
+    "colaborador": "Svend Thal",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 2,
+    "dni": "75-7501005",
+    "colaborador": "Moreen Wakeford",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 3,
+    "dni": "50-6275168",
+    "colaborador": "Morton Boast",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 4,
+    "dni": "56-5475170",
+    "colaborador": "Rosita Pass",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 5,
+    "dni": "25-2946344",
+    "colaborador": "Sam Rooze",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 6,
+    "dni": "20-2077835",
+    "colaborador": "Darci MacTerlagh",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 7,
+    "dni": "74-3212386",
+    "colaborador": "Conrad Borghese",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 8,
+    "dni": "62-3594747",
+    "colaborador": "Oralle Borzone",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 9,
+    "dni": "65-5870568",
+    "colaborador": "Bailie Camocke",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 10,
+    "dni": "44-4118932",
+    "colaborador": "Sophey Palek",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 11,
+    "dni": "92-9059125",
+    "colaborador": "Roderigo Tarren",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 12,
+    "dni": "64-6133531",
+    "colaborador": "Zackariah Pashen",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 13,
+    "dni": "24-5062843",
+    "colaborador": "Dulcie Chillingsworth",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 14,
+    "dni": "63-0240201",
+    "colaborador": "Josie Danher",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 15,
+    "dni": "43-5118795",
+    "colaborador": "Babita Eagleton",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 16,
+    "dni": "26-4868302",
+    "colaborador": "Gaelan Spiller",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 17,
+    "dni": "89-8601584",
+    "colaborador": "Sax Guerola",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 18,
+    "dni": "53-2359280",
+    "colaborador": "Corissa Allchorne",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 19,
+    "dni": "30-4760674",
+    "colaborador": "Adolf Razoux",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 20,
+    "dni": "13-1282834",
+    "colaborador": "Clarabelle Malden",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 21,
+    "dni": "65-1921185",
+    "colaborador": "Henrik Renault",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 22,
+    "dni": "14-1299076",
+    "colaborador": "Mathe Stuckford",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 23,
+    "dni": "90-1765382",
+    "colaborador": "Thekla Phillcox",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 24,
+    "dni": "12-9239706",
+    "colaborador": "Riki Futty",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 25,
+    "dni": "16-1168966",
+    "colaborador": "Blanca Dyte",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 26,
+    "dni": "17-7439552",
+    "colaborador": "Cammy Dougal",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 27,
+    "dni": "52-2466654",
+    "colaborador": "Shannen Ablott",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 28,
+    "dni": "25-2120254",
+    "colaborador": "Jude McKeney",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 29,
+    "dni": "42-4696764",
+    "colaborador": "Gennifer Gaize",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 30,
+    "dni": "82-0506249",
+    "colaborador": "Sallyanne MacWhirter",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 31,
+    "dni": "25-9532696",
+    "colaborador": "Ken Dumbrall",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 32,
+    "dni": "62-0755754",
+    "colaborador": "Baudoin Klimp",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 33,
+    "dni": "44-0673759",
+    "colaborador": "Michelle Dignon",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 34,
+    "dni": "75-3621792",
+    "colaborador": "Jenelle Goldhawk",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 35,
+    "dni": "38-9777173",
+    "colaborador": "Ddene Blyde",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 36,
+    "dni": "42-9538184",
+    "colaborador": "Nikolos Saffin",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 37,
+    "dni": "22-7352812",
+    "colaborador": "Stefan Apedaile",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 38,
+    "dni": "81-9669179",
+    "colaborador": "Torey Harniman",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 39,
+    "dni": "75-5972081",
+    "colaborador": "Jocelyne McFadden",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 40,
+    "dni": "14-9715273",
+    "colaborador": "Hedy Croce",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 41,
+    "dni": "04-2208145",
+    "colaborador": "Giselle McGrotty",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 42,
+    "dni": "43-0324050",
+    "colaborador": "Cassius Ayres",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 43,
+    "dni": "27-8879886",
+    "colaborador": "Troy Forsythe",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 44,
+    "dni": "57-4459660",
+    "colaborador": "Nero Chastagnier",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 45,
+    "dni": "53-9976602",
+    "colaborador": "Ginger Sellors",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 46,
+    "dni": "14-0052094",
+    "colaborador": "Giacomo Coryndon",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 47,
+    "dni": "43-8609249",
+    "colaborador": "Malynda Navarro",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 48,
+    "dni": "98-0037185",
+    "colaborador": "Britte McGuigan",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 49,
+    "dni": "51-5938403",
+    "colaborador": "Tessie Matresse",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 50,
+    "dni": "33-9806585",
+    "colaborador": "Gayleen Annandale",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 51,
+    "dni": "09-4967458",
+    "colaborador": "Rabbi Fossitt",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 52,
+    "dni": "66-0535384",
+    "colaborador": "Kipper Byer",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 53,
+    "dni": "16-3767543",
+    "colaborador": "Neville Moyer",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 54,
+    "dni": "57-1272379",
+    "colaborador": "Nikola Lindley",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 55,
+    "dni": "42-6144555",
+    "colaborador": "Elyn Castellet",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 56,
+    "dni": "92-1396011",
+    "colaborador": "Meagan Doghartie",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 57,
+    "dni": "86-1491467",
+    "colaborador": "Esta Guerrazzi",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 58,
+    "dni": "16-7014406",
+    "colaborador": "Sondra Conelly",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 59,
+    "dni": "74-7100155",
+    "colaborador": "Zsazsa Jelphs",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 60,
+    "dni": "96-9158472",
+    "colaborador": "Huntlee Sharma",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 61,
+    "dni": "37-9187951",
+    "colaborador": "Andriette Flacknoe",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 62,
+    "dni": "62-3550762",
+    "colaborador": "Richy Scrauniage",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 63,
+    "dni": "20-0481591",
+    "colaborador": "Cathyleen Andrick",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 64,
+    "dni": "26-7386625",
+    "colaborador": "Julissa Sturridge",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 65,
+    "dni": "13-1636921",
+    "colaborador": "Corty Wolseley",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 66,
+    "dni": "56-4021373",
+    "colaborador": "Warden Rafferty",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 67,
+    "dni": "35-8289326",
+    "colaborador": "Shurlock Setchfield",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 68,
+    "dni": "60-2296540",
+    "colaborador": "Gilly Rodgerson",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 69,
+    "dni": "41-6198611",
+    "colaborador": "Sigismondo Jaulmes",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 70,
+    "dni": "17-1619369",
+    "colaborador": "Hilarius Hathorn",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 71,
+    "dni": "31-4069809",
+    "colaborador": "Jessie Meneux",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 72,
+    "dni": "21-3936969",
+    "colaborador": "Nilson Clendening",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 73,
+    "dni": "35-1119527",
+    "colaborador": "Donni Rentenbeck",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 74,
+    "dni": "09-5610541",
+    "colaborador": "Raviv Scorton",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 75,
+    "dni": "08-8433098",
+    "colaborador": "Maryl Endacott",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 76,
+    "dni": "99-3529099",
+    "colaborador": "Rafaelita Ranvoise",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 77,
+    "dni": "21-3315308",
+    "colaborador": "Arvie Dehmel",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 78,
+    "dni": "23-2168271",
+    "colaborador": "Kelila Fugere",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 79,
+    "dni": "52-1000015",
+    "colaborador": "Tamas Belf",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 80,
+    "dni": "04-2145226",
+    "colaborador": "Freddy Kliement",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 81,
+    "dni": "79-5847513",
+    "colaborador": "Gordon Donet",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 82,
+    "dni": "68-3034920",
+    "colaborador": "Cherie Scogings",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 83,
+    "dni": "51-5873980",
+    "colaborador": "Kasper Isabell",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 84,
+    "dni": "75-8169382",
+    "colaborador": "Ron Scimonelli",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 85,
+    "dni": "42-2495372",
+    "colaborador": "Ilysa Cane",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 86,
+    "dni": "54-8153453",
+    "colaborador": "Ermina Steggals",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 87,
+    "dni": "27-1151649",
+    "colaborador": "Sharai Eannetta",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 88,
+    "dni": "76-3736279",
+    "colaborador": "Erastus Debell",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 89,
+    "dni": "39-8357422",
+    "colaborador": "Seamus Symones",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 90,
+    "dni": "88-9003877",
+    "colaborador": "Xylina Cully",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 91,
+    "dni": "56-4555587",
+    "colaborador": "Florence Hopewell",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 92,
+    "dni": "18-2147301",
+    "colaborador": "Darin Balch",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 93,
+    "dni": "89-6136814",
+    "colaborador": "Axe Dyshart",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 94,
+    "dni": "88-2833265",
+    "colaborador": "Rutger Huegett",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 95,
+    "dni": "52-1891367",
+    "colaborador": "Ximenez Le Clercq",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 96,
+    "dni": "19-6738218",
+    "colaborador": "Pamela Gundrey",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 97,
+    "dni": "03-1385945",
+    "colaborador": "Farlee Hanscome",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 98,
+    "dni": "17-3488263",
+    "colaborador": "Sallee Sollom",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 99,
+    "dni": "23-9662129",
+    "colaborador": "Brande Beiderbeck",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 100,
+    "dni": "06-2077755",
+    "colaborador": "Janenna Luthwood",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 101,
+    "dni": "52-6440922",
+    "colaborador": "Vickie Hukin",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 102,
+    "dni": "03-0751177",
+    "colaborador": "Ginevra Gumley",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 103,
+    "dni": "62-1485619",
+    "colaborador": "Constantin Glowacz",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 104,
+    "dni": "16-3430777",
+    "colaborador": "Millard Wilsee",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 105,
+    "dni": "99-2241592",
+    "colaborador": "Vin Hutcheon",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 106,
+    "dni": "00-3965382",
+    "colaborador": "Saundra Blondel",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 107,
+    "dni": "04-4184202",
+    "colaborador": "Martie Duinbleton",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 108,
+    "dni": "02-9392150",
+    "colaborador": "Wilow Bridson",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 109,
+    "dni": "41-9524078",
+    "colaborador": "Giralda Sumner",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 110,
+    "dni": "96-1099467",
+    "colaborador": "Elvyn Shear",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 111,
+    "dni": "47-8397103",
+    "colaborador": "Juliette Joney",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 112,
+    "dni": "41-1751928",
+    "colaborador": "Stuart Curzon",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 113,
+    "dni": "59-5609300",
+    "colaborador": "Byrle Vampouille",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 114,
+    "dni": "03-7487701",
+    "colaborador": "Stan Tibbs",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 115,
+    "dni": "28-2977410",
+    "colaborador": "Laural Ripsher",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 116,
+    "dni": "72-7080187",
+    "colaborador": "Neel Milsap",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 117,
+    "dni": "11-3830545",
+    "colaborador": "Timmie Headrick",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 118,
+    "dni": "67-6528886",
+    "colaborador": "Jean Francais",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 119,
+    "dni": "76-7878978",
+    "colaborador": "Noelyn Ridgewell",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 120,
+    "dni": "36-4809664",
+    "colaborador": "Chico Maypole",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 121,
+    "dni": "76-3379916",
+    "colaborador": "Mohandis Posen",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 122,
+    "dni": "13-4692018",
+    "colaborador": "Berke Killelay",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 123,
+    "dni": "83-7479974",
+    "colaborador": "Roda Elflain",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 124,
+    "dni": "85-2222916",
+    "colaborador": "Florida Gutcher",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 125,
+    "dni": "82-2306724",
+    "colaborador": "Maxy Loughlan",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 126,
+    "dni": "95-0064582",
+    "colaborador": "Sanford Dilke",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 127,
+    "dni": "14-2856554",
+    "colaborador": "Elsworth Josephy",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 128,
+    "dni": "95-3077759",
+    "colaborador": "Conrado Scotti",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 129,
+    "dni": "96-2176394",
+    "colaborador": "Em Isted",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 130,
+    "dni": "33-6859279",
+    "colaborador": "Charissa Schrinel",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 131,
+    "dni": "97-8800869",
+    "colaborador": "Andromache McAlinden",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 132,
+    "dni": "20-9212330",
+    "colaborador": "Berrie Sheran",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 133,
+    "dni": "67-8705264",
+    "colaborador": "Clarabelle Van Arsdalen",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 134,
+    "dni": "37-1511209",
+    "colaborador": "Katey Cluatt",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 135,
+    "dni": "52-8060100",
+    "colaborador": "Minette Wigan",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 136,
+    "dni": "04-7923803",
+    "colaborador": "Joelle Eddleston",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 137,
+    "dni": "64-2467774",
+    "colaborador": "Kaylee Worledge",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 138,
+    "dni": "33-1016971",
+    "colaborador": "Jasen Boyat",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 139,
+    "dni": "80-3466502",
+    "colaborador": "Farlee McLelland",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 140,
+    "dni": "52-4343216",
+    "colaborador": "Morgen Readshaw",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 141,
+    "dni": "91-1677642",
+    "colaborador": "Suzanna Waddam",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 142,
+    "dni": "12-5618954",
+    "colaborador": "Wenda Elcott",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 143,
+    "dni": "16-6003789",
+    "colaborador": "Ashton Bointon",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 144,
+    "dni": "69-3160736",
+    "colaborador": "Ree Manwaring",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 145,
+    "dni": "87-0187167",
+    "colaborador": "Kurtis Krysiak",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 146,
+    "dni": "01-8271449",
+    "colaborador": "Cristin Breslauer",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 147,
+    "dni": "57-0318782",
+    "colaborador": "Mark Riddoch",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 148,
+    "dni": "13-1421748",
+    "colaborador": "Elinor MacAskill",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 149,
+    "dni": "57-5124205",
+    "colaborador": "Darcy Whitehall",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 150,
+    "dni": "61-8529917",
+    "colaborador": "Nikki Braun",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 151,
+    "dni": "18-4418422",
+    "colaborador": "Jannel Tinton",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 152,
+    "dni": "61-4717338",
+    "colaborador": "Brigit Hallt",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 153,
+    "dni": "77-2554417",
+    "colaborador": "Celesta Banbridge",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 154,
+    "dni": "64-9530708",
+    "colaborador": "Adam McGall",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 155,
+    "dni": "32-5550594",
+    "colaborador": "Conan Upcott",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 156,
+    "dni": "97-8398580",
+    "colaborador": "Alis Leversha",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 157,
+    "dni": "12-3356312",
+    "colaborador": "Alena Fochs",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 158,
+    "dni": "43-5490663",
+    "colaborador": "Rivalee Foyster",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 159,
+    "dni": "51-1545665",
+    "colaborador": "Garrick Ohrtmann",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 160,
+    "dni": "27-0811400",
+    "colaborador": "Leona Snasdell",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 161,
+    "dni": "49-2957196",
+    "colaborador": "Patrica Ingleby",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 162,
+    "dni": "29-6229596",
+    "colaborador": "Orlan Teligin",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 163,
+    "dni": "13-9693934",
+    "colaborador": "Charo Smye",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 164,
+    "dni": "28-4160426",
+    "colaborador": "Rikki Gian",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 165,
+    "dni": "32-3583452",
+    "colaborador": "Sayre Kebbell",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 166,
+    "dni": "55-4215993",
+    "colaborador": "Karyn Banbrook",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 167,
+    "dni": "71-9014124",
+    "colaborador": "Leila Machin",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 168,
+    "dni": "23-4628132",
+    "colaborador": "Pearce Kelloway",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 169,
+    "dni": "86-7224887",
+    "colaborador": "Franciskus Overstall",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 170,
+    "dni": "57-9962529",
+    "colaborador": "Tracie Haywood",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 171,
+    "dni": "72-1672225",
+    "colaborador": "Krystle Kipling",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 172,
+    "dni": "77-9072392",
+    "colaborador": "Wolfy Clemensen",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 173,
+    "dni": "64-9010787",
+    "colaborador": "Kala Hardson",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 174,
+    "dni": "71-7498198",
+    "colaborador": "Pavlov Librey",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 175,
+    "dni": "83-4120103",
+    "colaborador": "Sharla Bolingbroke",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 176,
+    "dni": "74-5929280",
+    "colaborador": "Thain Codrington",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 177,
+    "dni": "86-9143165",
+    "colaborador": "Ailis Purple",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 178,
+    "dni": "12-3247477",
+    "colaborador": "Calv Craghead",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 179,
+    "dni": "31-4104249",
+    "colaborador": "Karoly Castagno",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 180,
+    "dni": "52-3556122",
+    "colaborador": "Boycie Sheehan",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 181,
+    "dni": "39-5835085",
+    "colaborador": "Dag McKeurtan",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 182,
+    "dni": "34-3752954",
+    "colaborador": "Enriqueta Hentzeler",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 183,
+    "dni": "67-3595627",
+    "colaborador": "Kirbie Itzkov",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 184,
+    "dni": "75-4560105",
+    "colaborador": "Aldwin Rochford",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 185,
+    "dni": "01-8389150",
+    "colaborador": "Hendrick Romaines",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 186,
+    "dni": "67-8846246",
+    "colaborador": "Alicia Strachan",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 187,
+    "dni": "70-0055764",
+    "colaborador": "Mattie Sherr",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 188,
+    "dni": "42-8212488",
+    "colaborador": "Tamara Bunny",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 189,
+    "dni": "23-7831287",
+    "colaborador": "Waylan O'Duilleain",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 190,
+    "dni": "22-4605351",
+    "colaborador": "Berta Losano",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 191,
+    "dni": "06-2516516",
+    "colaborador": "Eleonora MacClancey",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 192,
+    "dni": "27-7710250",
+    "colaborador": "Ingram Hammel",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 193,
+    "dni": "12-5052746",
+    "colaborador": "Douglass Alstead",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 194,
+    "dni": "74-3523674",
+    "colaborador": "Claudian Feifer",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 195,
+    "dni": "96-6591695",
+    "colaborador": "Sheilakathryn Joye",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 196,
+    "dni": "30-0359115",
+    "colaborador": "Nisse Challoner",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 197,
+    "dni": "93-5544343",
+    "colaborador": "Gibby Broomhead",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 198,
+    "dni": "94-8086322",
+    "colaborador": "Betti Kippie",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 199,
+    "dni": "44-7202617",
+    "colaborador": "Catherin McGow",
+    "rol": "Lider Nucleo",
+    "estado": "boton",
+    "acciones": "boton"
+  },
+  {
+    "id": 200,
+    "dni": "76-8422565",
+    "colaborador": "Irita Liepins",
+    "rol": "Colaborador",
+    "estado": "boton",
+    "acciones": "boton"
+  }
+]

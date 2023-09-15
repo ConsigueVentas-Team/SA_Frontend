@@ -46,13 +46,10 @@ export const ModalRechazado = ({
             .then(() => {
                 setToasSuccess((e) => !e)
                 onCloseModalRechazo()
-                window.location.replace('')
             })
             .catch((error) => {
                 setMessage(error.message)
             })
-
-        // navigate(`/justificaciones`)
     }
 
     return (
@@ -62,7 +59,7 @@ export const ModalRechazado = ({
                 <div className='relative max-w-2xl max-h-full'>
                     <div className='relative bg-white rounded-lg shadow'>
                         <div className='flex flex-col items-center justify-center p-4 border-b rounded-t'>
-                            <h1 className='uppercase text-black text-center font-semibold text-xl'>
+                            <h1 className='uppercase text-slate-400 text-center font-semibold text-xl'>
                                 Rechazando la justificación
                             </h1>
                         </div>
