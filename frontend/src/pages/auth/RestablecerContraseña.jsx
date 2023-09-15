@@ -123,7 +123,7 @@ export const RestablecerContraseña = () => {
 	return (
 		<>
 			<div className="fixed top-0 left-0 z-50 w-screen h-screen p-2.5 flex flex-col items-center justify-center bg-cv-secondary">
-				<div className="w-full max-w-lg px-4 py-8 sm:p-5 rounded-3xl shadow-2xl bg-white space-y-5">
+				<div className="w-full max-w-lg px-4 py-8 space-y-5 bg-white shadow-2xl sm:p-5 rounded-3xl">
 					<div className='flex flex-col items-center gap-5'>
 						<div className='w-full text-center text-cv-primary'>
 							<LockResetIcon sx={{ fontSize: 60 }} />
@@ -146,7 +146,7 @@ export const RestablecerContraseña = () => {
 									/>
 									{password && (
 										<button type="button" className='absolute inset-y-0 right-2' onClick={handleTogglePassword}>
-											{showPassword ? <VisibilityIcon sx={{ fontSize: 20 }} className="text-cv-primary cursor-pointer" /> : <VisibilityOffIcon sx={{ fontSize: 20 }} className="text-cv-primary cursor-pointer" />}
+											{showPassword ? <VisibilityIcon sx={{ fontSize: 20 }} className="cursor-pointer text-cv-primary" /> : <VisibilityOffIcon sx={{ fontSize: 20 }} className="cursor-pointer text-cv-primary" />}
 										</button>
 									)}
 								</div>
@@ -169,17 +169,17 @@ export const RestablecerContraseña = () => {
 									/>
 									{confirmPassword && (
 										<button type="button" className='absolute inset-y-0 right-2' onClick={handleToggleConfirmPassword}>
-											{showConfirmPassword ? <VisibilityIcon sx={{ fontSize: 20 }} className="text-cv-primary cursor-pointer" /> : <VisibilityOffIcon sx={{ fontSize: 20 }} className="text-cv-primary cursor-pointer" />}
+											{showConfirmPassword ? <VisibilityIcon sx={{ fontSize: 20 }} className="cursor-pointer text-cv-primary" /> : <VisibilityOffIcon sx={{ fontSize: 20 }} className="cursor-pointer text-cv-primary" />}
 										</button>
 									)}
 								</div>
 								{!passwordMatch && (
-									<p className="text-red-500 mt-1 text-xs italic">Las contraseñas no coinciden.</p>
+									<p className="mt-1 text-xs italic text-red-500">Las contraseñas no coinciden.</p>
 								)}
 							</div>
 							<div className="flex items-center justify-center">
 								<button
-									className="w-full shadow bg-cv-primary hover:bg-cv-secondary focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded active:scale-95 ease-in-out duration-300"
+									className="w-full px-4 py-2 font-bold text-white duration-300 ease-in-out rounded shadow bg-cv-primary hover:bg-cv-secondary focus:shadow-outline focus:outline-none active:scale-95"
 									type="submit"
 									disabled={isLoading}
 								>
@@ -187,13 +187,13 @@ export const RestablecerContraseña = () => {
 								</button>
 							</div>
 
-							{isLoading && <p className="text-sm mt-1 text-black">Cargando...</p>}
+							{isLoading && <p className="mt-1 text-sm text-black">Cargando...</p>}
 							{successMessage && (
-								<p className="text-sm mt-1 text-green-500">{successMessage}</p>
+								<p className="mt-1 text-sm text-green-500">{successMessage}</p>
 
 							)}
 							{errorMessage && (
-								<p className="text-sm mt-1 text-red-500">{errorMessage}</p>
+								<p className="mt-1 text-sm text-red-500">{errorMessage}</p>
 							)}
 						</form>
 					</div>
