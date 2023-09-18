@@ -75,7 +75,8 @@ export const RevisarJustificacion = () => {
     }
 
     const rol = localStorage.getItem('rol')
-
+    const iduser = localStorage.getItem('iduser')
+    
     const hasRole = (targetRole) => {
         return rol === targetRole
     }
@@ -85,12 +86,14 @@ export const RevisarJustificacion = () => {
             FechData({ page })
                 .then((e) => {
                     setFaltasList(e.data)
+                    // console.log(e)
                 })
                 .catch((e) => console.log(e))
         } else {
             FechDataJustificaciones({ page })
                 .then((e) => {
                     setFaltasList(e.data)
+                    // console.log(e)
                 })
                 .catch((e) => console.log(e))
         }
@@ -278,7 +281,7 @@ export const RevisarJustificacion = () => {
                                                             Nombre:
                                                         </label>
                                                         <p className='capitalize text-lg'>
-                                                            {'Moises'}
+                                                            {item.user.name}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -289,7 +292,7 @@ export const RevisarJustificacion = () => {
                                                                 DNI:
                                                             </label>
                                                             <p className='capitalize text-lg'>
-                                                                {'1345678'}
+                                                                {item.user.dni}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -299,7 +302,7 @@ export const RevisarJustificacion = () => {
                                                                 Teléfono:
                                                             </label>
                                                             <p className='capitalize text-lg'>
-                                                                {'9877232778'}
+                                                                {item.user.cellphone}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -343,7 +346,7 @@ export const RevisarJustificacion = () => {
                                     </div>
                                 </div>
 
-                                {hasRole('Lider Nucleo') && (
+                                {(hasRole('Lider Nucleo') && item.user.id!=iduser ) && (
                                     <div className='flex justify-center gap-10 mt-4'>
                                         <button
                                             onClick={() => handleRechazar(item)}

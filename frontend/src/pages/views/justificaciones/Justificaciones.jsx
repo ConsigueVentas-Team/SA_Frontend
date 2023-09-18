@@ -36,7 +36,7 @@ export const Justificaciones = () => {
             .then((e) => {
                 setCards(e.data)
                 setCountPage(e.total)
-                console.log(e.total)
+                // console.log(e.total)
             })
             .catch((error) => {
                 console.log(error)

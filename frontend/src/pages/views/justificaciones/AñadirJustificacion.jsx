@@ -11,7 +11,6 @@ import { FechData } from '../../../components/justificaciones/helpers/FechData'
 
 export const AñadirJustificacion = () => {
     const [page, setPage] = useState(1)
-    // const [currentPage, setCurrentPage] = useState(1)
     const [countPage, setCountPage] = useState(null)
     const [cards, setCards] = useState([])
     // estas dos estados es para manejar las modales
@@ -22,7 +21,6 @@ export const AñadirJustificacion = () => {
     const [buscador_tipoJustificacion, setbuscador_tipoJustificacion] =
         useState('')
     const [buscadorStatus, setBuscadorStatus] = useState('')
-    // const [buscadorFechaInicio, setBuscadorFechaInicio] = useState('')
     const [buscadorFecha, setBuscadorFecha] = useState('')
 
     // Para Toas Alert Success
