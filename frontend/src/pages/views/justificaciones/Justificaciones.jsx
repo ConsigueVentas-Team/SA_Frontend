@@ -7,7 +7,7 @@ import {
 } from "../../../components/justificaciones";
 import { Pagination } from "@mui/material";
 import { FechDataJustificaciones } from "../../../components/justificaciones/helpers/FechDataJustificaciones";
-import Loading from "../../../components/essentials/Loading";
+
 export const Justificaciones = () => {
   const [page, setPage] = useState(1);
   const [countPage, setCountPage] = useState(null);
@@ -17,7 +17,6 @@ export const Justificaciones = () => {
     useState("");
   const [buscadorStatus, setBuscadorStatus] = useState("");
   const [buscadorFecha, setBuscadorFecha] = useState("");
-  const [cargando, setLoading] = useState(false); // Estado para controlar la carga
 
   const limpiar = () => {
     setPage(1);
@@ -34,7 +33,7 @@ export const Justificaciones = () => {
   };
 
   const handleBuscar = (page) => {
-    FechDataJustificaciones({ page, setLoading })
+    FechDataJustificaciones({ page })
       .then((e) => {
         setCards(e.data);
         setCountPage(e.total);
@@ -108,34 +107,31 @@ export const Justificaciones = () => {
             </div>
           </div>
         </div>
-        {cargando ? (
-          <>
-            <CardList
-              cards={cards}
-              page={page}
-              buscador_tipoJustificacion={buscador_tipoJustificacion}
-              buscadorStatus={buscadorStatus}
-              buscadorFecha={buscadorFecha}
-              searchName={name}
-            />
-            <Pagination
-              className="flex justify-center"
-              count={Math.ceil(countPage / 6)}
-              page={page}
-              onChange={(event, value) => {
-                setPage(value);
-                handleBuscar(value);
-              }}
-              sx={{
-                "& .MuiPaginationItem-root": {
-                  color: "#57F3FF", // Cambia '#colorDeseado' por el color que quieras.
-                },
-              }}
-            />
-          </>
-        ) : (
-          <Loading></Loading>
-        )}
+
+        <>
+          <CardList
+            cards={cards}
+            page={page}
+            buscador_tipoJustificacion={buscador_tipoJustificacion}
+            buscadorStatus={buscadorStatus}
+            buscadorFecha={buscadorFecha}
+            searchName={name}
+          />
+          <Pagination
+            className="flex justify-center"
+            count={Math.ceil(countPage / 6)}
+            page={page}
+            onChange={(event, value) => {
+              setPage(value);
+              handleBuscar(value);
+            }}
+            sx={{
+              "& .MuiPaginationItem-root": {
+                color: "#57F3FF", // Cambia '#colorDeseado' por el color que quieras.
+              },
+            }}
+          />
+        </>
       </div>
     </>
   );

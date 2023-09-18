@@ -1,7 +1,6 @@
 import { AES, enc } from "crypto-js";
 
-export const FechDataJustificaciones = async ({ page, setLoading }) => {
-  setLoading(false);
+export const FechDataJustificaciones = async ({ page }) => {
   let url = "";
   try {
     const tokenD = AES.decrypt(
@@ -20,8 +19,7 @@ export const FechDataJustificaciones = async ({ page, setLoading }) => {
     });
 
     const data = await response.json();
-    setLoading(true);
-    // console.log(data.Justifications)
+ 
     return data.Justifications;
   } catch (error) {
     // Manejo de errores en caso de fallo en la llamada a la API
