@@ -186,9 +186,8 @@ const Reportes = () => {
         </>
       ) : (
         <section className="flex items-center justify-center w-full h-full mt-20">
-          <div className="flex items-center justify-center p-5 rounded-lg h-96 w-96 bg-cv-primary">
-            <p>No hay registros</p>
-          </div>
+          {/* hola */}
+          <img src="./2Q.png" alt="" className="w-1/4 rounded-2xl " />
         </section>
       )}
     </div>

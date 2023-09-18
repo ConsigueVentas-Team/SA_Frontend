@@ -28,7 +28,6 @@ export const Justificaciones = () => {
 
     const handleNameChange = (event) => {
         setName(event.target.value)
-        // console.log(event.target.value)
     }
 
     const handleBuscar = (page) => {
@@ -111,29 +110,30 @@ export const Justificaciones = () => {
                     </div>
                 </div>
 
-                <CardList
-                    cards={cards}
-                    page={page}
-                    buscador_tipoJustificacion={buscador_tipoJustificacion}
-                    buscadorStatus={buscadorStatus}
-                    buscadorFecha={buscadorFecha}
-                    searchName={name}
-                />
-
-                <Pagination
-                    className='flex justify-center'
-                    count={Math.ceil(countPage / 6)}
-                    page={page}
-                    onChange={(event, value) => {
-                        setPage(value)
-                        handleBuscar(value)
-                    }}
-                    sx={{
-                        '& .MuiPaginationItem-root': {
-                            color: '#57F3FF', // Cambia '#colorDeseado' por el color que quieras.
-                        },
-                    }}
-                />
+                <>
+                    <CardList
+                        cards={cards}
+                        page={page}
+                        buscador_tipoJustificacion={buscador_tipoJustificacion}
+                        buscadorStatus={buscadorStatus}
+                        buscadorFecha={buscadorFecha}
+                        searchName={name}
+                    />
+                    <Pagination
+                        className='flex justify-center'
+                        count={Math.ceil(countPage / 6)}
+                        page={page}
+                        onChange={(event, value) => {
+                            setPage(value)
+                            handleBuscar(value)
+                        }}
+                        sx={{
+                            '& .MuiPaginationItem-root': {
+                                color: '#57F3FF', // Cambia '#colorDeseado' por el color que quieras.
+                            },
+                        }}
+                    />
+                </>
             </div>
         </>
     )

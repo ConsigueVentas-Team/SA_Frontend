@@ -4,7 +4,7 @@ import { Toaster, toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChecklistIcon from '@mui/icons-material/Checklist';
-import { AttendanceSection,  CameraSection } from '../../../components/asistencias/MarcarAsistencia';
+import { AttendanceSection, CameraSection } from '../../../components/asistencias/MarcarAsistencia';
 
 export const MarcarAsistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -51,13 +51,16 @@ export const MarcarAsistencia = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data)
         const asistenciasHoy = data.attendance.filter((asistencia) => asistencia.date === fecha);
-        if (asistenciasHoy.length === 0) {
+        console.log(fecha)
+        console.log(asistenciasHoy)
+        if (asistenciasHoy.admission_time == "00:00:00"
+        ) {
           setSegundaFotoTomada(false)
         } else {
           setSegundaFotoTomada(true)
         }
-
       })
       .catch((error) => {
         console.error('Error al obtener las asistencias:', error);
@@ -186,7 +189,7 @@ export const MarcarAsistencia = () => {
           setFotoUsuario(URL.createObjectURL(blob));
           setCapturing(false);
 
-          if (!segundaFotoTomada) {
+          if (segundaFotoTomada) {
             setMostrarBotonEntrada(true);
             setMostrarBotonCamara(false);
             setSegundaFotoTomada(true);
@@ -232,31 +235,31 @@ export const MarcarAsistencia = () => {
   };
 
   const rol = localStorage.getItem("rol");
-    const hasRole = (targetRole) => {
-        return rol !== targetRole;
-    };
+  const hasRole = (targetRole) => {
+    return rol !== targetRole;
+  };
 
   return (
     <>
       <Toaster />
       <nav className="flex">
-            <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
-                {hasRole("Colaborador") && (
-                    <li className="inline-flex items-center">
-                        <Link to="/asistencias" className="inline-flex items-center text-base font-medium text-gray-400 hover:text-white">
-                            <ChecklistIcon />
-                            <span className='ml-1 text-base font-medium md:ml-2'>Asistencias</span>
-                        </Link>
-                    </li>
-                )}
-                <li >
-                    <div className="flex items-center text-gray-500 ">
-                        <ChevronRightIcon />
-                        <span className="ml-1 text-base font-medium md:ml-2">Marcar asistencia</span>
-                    </div>
-                </li>
-            </ol>
-        </nav>
+        <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
+          {hasRole("Colaborador") && (
+            <li className="inline-flex items-center">
+              <Link to="/asistencias" className="inline-flex items-center text-base font-medium text-gray-400 hover:text-white">
+                <ChecklistIcon />
+                <span className='ml-1 text-base font-medium md:ml-2'>Asistencias</span>
+              </Link>
+            </li>
+          )}
+          <li >
+            <div className="flex items-center text-gray-500 ">
+              <ChevronRightIcon />
+              <span className="ml-1 text-base font-medium md:ml-2">Marcar asistencia</span>
+            </div>
+          </li>
+        </ol>
+      </nav>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-2/3">
           <div className={`registro-Entrada min-h-[10vh] flex justify-center`}>
@@ -268,10 +271,11 @@ export const MarcarAsistencia = () => {
               toggleCamera={toggleCamera}
               videoRef={videoRef}
               mostrarBotonCamara={mostrarBotonCamara}
+              cameraStream={cameraStream}
             />
           </div>
         </div>
-        <div className={`w-full md:w-1/3 ${fotoCapturada ? '-mt-0' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-3' : ' md:mt-11'}`}>
+        <div className={`w-full md:w-1/3 ${fotoCapturada ? '-mt-0' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-10 lg:mt-9' : 'mt-7 lg:mt-20'}`}>
           <AttendanceSection
             horaActual={horaActual}
             mostrarBotonEntrada={mostrarBotonEntrada}
