@@ -76,7 +76,7 @@ export const RevisarJustificacion = () => {
 
     const rol = localStorage.getItem('rol')
     const iduser = localStorage.getItem('iduser')
-    
+
     const hasRole = (targetRole) => {
         return rol === targetRole
     }
@@ -302,7 +302,10 @@ export const RevisarJustificacion = () => {
                                                                 Teléfono:
                                                             </label>
                                                             <p className='capitalize text-lg'>
-                                                                {item.user.cellphone}
+                                                                {
+                                                                    item.user
+                                                                        .cellphone
+                                                                }
                                                             </p>
                                                         </div>
                                                     </div>
@@ -346,20 +349,25 @@ export const RevisarJustificacion = () => {
                                     </div>
                                 </div>
 
-                                {(hasRole('Lider Nucleo') && item.user.id!=iduser ) && (
-                                    <div className='flex justify-center gap-10 mt-4'>
-                                        <button
-                                            onClick={() => handleRechazar(item)}
-                                            className='border border-gray-300 rounded-lg px-4 text-gray-300 hover:bg-cv-cyan hover:border-none hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
-                                            Rechazar
-                                        </button>
-                                        <button
-                                            onClick={() => handleAceptar(item)}
-                                            className='border border-gray-300 rounded-lg py-1 px-4 text-gray-300 hover:bg-cv-cyan hover:border-none  hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
-                                            Aceptar
-                                        </button>
-                                    </div>
-                                )}
+                                {hasRole('Lider Nucleo') &&
+                                    item.user.id != iduser && (
+                                        <div className='flex justify-center gap-10 mt-4'>
+                                            <button
+                                                onClick={() =>
+                                                    handleRechazar(item)
+                                                }
+                                                className='border border-gray-300 rounded-lg px-4 text-gray-300 hover:bg-cv-cyan hover:border-none hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
+                                                Rechazar
+                                            </button>
+                                            <button
+                                                onClick={() =>
+                                                    handleAceptar(item)
+                                                }
+                                                className='border border-gray-300 rounded-lg py-1 px-4 text-gray-300 hover:bg-cv-cyan hover:border-none  hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
+                                                Aceptar
+                                            </button>
+                                        </div>
+                                    )}
                             </div>
                         ))}
                 </div>
