@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import './relojAnalogico.css';
 
 export const RelojAnalogico = () => {
-  const [hora, setHora] = useState(new Date());
+  const [now, setNow] = useState(new Date());
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setHora(new Date());
+      setNow(new Date());
     }, 1000);
 
     return () => {
@@ -14,19 +14,23 @@ export const RelojAnalogico = () => {
     };
   }, []);
 
-  const segundos = hora.getSeconds() * 6;
-  const minutos = hora.getMinutes() * 6 + segundos / 60;
-  const horas = ((hora.getHours() - 5) % 12) / 12 * 360 + 90 + minutos / 12;
+  const hours = now.getHours() % 12;
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+
+  const hourAngle = (360 / 12) * hours + (360 / 12) * (minutes / 60);
+  const minuteAngle = (360 / 60) * minutes + (360 / 60) * (seconds / 60);
+  const secondAngle = (360 / 60) * seconds;
 
   return (
-    <div className="reloj-analogico mx-auto mt-5">
-      <div className="reloj-analogico__marca reloj-analogico__marca--hora" style={{ transform: `rotate(${horas}deg)` }} />
-      <div className="reloj-analogico__marca reloj-analogico__marca--minuto" style={{ transform: `rotate(${minutos}deg)` }} />
-      <div className="reloj-analogico__marca reloj-analogico__marca--segundo" style={{ transform: `rotate(${segundos}deg)` }} />
-      <div className="reloj-analogico__numero reloj-analogico__numero--12 text-black">12</div>
-      <div className="reloj-analogico__numero reloj-analogico__numero--3 text-black">3</div>
-      <div className="reloj-analogico__numero reloj-analogico__numero--6 text-black">6</div>
-      <div className="reloj-analogico__numero reloj-analogico__numero--9 text-black">9</div>
+    <div className="mx-auto mt-5 w-40 h-40 rounded-full bg-gray-200 relative overflow-hidden">
+      <div className="absolute left-1/2 top-1/2 origin-bottom bg-gray-500 w-1.5 h-8 -ml-0 -mt-8 rounded-t-3xl" style={{ transform: `rotate(${hourAngle}deg)` }} />
+      <div className="absolute left-1/2 top-1/2 origin-bottom bg-gray-500 w-1 h-12 -ml-0 -mt-12 rounded-t-3xl" style={{ transform: `rotate(${minuteAngle}deg)` }} />
+      <div className="absolute left-1/2 top-1/2 origin-bottom bg-gray-500 w-0.5 h-20 ml-0 -mt-20 rounded-t-3xl" style={{ transform: `rotate(${secondAngle}deg)` }} />
+      <div className="font-bold absolute text-black text-xl top-2 left-1/2 transform translate-x-[-50%]">12</div>
+      <div className="font-bold absolute text-black text-xl top-1/2 right-2 transform translate-y-[-50%]">3</div>
+      <div className="font-bold absolute text-black text-xl bottom-2 left-1/2 transform translate-x-[-50%]">6</div>
+      <div className="font-bold absolute text-black text-xl top-1/2 left-2 transform translate-y-[-50%]">9</div>
     </div>
   );
 };

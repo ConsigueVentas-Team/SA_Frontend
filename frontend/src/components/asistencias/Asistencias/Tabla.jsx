@@ -46,10 +46,10 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 							{data.map((attendance) => (
 								<tr key={attendance.id} className='border-b border-cv-secondary'>
 									<th scope="row" className="px-6 py-4 whitespace-nowrap text-center">
-										{attendance.user.position_id}
+										{attendance.user.position[0].core.department.name}
 									</th>
 									<td className="px-6 py-4 whitespace-nowrap text-center">
-										{attendance.user.position_id}
+										{attendance.user.position[0].core.name}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap text-center">
 										{attendance.user.shift}
@@ -63,19 +63,16 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 									<th scope="row" className="px-6 py-4 whitespace-nowrap text-center">
 										<div className='flex items-center justify-center'>
 											{attendance.attendance === 1 && (
-												<div className="w-10 h-10 rounded-full bg-[#24FF00]"></div>
+												<div className="w-5 h-5 rounded-full bg-[#24FF00]"></div>
 											)}
 											{attendance.delay === 1 && attendance.justification !== 1 && (
-												<div className="w-10 h-10 rounded-full bg-[#FAFF00]"></div>
+												<div className="w-5 h-5 rounded-full bg-[#FAFF00]"></div>
 											)}
 											{attendance.delay === 0 && attendance.justification !== 1 && (
-												<div className="w-10 h-10 rounded-full bg-[#FF0000]"></div>
+												<div className="w-5 h-5 rounded-full bg-[#FF0000]"></div>
 											)}
 											{(attendance.justification === 1) && (
-												<div className="w-10 h-10 rounded-full bg-[#57F3FF]"></div>
-											)}
-											{attendance.non_working_days === 1 && (
-												<div className="w-10 h-10 rounded-full bg-[#9A9A9A]"></div>
+												<div className="w-5 h-5 rounded-full bg-[#57F3FF]"></div>
 											)}
 										</div>
 									</th>
@@ -84,7 +81,7 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 											<button
 												onClick={() => handleViewClick(attendance)}
 												className='p-2 border border-cv-secondary rounded-md text-cv-cyan hover:bg-cv-cyan hover:text-cv-primary active:scale-95 ease-in-out duration-300'>
-												<VisibilityIcon  />
+												<VisibilityIcon />
 											</button>
 										</div>
 									</td>

@@ -18,10 +18,6 @@ export const Leyenda = () => {
         <h3 className="text-white uppercase text-sm md:text-lg font-normal">Justificado</h3>
         <div className="w-5 h-5 rounded-full bg-[#57F3FF]"></div>
       </div>
-      <div className="w-full flex items-center justify-between space-x-3">
-        <h3 className="text-white uppercase text-sm md:text-lg font-normal">Dia no Laborable</h3>
-        <div className="w-5 h-5 rounded-full bg-[#9A9A9A]"></div>
-      </div>
     </div>
   );
 };
