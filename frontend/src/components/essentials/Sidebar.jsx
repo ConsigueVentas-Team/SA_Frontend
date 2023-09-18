@@ -20,59 +20,186 @@ const getRole = () => {
 
 export const Sidebar = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const [showSubmenu, setShowSubmenu] = useState(false);
-  const [showSubmenu2, setShowSubmenu2] = useState(false);
 
   const sidebarContent = {
     Colaborador: [
-      { route: "perfil", title: "Perfil", icon: <AccountCircleIcon /> },
       {
-        route: "marcar-asistencia",
+        route: "/perfil",
+        title: "Perfil",
+        icon: <AccountCircleIcon />
+      },
+      {
+        route: "/marcar-asistencia",
         title: "Asistencia",
         icon: <ChecklistIcon />,
       },
       {
-        route: "añadir-justificacion",
+        route: "/añadir-justificacion",
         title: "Justificacion",
         icon: <BalanceIcon />,
       },
-      { route: "cumpleaños", title: "Cumpleaños", icon: <CakeIcon /> },
-      { route: "evaluacion", title: "Evaluación", icon: <TrendingUpIcon /> },
-    ],
-    Gerencia: [
-      { route: "perfil", title: "Perfil", icon: <AccountCircleIcon /> },
-      { route: "asistencias", title: "Asistencias", icon: <ChecklistIcon /> },
       {
-        route: "justificaciones",
-        title: "Justificaciones",
-        icon: <BalanceIcon />,
+        route: "/cumpleaños",
+        title: "Cumpleaños",
+        icon: <CakeIcon />
       },
       {
-        route: "colaboradores",
+        route: "/evaluacion",
+        title: "Evaluación",
+        icon: <TrendingUpIcon />
+      },
+    ],
+    Gerencia: [
+      {
+        route: "/perfil",
+        title: "Perfil",
+        icon: <AccountCircleIcon />
+      },
+      {
+        title: 'Asistencias',
+        icon: <ChecklistIcon />,
+        submenus: [
+          {
+            title: 'Marcar asistencia',
+            route: '/marcar-asistencia',
+          },
+          {
+            title: 'Gestionar asistencias',
+            route: '/asistencias',
+          },
+        ],
+      },
+      {
+        title: 'Justificaciones',
+        icon: <BalanceIcon />,
+        submenus: [
+          {
+            title: 'Añadir justificacion',
+            route: '/añadir-justificacion',
+          },
+          {
+            title: 'Gestionar justificaciones',
+            route: '/justificaciones',
+          },
+        ],
+      },
+      {
+        route: "/colaboradores",
         title: "Colaboradores",
         icon: <Diversity3Icon />,
       },
-      { route: "cumpleaños", title: "Cumpleaños", icon: <CakeIcon /> },
       {
-        route: "evaluaciones",
-        title: "Evaluaciónes",
-        icon: <TrendingUpIcon />,
+        route: "/cumpleaños",
+        title: "Cumpleaños",
+        icon: <CakeIcon />
       },
       {
-        route: "empresa",
+        title: 'Evaluaciones',
+        icon: <TrendingUpIcon />,
+        submenus: [
+          {
+            title: 'Evaluar',
+            route: '/evaluacion',
+          },
+          {
+            title: 'Gestionar evaluaciones',
+            route: '/evaluaciones',
+          },
+        ],
+      },
+      {
+        route: "/empresa",
         title: "Empresa",
         icon: <MapsHomeWorkOutlinedIcon />,
       },
       {
-        route: "reportes",
+        route: "/reportes",
         title: "Reportes",
         icon: <BarChartIcon />,
       },
     ],
+    "Lider Nucleo": [
+      {
+        title: 'Perfil',
+        route: '/perfil',
+        icon: <AccountCircleIcon />,
+      },
+      {
+        title: 'Asistencias',
+        icon: <ChecklistIcon />,
+        submenus: [
+          {
+            title: 'Marcar asistencia',
+            route: '/marcar-asistencia',
+          },
+          {
+            title: 'Gestionar asistencias',
+            route: '/asistencias',
+          },
+        ],
+      },
+      {
+        title: 'Justificaciones',
+        icon: <BalanceIcon />,
+        submenus: [
+          {
+            title: 'Añadir justificacion',
+            route: '/añadir-justificacion',
+          },
+          {
+            title: 'Gestionar justificaciones',
+            route: '/justificaciones',
+          },
+        ],
+      },
+      {
+        title: 'Colaboradores',
+        route: '/colaboradores',
+        icon: <Diversity3Icon />,
+      },
+      {
+        title: 'Cumpleaños',
+        route: '/cumpleaños',
+        icon: <CakeIcon />,
+      },
+      {
+        title: 'Evaluaciones',
+        icon: <TrendingUpIcon />,
+        submenus: [
+          {
+            title: 'Evaluar',
+            route: '/evaluacion',
+          },
+          {
+            title: 'Gestionar evaluaciones',
+            route: '/evaluaciones',
+          },
+        ],
+      },
+      {
+        title: 'Empresa',
+        route: '/empresa',
+        icon: <MapsHomeWorkOutlinedIcon />,
+      },
+      {
+        title: 'Reportes',
+        route: '/reportes',
+        icon: <BarChartIcon />,
+      },
+    ]
   };
 
   const rol = getRole();
   const menuItems = sidebarContent[rol] || [];
+
+  const [showSubmenu, setShowSubmenu] = useState(Array(menuItems.length).fill(false));
+
+  const handleSubMenuToggle = (index) => {
+    const newShowSubmenu = [...showSubmenu];
+    newShowSubmenu[index] = !newShowSubmenu[index];
+    setShowSubmenu(newShowSubmenu);
+  };
+
 
   return (
     <>
@@ -86,152 +213,53 @@ export const Sidebar = () => {
               <Logo />
             </Link>
           </div>
+
           <ul>
-            {menuItems.map((menu, index) => (
-              <Link
-                key={index}
-                to={`/${menu.route}`}
-                className="flex items-center p-2 rounded-md cursor-pointer hover:bg-cv-secondary"
-              >
-                <div className="flex items-center font-semibold gap-x-4">
-                  <span>{menu.icon}</span>
-                  <span className="duration-200 origin-left">{menu.title}</span>
-                </div>
-              </Link>
+            {menuItems.map((item, index) => (
+              <li key={index}>
+                {item.submenus ? (
+                  <button
+                    onClick={() => handleSubMenuToggle(index)}
+                    className={`flex items-center justify-between w-full px-4 py-2 transition-colors rounded-lg hover:bg-secondary-900`}
+                  >
+                    <span className="flex items-center gap-4">
+                      {item.icon}
+                      {item.title}
+                    </span>
+                    <ChevronRightIcon
+                      className={`mt-1 ${showSubmenu[index] && "rotate-90"} transition-all`}
+                    />
+                  </button>
+                ) : (
+                  <Link
+                    to={item.route}
+                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
+                  >
+                    {item.icon}
+                    {item.title}
+                  </Link>
+                )}
+                {item.submenus && (
+                  <ul
+                    className={`${showSubmenu[index] ? "h-auto" : "h-0"
+                      } overflow-y-hidden transition-all`}
+                  >
+                    {item.submenus.map((submenuItem, subIndex) => (
+                      <li key={subIndex}>
+                        <Link
+                          to={submenuItem.route}
+                          className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-cv-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-cv-cyan hover:text-white transition-colors"
+                        >
+                          {submenuItem.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
             ))}
-
-            {rol === "Lider Nucleo" && (
-              <>
-                <li>
-                  <Link
-                    to="/perfil"
-                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
-                  >
-                    <AccountCircleIcon />
-                    Perfil
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/asistencias"
-                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
-                  >
-                    <ChecklistIcon />
-                    Asistencia
-                  </Link>
-                </li>
-
-                <li>
-                  <button
-                    onClick={() => setShowSubmenu(!showSubmenu)}
-                    className="flex items-center justify-between w-full px-4 py-2 transition-colors rounded-lg hover:bg-secondary-900"
-                  >
-                    <span className="flex items-center gap-4">
-                      <BalanceIcon />
-                      Justificaciones
-                    </span>
-                    <ChevronRightIcon
-                      className={`mt-1 ${showSubmenu && "rotate-90"
-                        } transition-all`}
-                    />
-                  </button>
-                  <ul
-                    className={` ${showSubmenu ? "h-auto" : "h-0"
-                      } overflow-y-hidden transition-all`}
-                  >
-                    <li>
-                      <Link
-                        to="/añadir-justificacion"
-                        className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-cv-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-cv-cyan hover:text-white transition-colors"
-                      >
-                        Añadir justificacion
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/justificaciones"
-                        className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-cv-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-cv-cyan hover:text-white transition-colors"
-                      >
-                        Justificaciones
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <Link
-                    to="/colaboradores"
-                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
-                  >
-                    <Diversity3Icon />
-                    Colaboradores
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/cumpleaños"
-                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
-                  >
-                    <CakeIcon />
-                    Cumpleaños
-                  </Link>
-                </li>
-                <li>
-                  <button
-                    onClick={() => setShowSubmenu2(!showSubmenu2)}
-                    className="flex items-center justify-between w-full px-4 py-2 transition-colors rounded-lg hover:bg-secondary-900"
-                  >
-                    <span className="flex items-center gap-4">
-                      <TrendingUpIcon />
-                      Evaluaciones
-                    </span>
-                    <ChevronRightIcon
-                      className={`mt-1 ${showSubmenu2 && "rotate-90"
-                        } transition-all`}
-                    />
-                  </button>
-                  <ul
-                    className={` ${showSubmenu2 ? "h-auto" : "h-0"
-                      } overflow-y-hidden transition-all`}
-                  >
-                    <li>
-                      <Link
-                        to="/evaluacion"
-                        className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-cv-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-cv-cyan hover:text-white transition-colors"
-                      >
-                        Evaluar
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/evaluaciones"
-                        className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-cv-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-cv-cyan hover:text-white transition-colors"
-                      >
-                        Gestionar Evaluaciones
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <Link
-                    to="/empresa"
-                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
-                  >
-                    <MapsHomeWorkOutlinedIcon />
-                    Empresa
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/reportes"
-                    className="flex items-center gap-4 px-4 py-2 transition-colors rounded-lg hover:bg-cv-secondary"
-                  >
-                    <BarChartIcon />
-                    Reportes
-                  </Link>
-                </li>
-              </>
-            )}
           </ul>
+
         </div>
       </div>
       <button
