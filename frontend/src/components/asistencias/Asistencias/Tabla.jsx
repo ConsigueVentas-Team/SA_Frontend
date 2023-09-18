@@ -15,7 +15,7 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 	return (
 		<>
 			<div className='w-full bg-[#0e161b] shadow-md  rounded-lg overflow-hidden'>
-				<div className="w-full min-w-full overflow-x-auto">
+				<div className="w-full min-w-full overflow-x-auto scrollbar scrollbar-thumb-cv-cyan scrollbar-track-transparent scrollbar-thumb-rounded-full">
 					<table className="w-full text-sm text-left text-white">
 						<thead className="text-base uppercase">
 							<tr>
