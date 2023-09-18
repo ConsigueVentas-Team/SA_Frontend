@@ -39,7 +39,7 @@ export const Colaboradores = () => {
   const [showAgregarModal, setShowAgregarModal] = useState(false);
   const [showEditarModal, setShowEditarModal] = useState(false);
   const [selectUser, setSelectUser] = useState(null);
-
+  const [cargando, setCargando] = useState(true);
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
     import.meta.env.VITE_TOKEN_KEY
@@ -123,6 +123,7 @@ export const Colaboradores = () => {
 
   //* Listar Colaboradores
   const obtenerUsuarios = async (page) => {
+    setCargando(true);
     try {
       const url = new URL(import.meta.env.VITE_API_URL + "/users");
 
@@ -145,6 +146,7 @@ export const Colaboradores = () => {
       if (response.ok) {
         setUsers(data.data);
         setPagination(data);
+        setCargando(false);
       } else {
         console.error("Error al obtener los usuarios:", data.error);
       }
@@ -338,7 +340,7 @@ export const Colaboradores = () => {
         </div>
 
         <div className="w-full">
-          {users == null ? (
+          {cargando ? (
             <Loading></Loading>
           ) : (
             <Tabla

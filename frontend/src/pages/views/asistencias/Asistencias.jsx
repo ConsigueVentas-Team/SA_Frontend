@@ -23,7 +23,7 @@ export const Asistencias = () => {
 
   const [viewCalendar, setViewCalendar] = useState(false);
   const [viewLeyenda, setViewLeyenda] = useState(false);
-
+  const [cargando, setCargando] = useState(true);
   const [pagination, setPagination] = useState({
     current_page: 1,
     last_page: 1,
@@ -88,6 +88,7 @@ export const Asistencias = () => {
   };
 
   useEffect(() => {
+    setCargando(true);
     obtenerAsistencia(date, shift, department, core, name);
   }, [date, shift, department, core, name]);
 
@@ -112,6 +113,7 @@ export const Asistencias = () => {
       if (response.ok) {
         setAttendance(data.data);
         setPagination(data);
+        setCargando(false);
         console.log(attendance);
       } else {
         console.error("Error al obtener las asistencias1:", data.error);
@@ -223,7 +225,7 @@ export const Asistencias = () => {
             </div>
           </div>
 
-          {attendance == null ? (
+          {cargando  ? (
             <Loading></Loading>
           ) : (
             <Tabla
