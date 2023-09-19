@@ -6,7 +6,7 @@ export const Saludo = () => {
 	const firstName = nombre.split(" ")[0];
 	const firstSurname = apellido.split(" ")[0];
 	return (
-		<h2 className="text-xl font-bold text-white uppercase md:text-3xl">
+		<h2 className="text-xl font-bold text-center text-white uppercase md:text-3xl">
 			Mucho Gusto {firstName} {firstSurname}
 		</h2>
 	)

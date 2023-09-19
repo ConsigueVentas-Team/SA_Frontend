@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ClickAwayListener } from "@mui/base/ClickAwayListener";
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
@@ -40,9 +40,9 @@ export const Header = () => {
     <>
       <div className="flex items-center justify-between w-full h-16 px-4 py-2 text-white bg-cv-primary">
         <div>
-          <h1 className="text-sm font-semibold md:text-base lg:text-lg xl:text-xl">
+          <Link to="/" className="text-sm font-semibold md:text-base lg:text-lg xl:text-xl">
             Consigue Ventas
-          </h1>
+          </Link>
         </div>
         <div className="flex items-center gap-2">
           <Avatar
@@ -90,7 +90,7 @@ export const Header = () => {
             </div>
           </ClickAwayListener>
         </div>
-      </div>
+      </div >
     </>
   );
 };

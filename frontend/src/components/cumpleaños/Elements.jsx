@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useRef, useEffect, useState } from 'react';
 import Avatar from "@mui/material/Avatar";
 import CloseIcon from '@mui/icons-material/Close';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export const ListItem = ({ user }) => {
 
@@ -44,7 +45,10 @@ export const ListItem = ({ user }) => {
                             {formattedDate}
                         </p>
                     </div>
-                    <button onClick={toggleShowModal} className="flex items-center justify-center p-2 text-sm font-semibold text-white duration-300 ease-in-out border rounded-md border-cv-secondary hover:bg-cv-secondary sm:text-base active:scale-95">Ver más</button>
+                    <button onClick={toggleShowModal} className="flex items-center justify-center gap-2 p-2 text-sm font-semibold duration-300 ease-in-out border rounded-md text-cv-cyan border-cv-secondary hover:bg-cv-secondary sm:text-base active:scale-95">
+                        <VisibilityIcon />
+                        <span className='hidden sm:block'>Ver más</span>
+                    </button>
                 </div>
             </li>
             {
