@@ -50,10 +50,8 @@ export const MarcarAsistencia = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
-        const asistenciasHoy = data.attendance.filter((asistencia) => asistencia.date === fecha);
-        console.log(fecha)
-        console.log(asistenciasHoy)
-        if (asistenciasHoy.admission_time == "00:00:00"
+        console.log(data.attendance.admission_time)
+        if (data.attendance.admission_time == "00:00:00"
         ) {
           setSegundaFotoTomada(false)
         } else {
@@ -260,7 +258,7 @@ export const MarcarAsistencia = () => {
             />
           </div>
         </div>
-        <div className={`w-full md:w-1/3 ${fotoCapturada ? '-mt-0' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-10 lg:mt-9' : 'mt-7 lg:mt-20'}`}>
+        <div className={`w-full md:w-1/3 ${fotoCapturada ? '-mt-96' : 'mt-96'} ${!fotoUsuario && !videoEnabled ? 'mt-10 lg:mt-9' : 'mt-7 lg:mt-20'}`}>
           <AttendanceSection
             horaActual={horaActual}
             mostrarBotonEntrada={mostrarBotonEntrada}
