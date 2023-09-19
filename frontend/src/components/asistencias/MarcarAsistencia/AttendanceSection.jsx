@@ -15,7 +15,7 @@ export const AttendanceSection = ({
     handleButtonClickAdmission
 }) => {
     return (
-        <div className="seccion-derecha bg-cv-primary flex flex-col items-center justify-start m-4 mb-96 rounded-xl p-4 sm:p-6 lg:p-8 border-2 border-cv-cyan">
+        <div className="seccion-derecha bg-cv-primary flex flex-col items-center justify-start m-4 rounded-xl p-4 sm:p-6 lg:p-8 border-2 border-cv-cyan">
             <div className='mb-4 sm:mb-6 md:mb-8 lg:mb-10 xl:mb-12 max-[600px]:hidden'>
                 <RelojAnalogico hora={horaActual} />
             </div>
