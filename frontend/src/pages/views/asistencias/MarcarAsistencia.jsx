@@ -258,7 +258,7 @@ export const MarcarAsistencia = () => {
             />
           </div>
         </div>
-        <div className={`w-full md:w-1/3 ${fotoCapturada ? 'lg:mt-9' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-10 lg:mt-9' : 'mt-7 lg:mt-20'}`}>
+        <div className={`w-full  md:w-1/3 ${fotoCapturada ? 'lg:mt-9' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-10 lg:mt-9' : 'mt-7 lg:mt-20'}`}>
           <AttendanceSection
             horaActual={horaActual}
             mostrarBotonEntrada={mostrarBotonEntrada}
