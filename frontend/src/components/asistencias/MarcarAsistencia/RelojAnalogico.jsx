@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import './relojAnalogico.css';
 
 export const RelojAnalogico = () => {
   const [now, setNow] = useState(new Date());

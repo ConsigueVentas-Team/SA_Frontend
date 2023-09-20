@@ -23,4 +23,7 @@ export default {
   plugins: [
     require("tailwindcss-scrollbar"),
   ],
+  corePlugins: {
+    animation: true,
+  },
 };

@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import CakeIcon from "@mui/icons-material/Cake";
-// import DescriptionIcon from "@mui/icons-material/Description";
 import BalanceIcon from "@mui/icons-material/Balance";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -98,7 +96,7 @@ export const Sidebar = () => {
         icon: <TrendingUpIcon />,
         submenus: [
           {
-            title: 'Evaluar',
+            title: 'Mi evaluación',
             route: '/evaluacion',
           },
           {
@@ -167,7 +165,7 @@ export const Sidebar = () => {
         icon: <TrendingUpIcon />,
         submenus: [
           {
-            title: 'Evaluar',
+            title: 'Mi evaluación',
             route: '/evaluacion',
           },
           {
@@ -200,6 +198,10 @@ export const Sidebar = () => {
     setShowSubmenu(newShowSubmenu);
   };
 
+  const handleShowMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
     <>
       <div
@@ -211,7 +213,6 @@ export const Sidebar = () => {
               <Logo />
             </Link>
           </div>
-
           <ul>
             {menuItems.map((item, index) => (
               <li key={index}>
@@ -260,7 +261,7 @@ export const Sidebar = () => {
         </div>
       </div>
       <button
-        onClick={() => setShowMenu(!showMenu)}
+        onClick={handleShowMenu}
         className="fixed z-50 p-2 text-white border rounded-full xl:hidden border-cv-secondary bottom-4 right-4 bg-cv-primary"
       >
         {showMenu ? <CloseIcon size={24} /> : <MenuIcon size={24} />}

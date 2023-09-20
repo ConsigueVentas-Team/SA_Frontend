@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { AES, enc } from "crypto-js";
 import {
-  Breadcumb,
   Calendar,
   Filtros,
   Leyenda,
   ModalImagen,
   Tabla,
 } from "../../../components/asistencias/Asistencias";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ChecklistIcon from '@mui/icons-material/Checklist';
 import Loading from "../../../components/essentials/Loading";
 
 export const Asistencias = () => {
@@ -161,44 +163,33 @@ export const Asistencias = () => {
 
   return (
     <>
-      <Breadcumb />
+      <nav className="flex" >
+            <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
+                <li className="inline-flex items-center">
+                    <div className="inline-flex items-center text-base font-medium text-gray-400">
+                        <ChecklistIcon />
+                        <span className='ml-1 text-base font-medium md:ml-2'>Asistencias</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
       <div className="h-full bg-cv-secondary mt-5">
         <div className="space-y-3 w-full">
-          {viewCalendar && viewLeyenda ? (
-            <div className="w-full flex flex-col md:flex-row justify-start gap-3">
-              <div className="w-full md:w-1/3 mt-10">
-                <Leyenda />
-              </div>
-              <div className=" w-full md:w-4/6 space-y-3 ">
-                <div className="w-full bg-cv-primary rounded-lg">
-                  <div className="w-full flex flex-col items-center justify-between">
-                    <Calendar
-                      setSelectedMonth={setMonth}
-                      onDayClick={handleDayClick}
-                      selectedDay={date}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="hidden">asd</div>
-          )}
           <div className="flex w-full">
             <div>
               {viewCalendar && viewLeyenda ? (
                 <button
                   className="p-2 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold flex items-center justify-center mr-3"
                   onClick={closeUtil}
-                >
-                  Cerrar
+                  >
+                  <ExpandLessIcon />
                 </button>
               ) : (
                 <button
                   className="p-2 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold flex items-center justify-center mr-3"
                   onClick={openUtil}
                 >
-                  Abrir
+                  <ExpandMoreIcon />
                 </button>
               )}
             </div>
@@ -224,8 +215,26 @@ export const Asistencias = () => {
               />
             </div>
           </div>
+          {viewCalendar && viewLeyenda && (
+            <div className="w-full flex flex-col md:flex-row justify-start gap-3">
+              <div className={`w-full md:w-1/3 mt-10 animate-fade-in ${viewLeyenda ? 'opacity-100' : 'opacity-0'}`}>
+                <Leyenda />
+              </div>
+              <div className={`w-full md:w-4/6 space-y-3 animate-fade-in ${viewCalendar ? 'opacity-100' : 'opacity-0'}`}>
+                <div className="w-full bg-cv-primary rounded-lg">
+                  <div className="w-full flex flex-col items-center justify-between">
+                    <Calendar
+                      setSelectedMonth={setMonth}
+                      onDayClick={handleDayClick}
+                      selectedDay={date}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
-          {cargando  ? (
+          {cargando ? (
             <Loading></Loading>
           ) : (
             <Tabla

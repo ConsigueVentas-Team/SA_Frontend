@@ -1,35 +1,37 @@
-import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { AES, enc } from "crypto-js";
 import { toast } from "react-hot-toast";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import CloseIcon from '@mui/icons-material/Close';
-import { Avatar, InputText, ModalButton, Select } from './ModalElements';
+import CloseIcon from "@mui/icons-material/Close";
+import { Avatar, InputText, ModalButton, Select } from "./ModalElements";
+import Loading from "../../essentials/Loading";
 
-export const ModalAgregar = ({ close, addUser }) => {
-
+export const ModalAgregar = ({ close, addUser, cargando }) => {
   // UseStates de campos a insertar
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [email, setEmail] = useState('');
-  const [dni, setDni] = useState('');
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [dni, setDni] = useState("");
   const [departments, setDepartments] = useState([]);
   const [cores, setCores] = useState([]);
   const [profiles, setProfiles] = useState([]);
-  const [cellphone, setCellphone] = useState('');
-  const [shift, setShift] = useState('');
-  const [birthday, setBirthday] = useState('');
+  const [cellphone, setCellphone] = useState("");
+  const [shift, setShift] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [avatar, setAvatar] = useState(null);
-  const [dateStart, setDateStart] = useState('');
-  const [dateEnd, setDateEnd] = useState('');
+  const [dateStart, setDateStart] = useState("");
+  const [dateEnd, setDateEnd] = useState("");
 
-  const [selectedDepartment, setSelectedDepartment] = useState('');
-  const [selectedCore, setSelectedCore] = useState('');
-  const [selectedProfile, setSelectedProfile] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [selectedCore, setSelectedCore] = useState("");
+  const [selectedProfile, setSelectedProfile] = useState("");
 
-
-  const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
-  const token = tokenD.toString(enc.Utf8)
+  const tokenD = AES.decrypt(
+    localStorage.getItem("token"),
+    import.meta.env.VITE_TOKEN_KEY
+  );
+  const token = tokenD.toString(enc.Utf8);
 
   //** Rellenar Select Options */
   useEffect(() => {
@@ -63,26 +65,26 @@ export const ModalAgregar = ({ close, addUser }) => {
 
   const departmentOptions = departments.map((department) => ({
     value: department.id,
-    label: department.name
+    label: department.name,
   }));
 
   const coreOptions = cores
     .filter((core) => core.department_id === parseInt(selectedDepartment))
     .map((core) => ({
       value: core.id,
-      label: core.name
+      label: core.name,
     }));
 
   const profileOptions = profiles
     .filter((profile) => profile.core_id === parseInt(selectedCore))
     .map((profile) => ({
       value: profile.id,
-      label: profile.name
+      label: profile.name,
     }));
 
   const shiftOptions = [
-    { value: 'Mañana', label: 'Mañana' },
-    { value: 'Tarde', label: 'Tarde' },
+    { value: "Mañana", label: "Mañana" },
+    { value: "Tarde", label: "Tarde" },
   ];
 
   const handleNameChange = (event) => {
@@ -106,8 +108,8 @@ export const ModalAgregar = ({ close, addUser }) => {
   };
 
   const handleCellphoneChange = (event) => {
-    setCellphone(event.target.value)
-  }
+    setCellphone(event.target.value);
+  };
 
   const handleShiftChange = (event) => {
     setShift(event.target.value);
@@ -127,7 +129,7 @@ export const ModalAgregar = ({ close, addUser }) => {
 
   const handleDateEndChange = (event) => {
     setDateEnd(event.target.value);
-  }
+  };
 
   const handleSubmit = (event) => {
     if (
@@ -142,18 +144,18 @@ export const ModalAgregar = ({ close, addUser }) => {
       !avatar ||
       !dateStart ||
       !dateEnd ||
-      name.trim() === '' ||
-      surname.trim() === '' ||
-      email.trim() === '' ||
-      dni.trim() === '' ||
-      selectedProfile.trim() === '' ||
-      cellphone.trim() === '' ||
-      shift.trim() === '' ||
-      birthday.trim() === '' ||
-      dateStart.trim() === '' ||
-      dateEnd.trim() === ''
+      name.trim() === "" ||
+      surname.trim() === "" ||
+      email.trim() === "" ||
+      dni.trim() === "" ||
+      selectedProfile.trim() === "" ||
+      cellphone.trim() === "" ||
+      shift.trim() === "" ||
+      birthday.trim() === "" ||
+      dateStart.trim() === "" ||
+      dateEnd.trim() === ""
     ) {
-      toast.error('Rellene todos los campos');
+      toast.error("Rellene todos los campos");
       return;
     }
     event.preventDefault();
@@ -175,7 +177,6 @@ export const ModalAgregar = ({ close, addUser }) => {
     addUser(nuevoUsuario);
   };
 
-
   return (
     <>
       <div className="fixed top-0 left-0 z-50 w-screen h-screen overflow-y-auto p-2.5 flex flex-col items-center justify-center bg-cv-secondary/50">
@@ -188,7 +189,11 @@ export const ModalAgregar = ({ close, addUser }) => {
                 <PersonAddIcon />
                 Agregar Colaborador
               </h3>
-              <button type="button" onClick={close} className="text-cv-secondary bg-transparent hover:bg-cv-primary hover:text-cv-cyan rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center active:scale-95 ease-in-out duration-300">
+              <button
+                type="button"
+                onClick={close}
+                className="text-cv-secondary bg-transparent hover:bg-cv-primary hover:text-cv-cyan rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center active:scale-95 ease-in-out duration-300"
+              >
                 <CloseIcon sx={{ fontSize: 32 }} />
                 <span className="sr-only">Close modal</span>
               </button>
@@ -253,7 +258,7 @@ export const ModalAgregar = ({ close, addUser }) => {
                     options={departmentOptions}
                     onChange={(e) => {
                       setSelectedDepartment(e.target.value);
-                      setSelectedCore('');
+                      setSelectedCore("");
                     }}
                   />
                   <Select
@@ -298,17 +303,31 @@ export const ModalAgregar = ({ close, addUser }) => {
             </div>
             {/* <!-- Modal footer --> */}
             <div className="flex flex-col-reverse md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-cv-primary rounded-b gap-2 md:gap-4">
-              <ModalButton label="Cancelar" onClick={close} className="text-cv-primary bg-white border-cv-primary hover:text-white hover:bg-cv-primary" />
-              <ModalButton label="Guardar" onClick={handleSubmit} className="text-white bg-cv-primary border-cv-primary hover:bg-cv-primary" />
+              <ModalButton
+                label="Cancelar"
+                onClick={close}
+                className="text-cv-primary bg-white border-cv-primary hover:text-white hover:bg-cv-primary"
+              />
+              {cargando ? (
+                <div className="h-8">
+                  <Loading></Loading>
+                </div>
+              ) : (
+                <ModalButton
+                  label="Guardar"
+                  onClick={handleSubmit}
+                  className="text-white bg-cv-primary border-cv-primary hover:bg-cv-primary"
+                />
+              )}
             </div>
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 ModalAgregar.propTypes = {
   close: PropTypes.func.isRequired,
   addUser: PropTypes.func.isRequired,
-}
+};
