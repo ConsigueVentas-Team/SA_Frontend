@@ -6,7 +6,7 @@ import Input from "../../../../components/formulario/Input";
 import ModalBox from "../../../../components/formulario/Modalbox";
 import Loading from "../../../../components/essentials/Loading";
 import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar";
-// import {ObtenerDatos,EliminarDato,AgregarDato,} from "../../../../components/formulario/Helpers/hooks"
+
 import AgregarDato from "../../../../components/formulario/Helpers/hooks/AgregarDato";
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";

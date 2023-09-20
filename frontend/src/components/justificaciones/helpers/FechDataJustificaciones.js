@@ -1,29 +1,31 @@
-import { AES, enc } from "crypto-js";
+import { AES, enc } from 'crypto-js'
 
 export const FechDataJustificaciones = async ({ page }) => {
-  let url = "";
-  try {
-    const tokenD = AES.decrypt(
-      localStorage.getItem("token"),
-      import.meta.env.VITE_TOKEN_KEY
-    );
+    try {
+        const tokenD = AES.decrypt(
+            localStorage.getItem('token'),
+            import.meta.env.VITE_TOKEN_KEY
+        )
 
-    const token = tokenD.toString(enc.Utf8);
+        const token = tokenD.toString(enc.Utf8)
+        const iduser = localStorage.getItem('iduser')
 
-    url = `${import.meta.env.VITE_API_URL}/justification?page=${page}`;
+        let url = `${
+            import.meta.env.VITE_API_URL
+        }/justification/list?exclude_user=${iduser}&page=${page}`
 
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
 
-    const data = await response.json();
- 
-    return data.Justifications;
-  } catch (error) {
-    // Manejo de errores en caso de fallo en la llamada a la API
-    console.error("Error al obtener los datos de la API:", error);
-    return error;
-  }
-};
+        const data = await response.json()
+        console.log(data.Justifications)
+        return data.Justifications
+    } catch (error) {
+        // Manejo de errores en caso de fallo en la llamada a la API
+        console.error('Error al obtener los datos de la API:', error)
+        return error
+    }
+}

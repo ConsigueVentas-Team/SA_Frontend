@@ -24,6 +24,7 @@ import { EvaluacionesColaborador } from "./pages/views/evaluaciones/Evaluaciones
 import { EvaluacionesAdmin } from "./pages/views/evaluaciones/EvaluacionesAdmin";
 import { RevisarJustificacion } from './components/justificaciones/RevisarJustificacion';
 import Reportes from './pages/views/Reportes';
+import { useEffect, useState } from 'react';
 function App() {
   const rol = localStorage.getItem("rol");
   const isLoggedIn = localStorage.getItem("login") === "true";
@@ -31,6 +32,46 @@ function App() {
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
+
+  const [isActive, setIsActive] = useState(true);
+  let inactivityTimer;
+
+  const resetTimer = () => {
+    setIsActive(true);
+  };
+
+  const handleInactivity = () => {
+    setIsActive(false);
+    logoutSubmit();
+  };
+
+  const resetInactivityTimer = () => {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(handleInactivity, 5 * 60 * 1000);
+  };
+
+  useEffect(() => {
+    console.log(isLoggedIn)
+    resetInactivityTimer();
+
+    const activityEvents = ['mousedown', 'mousemove', 'keydown', 'wheel'];
+
+    const handleActivity = () => {
+      resetTimer();
+      resetInactivityTimer();
+    };
+
+    activityEvents.forEach(event => {
+      window.addEventListener(event, handleActivity);
+    });
+
+    return () => {
+      activityEvents.forEach(event => {
+        window.removeEventListener(event, handleActivity);
+      });
+      clearTimeout(inactivityTimer);
+    };
+  }, []);
 
   return (
     <BrowserRouter>
@@ -97,3 +138,11 @@ function App() {
 }
 
 export default App;
+
+function logoutSubmit() {
+  if(localStorage.getItem('login') === 'true'){
+    window.location.reload();
+  }
+  localStorage.setItem('login', 'false');
+  localStorage.setItem('loginStatus', 'Cierre de sesión exitoso!');
+}

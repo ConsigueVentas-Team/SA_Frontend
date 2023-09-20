@@ -39,7 +39,9 @@ export const Colaboradores = () => {
   const [showAgregarModal, setShowAgregarModal] = useState(false);
   const [showEditarModal, setShowEditarModal] = useState(false);
   const [selectUser, setSelectUser] = useState(null);
+
   const [cargando, setCargando] = useState(true);
+
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
     import.meta.env.VITE_TOKEN_KEY
@@ -149,6 +151,7 @@ export const Colaboradores = () => {
         setCargando(false);
       } else {
         console.error("Error al obtener los usuarios:", data.error);
+        setCargando(true);
       }
     } catch (error) {
       console.error("Error al obtener los usuarios:", error);
@@ -157,6 +160,7 @@ export const Colaboradores = () => {
 
   //* Agregar Colaborador
   const agregarUsuario = async (newUser) => {
+    setCargando(true);
     const formData = new FormData();
     formData.append("name", newUser.name);
     formData.append("surname", newUser.surname);
@@ -179,8 +183,11 @@ export const Colaboradores = () => {
           setShowAgregarModal(!showAgregarModal);
           toast.success("Usuario agregado exitosamente");
           obtenerUsuarios();
+          setCargando(false);
         } else {
+          setCargando(false);
           throw new Error("Error al guardar los datos");
+          
         }
       })
       .catch((error) => {
@@ -190,6 +197,7 @@ export const Colaboradores = () => {
 
   //* Editar Colaborador
   const editarUsuario = async (updateUser) => {
+    setCargando(true);
     const formData = new FormData();
     formData.append("name", updateUser.name);
     formData.append("surname", updateUser.surname);
@@ -233,9 +241,11 @@ export const Colaboradores = () => {
         toast.success("Datos de usuario modificado exitosamente");
         setShowEditarModal(!showEditarModal);
         obtenerUsuarios();
+        setCargando(false);
       } else {
         toast.error(`Error al modificar usuario: ${data.error}`);
         setShowEditarModal(!showEditarModal);
+        setCargando(false);
       }
     } catch (error) {
       toast.error(`Error al modificar: ${error}`);
@@ -354,13 +364,18 @@ export const Colaboradores = () => {
         <Toaster />
       </section>
       {showAgregarModal && (
-        <ModalAgregar close={toggleAgregarModal} addUser={agregarUsuario} />
+        <ModalAgregar
+          close={toggleAgregarModal}
+          addUser={agregarUsuario}
+          cargando={cargando}
+        />
       )}
       {showEditarModal && (
         <ModalEditar
           close={toggleEditarModal}
           updateUser={editarUsuario}
           user={selectUser}
+          cargando={cargando}
         />
       )}
     </>

@@ -1,8 +1,11 @@
-import { AES, enc } from 'crypto-js';
-import { useEffect, useRef, useState } from 'react';
-import { Toaster, toast } from 'react-hot-toast';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { AttendanceSection, CameraSection } from '../../../components/asistencias/MarcarAsistencia';
+import { AES, enc } from "crypto-js";
+import { useEffect, useRef, useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import {
+  AttendanceSection,
+  CameraSection,
+} from "../../../components/asistencias/MarcarAsistencia";
 
 export const MarcarAsistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -19,7 +22,7 @@ export const MarcarAsistencia = () => {
   const [capturing, setCapturing] = useState(false);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
-
+  const [cargando, setCargando] = useState(true);
   useEffect(() => {
     const interval = setInterval(() => {
       setHoraActual(new Date());
@@ -28,38 +31,37 @@ export const MarcarAsistencia = () => {
     const fecha = new Date().toISOString().slice(0, 10);
     const entradaMarcadaLocal = localStorage.getItem(`entrada_${fecha}`);
     const salidaMarcadaLocal = localStorage.getItem(`salida_${fecha}`);
-    setEntradaMarcada(entradaMarcadaLocal === 'true');
-    setSalidaMarcada(salidaMarcadaLocal === 'true');
+    setEntradaMarcada(entradaMarcadaLocal === "true");
+    setSalidaMarcada(salidaMarcadaLocal === "true");
 
-    const existeSalidaMarcada = salidaMarcadaLocal === 'true';
+    const existeSalidaMarcada = salidaMarcadaLocal === "true";
     setMostrarBotonCamara(!existeSalidaMarcada);
 
-    const existeEntradaMarcada = entradaMarcadaLocal == 'true';
-    setSegundaFotoTomada(existeEntradaMarcada)
+    const existeEntradaMarcada = entradaMarcadaLocal == "true";
+    setSegundaFotoTomada(existeEntradaMarcada);
 
     const tokenD = AES.decrypt(
       localStorage.getItem("token"),
       import.meta.env.VITE_TOKEN_KEY
     );
     const token = tokenD.toString(enc.Utf8);
-    fetch(import.meta.env.VITE_API_URL + '/attendance/id', {
+    fetch(import.meta.env.VITE_API_URL + "/attendance/id", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
-        console.log(data.attendance.admission_time)
-        if (data.attendance.admission_time == "00:00:00"
-        ) {
-          setSegundaFotoTomada(false)
+        console.log(data);
+        console.log(data.attendance.admission_time);
+        if (data.attendance.admission_time == "00:00:00") {
+          setSegundaFotoTomada(false);
         } else {
-          setSegundaFotoTomada(true)
+          setSegundaFotoTomada(true);
         }
       })
       .catch((error) => {
-        console.error('Error al obtener las asistencias:', error);
+        console.error("Error al obtener las asistencias:", error);
       });
 
     return () => {
@@ -68,18 +70,24 @@ export const MarcarAsistencia = () => {
   }, []);
 
   const handleRegistroAsistencia = (tipo) => {
+    setCargando(true);
     const fecha = new Date().toISOString().slice(0, 10);
 
     const formData = new FormData();
-    const shift = localStorage.getItem('shift');
-    const iduser = localStorage.getItem('iduser');
-    const photoName = `${shift.charAt(0)}-${iduser}-${tipo === 'admission' ? 'e' : 's'}-${fecha}.jpg`;
+    const shift = localStorage.getItem("shift");
+    const iduser = localStorage.getItem("iduser");
+    const photoName = `${shift.charAt(0)}-${iduser}-${
+      tipo === "admission" ? "e" : "s"
+    }-${fecha}.jpg`;
     formData.append(`${tipo}_image`, fotoCapturada, photoName);
 
-    const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY);
+    const tokenD = AES.decrypt(
+      localStorage.getItem("token"),
+      import.meta.env.VITE_TOKEN_KEY
+    );
     const token = tokenD.toString(enc.Utf8);
-    fetch(import.meta.env.VITE_API_URL + '/attendance/create', {
-      method: 'POST',
+    fetch(import.meta.env.VITE_API_URL + "/attendance/create", {
+      method: "POST",
       body: formData,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -87,50 +95,48 @@ export const MarcarAsistencia = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (tipo === 'admission') {
+        if (tipo === "admission") {
           const hora = horaActual.getHours();
           const minutos = horaActual.getMinutes();
-          const turno = localStorage.getItem('shift');
-          setMostrarBotonEntrada(false)
+          const turno = localStorage.getItem("shift");
+          setMostrarBotonEntrada(false);
           setFotoUsuario(false);
           setFotoCapturada(null);
           setMostrarBotonCamara(true);
-          setVideoEnabled(false)
-          toast.success("Entrada Marcada")
-          if (
-            (turno === 'Mañana' && (hora >= 8 && minutos >= 10) && (hora <= 13))
-          ) {
+          setVideoEnabled(false);
+
+          toast.success("Entrada Marcada");
+
+          if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
             setTardanzaMañana(true);
           } else {
             setTardanzaMañana(false);
           }
 
-          if (
-            (turno === 'Tarde' && (hora >= 14 && minutos >= 10) && (hora <= 19))
-          ) {
+          if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
             setTardanzaTarde(true);
           } else {
             setTardanzaTarde(false);
           }
 
-          localStorage.setItem(`entrada_${fecha}`, 'true');
+          localStorage.setItem(`entrada_${fecha}`, "true");
         } else {
-          setMostrarBotonSalida(false)
-          setMostrarBotonCamara(false)
+          setMostrarBotonSalida(false);
+          setMostrarBotonCamara(false);
           setFotoUsuario(false);
           setFotoCapturada(null);
           setVideoEnabled(false);
           setCameraStream(null);
-          toast.success("Salida Marcada")
-          localStorage.setItem(`salida_${fecha}`, 'true');
+          toast.success("Salida Marcada");
+          localStorage.setItem(`salida_${fecha}`, "true");
         }
       })
       .catch((error) => {
-        console.error('Error al enviar la solicitud:', error);
+        console.error("Error al enviar la solicitud:", error);
       });
   };
 
-  const verificarHorario = () => { };
+  const verificarHorario = () => {};
 
   useEffect(() => {
     verificarHorario();
@@ -149,7 +155,7 @@ export const MarcarAsistencia = () => {
         videoRef.current.style.transform = "scaleX(-1)";
       })
       .catch((error) => {
-        console.log('Error accessing camera:', error);
+        console.log("Error accessing camera:", error);
       });
   };
 
@@ -189,9 +195,11 @@ export const MarcarAsistencia = () => {
             setMostrarBotonEntrada(true);
             setMostrarBotonCamara(false);
             setSegundaFotoTomada(true);
+            setCargando(false);
           } else {
-            setMostrarBotonSalida(true)
-            setMostrarBotonCamara(false)
+            setMostrarBotonSalida(true);
+            setMostrarBotonCamara(false);
+            setCargando(false);
           }
 
           stopCamera();
@@ -199,8 +207,9 @@ export const MarcarAsistencia = () => {
           setFotoCapturada(blob);
         })
         .catch((error) => {
-          console.log('Error taking photo:', error);
+          console.log("Error taking photo:", error);
           setCapturing(false);
+          setCargando(false);
         });
     }
   };
@@ -220,14 +229,14 @@ export const MarcarAsistencia = () => {
 
   const handleButtonClickAdmission = () => {
     setButtonClickedAdmission(true);
-    handleRegistroAsistencia('admission');
+    handleRegistroAsistencia("admission");
   };
 
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleButtonClick = () => {
     setButtonClicked(true);
-    handleRegistroAsistencia('departure');
+    handleRegistroAsistencia("departure");
   };
 
   return (
@@ -235,10 +244,12 @@ export const MarcarAsistencia = () => {
       <Toaster />
       <nav className="flex">
         <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
-          <li >
+          <li>
             <div className="flex items-center text-gray-500 ">
               <ChevronRightIcon />
-              <span className="ml-1 text-base font-medium md:ml-2">Marcar asistencia</span>
+              <span className="ml-1 text-base font-medium md:ml-2">
+                Marcar asistencia
+              </span>
             </div>
           </li>
         </ol>
@@ -258,7 +269,11 @@ export const MarcarAsistencia = () => {
             />
           </div>
         </div>
-        <div className={`w-full md:w-1/3 ${fotoCapturada ? 'lg:mt-9' : ''} ${!fotoUsuario && !videoEnabled ? 'mt-10 lg:mt-9' : 'mt-7 lg:mt-20'}`}>
+        <div
+          className={`w-full  md:w-1/3 ${fotoCapturada ? "lg:mt-9" : ""} ${
+            !fotoUsuario && !videoEnabled ? "mt-10 lg:mt-9" : "mt-7 lg:mt-20"
+          }`}
+        >
           <AttendanceSection
             horaActual={horaActual}
             mostrarBotonEntrada={mostrarBotonEntrada}
@@ -271,6 +286,7 @@ export const MarcarAsistencia = () => {
             buttonClickedAdmission={buttonClickedAdmission}
             handleButtonClick={handleButtonClick}
             handleButtonClickAdmission={handleButtonClickAdmission}
+            cargando={cargando}
           />
         </div>
       </div>

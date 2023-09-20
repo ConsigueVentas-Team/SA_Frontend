@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+
 
 const ObtenerDatos = async (token, url) => {
   if (url === "position" || url === "cores" || url === "departments") {
@@ -20,12 +20,5 @@ const ObtenerDatos = async (token, url) => {
   }
 };
 
-// Puedes mantener el efecto dentro de tu componente de función si lo deseas
-// const EnviarDatos = (token, url, setDepartamentos) => {
-//   useEffect(() => {
-//     setDepartamentos(ObtenerDatos(token, url));
-//   }, []);
-// };
 
-// export default EnviarDatos;
 export default ObtenerDatos;

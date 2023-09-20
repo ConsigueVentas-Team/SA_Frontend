@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react'
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices'
-import {
-    CardList,
-    // Circular,
-    SearchBar,
-} from '../../../components/justificaciones'
+import { CardList, SearchBar } from '../../../components/justificaciones'
 import { Pagination } from '@mui/material'
 import { FechDataJustificaciones } from '../../../components/justificaciones/helpers/FechDataJustificaciones'
 
@@ -19,11 +15,11 @@ export const Justificaciones = () => {
     const [buscadorFecha, setBuscadorFecha] = useState('')
 
     const limpiar = () => {
-        setPage(1)
         setName('')
         setbuscador_tipoJustificacion('')
         setBuscadorStatus('')
         setBuscadorFecha('')
+        setPage(1)
     }
 
     const handleNameChange = (event) => {
@@ -35,7 +31,7 @@ export const Justificaciones = () => {
             .then((e) => {
                 setCards(e.data)
                 setCountPage(e.total)
-                // console.log(e.total)
+                console.log(page)
             })
             .catch((error) => {
                 console.log(error)

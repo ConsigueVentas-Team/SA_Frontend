@@ -35,7 +35,7 @@ export const Calendar = ({ setSelectedMonth, onDayClick, selectedDay }) => {
     }
 
     const renderDaysOfWeek = () => {
-        const daysOfWeek = ['Do', 'Li', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'];
+        const daysOfWeek = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'];
         return daysOfWeek.map((day, index) => (
             <li key={index}>
                 {day}
