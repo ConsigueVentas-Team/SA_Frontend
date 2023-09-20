@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import moment from 'moment'
 import BalanceIcon from '@mui/icons-material/Balance'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
@@ -10,6 +10,8 @@ import { AES, enc } from 'crypto-js'
 import { Alert, Snackbar } from '@mui/material'
 
 export const RevisarJustificacion = () => {
+    const navigate = useNavigate()
+
     const { id } = useParams()
     const { state } = useLocation()
     const { page } = state
@@ -61,17 +63,15 @@ export const RevisarJustificacion = () => {
 
                 if (data.message !== '') {
                     setToasSuccess(true)
+
+                    setTimeout(() => {
+                        navigate(`/justificaciones`)
+                    }, 5000)
                 }
-                // window.location.replace('')
-                // Maneja la respuesta exitosa si es necesario
-                // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
             })
             .catch((error) => {
                 console.log(error.message)
             })
-
-        // setShowModalAceptado(false);
-        // navigate(`/justificaciones`)
     }
 
     const rol = localStorage.getItem('rol')
@@ -86,14 +86,14 @@ export const RevisarJustificacion = () => {
             FechData({ page })
                 .then((e) => {
                     setFaltasList(e.data)
-                    // console.log(e)
+                    console.log(page + 'colaborador')
                 })
                 .catch((e) => console.log(e))
         } else {
             FechDataJustificaciones({ page })
                 .then((e) => {
                     setFaltasList(e.data)
-                    // console.log(e)
+                    console.log(page)
                 })
                 .catch((e) => console.log(e))
         }
@@ -147,6 +147,7 @@ export const RevisarJustificacion = () => {
                                         ? '/justificaciones'
                                         : '/añadir-justificacion'
                                 }
+                                // onClick={() => history.goBack()}
                                 className='inline-flex items-center text-base font-medium text-gray-400 hover:text-white'>
                                 <BalanceIcon />
                                 <span className='ml-1 text-base font-medium md:ml-2'>
@@ -351,19 +352,42 @@ export const RevisarJustificacion = () => {
 
                                 {hasRole('Lider Nucleo') &&
                                     item.user.id != iduser && (
-                                        <div className='flex justify-center gap-10 mt-4'>
+                                        <div
+                                            className='flex justify-center flex-row
+                                         gap-10 mt-4'>
                                             <button
                                                 onClick={() =>
                                                     handleRechazar(item)
                                                 }
-                                                className='border border-gray-300 rounded-lg px-4 text-gray-300 hover:bg-cv-cyan hover:border-none hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
+                                                className='uppercase basis-1/6 border-2  border-cv-cyan hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300 text-cv-cyan'>
                                                 Rechazar
                                             </button>
                                             <button
                                                 onClick={() =>
                                                     handleAceptar(item)
                                                 }
-                                                className='border border-gray-300 rounded-lg py-1 px-4 text-gray-300 hover:bg-cv-cyan hover:border-none  hover:text-cv-primary font-semibold active:border active:border-cv-cyan active:bg-cv-cyan focus:ring-2 focus:outline-none focus:border-0'>
+                                                className='text-cv-primary basis-1/6 uppercase border-2 border-cv-cyan bg-cv-cyan hover:font-bold font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'>
+                                                Aceptar
+                                            </button>
+                                        </div>
+                                    )}
+                                {hasRole('Gerencia') &&
+                                    item.user.id != iduser && (
+                                        <div
+                                            className='flex justify-center flex-row
+                                         gap-10 mt-4'>
+                                            <button
+                                                onClick={() =>
+                                                    handleRechazar(item)
+                                                }
+                                                className='uppercase basis-1/6 border-2  border-cv-cyan hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300 text-cv-cyan'>
+                                                Rechazar
+                                            </button>
+                                            <button
+                                                onClick={() =>
+                                                    handleAceptar(item)
+                                                }
+                                                className='text-cv-primary basis-1/6 uppercase border-2 border-cv-cyan bg-cv-cyan hover:font-bold font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'>
                                                 Aceptar
                                             </button>
                                         </div>

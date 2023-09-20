@@ -2,6 +2,7 @@ import ReportProblemIcon from '@mui/icons-material/ReportProblem'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { AES, enc } from 'crypto-js'
+import { useNavigate } from 'react-router-dom'
 
 export const ModalRechazado = ({
     setShowModalRechazado,
@@ -9,6 +10,7 @@ export const ModalRechazado = ({
     setToasSuccess,
     setMensaje,
 }) => {
+    const navigate = useNavigate()
     const [messages, setMessage] = useState('')
     const [reason_decline, setReason_decline] = useState('')
 
@@ -48,6 +50,10 @@ export const ModalRechazado = ({
                 setMensaje(data.message)
                 setToasSuccess((e) => !e)
                 onCloseModalRechazo()
+
+                setTimeout(() => {
+                    navigate('/justificaciones')
+                }, 5000)
             })
             .catch((error) => {
                 setMessage(error.message)
@@ -88,7 +94,7 @@ export const ModalRechazado = ({
                         <div className='flex items-center justify-evenly p-4 border-t border-gray-200 rounded-b'>
                             <button
                                 onClick={onCloseModalRechazo}
-                                className='uppercase border-2 border-cv-primary hover:bg-cv-primary hover:text-white font-medium rounded-lg text-black text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'>
+                                className='uppercase w-[40%] border-2 border-cv-primary hover:bg-cv-primary hover:text-white font-medium rounded-lg text-black text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'>
                                 Cancelar
                             </button>
                             <button
@@ -98,7 +104,7 @@ export const ModalRechazado = ({
                                         // itemData.user_id
                                     )
                                 }
-                                className='text-white uppercase border-2 border-cv-primary bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'>
+                                className='text-white w-[40%] uppercase border-2 border-cv-primary bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'>
                                 Enviar
                             </button>
                         </div>
