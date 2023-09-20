@@ -7,11 +7,11 @@ export const ModalImagen = ({ image, closeImageModal }) => {
             <div
                 className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none p-2"
             >
-                <div className="relative w-full my-6 mx-auto max-w-3xl border-2 border-white p-1 rounded-lg rotate-[5deg]">
+                <div className="relative w-full my-6 mx-auto max-w-3xl p-1 rounded-lg ">
 
-                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none rotate-[-5deg]">
+                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
 
-                        <div className="flex items-center justify-center p-2.5 md:p-5 border-b border-solid border-slate-200 rounded-t">
+                        <div className="flex items-center justify-center p-2.5 md:p-5 border-b border-solid border-slate-200 rounded-t text-black">
                             <h3 className="text-xl md:text-3xl font-semibold">
                                 Fotografías de asistencia
                             </h3>
