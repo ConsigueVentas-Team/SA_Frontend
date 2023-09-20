@@ -49,8 +49,7 @@ export const Area = () => {
     setIdActualizar(departamento.id);
     setIdDepartamento(departamento.core.department.id);
     setIdArea(departamento.core.id);
-    // console.log(departamento.core_id + " nucleo");
-    // console.log(departamento.core.department.id);
+
   };
   const cerrarEditarModal = () => {
     setMostrarEditarModal(false);

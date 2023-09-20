@@ -21,23 +21,7 @@ const ModalBox = ({
   };
   const [area, setArea] = useState(IdArea);
   const [Departamento, setDepartamento] = useState(idDepartamento);
-  // const uniqueDepartments = new Map();
-  // const uniqueCores = new Map();
 
-  // if (checkbox > 1) {
-  //   data.forEach((dato) => {
-  //     const { id, name } =
-  //       checkbox == 2 ? dato.department : dato.core.department;
-  //     uniqueDepartments.set(id, name);
-  //   });
-  // }
-
-  // if (checkbox == 3) {
-  //   data.forEach((dato) => {
-  //     const { id, name } = dato.core;
-  //     uniqueCores.set(id, name);
-  //   });
-  // }
   const handleDepartamentoChange = (e) => {
     const selectedValue = e.target.value;
 
@@ -101,15 +85,7 @@ const ModalBox = ({
                     className="w-full p-2 text-cv-primary rounded-md bg-white drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
                   >
                     <option>Selecciona</option>
-                    {/* {cores.map((core) => {
-                      if (core.department_id == Departamento) {
-                        return (
-                          <option key={core.id} value={core.id}>
-                            {core.name}
-                          </option>
-                        );
-                      }
-                    })} */}
+
                     {cores
                       ? cores.map((core) => {
                           if (core.department_id == Departamento) {
