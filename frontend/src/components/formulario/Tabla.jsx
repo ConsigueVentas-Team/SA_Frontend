@@ -8,8 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Paper from "@mui/material/Paper";
+
 import TablePaginationActions from "./TablePaginationActions";
 import { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material";
@@ -17,21 +16,13 @@ import { styled } from "@mui/material/styles";
 export default function Tabla({
   data,
   abrirEditarModal,
-  abrirEliminarModal,
+
   nucleo = null,
   perfil = null,
 }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  // const CustomTableCell = ({ children }) => (
-  //   <TableCell
-  //     align="center"
-  //     style={{ color: "white" }}
-  //     className="whitespace-nowrap "
-  //   >
-  //     {children}
-  //   </TableCell>
-  // );
+
   const CustomTableCell = styled(TableCell)(({ theme }) => ({
     borderBottom: `1px solid #515151
     `,
@@ -183,12 +174,6 @@ export default function Tabla({
                     >
                       <EditIcon />
                     </button>
-                    {/* <button
-            onClick={() => abrirEliminarModal(dato.id)}
-            className="p-2 border rounded-md text-red-500 hover:bg-red-500 hover:text-white active:scale-95 ease-in-out duration-300"
-          >
-            <DeleteIcon />
-          </button> */}
                   </TableCell>
                 </StyledTableRow>
               ))}
