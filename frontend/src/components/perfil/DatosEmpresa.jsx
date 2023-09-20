@@ -13,11 +13,11 @@ export const DatosEmpresa = ({ colaborador }) => {
     },
     {
       label: "Perfil:",
-      value: colaborador && colaborador.usuario.username,
+      value: colaborador && colaborador.usuario.position[0].name,
     },
     {
       label: "Rol:",
-      value: colaborador.usuario.position[0].name,
+      value: colaborador.usuario.roles[0].name,
     },
     {
       label: "Fecha de ingreso:",
@@ -44,15 +44,15 @@ export const DatosEmpresa = ({ colaborador }) => {
   }
 
   return (
-    <div className="col-span-1 md:col-span-3 row-span-3 md:row-start-6 bg-cv-primary rounded-2xl p-5 order-3 md:order-3">
-      <h2 className="text-xl mb-5 font-semibold text-center uppercase">
+    <div className="order-3 col-span-1 row-span-3 p-5 md:col-span-3 md:row-start-6 bg-cv-primary rounded-2xl md:order-3">
+      <h2 className="mb-5 text-xl font-semibold text-center uppercase">
         Datos de la empresa
       </h2>
       <div className="space-y-5">
         {chunks.map((chunk, index) => (
           <div
             key={index}
-            className="w-full flex items-center justify-center gap-5"
+            className="flex items-center justify-center w-full gap-5"
           >
             {chunk.map((info) => (
               <CajaDatos
