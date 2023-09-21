@@ -20,9 +20,7 @@ export default {
       },
     },
   },
-  plugins: [
-    require("tailwindcss-scrollbar"),
-  ],
+  plugins: [],
   corePlugins: {
     animation: true,
   },

@@ -309,7 +309,7 @@ export const ModalAgregar = ({ close, addUser, cargando }) => {
                 className="text-cv-primary bg-white border-cv-primary hover:text-white hover:bg-cv-primary"
               />
               {cargando ? (
-                <div className="h-8">
+                <div className="h-12 flex justify-center items-center  w-1/2">
                   <Loading></Loading>
                 </div>
               ) : (

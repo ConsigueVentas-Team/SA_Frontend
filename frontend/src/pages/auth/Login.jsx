@@ -124,13 +124,16 @@ export const Login = () => {
             setError(responseData.message);
           }
         } catch (err) {
+          setViewLoading(false);
           setError(err.toString());
           console.log(err);
         }
       } else {
+        setViewLoading(false);
         setError("No has marcado el captcha.");
       }
     } else {
+      setViewLoading(false);
       setError("Todos los campos son requeridos");
     }
   };
@@ -269,9 +272,9 @@ export const Login = () => {
                     </div>
                     <div className="flex items-center justify-center">
                       {viewLoading ? (
-                         <div className="w-96 h-10">
-                         <Loading></Loading>
-                       </div>
+                        <div className="w-96 h-10">
+                          <Loading></Loading>
+                        </div>
                       ) : (
                         <input
                           type="submit"
@@ -290,9 +293,7 @@ export const Login = () => {
                     ¿Olvidaste tu contraseña?
                   </Link>
                   <div className="absolute right-4 flex justify-end">
-                    <button className="text-cv-primary">
-               
-                    </button>
+                    <button className="text-cv-primary"></button>
                   </div>
                 </div>
               </div>
@@ -303,6 +304,3 @@ export const Login = () => {
     </>
   );
 };
-
-
-

@@ -184,6 +184,75 @@ export const Sidebar = () => {
         route: '/reportes',
         icon: <BarChartIcon />,
       },
+    ],
+    "Lider Departamento": [
+      {
+        title: 'Perfil',
+        route: '/perfil',
+        icon: <AccountCircleIcon />,
+      },
+      {
+        title: 'Asistencias',
+        icon: <ChecklistIcon />,
+        submenus: [
+          {
+            title: 'Marcar asistencia',
+            route: '/marcar-asistencia',
+          },
+          {
+            title: 'Gestionar asistencias',
+            route: '/asistencias',
+          },
+        ],
+      },
+      {
+        title: 'Justificaciones',
+        icon: <BalanceIcon />,
+        submenus: [
+          {
+            title: 'Añadir justificacion',
+            route: '/añadir-justificacion',
+          },
+          {
+            title: 'Gestionar justificaciones',
+            route: '/justificaciones',
+          },
+        ],
+      },
+      {
+        title: 'Colaboradores',
+        route: '/colaboradores',
+        icon: <Diversity3Icon />,
+      },
+      {
+        title: 'Cumpleaños',
+        route: '/cumpleaños',
+        icon: <CakeIcon />,
+      },
+      {
+        title: 'Evaluaciones',
+        icon: <TrendingUpIcon />,
+        submenus: [
+          {
+            title: 'Mi evaluación',
+            route: '/evaluacion',
+          },
+          {
+            title: 'Gestionar evaluaciones',
+            route: '/evaluaciones',
+          },
+        ],
+      },
+      {
+        title: 'Empresa',
+        route: '/empresa',
+        icon: <MapsHomeWorkOutlinedIcon />,
+      },
+      {
+        title: 'Reportes',
+        route: '/reportes',
+        icon: <BarChartIcon />,
+      },
     ]
   };
 
@@ -205,7 +274,7 @@ export const Sidebar = () => {
   return (
     <>
       <div
-        className={`xl:h-[100vh] fixed overflow-y-auto xl:static xl:w-auto h-full top-0 bg-cv-primary text-white px-4 pb-4 flex flex-col justify-between z-50 ${showMenu ? "left-0" : "-left-full"} transition-all scrollbar-w-1 scrollbar-thumb-cv-cyan scrollbar-track-transparent scrollbar-thumb-rounded-full `}
+        className={`xl:h-[100vh] fixed overflow-y-auto xl:static xl:w-auto h-full top-0 bg-cv-primary text-white px-4 pb-4 flex flex-col justify-between z-50 ${showMenu ? "left-0" : "-left-full"} transition-all scrollbar `}
       >
         <div>
           <div className="sticky top-0 z-50 w-full pt-4 pb-5 text-2xl font-bold text-center text-white bg-cv-primary">

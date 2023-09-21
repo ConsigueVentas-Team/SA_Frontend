@@ -12,7 +12,7 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 	return (
 		<>
 			<div className='w-full bg-[#0e161b] shadow-md  rounded-lg overflow-hidden'>
-				<div className="w-full min-w-full overflow-x-auto scrollbar scrollbar-thumb-cv-cyan scrollbar-track-transparent scrollbar-thumb-rounded-full">
+				<div className="w-full min-w-full overflow-x-auto scrollbar">
 					<table className="w-full text-sm text-left text-white">
 						<thead className="text-base uppercase">
 							<tr>
@@ -103,25 +103,25 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 										<div className="flex flex-col items-center ">
 											{users.status === 1 ?
 												<div className='flex items-center justify-center'>
-													<div className="h-3 w-3 rounded-full bg-green-500 mr-2"></div>Activo
+													<div className="w-3 h-3 mr-2 bg-green-500 rounded-full"></div>Activo
 												</div> :
 												<>
 													<div className='flex items-center justify-center'>
-														<div className="h-3 w-3 rounded-full bg-red-500 mr-2"></div>Inactivo
+														<div className="w-3 h-3 mr-2 bg-red-500 rounded-full"></div>Inactivo
 													</div>
 													<p className='text-center'>{users.status_description}</p>
 												</>
 											}
 										</div>
 									</td>
-									<td className="w-48 px-6 py-4 text-center sticky right-0 p-1 bg-cv-primary">
-										<div className='flex items-center justify-center flex-row space-x-2'>
+									<td className="sticky right-0 w-48 p-1 px-6 py-4 text-center bg-cv-primary">
+										<div className='flex flex-row items-center justify-center space-x-2'>
 											<button
 												onClick={() => toggleEditarModal(users)}
-												className='p-2 border border-cv-secondary rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300'>
+												className='p-2 text-green-500 duration-300 ease-in-out border rounded-md border-cv-secondary hover:bg-green-500 hover:text-white active:scale-95'>
 												<EditIcon />
 											</button>
-											<Link to={`/colaborador/${users.id}/perfil`} className='p-2 border border-cv-secondary rounded-md text-cv-cyan hover:bg-cv-cyan hover:text-cv-primary active:scale-95 ease-in-out duration-300'>
+											<Link to={`/colaborador/${users.id}/perfil`} className='p-2 duration-300 ease-in-out border rounded-md border-cv-secondary text-cv-cyan hover:bg-cv-cyan hover:text-cv-primary active:scale-95'>
 												<VisibilityIcon />
 											</Link>
 										</div>
@@ -131,13 +131,13 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 						</tbody>
 					</table>
 				</div>
-				<nav className="w-full flex items-center justify-center md:justify-between px-6 py-4 gap-2">
+				<nav className="flex items-center justify-center w-full gap-2 px-6 py-4 md:justify-between">
 					<div className='w-full'>
 						<p className='text-sm font-normal whitespace-nowrap'>
 							{`Página ${pagination.current_page} de ${pagination.last_page}`}
 						</p>
 					</div>
-					<div className='w-full flex items-center justify-center md:justify-end gap-2'>
+					<div className='flex items-center justify-center w-full gap-2 md:justify-end'>
 						<p className='text-sm font-normal whitespace-nowrap'>
 							{`${pagination.from} - ${pagination.to} de ${pagination.total}`}
 						</p>
