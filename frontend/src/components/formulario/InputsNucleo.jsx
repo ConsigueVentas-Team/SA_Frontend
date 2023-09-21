@@ -11,10 +11,8 @@ export const Inputs = ({ actualizarValor, valor, setDepartment_id, token }) => {
     const selectedValue = e.target.value;
     setFilterShift(selectedValue);
     setDepartment_id(selectedValue);
-    console.log(selectedValue);
     if (selectedValue === "Selecciona") {
-      actualizarValor(""); // Reset the name when "Selecciona" is selected
-      console.log("sadas");
+      actualizarValor("");
     }
   };
 
@@ -27,7 +25,7 @@ export const Inputs = ({ actualizarValor, valor, setDepartment_id, token }) => {
   }, []);
 
   return (
-    <div className="flex gap-8 w-full sm:items-center flex-col sm:flex-row items-start ">
+    <div className="flex flex-col items-start w-full gap-8 sm:items-center sm:flex-row ">
       <label htmlFor="names" className="block mb-1 font-medium text-gray-300">
         Departamento
       </label>
@@ -37,7 +35,7 @@ export const Inputs = ({ actualizarValor, valor, setDepartment_id, token }) => {
           value={filterShift}
           onChange={handleFilterShiftChange}
           placeholder="Seleccionasadas"
-          className="w-full p-2 text-cv-primary rounded-md bg-white drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
+          className="w-full p-2 font-semibold bg-white rounded-md outline-none text-cv-primary drop-shadow-md sm:text-md placeholder-cv-primary"
         >
           <option>Selecciona</option>{" "}
           {/* Esta es la opción de marcador de posición */}
@@ -48,7 +46,7 @@ export const Inputs = ({ actualizarValor, valor, setDepartment_id, token }) => {
           ))}
         </select>
       </div>
-      <div className="flex gap-8 w-full sm:items-center flex-col sm:flex-row items-start ">
+      <div className="flex flex-col items-start w-full gap-8 sm:items-center sm:flex-row ">
         <Input
           actualizarValor={actualizarValor}
           valor={valor}

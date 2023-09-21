@@ -116,7 +116,6 @@ export const Asistencias = () => {
         setAttendance(data.data);
         setPagination(data);
         setCargando(false);
-        console.log(attendance);
       } else {
         console.error("Error al obtener las asistencias1:", data.error);
       }
@@ -179,14 +178,14 @@ export const Asistencias = () => {
             <div>
               {viewCalendar && viewLeyenda ? (
                 <button
-                  className="p-2 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold flex items-center justify-center mr-3"
+                  className="flex items-center justify-center p-2 mr-3 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold"
                   onClick={closeUtil}
                   >
                   <ExpandLessIcon />
                 </button>
               ) : (
                 <button
-                  className="p-2 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold flex items-center justify-center mr-3"
+                  className="flex items-center justify-center p-2 mr-3 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold"
                   onClick={openUtil}
                 >
                   <ExpandMoreIcon />

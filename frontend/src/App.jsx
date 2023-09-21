@@ -51,7 +51,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(isLoggedIn)
     resetInactivityTimer();
 
     const activityEvents = ['mousedown', 'mousemove', 'keydown', 'wheel'];
