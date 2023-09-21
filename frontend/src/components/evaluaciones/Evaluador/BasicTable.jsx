@@ -98,7 +98,7 @@ export default function BasicTable() {
 
 
 
-      <div className="w-full flex items-center justify-center md:justify-between p-1 bg-[#0e161b] rounded-b p-2">
+      <div className="w-full flex items-center justify-center md:justify-between bg-[#0e161b] rounded-b p-2">
 
         <span className="flex items-center justify-start gap-1">
           <div>Página</div>
