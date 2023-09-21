@@ -10,7 +10,7 @@ export const BirthdayList = ({ data, selectedMonth }) => {
                 <h5 className="inline-flex gap-1 text-base font-bold leading-none text-white md:text-xl whitespace-nowrap">Lista de cumpleaños de<p className='lowercase first-letter:uppercase'>{selectedMonth}</p></h5>
             </div>
             {data.length > 0 ? (
-                <div className="flow-root h-auto scrollbar-w-1 scrollbar-thumb-cv-cyan scrollbar-track-transparent scrollbar-thumb-rounded-full md:max-h-96 md:overflow-y-auto ">
+                <div className="flow-root h-auto scrollbar md:max-h-96 md:overflow-y-auto ">
                     <ul className="divide-y divide-cv-secondary">
                         {data.map((user) => (
                             <ListItem key={user.id} user={user} />

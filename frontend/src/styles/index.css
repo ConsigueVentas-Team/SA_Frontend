@@ -2,6 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .scrollbar::-webkit-scrollbar:horizontal {
+    @apply h-2;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-corner {
+    @apply bg-transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-cyan-300;
+    @apply rounded-full;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-cyan-500;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:active {
+    @apply bg-cyan-500
+  }
+}
+
 .loader {
   border: 4px solid #57f3ff;
   border-radius: 50%;
@@ -15,10 +46,12 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
+
 .custom-table-container {
   border: 1px solid red;
 }
@@ -28,6 +61,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);

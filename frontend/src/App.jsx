@@ -47,7 +47,7 @@ function App() {
 
   const resetInactivityTimer = () => {
     clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(handleInactivity, 5 * 60 * 1000);
+    inactivityTimer = setTimeout(handleInactivity, 2 * 60 * 1000);
   };
 
   useEffect(() => {
@@ -86,7 +86,7 @@ function App() {
               path="añadir-justificacion"
               element={<AñadirJustificacion />}
             />
-            <Route path='details/:id' element={<RevisarJustificacion/>} />
+            <Route path='details/:id' element={<RevisarJustificacion />} />
             <Route path="evaluacion" element={<EvaluacionesColaborador />} />
             <Route path="cambiar-contraseña" element={<CambiarContraseña />} />
             <Route path="/login" element={<Login />} />
@@ -140,7 +140,7 @@ function App() {
 export default App;
 
 function logoutSubmit() {
-  if(localStorage.getItem('login') === 'true'){
+  if (localStorage.getItem('login') === 'true') {
     window.location.reload();
   }
   localStorage.setItem('login', 'false');
