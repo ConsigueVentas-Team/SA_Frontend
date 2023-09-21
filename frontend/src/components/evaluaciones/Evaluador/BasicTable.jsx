@@ -72,7 +72,7 @@ export default function BasicTable() {
         />
       </div>
 
-      <div className='w-full bg-[#0e161b] shadow-md  rounded-lg overflow-hidden'>
+      <div className='w-full bg-[#0e161b] shadow-md  rounded-t overflow-hidden'>
         <table className="w-full text-sm text-center text-white">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
@@ -98,7 +98,7 @@ export default function BasicTable() {
 
 
 
-      <div className="flex  mt-2 gap-1 bg-[#0e161b]">
+      <div className="w-full flex items-center justify-center md:justify-between p-1 bg-[#0e161b] rounded-b p-2">
 
         <span className="flex items-center justify-start gap-1">
           <div>Página</div>
@@ -107,67 +107,70 @@ export default function BasicTable() {
           </strong>
         </span>
 
+        <div className=" flex items-center justify-center md:justify-between bg-[#0e161b]">
+          <button
+            disabled={!table.getCanPreviousPage()}
+            onClick={() => table.setPageIndex(0)}
+            className="  rounded disabled:opacity-30 justify-"
+          >
+            <FirstPageIcon />
+          </button>
 
-        <button
-          disabled={!table.getCanPreviousPage()}
-          onClick={() => table.setPageIndex(0)}
-          className="p-1 bg-cv-primary rounded px-2 disabled:opacity-30 justify-"
-        >
-          <FirstPageIcon />
-        </button>
-
-        <button
-          onClick={table.previousPage}
-          disabled={!table.getCanPreviousPage()}
-          className="p-1 bg-cv-primary rounded px-2 disabled:opacity-30"
-        >
-          <KeyboardArrowLeftIcon />
-        </button>
+          <button
+            onClick={table.previousPage}
+            disabled={!table.getCanPreviousPage()}
+            className="p-1  rounded disabled:opacity-30"
+          >
+            <KeyboardArrowLeftIcon />
+          </button>
 
 
 
-        <span className="flex items-center gap-1">
-          | Ir a página:
-          <input
-            type="number"
-            defaultValue={table.getState().pagination.pageIndex + 1}
+          <span className="flex items-center gap-1">
+            | Ir a página:
+            <input
+              type="number"
+              defaultValue={table.getState().pagination.pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                table.setPageIndex(page);
+              }}
+              className="text-center w-10  rounded bg-[#0e161b]"
+            />
+          </span>
+
+          <button
+            onClick={table.nextPage}
+            disabled={!table.getCanNextPage()}
+            className="  rounded  disabled:opacity-30"
+          >
+            <KeyboardArrowRightIcon />
+          </button>
+
+          <button
+            disabled={!table.getCanNextPage()}
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            className="p-1 rounded disabled:opacity-30"
+          >
+            <LastPageIcon />
+          </button>
+
+          <select
+            value={table.getState().pagination.pageSize}
             onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
+              table.setPageSize(Number(e.target.value));
             }}
-            className="text-center p-1 w-10 bg-cv-primary rounded"
-          />
-        </span>
+            className="p-2  rounded bg-[#0e161b]"
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize} className="text-center  w-10  rounded bg-[#0e161b]">
+                Mostrar {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <button
-          onClick={table.nextPage}
-          disabled={!table.getCanNextPage()}
-          className="p-1 bg-cv-primary rounded px-2 disabled:opacity-30"
-        >
-          <KeyboardArrowRightIcon />
-        </button>
 
-        <button
-          disabled={!table.getCanNextPage()}
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          className="p-1 bg-cv-primary rounded px-2 disabled:opacity-30"
-        >
-          <LastPageIcon />
-        </button>
-
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-          className="p-2 bg-cv-primary rounded"
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize} className="text-center p-1 w-10 bg-cv-primary rounded">
-              Mostrar {pageSize}
-            </option>
-          ))}
-        </select>
       </div>
 
 
