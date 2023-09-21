@@ -320,7 +320,7 @@ Switch.propTypes = {
 export const ModalButton = ({ label, onClick, className }) => {
 	return (
 		<button
-			className={`w-full py-2 px-8 rounded-md border-2 flex items-center justify-center text-xl font-semibold uppercase active:scale-95 ease-in-out duration-300 ${className}`}
+			className={`w-1/2 py-2 px-8 rounded-md border-2 flex items-center justify-center text-xl font-semibold uppercase active:scale-95 ease-in-out duration-300 ${className}`}
 			type="button"
 			onClick={onClick}
 		>

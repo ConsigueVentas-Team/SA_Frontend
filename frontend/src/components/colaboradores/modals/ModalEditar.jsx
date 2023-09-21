@@ -357,10 +357,9 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
                 className="bg-white text-cv-primary border-cv-primary hover:text-white hover:bg-cv-primary"
               />
               {cargando ? (
-				<div className="h-8">
-				<Loading></Loading>
-				</div>
-                
+                <div className="h-12 flex justify-center items-center  w-1/2">
+                  <Loading></Loading>
+                </div>
               ) : (
                 <ModalButton
                   label="Guardar"

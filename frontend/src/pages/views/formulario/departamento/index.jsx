@@ -22,19 +22,16 @@ export const Departamento = () => {
   const [Departamentos, setDepartamentos] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
   const [valueDefault, setValueDefault] = useState("");
-  const [filterName, setFilterName] = useState("");
-  const [filterDepartment, setFilterDepartment] = useState("");
-  const [filterDate, setFilterDate] = useState("");
-  const [filterShift, setFilterShift] = useState("");
   const [idEliminar, setIdEliminar] = useState("");
   const [palabra, setPalabra] = useState("");
   const [idActualizar, setIdActualizar] = useState("");
   const [MostrarEditarModal, setMostrarEditarModal] = useState(false);
   const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);
-
+  const [cargando, setCargando] = useState(true);
   useEffect(() => {
+    setCargando(false);
     async function fetchData() {
-      const data = await ObtenerDatos(token, "departments");
+      const data = await ObtenerDatos(token, "departments", setCargando);
       setDepartamentos(data);
     }
     fetchData();
@@ -69,6 +66,7 @@ export const Departamento = () => {
         setIsChecked
       );
     }
+    setPalabra("");
   };
 
   if (Departamentos === null) {
@@ -88,7 +86,9 @@ export const Departamento = () => {
               title={"edite departamento"}
               label={"Departamento: "}
               cerrarEditarModal={cerrarEditarModal}
-              actualizarDepartamento={(valor) =>
+              cargando={cargando}
+              actualizarDepartamento={(valor) => {
+                setCargando(true);
                 ActualizarDato(
                   token,
                   valor,
@@ -96,9 +96,10 @@ export const Departamento = () => {
                   idActualizar,
                   "false",
                   "false",
-                  setIsChecked
-                )
-              }
+                  setIsChecked,
+                  setCargando
+                );
+              }}
               checkbox={1}
             ></ModalBox>
           )}
@@ -115,7 +116,7 @@ export const Departamento = () => {
             className="w-full flex justify-center gap-11 flex-col md:flex-row  mt-7 items-center "
             onSubmit={manejarEnvio}
           >
-            <div className="flex gap-8 w-full sm:items-center flex-col sm:flex-row items-start ">
+            <div className="flex gap-8 w-10/12 sm:items-center flex-col sm:flex-row items-start ">
               <Input
                 valor={palabra}
                 actualizarValor={setPalabra}
@@ -123,18 +124,19 @@ export const Departamento = () => {
                 textoHolder={"Ingresa departamento"}
               ></Input>
             </div>
-
             <Submit></Submit>
           </form>
-          <Tabla
-            data={Departamentos}
-            filterName={filterName}
-            filterDepartment={filterDepartment}
-            filterDate={filterDate}
-            filterShift={filterShift}
-            abrirEliminarModal={abrirEliminarModal}
-            abrirEditarModal={abrirEditarModal}
-          ></Tabla>
+          {cargando ? (
+            <Tabla
+              data={Departamentos}
+              abrirEliminarModal={abrirEliminarModal}
+              abrirEditarModal={abrirEditarModal}
+            ></Tabla>
+          ) : (
+            <div className="w-full h-96 flex justify-center items-center ">
+              <Loading></Loading>
+            </div>
+          )}
         </div>
       )}
     </>

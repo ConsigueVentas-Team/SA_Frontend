@@ -13,6 +13,7 @@ const ModalBox = ({
   cores,
   idDepartamento,
   IdArea,
+  cargando,
 }) => {
   const [palabra, setPalabra] = useState(valueDefault);
   const enviarDatos = () => {

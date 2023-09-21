@@ -1,6 +1,4 @@
-
-
-const ObtenerDatos = async (token, url) => {
+const ObtenerDatos = async (token, url, setCargando) => {
   if (url === "position" || url === "cores" || url === "departments") {
     try {
       const response = await fetch(
@@ -13,12 +11,18 @@ const ObtenerDatos = async (token, url) => {
         }
       );
       const data = await response.json();
+      if (setCargando != null) {
+        setCargando(true);
+      }
+
       return data;
     } catch (error) {
       console.error("Error al obtener los departamentos:", error);
+      if (setCargando != null) {
+        setCargando(true);
+      }
     }
   }
 };
-
 
 export default ObtenerDatos;
