@@ -117,7 +117,6 @@ export const Asistencias = () => {
         setAttendance(data.data);
         setPagination(data);
         setCargando(false);
-        console.log(attendance);
       } else {
         console.error("Error al obtener las asistencias1:", data.error);
         setCargando(false);
@@ -166,7 +165,7 @@ export const Asistencias = () => {
   return (
     <>
       <nav className="flex">
-        <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
+        <ol className="inline-flex items-center space-x-1 uppercase md:space-x-3">
           <li className="inline-flex items-center">
             <div className="inline-flex items-center text-base font-medium text-gray-400">
               <ChecklistIcon />
@@ -177,20 +176,20 @@ export const Asistencias = () => {
           </li>
         </ol>
       </nav>
-      <div className="h-full bg-cv-secondary mt-5">
-        <div className="space-y-3 w-full">
+      <div className="h-full mt-5 bg-cv-secondary">
+        <div className="w-full space-y-3">
           <div className="flex w-full">
             <div>
               {viewCalendar && viewLeyenda ? (
                 <button
-                  className="p-2 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold flex items-center justify-center mr-3"
+                  className="flex items-center justify-center p-2 mr-3 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold"
                   onClick={closeUtil}
                 >
                   <ExpandLessIcon />
                 </button>
               ) : (
                 <button
-                  className="p-2 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold flex items-center justify-center mr-3"
+                  className="flex items-center justify-center p-2 mr-3 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold"
                   onClick={openUtil}
                 >
                   <ExpandMoreIcon />
@@ -220,21 +219,19 @@ export const Asistencias = () => {
             </div>
           </div>
           {viewCalendar && viewLeyenda && (
-            <div className="w-full flex flex-col md:flex-row justify-start gap-3">
+            <div className="flex flex-col justify-start w-full gap-3 md:flex-row">
               <div
-                className={`w-full md:w-1/3 mt-10 animate-fade-in ${
-                  viewLeyenda ? "opacity-100" : "opacity-0"
-                }`}
+                className={`w-full md:w-1/3 mt-10 animate-fade-in ${viewLeyenda ? "opacity-100" : "opacity-0"
+                  }`}
               >
                 <Leyenda />
               </div>
               <div
-                className={`w-full md:w-4/6 space-y-3 animate-fade-in ${
-                  viewCalendar ? "opacity-100" : "opacity-0"
-                }`}
+                className={`w-full md:w-4/6 space-y-3 animate-fade-in ${viewCalendar ? "opacity-100" : "opacity-0"
+                  }`}
               >
-                <div className="w-full bg-cv-primary rounded-lg">
-                  <div className="w-full flex flex-col items-center justify-between">
+                <div className="w-full rounded-lg bg-cv-primary">
+                  <div className="flex flex-col items-center justify-between w-full">
                     <Calendar
                       setSelectedMonth={setMonth}
                       onDayClick={handleDayClick}

@@ -30,7 +30,7 @@ export const ListItem = ({ user }) => {
                 <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0">
                         <Avatar
-                            alt={user.name}
+                            alt={user.name + user.surname}
                             src={user.image_url}
                         />
                     </div>
