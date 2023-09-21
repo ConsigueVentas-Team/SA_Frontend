@@ -14,7 +14,7 @@ export const RevisarJustificacion = () => {
 
     const { id } = useParams()
     const { state } = useLocation()
-    const { page } = state
+    const { page, bandera } = state
     const [faltasList, setFaltasList] = useState([])
 
     // MODALES
@@ -86,14 +86,21 @@ export const RevisarJustificacion = () => {
             FechData({ page })
                 .then((e) => {
                     setFaltasList(e.data)
-                    console.log(page + 'colaborador')
+                    // console.log(page + 'colaborador')
                 })
                 .catch((e) => console.log(e))
-        } else {
+        } else if (bandera == true) {
             FechDataJustificaciones({ page })
                 .then((e) => {
                     setFaltasList(e.data)
-                    console.log(page)
+                    // console.log(page)
+                })
+                .catch((e) => console.log(e))
+        } else {
+            FechData({ page })
+                .then((e) => {
+                    setFaltasList(e.data)
+                    // console.log(page)
                 })
                 .catch((e) => console.log(e))
         }

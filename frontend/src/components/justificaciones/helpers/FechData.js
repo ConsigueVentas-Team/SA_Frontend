@@ -1,6 +1,6 @@
 import { AES, enc } from 'crypto-js'
 
-export const FechData = async ({ page, bandera = false }) => {
+export const FechData = async ({ page }) => {
     let url = ''
     try {
         const tokenD = AES.decrypt(
@@ -18,13 +18,9 @@ export const FechData = async ({ page, bandera = false }) => {
                 import.meta.env.VITE_API_URL
             }/justification/list?page=${page}&shift=${turno}&user=${user_id}`
         } else if (rol === 'Lider Nucleo' || rol === 'Gerencia') {
-            if (bandera) {
-                url = `${import.meta.env.VITE_API_URL}/justification${page}`
-            } else {
-                url = `${
-                    import.meta.env.VITE_API_URL
-                }/justification/list?page=${page}&shift=${turno}&user=${user_id}`
-            }
+            url = `${
+                import.meta.env.VITE_API_URL
+            }/justification/list?page=${page}&shift=${turno}&user=${user_id}`
         }
 
         const response = await fetch(url, {
