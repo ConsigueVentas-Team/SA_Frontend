@@ -9,7 +9,7 @@ import {
 } from "../../../components/asistencias/Asistencias";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ChecklistIcon from "@mui/icons-material/Checklist";
+import ChecklistIcon from '@mui/icons-material/Checklist';
 import Loading from "../../../components/essentials/Loading";
 
 export const Asistencias = () => {
@@ -95,7 +95,6 @@ export const Asistencias = () => {
   }, [date, shift, department, core, name]);
 
   const obtenerAsistencia = async (page) => {
-    setCargando(true);
     try {
       const url = new URL(import.meta.env.VITE_API_URL + `/attendance`);
       url.searchParams.append("page", page);
@@ -120,7 +119,6 @@ export const Asistencias = () => {
         console.log(attendance);
       } else {
         console.error("Error al obtener las asistencias1:", data.error);
-        setCargando(false);
       }
     } catch (error) {
       console.error("Error al obtener las asistencias2:", error);
@@ -165,18 +163,16 @@ export const Asistencias = () => {
 
   return (
     <>
-      <nav className="flex">
-        <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
-          <li className="inline-flex items-center">
-            <div className="inline-flex items-center text-base font-medium text-gray-400">
-              <ChecklistIcon />
-              <span className="ml-1 text-base font-medium md:ml-2">
-                Asistencias
-              </span>
-            </div>
-          </li>
-        </ol>
-      </nav>
+      <nav className="flex" >
+            <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
+                <li className="inline-flex items-center">
+                    <div className="inline-flex items-center text-base font-medium text-gray-400">
+                        <ChecklistIcon />
+                        <span className='ml-1 text-base font-medium md:ml-2'>Asistencias</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
       <div className="h-full bg-cv-secondary mt-5">
         <div className="space-y-3 w-full">
           <div className="flex w-full">
@@ -185,7 +181,7 @@ export const Asistencias = () => {
                 <button
                   className="p-2 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold flex items-center justify-center mr-3"
                   onClick={closeUtil}
-                >
+                  >
                   <ExpandLessIcon />
                 </button>
               ) : (
@@ -221,18 +217,10 @@ export const Asistencias = () => {
           </div>
           {viewCalendar && viewLeyenda && (
             <div className="w-full flex flex-col md:flex-row justify-start gap-3">
-              <div
-                className={`w-full md:w-1/3 mt-10 animate-fade-in ${
-                  viewLeyenda ? "opacity-100" : "opacity-0"
-                }`}
-              >
+              <div className={`w-full md:w-1/3 animate-fade-in ${viewLeyenda ? 'opacity-100' : 'opacity-0'}`}>
                 <Leyenda />
               </div>
-              <div
-                className={`w-full md:w-4/6 space-y-3 animate-fade-in ${
-                  viewCalendar ? "opacity-100" : "opacity-0"
-                }`}
-              >
+              <div className={`w-full md:w-4/6 space-y-3 animate-fade-in ${viewCalendar ? 'opacity-100' : 'opacity-0'}`}>
                 <div className="w-full bg-cv-primary rounded-lg">
                   <div className="w-full flex flex-col items-center justify-between">
                     <Calendar
