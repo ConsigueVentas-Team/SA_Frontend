@@ -10,13 +10,13 @@ export default function ActiveLastBreadcrumb({ actual }) {
         className=" gap-2 flex items-center text-base font-medium text-gray-500 hover:text-white uppercase"
       >
         <MapsHomeWorkOutlinedIcon />
-        Empresa
+        <h1 className="ml-1 text-base font-medium md:ml-2">Empresa</h1>
       </Link>
       <Link
         to={`/empresa/${actual}`}
-        className="flex items-center text-white font-medium uppercase"
+        className="flex items-center text-white font-medium uppercase text-base "
       >
-        {actual}
+        <h1 className="ml-1 text-base font-medium md:ml-2">{actual}</h1>
       </Link>
     </Breadcrumbs>
   );

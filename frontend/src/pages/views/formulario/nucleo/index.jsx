@@ -29,11 +29,12 @@ export const Nucleo = () => {
   const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);
   const [idActualizar, setIdActualizar] = useState("");
   const [idDepartamento, setIdDepartamento] = useState("");
-
+  const [cargando, setCargando] = useState(true);
   useEffect(() => {
+    setCargando(false);
     async function fetchData() {
-      const data = await ObtenerDatos(token, "cores");
-      const department = await ObtenerDatos(token, "departments");
+      const data = await ObtenerDatos(token, "cores", setCargando);
+      const department = await ObtenerDatos(token, "departments", setCargando);
 
       setNucleos(data);
       setDepartments(department);
@@ -60,7 +61,7 @@ export const Nucleo = () => {
   const manejarEnvio = (e) => {
     e.preventDefault();
     if (palabra == "") return;
-    else
+    else {
       AgregarDato(
         token,
         palabra,
@@ -69,6 +70,8 @@ export const Nucleo = () => {
         "false",
         setIsChecked
       );
+    }
+    setPalabra("");
   };
 
   if (Nucleos === null) {
@@ -126,14 +129,21 @@ export const Nucleo = () => {
             setDepartment_id={setDepartment_id}
             token={token}
           ></Inputs>
+
           <Submit></Submit>
         </form>
-        <Tabla
-          data={Nucleos}
-          abrirEliminarModal={abrirEliminarModal}
-          abrirEditarModal={abrirEditarModal}
-          nucleo={"Núcleo"}
-        ></Tabla>
+        {cargando ? (
+          <Tabla
+            data={Nucleos}
+            abrirEliminarModal={abrirEliminarModal}
+            abrirEditarModal={abrirEditarModal}
+            nucleo={"Núcleo"}
+          ></Tabla>
+        ) : (
+          <div className="w-full h-96 flex justify-center items-center ">
+            <Loading></Loading>
+          </div>
+        )}
       </div>
     </>
   );

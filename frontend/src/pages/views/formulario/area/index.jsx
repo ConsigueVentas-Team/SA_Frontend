@@ -31,11 +31,13 @@ export const Area = () => {
   const [idDepartamento, setIdDepartamento] = useState("");
   const [idArea, setIdArea] = useState("");
   const [cores, setCores] = useState([]);
+  const [cargando, setCargando] = useState(true);
   useEffect(() => {
+    setCargando(false);
     async function fetchData() {
-      const data = await ObtenerDatos(token, "position");
-      const department = await ObtenerDatos(token, "departments");
-      const core = await ObtenerDatos(token, "cores");
+      const data = await ObtenerDatos(token, "position", setCargando);
+      const department = await ObtenerDatos(token, "departments", setCargando);
+      const core = await ObtenerDatos(token, "cores", setCargando);
       setCores(core);
       setPosition(data);
       setDepartments(department);
@@ -49,7 +51,6 @@ export const Area = () => {
     setIdActualizar(departamento.id);
     setIdDepartamento(departamento.core.department.id);
     setIdArea(departamento.core.id);
-
   };
   const cerrarEditarModal = () => {
     setMostrarEditarModal(false);
@@ -64,7 +65,7 @@ export const Area = () => {
   const manejarEnvio = (e) => {
     e.preventDefault();
     if (palabra == "") return;
-    else
+    else {
       AgregarDato(
         token,
         palabra,
@@ -73,6 +74,8 @@ export const Area = () => {
         coreId,
         setIsChecked
       );
+    }
+    setPalabra("");
   };
 
   if (Position === null) {
@@ -132,13 +135,19 @@ export const Area = () => {
           ></InputArea>
           <Submit></Submit>
         </form>
-        <Tabla
-          data={Position}
-          abrirEliminarModal={abrirEliminarModal}
-          abrirEditarModal={abrirEditarModal}
-          nucleo={"Núcleo"}
-          perfil={"Perfil"}
-        ></Tabla>
+        {cargando ? (
+          <Tabla
+            data={Position}
+            abrirEliminarModal={abrirEliminarModal}
+            abrirEditarModal={abrirEditarModal}
+            nucleo={"Núcleo"}
+            perfil={"Perfil"}
+          ></Tabla>
+        ) : (
+          <div className="w-full h-96 flex justify-center items-center ">
+            <Loading></Loading>
+          </div>
+        )}
       </div>
     </>
   );

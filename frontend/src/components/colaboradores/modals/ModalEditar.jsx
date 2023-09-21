@@ -122,6 +122,7 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
     { value: 1, label: "Gerencia" },
     { value: 2, label: "Lider Nucleo" },
     { value: 3, label: "Colaborador" },
+    { value: 4, label: "Lider Departamento" },
   ];
 
   const handleNameChange = (event) => {
@@ -357,10 +358,9 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
                 className="bg-white text-cv-primary border-cv-primary hover:text-white hover:bg-cv-primary"
               />
               {cargando ? (
-				<div className="h-8">
-				<Loading></Loading>
-				</div>
-                
+                <div className="flex items-center justify-center w-1/2 h-12">
+                  <Loading></Loading>
+                </div>
               ) : (
                 <ModalButton
                   label="Guardar"
@@ -379,4 +379,5 @@ ModalEditar.propTypes = {
   close: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
+  cargando: PropTypes.bool.isRequired,
 };
