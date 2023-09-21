@@ -131,11 +131,11 @@ export const Colaboradores = () => {
 
       url.searchParams.append("page", page);
 
-      if (shift) url.searchParams.append("shift", shift);
-      if (position) url.searchParams.append("position", position);
+      if (name) url.searchParams.append("name", name);
       if (department) url.searchParams.append("department", department);
       if (core) url.searchParams.append("core", core);
-      if (name) url.searchParams.append("name", name);
+      if (position) url.searchParams.append("position", position);
+      if (shift) url.searchParams.append("shift", shift);
 
       const response = await fetch(url, {
         headers: {
@@ -187,7 +187,7 @@ export const Colaboradores = () => {
         } else {
           setCargando(false);
           throw new Error("Error al guardar los datos");
-          
+
         }
       })
       .catch((error) => {
@@ -293,6 +293,8 @@ export const Colaboradores = () => {
                 setSelectedDepartment(e.target.value);
                 setSelectedCore("");
                 setDepartment(e.target.value);
+                setCore("");
+                setPosition("");
               }}
             />
           </div>
