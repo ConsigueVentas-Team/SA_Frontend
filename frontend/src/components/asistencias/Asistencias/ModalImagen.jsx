@@ -36,12 +36,12 @@ export const ModalImagen = ({ image, closeImageModal }) => {
                                             <span>Ingreso Tarde</span>
                                         </p>
                                     )}
-                                    {image.delay === 0 && image.justification === 1 ? (
+                                    {image.delay === 0 && image.attendance === 0 && image.justification === 1 ? (
                                         <p className='space-x-2 text-lg font-bold bg-[#57F3FF] p-2'>
                                             <span>{image.user.name.split(" ")[0] + ' ' + image.user.surname.split(" ")[0]}</span>
                                             <span>Justifico por Falta</span>
                                         </p>
-                                    ) : image.delay === 0 && (
+                                    ) : image.delay === 0 && image.attendance === 0 && image.justification === 0 (
                                         <p className='space-x-2 text-lg font-bold text-white bg-[#FF0000] p-2'>
                                             <span>{image.user.name.split(" ")[0] + ' ' + image.user.surname.split(" ")[0]}</span>
                                             <span>Falto</span>

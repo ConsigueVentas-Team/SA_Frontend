@@ -65,10 +65,10 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 											{attendance.attendance === 1 && (
 												<div className="w-5 h-5 rounded-full bg-[#24FF00]"></div>
 											)}
-											{attendance.delay === 1 && attendance.justification !== 1 && (
+											{attendance.delay === 1 && attendance.justification === 0 && (
 												<div className="w-5 h-5 rounded-full bg-[#FAFF00]"></div>
 											)}
-											{attendance.delay === 0 && attendance.justification !== 1 && (
+											{attendance.delay === 0 && attendance.justification === 0 && attendance.attendance === 0 && (
 												<div className="w-5 h-5 rounded-full bg-[#FF0000]"></div>
 											)}
 											{(attendance.justification === 1) && (
