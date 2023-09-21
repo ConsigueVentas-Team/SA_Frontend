@@ -14,9 +14,12 @@ export const Card = ({ card, page }) => {
         }
     }
 
+    const bandera = true
+
     const mostrarDetalles = (id) => {
         navigate(`/details/${id}`, {
-            state: { page },
+            // modifique bandera a true para que se muestre el boton de regresar
+            state: { page, bandera },
         })
     }
 
