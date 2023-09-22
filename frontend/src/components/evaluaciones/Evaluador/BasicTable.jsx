@@ -1,4 +1,9 @@
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import EditIcon from '@mui/icons-material/Edit';
 import { useState } from "react";
 import fakeData from './fakeData.json'
 import { useMemo } from 'react'
@@ -8,38 +13,101 @@ import SearchBar from './SearchBar'
 export default function BasicTable() {
 
 
-  // {
-  //   "id": 1,
-  //   "dni": "96-2264310",
-  //   "colaborador": "Svend Thal",
-  //   "rol": "Lider Nucleo",
-  //   "estado": "boton",
-  //   "acciones": "boton"
+  // [{
+  //   "name": "Pru Ather",
+  //   "email": "pather0@hostgator.com",
+  //   "dni": "49708012",
+  //   "departament": "Product Management",
+  //   "estado": null,
+  //   "acciones": null
   // }
+
+  //modal
+  function Modal({ isOpen, onClose, data }) {
+    if (!isOpen) return null;
+
+
+    return (
+      <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+          <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <h2 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">Datos del colaborador</h2>
+              <div className="mt-2">
+                <p className="text-sm text-gray-500">
+                  ID: {data.name}
+                </p>
+                <p className="text-sm text-gray-500">
+                  Email: {data.email}
+                </p>
+                <p className="text-sm text-gray-500">
+                  DNI: {data.dni}
+                </p>
+                <p className="text-sm text-gray-500">
+                  Departament: {data.departament}
+                </p>
+              </div>
+            </div>
+            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onClick={onClose}>
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalData, setModalData] = useState(null);
 
   const data = useMemo(() => fakeData, [])
 
   const [globalFilter, setGlobalFilter] = useState('')
 
+
+
+  function handleButtonClick(data) {
+    setModalData(data);
+    setIsModalOpen(true);
+  }
+
   const columns = [
     {
-      header: 'ID',
-      accessorKey: 'id'
+      header: 'Nombre',
+      accessorKey: 'name'
     }, {
+      header: 'Correo',
+      accessorKey: 'email'
+    },
+    {
       header: 'DNI',
       accessorKey: 'dni'
-    }, {
-      header: 'Colaborador',
-      accessorKey: 'colaborador'
-    }, {
-      header: 'Rol',
-      accessorKey: 'rol'
+    },
+
+    // {
+    //   header: 'Rol',
+    //   accessorKey: 'rol'
+    // }
+    {
+      header: 'Departamento',
+      accessorKey: 'departament'
     }, {
       header: 'Estado',
       accessorKey: 'estado'
     }, {
       header: 'Acciones',
-      accessorKey: 'acciones'
+      accessorKey: 'acciones',
+      cell: ({ row }) => (
+        <button onClick={() => handleButtonClick(row.original)}
+          className='p-2 text-green-500 duration-300 ease-in-out border rounded-md border-cv-secondary hover:bg-green-500 hover:text-white active:scale-95'
+        >
+          <EditIcon />
+        </button>
+      ),
     },
   ]
 
@@ -59,111 +127,119 @@ export default function BasicTable() {
 
   return (
 
-    <div className='p-2 max-w-5xl- mx-auto'>
-      <div className='flex justify-between mb-2'>
+    <div className='p-2 max-w-5xl- mx-auto '>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} data={modalData} />
+      <div className=' justify-between mb-2'>
         <SearchBar value={globalFilter ?? ""}
-                   onChange={(value) => setGlobalFilter(String(value))} 
-                  placeholder="Filtrar columna por"
-                  className="text-left  p-2   bg-cv-primary rounded"/>
+          onChange={(value) => setGlobalFilter(String(value))}
+          placeholder="Buscar por"
+          className=" rounded-md border border-solid border-cv-primary bg-transparent p-2  text-cv-cyan outline-none "
+        />
       </div>
 
-      <table className="text-xs md:text-[1rem] lg:text-[1rem] w-full table-auto bg-cv-primary rounded">
-        {table.getHeaderGroups().map(headerGroup => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map(header => <th key={header.id}>
-              {flexRender(header.column.columnDef.header, header.getContext())}
-            </th>)}
-          </tr>
-        ))}
-
-        <tbody >
-          {table.getRowModel().rows.map((row, i) => (
-            <tr key={row.id} className={` rounded text-center p-4 ${i % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}
-            `}>
-              {row.getVisibleCells().map(cell => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
+      <div className='w-full bg-[#0e161b] shadow-md  rounded-t overflow-hidden'>
+        <table className="w-full text-sm text-center text-white">
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => <th key={header.id} className='px-6 py-4 whitespace-nowrap text-base uppercase'>
+                {flexRender(header.column.columnDef.header, header.getContext())}
+              </th>)}
             </tr>
           ))}
-        </tbody>
-      </table>
+
+          <tbody className='bg-cv-primary'>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id} className="border-b border-cv-secondary">
+                {row.getVisibleCells().map(cell => (
+                  <td key={cell.id} className="px-6 py-4 whitespace-nowrap">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
 
 
-      <div className="flex items-center justify-end mt-2 gap-2">
-        <button
-          disabled={!table.getCanPreviousPage()}
-          className="p-1  bg-cv-primary rounded px-2 disabled:opacity-30"
-          onClick={() => table.setPageIndex(0)}>
-          {'<<'}
-        </button>
+      <div className="w-full flex items-center justify-center md:justify-between bg-[#0e161b] rounded-b p-2">
 
-
-        <button
-          onClick={() => {
-            table.previousPage();
-          }}
-          disabled={!table.getCanPreviousPage()}
-          className="p-1  bg-cv-primary rounded px-2 disabled:opacity-30"
-        >
-          {"<"}
-        </button>
-
-        <span className="flex items-center gap-1">
+        <span className="flex items-center justify-start gap-1 p-3">
           <div>Página</div>
           <strong>
-            {table.getState().pagination.pageIndex + 1} de{" "}
-            {table.getPageCount()}
+            {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
           </strong>
         </span>
-        <span className="flex items-center gap-1">
-          | Ir a página:
-          <input
-            type="number"
-            defaultValue={table.getState().pagination.pageIndex + 1}
+
+        <div className=" flex items-center justify-center md:justify-between bg-[#0e161b]">
+          <button
+            disabled={!table.getCanPreviousPage()}
+            onClick={() => table.setPageIndex(0)}
+            className="  rounded disabled:opacity-30 justify-"
+          >
+            <FirstPageIcon />
+          </button>
+
+          <button
+            onClick={table.previousPage}
+            disabled={!table.getCanPreviousPage()}
+            className="p-1  rounded disabled:opacity-30"
+          >
+            <KeyboardArrowLeftIcon />
+          </button>
+
+
+
+          <span className="flex items-center gap-1">
+            | Ir a página:
+            <input
+              type="number"
+              defaultValue={table.getState().pagination.pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                table.setPageIndex(page);
+              }}
+              className="text-center w-10  rounded bg-[#0e161b]"
+            />
+          </span>
+
+          <button
+            onClick={table.nextPage}
+            disabled={!table.getCanNextPage()}
+            className="  rounded  disabled:opacity-30"
+          >
+            <KeyboardArrowRightIcon />
+          </button>
+
+          <button
+            disabled={!table.getCanNextPage()}
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            className="p-1 rounded disabled:opacity-30"
+          >
+            <LastPageIcon />
+          </button>
+
+          <select
+            value={table.getState().pagination.pageSize}
             onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
+              table.setPageSize(Number(e.target.value));
             }}
-            className="text-center  p-1  w-10 bg-cv-primary rounded"
-          />
-        </span>
+            className="p-2  rounded bg-[#0e161b]"
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize} className="text-center  w-10  rounded bg-[#0e161b]">
+                Mostrar {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
 
-
-        <button
-          onClick={() => {
-            table.nextPage();
-          }}
-          disabled={!table.getCanNextPage()}
-          className="p-1  bg-cv-primary rounded px-2 disabled:opacity-30"
-        >
-          {">"}
-        </button>
-
-        <button
-          disabled={!table.getCanNextPage()}
-          className="p-1  bg-cv-primary rounded px-2 disabled:opacity-30"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
-          {'>>'}
-        </button>
-
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-          className="p-2 bg-cv-primary rounded"
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize} className="text-center  p-1  w-10 bg-cv-primary rounded">
-              Mostrar {pageSize}
-            </option>
-          ))}
-        </select>
 
       </div>
+
+
+
     </div>
 
 
