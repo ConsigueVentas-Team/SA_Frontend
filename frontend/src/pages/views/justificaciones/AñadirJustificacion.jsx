@@ -141,19 +141,21 @@ export const AñadirJustificacion = () => {
                                 }
                             />
                         </div>
-                        <div className=''>
-                            <button
-                                className='w-full text-black outline-none px-8 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
-                                onClick={limpiar}>
-                                <CleaningServicesIcon />
-                            </button>
-                        </div>
-                        <div className=''>
-                            <button
-                                className='w-full text-black outline-none px-6 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
-                                onClick={onShowTerminos}>
-                                <NoteAddIcon />
-                            </button>
+                        <div className='flex flex-col w-full md:w-auto gap-2 md:flex-row md:gap-5'>
+                            <div className=''>
+                                <button
+                                    className='w-full text-black outline-none px-8 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
+                                    onClick={limpiar}>
+                                    <CleaningServicesIcon />
+                                </button>
+                            </div>
+                            <div className=''>
+                                <button
+                                    className='w-full text-black outline-none px-6 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
+                                    onClick={onShowTerminos}>
+                                    <NoteAddIcon />
+                                </button>
+                            </div>
                         </div>
                     </div>
 
