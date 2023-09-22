@@ -306,6 +306,7 @@ export const Colaboradores = () => {
               onChange={(e) => {
                 setSelectedCore(e.target.value);
                 setCore(e.target.value);
+                setPosition("");
               }}
               disabled={!selectedDepartment}
             />
