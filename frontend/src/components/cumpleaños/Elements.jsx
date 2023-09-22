@@ -126,12 +126,11 @@ CardModal.propTypes = {
 }
 
 export const BirthdayImage = ({ item }) => {
-    const name = `${item.name.split(" ")[0]} ${item.surname.split(" ")[0]}`
     return (
         <div className="flex flex-col items-center justify-center gap-4">
             <img src={item.image_url} alt={item.name} className="w-40 h-40 rounded-full shadow-lg ring-2 ring-cv-cyan" />
             <div>
-                <p className="text-xl font-medium text-white md:text-2xl ">{name}</p>
+                <p className="text-xl text-white font-nomal md:text-2xl ">{`${item.name} ${item.surname}`}</p>
                 <p className="text-sm font-light text-center text-white truncate">{item.email}</p>
             </div>
         </div>
@@ -149,9 +148,9 @@ BirthdayImage.propTypes = {
 
 export const BirthdayItem = ({ name, item }) => {
     return (
-        <div className="flex items-center justify-between gap-5">
-            <p className="w-full text-lg font-semibold">{name}:</p>
-            <p className="w-full text-base font-light">{item}</p>
+        <div className="flex items-center gap-1 sm:gap-5">
+            <p className="w-full text-lg font-semibold text-start">{name}:</p>
+            <p className="w-full text-base font-light text-start">{item}</p>
         </div>
     )
 }

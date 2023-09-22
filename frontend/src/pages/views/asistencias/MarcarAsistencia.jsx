@@ -52,8 +52,6 @@ export const MarcarAsistencia = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        console.log(data.attendance.admission_time);
         if (data.attendance.admission_time == "00:00:00") {
           setSegundaFotoTomada(false);
         } else {
@@ -76,9 +74,8 @@ export const MarcarAsistencia = () => {
     const formData = new FormData();
     const shift = localStorage.getItem("shift");
     const iduser = localStorage.getItem("iduser");
-    const photoName = `${shift.charAt(0)}-${iduser}-${
-      tipo === "admission" ? "e" : "s"
-    }-${fecha}.jpg`;
+    const photoName = `${shift.charAt(0)}-${iduser}-${tipo === "admission" ? "e" : "s"
+      }-${fecha}.jpg`;
     formData.append(`${tipo}_image`, fotoCapturada, photoName);
 
     const tokenD = AES.decrypt(
@@ -136,7 +133,7 @@ export const MarcarAsistencia = () => {
       });
   };
 
-  const verificarHorario = () => {};
+  const verificarHorario = () => { };
 
   useEffect(() => {
     verificarHorario();
@@ -243,7 +240,7 @@ export const MarcarAsistencia = () => {
     <>
       <Toaster />
       <nav className="flex">
-        <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
+        <ol className="inline-flex items-center space-x-1 uppercase md:space-x-3">
           <li>
             <div className="flex items-center text-gray-500 ">
               <ChevronRightIcon />
@@ -270,9 +267,8 @@ export const MarcarAsistencia = () => {
           </div>
         </div>
         <div
-          className={`w-full  md:w-1/3 ${fotoCapturada ? "lg:mt-9" : ""} ${
-            !fotoUsuario && !videoEnabled ? "mt-10 lg:mt-9" : "mt-7 lg:mt-20"
-          }`}
+          className={`w-full  md:w-1/3 ${fotoCapturada ? "lg:mt-9" : ""} ${!fotoUsuario && !videoEnabled ? "mt-10 lg:mt-9" : "mt-7 lg:mt-20"
+            }`}
         >
           <AttendanceSection
             horaActual={horaActual}

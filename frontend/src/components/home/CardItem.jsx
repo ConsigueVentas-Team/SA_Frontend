@@ -28,6 +28,7 @@ export const CardItem = ({ data }) => {
 								<BirthdayItem name={'Cumpleaños'} item={transformDate(item.birthday)} />
 								<BirthdayItem name={'Departamento'} item={item.position[0].core.department.name} />
 								<BirthdayItem name={'Núcleo'} item={item.position[0].core.name} />
+								<BirthdayItem name={'Perfil'} item={item.position[0].name} />
 							</div>
 						</div>
 						<div className='absolute w-full h-full -z-0'>
