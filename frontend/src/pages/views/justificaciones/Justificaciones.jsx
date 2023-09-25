@@ -96,7 +96,7 @@ export const Justificaciones = () => {
                                 }
                             />
                         </div>
-                        <div className=''>
+                        <div className='w-full md:w-auto'>
                             <button
                                 className='w-full text-cv-primary outline-none px-8 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
                                 onClick={limpiar}>

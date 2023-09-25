@@ -21,7 +21,7 @@ export const ModalAlert = ({ mostrarModalAgregar }) => {
                     <div className='p-6 space-y-6'>
                         <p className='font-semibold text-center text-black'>
                             Solo se aceptan justificaciones de los tres días
-                            atras hasta tres diás despúes.
+                            atrás hasta los tres diás despúes.
                         </p>
                     </div>
                     <div className='flex  justify-evenly items-center p-2 border-t border-gray-200  '>

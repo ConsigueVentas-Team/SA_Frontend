@@ -1,4 +1,4 @@
-import { PieChart, Pie, Tooltip, ResponsiveContainer, Legend } from 'recharts'
+import { PieChart, Pie, Tooltip, Legend } from 'recharts'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts'
 
 const data01 = [
