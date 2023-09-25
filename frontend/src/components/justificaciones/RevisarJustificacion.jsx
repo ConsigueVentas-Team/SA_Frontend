@@ -20,7 +20,7 @@ export const RevisarJustificacion = () => {
     // MODALES
     const [showModalRechazado, setShowModalRechazado] = useState(false)
     const [itemData, setItemData] = useState({})
-    const handleRechazar = (item) => {
+    const handleRechazar = item => {
         setItemData(item)
         setShowModalRechazado(true)
     }
@@ -34,7 +34,7 @@ export const RevisarJustificacion = () => {
     }
     const [message, setMessage] = useState('Exitoso!')
 
-    const handleAceptar = (item) => {
+    const handleAceptar = item => {
         const tokenD = AES.decrypt(
             localStorage.getItem('token'),
             import.meta.env.VITE_TOKEN_KEY
@@ -50,15 +50,15 @@ export const RevisarJustificacion = () => {
                 },
             }
         )
-            .then((response) => {
+            .then(response => {
                 if (!response.ok) {
-                    return response.json().then((data) => {
+                    return response.json().then(data => {
                         throw new Error(data.message)
                     })
                 }
                 return response.json()
             })
-            .then((data) => {
+            .then(data => {
                 setMessage(data.message)
 
                 if (data.message !== '') {
@@ -69,7 +69,7 @@ export const RevisarJustificacion = () => {
                     }, 5000)
                 }
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log(error.message)
             })
     }
@@ -77,36 +77,36 @@ export const RevisarJustificacion = () => {
     const rol = localStorage.getItem('rol')
     const iduser = localStorage.getItem('iduser')
 
-    const hasRole = (targetRole) => {
+    const hasRole = targetRole => {
         return rol === targetRole
     }
 
-    const fechtDataPorRol = (page) => {
+    const fechtDataPorRol = page => {
         if (hasRole('Colaborador')) {
             FechData({ page })
-                .then((e) => {
+                .then(e => {
                     setFaltasList(e.data)
                     // console.log(page + 'colaborador')
                 })
-                .catch((e) => console.log(e))
+                .catch(e => console.log(e))
         } else if (bandera == true) {
             FechDataJustificaciones({ page })
-                .then((e) => {
+                .then(e => {
                     setFaltasList(e.data)
                     // console.log(page)
                 })
-                .catch((e) => console.log(e))
+                .catch(e => console.log(e))
         } else {
             FechData({ page })
-                .then((e) => {
+                .then(e => {
                     setFaltasList(e.data)
                     // console.log(page)
                 })
-                .catch((e) => console.log(e))
+                .catch(e => console.log(e))
         }
     }
 
-    const isRechazadoOrAceptado = (prop) => {
+    const isRechazadoOrAceptado = prop => {
         if (prop.status === 2) {
             return 'Rechazado'
         } else if (prop.status === 3) {
@@ -174,10 +174,10 @@ export const RevisarJustificacion = () => {
                 </nav>
             </div>
 
-            <div className='w-[70%] m-auto mt-5'>
+            <div className='lg:w-[70%] m-auto mt-5'>
                 <div className='rounded-lg mt-2'>
                     {faltasList
-                        .filter((item) => {
+                        .filter(item => {
                             const idConvertido = Number(id)
                             if (item.id === idConvertido) {
                                 return true
@@ -185,7 +185,7 @@ export const RevisarJustificacion = () => {
                                 return false
                             }
                         })
-                        .map((item) => (
+                        .map(item => (
                             <div key={item.id} className='mb-6'>
                                 <div className='flex flex-col md:flex-row gap-2'>
                                     <div className='bg-cv-primary text-slate-400 flex flex-col p-4 rounded-lg md:w-3/5 border border-gray-500'>
