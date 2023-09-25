@@ -183,7 +183,7 @@ export default function BasicTable() {
         <SearchBar value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
           placeholder="Buscar por"
-          className=" rounded-md border border-solid border-cv-primary bg-transparent p-2  text-cv-cyan outline-none "
+          className="rounded-md border border-solid border-cv-primary bg-transparent p-2 text-cv-cyan outline-none w-full md:w-full lg:w-[40%] xl:w-[30%]"
         />
       </div>
       {isLoading ? (
