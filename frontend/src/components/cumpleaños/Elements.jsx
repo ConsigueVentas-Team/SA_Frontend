@@ -130,7 +130,7 @@ export const BirthdayImage = ({ item }) => {
         <div className="flex flex-col items-center justify-center gap-4">
             <img src={item.image_url} alt={item.name} className="w-40 h-40 rounded-full shadow-lg ring-2 ring-cv-cyan" />
             <div>
-                <p className="text-xl text-white font-nomal md:text-2xl ">{`${item.name} ${item.surname}`}</p>
+                <p className="text-xl text-center text-white font-nomal md:text-2xl">{`${item.name} ${item.surname}`}</p>
                 <p className="text-sm font-light text-center text-white truncate">{item.email}</p>
             </div>
         </div>

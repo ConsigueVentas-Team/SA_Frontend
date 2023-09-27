@@ -8,7 +8,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import { MenuItem, Name } from "./Elements";
+import { MenuItem, Name, Notifications } from "./Elements";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -40,11 +40,12 @@ export const Header = () => {
     <>
       <div className="flex items-center justify-between w-full h-16 px-4 py-2 text-white bg-cv-primary">
         <div>
-          <Link to="/" className="text-sm font-semibold md:text-base lg:text-lg xl:text-xl">
+          <Link to="/" className="text-sm font-semibold truncate md:text-base lg:text-lg xl:text-xl">
             Consigue Ventas
           </Link>
         </div>
         <div className="flex items-center gap-2">
+          <Notifications />
           <Avatar
             alt={name}
             src={`${import.meta.env.VITE_BACKEND_SERVER_URL
