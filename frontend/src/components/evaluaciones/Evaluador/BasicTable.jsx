@@ -189,7 +189,7 @@ export default function BasicTable() {
       {isLoading ? (
         <div className="text-center">Cargando...</div>
       ) : (
-        <div className='w-full bg-[#0e161b] shadow-md  rounded-t overflow-hidden'>
+        <div className='w-full bg-[#0e161b] shadow-md  rounded-lg overflow-hidden overflow-x-auto scrollbar'>
           <table className="w-full text-sm text-center text-white">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
@@ -214,13 +214,35 @@ export default function BasicTable() {
         </div>
       )}
 
-      <div className="w-full block flex items-center bg-[#0e161b] rounded-b p-2">
+      <div className="w-full flex items-center justify-between bg-[#0e161b] rounded-b p-2">
 
         <p className="text-sm sm:text-base text-white p-3 md:pl-1 md:pr-3 md:py-1 md:leading-none">
           Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
         </p>
 
-        <div className='inlineblock'></div>
+        {/* <div className='inlineblock'></div> */}
+
+
+        <div className=' flex'>
+
+          <div>
+            <label htmlFor="pageSize" className="text-white">Mostrar:</label>
+            <select
+              id="pageSize"
+              value={table.getState().pagination.pageSize}
+              onChange={(e) => {
+                table.setPageSize(Number(e.target.value));
+              }}
+              className="p-2 rounded bg-[#0e161b] text-white"
+            >
+              {[10, 20, 30, 40, 50].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
+        
 
         <button
           disabled={!table.getCanPreviousPage()}
@@ -240,7 +262,7 @@ export default function BasicTable() {
           <KeyboardArrowLeftIcon />
         </button>
 
-        <span className="flex items-center gap-1  text-sm text-white sm:text-base">
+        {/* <span className="flex items-center gap-1  text-sm text-white sm:text-base">
           | Ir a página:
           <input
             type="number"
@@ -251,7 +273,7 @@ export default function BasicTable() {
             }}
             className="text-center w-10 rounded bg-[#0e161b] text-white"
           />
-        </span>
+        </span> */}
 
         <button
           onClick={table.nextPage}
@@ -269,23 +291,8 @@ export default function BasicTable() {
           <LastPageIcon />
         </button>
 
-        <label htmlFor="pageSize" className="text-white">Mostrar:</label>
-        <select
-          id="pageSize"
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-          className="p-2 rounded bg-[#0e161b] text-white"
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              {pageSize}
-            </option>
-          ))}
-        </select>
-
-
+        
+        </div>
       </div>
 
     </div>
