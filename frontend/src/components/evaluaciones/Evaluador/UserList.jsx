@@ -62,7 +62,7 @@ export default function UserList({ filters }) {
             cell: ({ row }) => (
                 <Link to={`/evaluacion/${row.original.id}`} key={row.original.id}>
                     <button
-                        onClick={() => handleButtonClick(row.original)}
+                        onClick={() => handleButtonClick(row.original.id)}
                         className="p-2 text-green-500 duration-300 ease-in-out border rounded-md border-cv-secondary hover:bg-green-500 hover:text-white active:scale-95"
                     >
                         <EditIcon />

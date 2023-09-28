@@ -13,8 +13,7 @@ export default function BasicTable() {
     core: '',
     position: '',
   }); 
-  // Renderizado del componente
   return (
-    <UserList filters={filters} userId={null} />
+    <UserList filters={filters} />
   )
 }
