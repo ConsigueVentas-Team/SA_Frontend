@@ -96,6 +96,7 @@ function App() {
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
                 <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
+                <Route path="evaluacion/:id" element={<EvaluacionesColaborador />} />
                 <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
                 <Route path="empresa" element={<Formulario />} />
                 <Route path="empresa/departamento" element={<Departamento />} />
@@ -110,6 +111,7 @@ function App() {
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
                 <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
+                <Route path="evaluacion/:id" element={<EvaluacionesColaborador />} />
                 <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
                 <Route path="empresa" element={<Formulario />} />
                 <Route path="empresa/departamento" element={<Departamento />} />
