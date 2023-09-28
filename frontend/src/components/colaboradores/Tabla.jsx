@@ -64,7 +64,7 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 							{data.map((users) => (
 								<tr key={users.id} className="border-b border-cv-secondary">
 									<th scope="row" className="px-6 py-4 whitespace-nowrap">
-										{users.name + " " + users.surname}
+										{`${users.name} ${users.surname}`}
 									</th>
 									<td className="px-6 py-4 whitespace-nowrap">
 										{users.cellphone}
