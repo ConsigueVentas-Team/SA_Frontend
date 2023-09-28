@@ -11,13 +11,6 @@ export default function UserList({ filters }) {
     const [globalFilter, setGlobalFilter] = useState("");
     const { users, isLoading } = useUserApi(filters);
 
-
-
-
-    function handleButtonClick(data) {
-        console.log(data.name);
-    }
-
     const dataFinal = useMemo(() => users, [users]);
 
     const columns = [
@@ -62,7 +55,7 @@ export default function UserList({ filters }) {
             cell: ({ row }) => (
                 <Link to={`/evaluacion/${row.original.id}`} key={row.original.id}>
                     <button
-                        onClick={() => handleButtonClick(row.original.id)}
+                        onClick={() => (row.original.id)}
                         className="p-2 text-green-500 duration-300 ease-in-out border rounded-md border-cv-secondary hover:bg-green-500 hover:text-white active:scale-95"
                     >
                         <EditIcon />
@@ -97,20 +90,22 @@ export default function UserList({ filters }) {
             {isLoading ? (
                 <div className="text-center">Cargando...</div>
             ) : (
-                <div className="w-full bg-[#0e161b] shadow-md rounded-t overflow-hidden">
+                <div className="w-full bg-[#0e161b] shadow-md rounded-t overflow-hidden overflow-x-auto scrollbar">
                     <table className="w-full text-sm text-center text-white">
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <tr key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => (
-                                    <th
-                                        key={header.id}
-                                        className="px-6 py-4 whitespace-nowrap text-base uppercase"
-                                    >
-                                        {flexRender(header.column.columnDef.header, header.getContext())}
-                                    </th>
-                                ))}
-                            </tr>
-                        ))}
+                        <thead>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <tr key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => (
+                                        <th
+                                            key={header.id}
+                                            className="px-6 py-4 whitespace-nowrap text-base uppercase"
+                                        >
+                                            {flexRender(header.column.columnDef.header, header.getContext())}
+                                        </th>
+                                    ))}
+                                </tr>
+                            ))}
+                        </thead>
                         <tbody className="bg-cv-primary">
                             {table.getRowModel().rows.map((row) => (
                                 <tr key={row.id} className="border-b border-cv-secondary">
