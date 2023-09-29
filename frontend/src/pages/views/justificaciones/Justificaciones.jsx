@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react'
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices'
-import { CardList, SearchBar } from '../../../components/justificaciones'
+import {
+    CardList,
+    // Graficos,
+    SearchBar,
+} from '../../../components/justificaciones'
 import { Pagination } from '@mui/material'
 import { FechDataJustificaciones } from '../../../components/justificaciones/helpers/FechDataJustificaciones'
+// import { ResponsiveContainer } from 'recharts'
 
 export const Justificaciones = () => {
     const [page, setPage] = useState(1)
@@ -22,18 +27,18 @@ export const Justificaciones = () => {
         setPage(1)
     }
 
-    const handleNameChange = (event) => {
+    const handleNameChange = event => {
         setName(event.target.value)
     }
 
-    const handleBuscar = (page) => {
+    const handleBuscar = page => {
         FechDataJustificaciones({ page })
-            .then((e) => {
+            .then(e => {
                 setCards(e.data)
                 setCountPage(e.total)
                 // console.log(page)
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log(error)
             })
     }
@@ -61,7 +66,7 @@ export const Justificaciones = () => {
                             <select
                                 className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 value={buscador_tipoJustificacion}
-                                onChange={(e) =>
+                                onChange={e =>
                                     setbuscador_tipoJustificacion(
                                         e.target.value
                                     )
@@ -76,7 +81,7 @@ export const Justificaciones = () => {
                             <select
                                 className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 value={buscadorStatus}
-                                onChange={(e) =>
+                                onChange={e =>
                                     setBuscadorStatus(e.target.value)
                                 }>
                                 <option value=''>Estado</option>
@@ -91,9 +96,7 @@ export const Justificaciones = () => {
                                 type='date'
                                 id='fecha'
                                 value={buscadorFecha}
-                                onChange={(e) =>
-                                    setBuscadorFecha(e.target.value)
-                                }
+                                onChange={e => setBuscadorFecha(e.target.value)}
                             />
                         </div>
                         <div className='w-full md:w-auto'>
@@ -131,6 +134,10 @@ export const Justificaciones = () => {
                     />
                 </>
             </div>
+
+            {/* <ResponsiveContainer width={100} height={400}>
+                <Graficos />
+            </ResponsiveContainer> */}
         </>
     )
 }
