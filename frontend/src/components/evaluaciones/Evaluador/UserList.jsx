@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import SearchBar from "./SearchBar";
 import PaginationControls from "./PaginationControls";
-import { useUserApi } from "./hooks/UserApi";
+import { useUserApi } from "../hooks/UserApi";
 
 export default function UserList({ filters }) {
     const [globalFilter, setGlobalFilter] = useState("");
