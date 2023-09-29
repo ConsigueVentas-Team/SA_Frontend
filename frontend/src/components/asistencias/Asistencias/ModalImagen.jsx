@@ -53,9 +53,11 @@ export const ModalImagen = ({ image, closeImageModal }) => {
                                         <div className='flex flex-col items-center justify-center w-full space-y-2 text-center'>
                                             <h4 className='text-lg font-semibold'>Fotografía de Entrada</h4>
                                             {image.admission_image ? (
-                                                <img className='w-4/5 border rounded-lg md:w-full' src={import.meta.env.VITE_BACKEND_SERVER_URL + '/' + image.admission_image} alt="Fotografía de entrada" />
+                                                <div className="w-auto h-64">
+                                                    <img className='w-auto h-full border rounded-lg md:w-full' src={import.meta.env.VITE_BACKEND_SERVER_URL + '/' + image.admission_image} alt="Fotografía de entrada" />
+                                                </div>
                                             ) : (
-                                                <div className='w-4/5 border rounded-lg md:w-full'>
+                                                <div className='w-4/5 h-64 flex items-center justify-center border rounded-lg md:w-full'>
                                                     <DefaultImage />
                                                 </div>
                                             )}
@@ -69,9 +71,11 @@ export const ModalImagen = ({ image, closeImageModal }) => {
                                         <div className='flex flex-col items-center justify-center w-full space-y-2 text-center'>
                                             <h4 className='text-lg font-semibold'>Fotografía de Salida</h4>
                                             {image.departure_image ? (
-                                                <img className='w-4/5 border rounded-lg md:w-full' src={import.meta.env.VITE_BACKEND_SERVER_URL + '/' + image.departure_image} alt="Fotografía de salida" />
+                                                <div className="w-auto h-64">
+                                                <img className='w-auto h-64 border rounded-lg md:w-full' src={import.meta.env.VITE_BACKEND_SERVER_URL + '/' + image.departure_image} alt="Fotografía de salida" />
+                                                </div>
                                             ) : (
-                                                <div className='w-4/5 border rounded-lg md:w-full'>
+                                                <div className='w-4/5 flex items-center justify-center h-auto border rounded-lg md:w-full'>
                                                     <DefaultImage />
                                                 </div>
                                             )}

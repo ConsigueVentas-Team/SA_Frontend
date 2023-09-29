@@ -71,7 +71,7 @@ export const Calendar = ({ setSelectedMonth, onDayClick, selectedDay }) => {
             const dayNumber = date.getDate().toString().padStart(2, '0');
 
             const dayClassName = `${isToday
-                ? 'bg-cv-cyan text-cv-primary hover:bg-cv-cyan-hover'
+                ? 'bg-cv-cyan text-cv-primary hover:bg-cv-cyan-hover cursor-pointer'
                 : isCurrentMonth
                     ? ''
                     : 'text-gray-600'
@@ -86,7 +86,7 @@ export const Calendar = ({ setSelectedMonth, onDayClick, selectedDay }) => {
             return (
                 <div
                     key={date.toDateString()}
-                    className={`${dayClassName} ${selectedClassName} w-7 h-7 flex items-center justify-center p-1 rounded-full font-semibold }`}
+                    className={`${dayClassName} ${selectedClassName} cursor-pointer hover:bg-cv-secondary w-7 h-7 flex items-center justify-center p-1 rounded-full font-semibold }`}
                     onClick={() => onDayClick(date)}
                 >
                     {dayNumber}
