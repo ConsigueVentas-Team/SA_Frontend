@@ -46,6 +46,7 @@ export const MarcarAsistencia = () => {
     );
     const token = tokenD.toString(enc.Utf8);
     fetch(import.meta.env.VITE_API_URL + "/attendance/id", {
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -83,7 +84,8 @@ export const MarcarAsistencia = () => {
       import.meta.env.VITE_TOKEN_KEY
     );
     const token = tokenD.toString(enc.Utf8);
-    fetch(import.meta.env.VITE_API_URL + "/attendance/create", {
+
+    fetch(import.meta.env.VITE_API_URL + "/schedule/check", {
       method: "POST",
       body: formData,
       headers: {
