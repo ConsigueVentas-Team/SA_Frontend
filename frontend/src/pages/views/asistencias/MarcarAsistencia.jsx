@@ -143,17 +143,42 @@ export const MarcarAsistencia = () => {
     setCapturing(false);
   };
 
+  // const startCamera = () => {
+  //   navigator.mediaDevices
+  //     .getUserMedia({ video: true })
+  //     .then((stream) => {
+  //       setCameraStream(stream);
+  //       videoRef.current.srcObject = stream;
+  //       videoRef.current.style.transform = "scaleX(-1)";
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error accessing camera:", error);
+  //     });
+  // };
+
   const startCamera = () => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((stream) => {
-        setCameraStream(stream);
-        videoRef.current.srcObject = stream;
-        videoRef.current.style.transform = "scaleX(-1)";
-      })
-      .catch((error) => {
-        console.log("Error accessing camera:", error);
-      });
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          setCameraStream(stream);
+          videoRef.current.srcObject = stream;
+          videoRef.current.style.transform = "scaleX(-1)";
+          toast.success('Cámara activa');
+        })
+        .catch((error) => {
+          console.error("Error al acceder a la cámara:", error);
+          toast.error('No se puede acceder a la cámara. Por favor verifica los permisos.');
+          if (cameraStream) {
+            cameraStream.getTracks().forEach((track) => {
+              track.stop();
+            });
+          }
+        });
+    } else {
+      console.error('La API de MediaDevices no está disponible en este navegador');
+      toast.error('Este navegador no es compatible con la cámara.');
+    }
   };
 
   const stopCamera = () => {

@@ -90,6 +90,22 @@ function App() {
             <Route path="cambiar-contraseña" element={<CambiarContraseña />} />
             <Route path="/login" element={<Login />} />
 
+            {hasRole("Lider Departamento") && (
+              <>
+                <Route path="colaboradores" element={<Colaboradores />} />
+                <Route path="justificaciones" element={<Justificaciones />} />
+                <Route path="asistencias" element={<Asistencias />} />
+                <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
+                <Route path="evaluacion/:id" element={<EvaluacionesColaborador />} />
+                <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
+                <Route path="empresa" element={<Formulario />} />
+                <Route path="empresa/departamento" element={<Departamento />} />
+                <Route path="empresa/nucleo" element={<Nucleo />} />
+                <Route path="empresa/perfil" element={<Area></Area>} />
+                <Route path="reportes" element={<Reportes></Reportes>} />
+              </>
+            )}
+
             {hasRole("Lider Nucleo") && (
               <>
                 <Route path="colaboradores" element={<Colaboradores />} />
