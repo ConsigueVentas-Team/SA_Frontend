@@ -9,7 +9,7 @@ export function useEvaluationApi(filters) {
     const obtenerNotas = async (page) => {
       setIsLoading(true);
       try {
-        const url = new URL(import.meta.env.VITE_API_URL + "/evaluation/list");
+        const url = new URL(import.meta.env.VITE_API_URL + "evaluation/list");
         url.searchParams.append("page", page);
 
         for (const [key, value] of Object.entries(filters)) {
