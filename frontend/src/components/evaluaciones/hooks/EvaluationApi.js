@@ -9,7 +9,7 @@ export function useEvaluationApi(filters) {
     const obtenerNotas = async (page) => {
       setIsLoading(true);
       try {
-        const url = new URL(import.meta.env.VITE_API_URL + "evaluation/list");
+        const url = new URL(import.meta.env.VITE_API_URL + "/evaluation/list");
         url.searchParams.append("page", page);
 
         for (const [key, value] of Object.entries(filters)) {
@@ -23,21 +23,22 @@ export function useEvaluationApi(filters) {
         const token = tokenD.toString(enc.Utf8);
 
         const response = await fetch(url, {
-          method: "GET",
           headers: {
-            // "Content-Type": "application/json",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
 
         const data = await response.json();
-        if (response.ok) {
-          setNotas(data.data);
+        console.log("Data from API:", data); // Agrega esta línea
+        if (data != null) {
+          setNotas(data );
           setIsLoading(false);
         } else {
           console.error("Error al obtener las notas:", data.error);
           setIsLoading(false);
         }
+        
       } catch (error) {
         console.error("Error al obtener las notas:", error);
         setIsLoading(false);
@@ -46,10 +47,5 @@ export function useEvaluationApi(filters) {
 
     obtenerNotas(0);
   }, [filters]);
-
   return { notas, isLoading };
 }
-
-
-
-
