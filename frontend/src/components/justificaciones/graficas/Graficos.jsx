@@ -1,85 +1,141 @@
-import { PieChart, Pie, Tooltip, Legend } from 'recharts'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts'
+import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Legend,
+    Pie,
+    PieChart,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from 'recharts'
 
-const data01 = [
-    { name: 'Group A', value: 400, fill: 'red' }, // Asigna un color a Group A
-    { name: 'Group B', value: 300, fill: '#57F3FF' }, // Asigna un color a Group B
-]
+export const Graficos = () => {
+    const data01 = [
+        {
+            name: 'Group A',
+            value: 400,
+        },
+        {
+            name: 'Group B',
+            value: 300,
+        },
+        {
+            name: 'Group C',
+            value: 300,
+        },
+        {
+            name: 'Group D',
+            value: 200,
+        },
+        {
+            name: 'Group E',
+            value: 278,
+        },
+        {
+            name: 'Group F',
+            value: 189,
+        },
+    ]
+    const data02 = [
+        {
+            name: 'Group A',
+            value: 2400,
+        },
+        {
+            name: 'Group B',
+            value: 4567,
+        },
+        {
+            name: 'Group C',
+            value: 1398,
+        },
+        {
+            name: 'Group D',
+            value: 9800,
+        },
+        {
+            name: 'Group E',
+            value: 3908,
+        },
+        {
+            name: 'Group F',
+            value: 4800,
+        },
+    ]
 
-export const Circular = () => {
+    const data = [
+        {
+            name: 'Page A',
+            uv: 4000,
+            pv: 2400,
+        },
+        {
+            name: 'Page B',
+            uv: 3000,
+            pv: 1398,
+        },
+        {
+            name: 'Page C',
+            uv: 2000,
+            pv: 9800,
+        },
+        {
+            name: 'Page D',
+            uv: 2780,
+            pv: 3908,
+        },
+        {
+            name: 'Page E',
+            uv: 1890,
+            pv: 4800,
+        },
+        {
+            name: 'Page F',
+            uv: 2390,
+            pv: 3800,
+        },
+        {
+            name: 'Page G',
+            uv: 3490,
+            pv: 4300,
+        },
+    ]
+
     return (
-        <PieChart width={400} height={400}>
-            <Pie
-                dataKey='value'
-                isAnimationActive={false}
-                data={data01}
-                cx='25%'
-                cy='25%'
-                outerRadius={80}
-                fill={data01.fill}
-                label
-            />{' '}
-            <Legend></Legend>
-            <Tooltip />
-        </PieChart>
-    )
-}
+        <>
+            <PieChart width={730} height={250}>
+                <Pie
+                    data={data01}
+                    dataKey='value'
+                    nameKey='name'
+                    cx='50%'
+                    cy='50%'
+                    outerRadius={50}
+                    fill='#8884d8'
+                />
+                <Pie
+                    data={data02}
+                    dataKey='value'
+                    nameKey='name'
+                    cx='50%'
+                    cy='50%'
+                    innerRadius={60}
+                    outerRadius={80}
+                    fill='#82ca9d'
+                    label
+                />
+            </PieChart>
 
-const CustomTooltip = ({ active, label, payload }) => {
-    if (active && payload && payload.length) {
-        return (
-            <div className='custom-tooltip bg-white w-full h-1/2 p-3'>
-                <p className='label text-black font-medium'>{`${label} `}</p>
-                <p className='label text-black'>{'d'}</p>
-            </div>
-        )
-    }
-
-    return null
-}
-
-const data = [
-    {
-        name: 'Page B',
-        uv: 3000,
-        Usuarios: 1398,
-        amt: 2210,
-    },
-    {
-        name: 'Page C',
-        uv: 2000,
-        Usuarios: 9800,
-        amt: 2290,
-    },
-]
-
-export const Barras = ({ barras }) => {
-    {
-        return (
-            <BarChart data={data} barSize={30}>
+            <BarChart width={730} height={250} data={data}>
+                <CartesianGrid strokeDasharray='3 3' />
                 <XAxis dataKey='name' />
                 <YAxis />
-
-                <Tooltip
-                    contentStyle={{ color: 'red' }}
-                    content={(props) => <CustomTooltip {...props} />}
-                    fill='#57F3FF'
-                />
-                <CartesianGrid
-                    strokeDasharray='1 0'
-                    horizontal={true}
-                    vertical={false}
-                />
-
-                <Bar dataKey='Usuarios' fill='#57F3FF' />
-                {barras == 3 && (
-                    <>
-                        <Bar dataKey='uv' fill='red' />
-                        <Bar dataKey='amt' fill='#24FF00' />
-                        <Bar dataKey='amt' fill='#FAFF00' />
-                    </>
-                )}
+                <Tooltip />
+                <Legend />
+                <Bar dataKey='pv' fill='#8884d8' />
+                <Bar dataKey='uv' fill='#82ca9d' />
             </BarChart>
-        )
-    }
+        </>
+    )
 }

@@ -1,32 +1,45 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useEvaluationApi } from "../hooks/EvaluationApi";
+
 function ListaNotas({ filters }) {
-    const { notas, isLoading } = useEvaluationApi(filters);
-    useEffect(() => {
-        console.log("notas:", notas); // Esto imprimirá los datos de la API en la consola
-    }, [notas]);
+  const { notas, isLoading: apiIsLoading } = useEvaluationApi(filters);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    setIsLoading(apiIsLoading);
+  }, [apiIsLoading]);
 
-    return (
-        <div>
-            <h1>Notas de Evaluación</h1>
-            {isLoading ? (
-                <p>Cargando...</p>
-            ) : (
-                <ul>
-                    {notas.map((nota) => (
-                        <>
-                            <li key={nota.id}>{nota.id}</li>
-                            <li key={nota.id}>{nota.user_id}</li>
-                            <li key={nota.id}>{nota.evaluation_type}</li>
-                            <li key={nota.id}>{nota.date}</li>
-                        </>
+  useEffect(() => {
+    console.log("notassssssss:", notas);
+    setIsLoading(false);
+  }, [notas]);
 
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
+  return (
+    <div>
+      <h1>Notas de Evaluación</h1>
+      {isLoading ? (
+        <p>Cargando...</p>
+      ) : (
+        <ul>
+          {notas && notas.length > 0 ? (
+            notas.map((nota) => (
+              <li key={nota.id}>
+                ID: {nota.id}
+                <br />
+                User ID: {nota.user_id}
+                <br />
+                Tipo de Evaluación: {nota.evaluation_type ? nota.evaluation_type.name : "N/A"}
+                <br />
+                Fecha: {nota.date}
+              </li>
+            ))
+          ) : (
+            <li>No hay notas disponibles.</li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
 }
 
 export default ListaNotas;
