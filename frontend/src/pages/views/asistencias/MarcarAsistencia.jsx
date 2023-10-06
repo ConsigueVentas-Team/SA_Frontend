@@ -23,12 +23,14 @@ export const MarcarAsistencia = () => {
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const [cargando, setCargando] = useState(true);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setHoraActual(new Date());
     }, 1000);
 
     const fecha = new Date().toISOString().slice(0, 10);
+    // comprobar si ya se marcó la entrada y la salida (true o false)
     const entradaMarcadaLocal = localStorage.getItem(`entrada_${fecha}`);
     const salidaMarcadaLocal = localStorage.getItem(`salida_${fecha}`);
     setEntradaMarcada(entradaMarcadaLocal === "true");
@@ -95,9 +97,9 @@ export const MarcarAsistencia = () => {
       .then((response) => response.json())
       .then((data) => {
         if (tipo === "admission") {
-          const hora = horaActual.getHours();
-          const minutos = horaActual.getMinutes();
-          const turno = localStorage.getItem("shift");
+          // const hora = horaActual.getHours();
+          // const minutos = horaActual.getMinutes();
+          // const turno = localStorage.getItem("shift");
           setMostrarBotonEntrada(false);
           setFotoUsuario(false);
           setFotoCapturada(null);
@@ -106,17 +108,17 @@ export const MarcarAsistencia = () => {
 
           toast.success("Entrada Marcada");
 
-          if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
-            setTardanzaMañana(true);
-          } else {
-            setTardanzaMañana(false);
-          }
+          // if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
+          //   setTardanzaMañana(true);
+          // } else {
+          //   setTardanzaMañana(false);
+          // }
 
-          if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
-            setTardanzaTarde(true);
-          } else {
-            setTardanzaTarde(false);
-          }
+          // if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
+          //   setTardanzaTarde(true);
+          // } else {
+          //   setTardanzaTarde(false);
+          // }
 
           localStorage.setItem(`entrada_${fecha}`, "true");
         } else {
