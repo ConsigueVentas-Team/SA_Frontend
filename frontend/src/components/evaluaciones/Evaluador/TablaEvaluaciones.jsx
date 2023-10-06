@@ -11,14 +11,14 @@ const TablaEvaluaciones = () => {
     const renderTabla = () => {
         if (mostrarTabla) {
             return (
-                <table className="w-full text-sm text-center text-white">
+                <table className="w-full text-sm text-center text-white ">
                     <thead>
                         <tr>
                             <th colSpan="6" className="px-6 py-4 whitespace-nowrap text-base uppercase">EVALUACIONES</th>
                         </tr>
                     </thead>
                     <tbody className="bg-cv-primary">
-                        <tr className="border-b border-cv-secondary">
+                        <tr className="border-b border-cv-secondary ">
                             <td className="px-6 py-4 whitespace-nowrap" >MES</td>
                             <td className="px-6 py-4 whitespace-nowrap" >HABILIDAD 1</td>
                             <td className="px-6 py-4 whitespace-nowrap" >HABILIDAD 2</td>
@@ -45,7 +45,7 @@ const TablaEvaluaciones = () => {
             );
         } else {
             return (
-                <table className="w-full text-sm text-center text-white">
+                <table className="w-full text-sm text-center text-white ">
                     <thead>
                         <tr>
                             <th className="px-6 py-4 whitespace-nowrap text-base uppercase" colSpan="6">EVALUACIONES</th>
