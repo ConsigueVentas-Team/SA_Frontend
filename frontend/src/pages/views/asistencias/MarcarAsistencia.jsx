@@ -23,6 +23,7 @@ export const MarcarAsistencia = () => {
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const [cargando, setCargando] = useState(true);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setHoraActual(new Date());
@@ -31,6 +32,7 @@ export const MarcarAsistencia = () => {
     const fecha = new Date().toISOString().slice(0, 10);
     const entradaMarcadaLocal = localStorage.getItem(`entrada_${fecha}`);
     const salidaMarcadaLocal = localStorage.getItem(`salida_${fecha}`);
+
     setEntradaMarcada(entradaMarcadaLocal === "true");
     setSalidaMarcada(salidaMarcadaLocal === "true");
 
@@ -44,7 +46,9 @@ export const MarcarAsistencia = () => {
       localStorage.getItem("token"),
       import.meta.env.VITE_TOKEN_KEY
     );
+
     const token = tokenD.toString(enc.Utf8);
+
     fetch(import.meta.env.VITE_API_URL + "/attendance/id", {
       method: "POST",
       headers: {
@@ -83,6 +87,7 @@ export const MarcarAsistencia = () => {
       localStorage.getItem("token"),
       import.meta.env.VITE_TOKEN_KEY
     );
+
     const token = tokenD.toString(enc.Utf8);
 
     fetch(import.meta.env.VITE_API_URL + "/schedule/check", {
@@ -106,19 +111,20 @@ export const MarcarAsistencia = () => {
 
           toast.success("Entrada Marcada");
 
-          if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
-            setTardanzaMañana(true);
-          } else {
-            setTardanzaMañana(false);
-          }
+          // if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
+          //   setTardanzaMañana(true);
+          // } else {
+          //   setTardanzaMañana(false);
+          // }
 
-          if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
-            setTardanzaTarde(true);
-          } else {
-            setTardanzaTarde(false);
-          }
+          // if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
+          //   setTardanzaTarde(true);
+          // } else {
+          //   setTardanzaTarde(false);
+          // }
 
           localStorage.setItem(`entrada_${fecha}`, "true");
+
         } else {
           setMostrarBotonSalida(false);
           setMostrarBotonCamara(false);
@@ -131,6 +137,7 @@ export const MarcarAsistencia = () => {
         }
       })
       .catch((error) => {
+        console.log("CATCH");
         console.error("Error al enviar la solicitud:", error);
       });
   };
