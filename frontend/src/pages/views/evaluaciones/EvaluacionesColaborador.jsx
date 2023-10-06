@@ -10,8 +10,6 @@ export const EvaluacionesColaborador = () => {
 
   return (
     <div>
-      {/* <h2>{id}</h2> */}
-      <Nota />
       <TablaEvaluaciones/>
     </div>
   );
