@@ -14,6 +14,7 @@ import { Cumpleaños } from "./pages/views/Cumpleaños";
 import { Colaboradores } from "./pages/views/Colaboradores";
 import { Asistencias } from "./pages/views/asistencias/Asistencias";
 import { MarcarAsistencia } from "./pages/views/asistencias/MarcarAsistencia";
+import { MarcarAsistencia2 } from "./pages/views/asistencias/MarcarAsistencia2";
 import { Justificaciones } from "./pages/views/justificaciones/Justificaciones";
 import { AñadirJustificacion } from "./pages/views/justificaciones/AñadirJustificacion";
 import { Nucleo } from "./pages/views/formulario/nucleo";
@@ -80,6 +81,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="perfil" element={<Perfil />} />
             <Route path="marcar-asistencia" element={<MarcarAsistencia />} />
+            <Route path="marcar-asistencia2" element={<MarcarAsistencia2 />} />
             <Route path="cumpleaños" element={<Cumpleaños />} />
             <Route
               path="añadir-justificacion"
