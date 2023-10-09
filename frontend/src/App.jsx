@@ -25,6 +25,7 @@ import { EvaluacionesAdmin } from "./pages/views/evaluaciones/EvaluacionesAdmin"
 import { RevisarJustificacion } from './components/justificaciones/RevisarJustificacion';
 import Reportes from './pages/views/Reportes';
 import { useEffect, useState } from 'react';
+import { MiEvaluacion } from './pages/views/evaluaciones/MiEvaluacion';
 function App() {
   const rol = localStorage.getItem("rol");
   const isLoggedIn = localStorage.getItem("login") === "true";
@@ -86,7 +87,7 @@ function App() {
               element={<AñadirJustificacion />}
             />
             <Route path='details/:id' element={<RevisarJustificacion />} />
-            <Route path="evaluacion" element={<EvaluacionesColaborador />} />
+            <Route path="evaluacion" element={<MiEvaluacion />} />
             <Route path="cambiar-contraseña" element={<CambiarContraseña />} />
             <Route path="/login" element={<Login />} />
 
@@ -96,7 +97,8 @@ function App() {
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
                 <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
-                <Route path="evaluacion/:id" element={<EvaluacionesColaborador />} />
+                <Route path="evaluacion" element={<MiEvaluacion />} />
+                <Route path="evaluacion/:id/:name" element={<EvaluacionesColaborador />} />
                 <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
                 <Route path="empresa" element={<Formulario />} />
                 <Route path="empresa/departamento" element={<Departamento />} />
@@ -112,7 +114,8 @@ function App() {
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
                 <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
-                <Route path="evaluacion/:id" element={<EvaluacionesColaborador />} />
+                <Route path="evaluacion" element={<MiEvaluacion />} />
+                <Route path="evaluacion/:id/:name" element={<EvaluacionesColaborador />} />
                 <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
                 <Route path="empresa" element={<Formulario />} />
                 <Route path="empresa/departamento" element={<Departamento />} />
@@ -127,7 +130,8 @@ function App() {
                 <Route path="justificaciones" element={<Justificaciones />} />
                 <Route path="asistencias" element={<Asistencias />} />
                 <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
-                <Route path="evaluacion/:id" element={<EvaluacionesColaborador />} />
+                <Route path="evaluacion" element={<MiEvaluacion />} />
+                <Route path="evaluacion/:id/:name" element={<EvaluacionesColaborador />} />
                 <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
                 <Route path="empresa" element={<Formulario />} />
                 <Route path="empresa/departamento" element={<Departamento />} />
