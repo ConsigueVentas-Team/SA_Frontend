@@ -138,7 +138,6 @@ export const MarcarAsistencia = () => {
         }
       })
       .catch((error) => {
-        console.log("CATCH");
         console.error("Error al enviar la solicitud:", error);
       });
   };
