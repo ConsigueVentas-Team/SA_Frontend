@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
+import Nota from '../../../components/evaluaciones/Evaluacion/Nota';
+import TablaEvaluaciones from '../../../components/evaluaciones/Evaluador/TablaEvaluaciones';
 import { AES, enc } from 'crypto-js';
 
 export const EvaluacionesColaborador = () => {
@@ -72,6 +73,7 @@ export const EvaluacionesColaborador = () => {
           <p>No se encontró un usuario con el ID {id}.</p>
         )
       )}
+      <TablaEvaluaciones/>
     </div>
   );
 };
