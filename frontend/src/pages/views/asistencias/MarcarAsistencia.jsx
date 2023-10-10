@@ -91,7 +91,7 @@ export const MarcarAsistencia = () => {
 
     const token = tokenD.toString(enc.Utf8);
 
-    fetch(import.meta.env.VITE_API_URL + "/schedule/check", {
+    fetch(import.meta.env.VITE_API_URL + "/attendance/create", {
       method: "POST",
       body: formData,
       headers: {
@@ -101,9 +101,9 @@ export const MarcarAsistencia = () => {
       .then((response) => response.json())
       .then((data) => {
         if (tipo === "admission") {
-          // const hora = horaActual.getHours();
-          // const minutos = horaActual.getMinutes();
-          // const turno = localStorage.getItem("shift");
+          const hora = horaActual.getHours();
+          const minutos = horaActual.getMinutes();
+          const turno = localStorage.getItem("shift");
           setMostrarBotonEntrada(false);
           setFotoUsuario(false);
           setFotoCapturada(null);
@@ -112,17 +112,17 @@ export const MarcarAsistencia = () => {
 
           toast.success("Entrada Marcada");
 
-          // if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
-          //   setTardanzaMañana(true);
-          // } else {
-          //   setTardanzaMañana(false);
-          // }
+          if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
+            setTardanzaMañana(true);
+          } else {
+            setTardanzaMañana(false);
+          }
 
-          // if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
-          //   setTardanzaTarde(true);
-          // } else {
-          //   setTardanzaTarde(false);
-          // }
+          if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
+            setTardanzaTarde(true);
+          } else {
+            setTardanzaTarde(false);
+          }
 
           localStorage.setItem(`entrada_${fecha}`, "true");
 
