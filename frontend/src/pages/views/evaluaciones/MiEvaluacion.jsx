@@ -75,7 +75,11 @@ export const MiEvaluacion = () => {
               <p className='text-gray-400'>Nota Final:</p>
             </div>
             <div className='flex flex-row justify-between'>
-              <p>{name}</p>
+              <p>{name
+                .toLowerCase()
+                .split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ')}</p>
               <p>15.5</p>
             </div>
           </div>
