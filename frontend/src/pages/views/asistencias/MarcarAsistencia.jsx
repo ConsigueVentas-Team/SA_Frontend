@@ -58,20 +58,11 @@ export const MarcarAsistencia = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data) {
-          // Data es vacia
-          //console.log('Data:', data);
-          //retornar error
-        } else {
-          //console.log('Attendance --> ', data.attendance[0].admission_time)
-          if (data.attendance[0].admission_time == "00:00:00") {
-            //console.log('Entrada:', data)
-            setSegundaFotoTomada(false);
-          }
-          else {
-            //console.log('Salida:', data)
-            setSegundaFotoTomada(true);
-          }
+        if (data.attendance[0].admission_time == "00:00:00") {
+          setSegundaFotoTomada(false);
+        }
+        else {
+          setSegundaFotoTomada(true);
         }
       })
       .catch((error) => {
