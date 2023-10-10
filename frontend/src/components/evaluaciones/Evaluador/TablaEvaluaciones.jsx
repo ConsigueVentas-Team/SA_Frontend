@@ -2,7 +2,6 @@ import { useState } from "react";
 import ModalConfirmacion from "./Modals/ModalConfirmacion";
 
 const TablaEvaluaciones = () => {
-    const [mostrarTabla, setMostrarTabla] = useState(false);
     const [numFilas, setNumFilas] = useState(0);
     const [mostrarModal, setMostrarModal] = useState(false);
     const [mostrarEncabezados, setMostrarEncabezados] = useState(false); // Nuevo estado
