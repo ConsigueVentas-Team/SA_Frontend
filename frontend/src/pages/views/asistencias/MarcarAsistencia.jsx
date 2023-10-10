@@ -58,10 +58,20 @@ export const MarcarAsistencia = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.attendance.admission_time == "00:00:00") {
-          setSegundaFotoTomada(false);
+        if (!data) {
+          // Data es vacia
+          //console.log('Data:', data);
+          //retornar error
         } else {
-          setSegundaFotoTomada(true);
+          //console.log('Attendance --> ', data.attendance[0].admission_time)
+          if (data.attendance[0].admission_time == "00:00:00") {
+            //console.log('Entrada:', data)
+            setSegundaFotoTomada(false);
+          }
+          else {
+            //console.log('Salida:', data)
+            setSegundaFotoTomada(true);
+          }
         }
       })
       .catch((error) => {
@@ -82,7 +92,10 @@ export const MarcarAsistencia = () => {
     const iduser = localStorage.getItem("iduser");
     const photoName = `${shift.charAt(0)}-${iduser}-${tipo === "admission" ? "e" : "s"
       }-${fecha}.jpg`;
+
     formData.append(`${tipo}_image`, fotoCapturada, photoName);
+
+    console.log(`${tipo}_image`);
 
     const tokenD = AES.decrypt(
       localStorage.getItem("token"),
@@ -91,7 +104,7 @@ export const MarcarAsistencia = () => {
 
     const token = tokenD.toString(enc.Utf8);
 
-    fetch(import.meta.env.VITE_API_URL + "/schedule/check", {
+    fetch(import.meta.env.VITE_API_URL + "/attendance/create", {
       method: "POST",
       body: formData,
       headers: {
@@ -112,17 +125,17 @@ export const MarcarAsistencia = () => {
 
           toast.success("Entrada Marcada");
 
-          // if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
-          //   setTardanzaMañana(true);
-          // } else {
-          //   setTardanzaMañana(false);
-          // }
+          if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
+            setTardanzaMañana(true);
+          } else {
+            setTardanzaMañana(false);
+          }
 
-          // if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
-          //   setTardanzaTarde(true);
-          // } else {
-          //   setTardanzaTarde(false);
-          // }
+          if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
+            setTardanzaTarde(true);
+          } else {
+            setTardanzaTarde(false);
+          }
 
           localStorage.setItem(`entrada_${fecha}`, "true");
 
