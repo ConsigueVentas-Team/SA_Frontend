@@ -53,7 +53,7 @@ export default function UserList({ filters }) {
             header: "Acciones",
             accessorKey: "acciones",
             cell: ({ row }) => (
-                <Link to={`/evaluacion/${row.original.id}`} key={row.original.id}>
+                <Link to={`/evaluacion/${row.original.id}/${row.original.name}-${row.original.surname}`} key={row.original.id}>
                     <button
                         onClick={() => (row.original.id)}
                         className="p-2 text-green-500 duration-300 ease-in-out border rounded-md border-cv-secondary hover:bg-green-500 hover:text-white active:scale-95"

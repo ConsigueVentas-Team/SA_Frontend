@@ -84,6 +84,8 @@ export const AttendanceSection = ({
 };
 
 AttendanceSection.propTypes = {
+  // 
+  cargando: PropTypes.bool.isRequired,
   horaActual: PropTypes.instanceOf(Date).isRequired,
   mostrarBotonEntrada: PropTypes.bool.isRequired,
   mostrarBotonSalida: PropTypes.bool.isRequired,

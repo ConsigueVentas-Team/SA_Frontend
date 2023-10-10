@@ -4,8 +4,10 @@ import Nota from '../../../components/evaluaciones/Evaluacion/Nota';
 import TablaEvaluaciones from '../../../components/evaluaciones/Evaluador/TablaEvaluaciones';
 import { AES, enc } from 'crypto-js';
 
-export const EvaluacionesColaborador = () => {
-  const { id, name } = useParams();
+export const MiEvaluacion = () => {
+
+    const id = localStorage.getItem("iduser");
+    const name = localStorage.getItem("name");
 
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +46,7 @@ export const EvaluacionesColaborador = () => {
           if (foundUser) {
             setUser(foundUser.user);
           } else {
-            console.error(`No se encontró un usuario con el ID ${id}.`);
+            console.error(`No se encontró un usuario con el ID.`);
           }
         } else {
           console.error("No se encontraron usuarios en la respuesta de la API.");
@@ -58,7 +60,7 @@ export const EvaluacionesColaborador = () => {
     };
 
     fetchUser();
-  }, [id]);
+  }, []);
 
   return (
     <div className='flex flex-col gap-4'>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Modal from './Modal'; 
 import BasicTable from '../../../components/evaluaciones/Evaluador/BasicTable'; 
 
