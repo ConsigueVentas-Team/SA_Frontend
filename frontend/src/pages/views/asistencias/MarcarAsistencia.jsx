@@ -58,10 +58,20 @@ export const MarcarAsistencia = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.attendance.admission_time == "00:00:00") {
-          setSegundaFotoTomada(false);
+        if (!data) {
+          // Data es vacia
+          //console.log('Data:', data);
+          //retornar error
         } else {
-          setSegundaFotoTomada(true);
+          //console.log('Attendance --> ', data.attendance[0].admission_time)
+          if (data.attendance[0].admission_time == "00:00:00") {
+            //console.log('Entrada:', data)
+            setSegundaFotoTomada(false);
+          }
+          else {
+            //console.log('Salida:', data)
+            setSegundaFotoTomada(true);
+          }
         }
       })
       .catch((error) => {
@@ -82,7 +92,10 @@ export const MarcarAsistencia = () => {
     const iduser = localStorage.getItem("iduser");
     const photoName = `${shift.charAt(0)}-${iduser}-${tipo === "admission" ? "e" : "s"
       }-${fecha}.jpg`;
+
     formData.append(`${tipo}_image`, fotoCapturada, photoName);
+
+    console.log(`${tipo}_image`);
 
     const tokenD = AES.decrypt(
       localStorage.getItem("token"),
