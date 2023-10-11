@@ -4,6 +4,12 @@ import { AES, enc } from "crypto-js";
 export const MiEvaluacion = () => {
   const id = localStorage.getItem("iduser");
   const name = localStorage.getItem("name");
+  const rol = localStorage.getItem("rol");  
+
+
+  const evaluarRol = (usuarioRol) => {
+    return rol === usuarioRol;
+  } 
 
   const [user, setUser] = useState(null);
   const [nota1, setNota1] = useState(null);
@@ -109,44 +115,12 @@ export const MiEvaluacion = () => {
         </div>
       )}
 
+      {
+        evaluarRol('Colaborador') ? (
+          <>
+          {/* 'DESEMPEÑO' Table */}
       <h2 className="text-white text-center text-xl bg-[#0e161b] py-2 rounded-tl-lg rounded-tr-lg border-b border-cv-secondary">
-        EVALUACIÓN DEL CONVENIO
-      </h2>
-
-      <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden mb-5 ">
-        <div className="w-full min-w-full overflow-x-auto scrollbar">
-          <table className="w-full text-sm text-left text-white">
-            <thead className="text-base uppercase">
-              <tr>
-                <th className="px-6 py-4 whitespace-nowrap">Mes</th>
-                <th className="px-6 py-4 whitespace-nowrap">Habilidades blandas</th>
-                <th className="px-6 py-4 whitespace-nowrap">Desempeño</th>
-                <th className="px-6 py-4 whitespace-nowrap">Autoevaluación</th>
-                <th className="px-6 py-4 whitespace-nowrap">Habilidades duras</th>
-                <th className="px-6 py-4 whitespace-nowrap">Promedio</th>
-              </tr>
-            </thead>
-            <tbody className="bg-cv-primary">
-              {monthNames.map((monthName, index) => (
-                <tr className="border-b border-cv-secondary" key={index}>
-                  <th className="px-6 py-4 whitespace-nowrap">{monthName}</th>
-                  <td className="px-6 py-4 whitespace-nowrap">{nota1}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">0.0</td>
-                  <td className="px-6 py-4 whitespace-nowrap">0.0</td>
-                  <td className="px-6 py-4 whitespace-nowrap">0.0</td>
-                  <th className="px-6 py-4 whitespace-nowrap">
-                    {calcularPromedio([nota1, 0, 0, 0])}
-                  </th>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* 'DESEMPEÑO' Table */}
-      <h2 className="text-white text-center text-xl bg-[#0e161b] py-2 rounded-tl-lg rounded-tr-lg border-b border-cv-secondary">
-        DESEMPEÑO
+        Tabla del Colaborador
       </h2>
       <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden ">
         <div className="w-full min-w-full overflow-x-auto scrollbar">
@@ -178,6 +152,47 @@ export const MiEvaluacion = () => {
           </table>
         </div>
       </div>
+          </>
+        ): (
+          <>
+                <h2 className="text-white text-center text-xl bg-[#0e161b] py-2 rounded-tl-lg rounded-tr-lg border-b border-cv-secondary">
+                  Tabla de los líderes
+                </h2>
+
+                <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden mb-5 ">
+                  <div className="w-full min-w-full overflow-x-auto scrollbar">
+                    <table className="w-full text-sm text-left text-white">
+                      <thead className="text-base uppercase">
+                        <tr>
+                          <th className="px-6 py-4 whitespace-nowrap">Mes</th>
+                          <th className="px-6 py-4 whitespace-nowrap">Habilidades blandas</th>
+                          <th className="px-6 py-4 whitespace-nowrap">Desempeño</th>
+                          <th className="px-6 py-4 whitespace-nowrap">Autoevaluación</th>
+                          <th className="px-6 py-4 whitespace-nowrap">Habilidades duras</th>
+                          <th className="px-6 py-4 whitespace-nowrap">Promedio</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-cv-primary">
+                        {monthNames.map((monthName, index) => (
+                          <tr className="border-b border-cv-secondary" key={index}>
+                            <th className="px-6 py-4 whitespace-nowrap">{monthName}</th>
+                            <td className="px-6 py-4 whitespace-nowrap">{nota1}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">0.0</td>
+                            <td className="px-6 py-4 whitespace-nowrap">0.0</td>
+                            <td className="px-6 py-4 whitespace-nowrap">0.0</td>
+                            <th className="px-6 py-4 whitespace-nowrap">
+                              {calcularPromedio([nota1, 0, 0, 0])}
+                            </th>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                </>
+        )
+      }
+      
     </div>
   );
 };
