@@ -6,6 +6,7 @@ import {
   AttendanceSection,
   CameraSection,
 } from "../../../components/asistencias/MarcarAsistencia";
+import {handleRegistroAsistencia2} from "../../../components/asistencias/helper/ApiMarcarAsistencia"
 
 export const MarcarAsistencia2 = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -177,9 +178,20 @@ export const MarcarAsistencia2 = () => {
 
   const [buttonClickedAdmission, setButtonClickedAdmission] = useState(false);
 
-  const handleButtonClickAdmission = () => {
+  const handleButtonClickAdmission = async () => {
     setButtonClickedAdmission(true);
-    handleRegistroAsistencia("admission");
+  
+    try {
+      const result = await handleRegistroAsistencia2("admission", fotoCapturada);
+      
+      if (result.error === "Sin horario") {
+        console.log("Sin horario");
+      } else {
+        console.log("Resultado:", result);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+    }
   };
 
   const [buttonClicked, setButtonClicked] = useState(false);

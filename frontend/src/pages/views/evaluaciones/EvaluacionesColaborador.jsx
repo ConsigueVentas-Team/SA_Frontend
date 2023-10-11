@@ -67,19 +67,25 @@ export const EvaluacionesColaborador = () => {
           <p className='text-gray-400'>Cargando usuario  ...</p>
         </div>
       ) : (
-          <div className='w-full rounded-lg bg-cv-primary py-4 px-8'>
-            <div className='flex flex-row justify-between'>
-              <p className='text-gray-400'>Nombre:</p>
-              <p className='text-gray-400'>Nota Final:</p>
-            </div>
-            <div className='flex flex-row justify-between'>
-              <p>{name}</p>
-              <p>15.5</p>
-            </div>
+        <div className='w-full rounded-lg bg-cv-primary py-4 px-8'>
+          <div className='flex flex-row justify-between'>
+            <p className='text-gray-400'>Nombre:</p>
+            <p className='text-gray-400'>Nota Final:</p>
           </div>
+          <div className='flex flex-row justify-between'>
+            <p>
+              {name
+                .toLowerCase()
+                .split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ')}
+            </p>
+            <p>15.5</p>
+          </div>
+        </div>
       )}
-
+  
       <TablaEvaluaciones/>
     </div>
   );
-};
+}
