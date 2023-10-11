@@ -21,12 +21,12 @@ import { Nucleo } from "./pages/views/formulario/nucleo";
 import { Departamento } from "./pages/views/formulario/departamento";
 import Formulario from "./pages/views/formulario";
 import { Area } from "./pages/views/formulario/area";
-import { EvaluacionesColaborador } from "./pages/views/evaluaciones/EvaluacionesColaborador";
 import { EvaluacionesAdmin } from "./pages/views/evaluaciones/EvaluacionesAdmin";
 import { RevisarJustificacion } from './components/justificaciones/RevisarJustificacion';
 import Reportes from './pages/views/Reportes';
 import { useEffect, useState } from 'react';
 import { MiEvaluacion } from './pages/views/evaluaciones/MiEvaluacion';
+import { GestionEvaluaciones } from './pages/views/evaluaciones/GestionEvaluaciones';
 function App() {
   const rol = localStorage.getItem("rol");
   const isLoggedIn = localStorage.getItem("login") === "true";
@@ -100,7 +100,7 @@ function App() {
                 <Route path="asistencias" element={<Asistencias />} />
                 <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
                 <Route path="evaluacion" element={<MiEvaluacion />} />
-                <Route path="evaluacion/:id/:name" element={<EvaluacionesColaborador />} />
+                <Route path="evaluacion/:id/:name" element={<GestionEvaluaciones />} />
                 <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
                 <Route path="empresa" element={<Formulario />} />
                 <Route path="empresa/departamento" element={<Departamento />} />
@@ -117,7 +117,7 @@ function App() {
                 <Route path="asistencias" element={<Asistencias />} />
                 <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
                 <Route path="evaluacion" element={<MiEvaluacion />} />
-                <Route path="evaluacion/:id/:name" element={<EvaluacionesColaborador />} />
+                <Route path="evaluacion/:id/:name" element={<GestionEvaluaciones />} />
                 <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
                 <Route path="empresa" element={<Formulario />} />
                 <Route path="empresa/departamento" element={<Departamento />} />
@@ -133,7 +133,7 @@ function App() {
                 <Route path="asistencias" element={<Asistencias />} />
                 <Route path="/colaborador/:id/perfil" element={<PerfilColaborador />} />
                 <Route path="evaluacion" element={<MiEvaluacion />} />
-                <Route path="evaluacion/:id/:name" element={<EvaluacionesColaborador />} />
+                <Route path="evaluacion/:id/:name" element={<GestionEvaluaciones />} />
                 <Route path="evaluaciones" element={<EvaluacionesAdmin />} />
                 <Route path="empresa" element={<Formulario />} />
                 <Route path="empresa/departamento" element={<Departamento />} />

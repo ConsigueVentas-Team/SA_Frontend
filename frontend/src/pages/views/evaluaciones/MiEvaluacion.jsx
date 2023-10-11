@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import Nota from "../../../components/evaluaciones/Evaluacion/Nota";
-import TablaEvaluaciones from "../../../components/evaluaciones/Evaluador/TablaEvaluaciones";
 import { AES, enc } from "crypto-js";
 
 export const MiEvaluacion = () => {
@@ -102,18 +99,18 @@ export const MiEvaluacion = () => {
       ) : (
         <div className="w-full rounded-lg bg-cv-primary py-4 px-8 mb-4">
           <div className="flex flex-row justify-between">
-            <p className="text-white">Nombre:</p>
-            <p className="text-white">Nota Final:</p>
+            <p className="text-gray-400 font-medium">Nombre:</p>
+            <p className="text-gray-400 font-medium">Nota Final:</p>
           </div>
           <div className="flex flex-row justify-between">
-            <p className="text-white">{name}</p>
-            <p className="text-white">15.5</p>
+            <p className="text-white font-medium">{name}</p>
+            <p className="text-white font-medium">15.5</p>
           </div>
         </div>
       )}
 
       <h2 className="text-white text-center text-xl bg-[#0e161b] py-2 rounded-tl-lg rounded-tr-lg border-b border-cv-secondary">
-        HABILIDADES BLANDAS
+        EVALUACIÓN DEL CONVENIO
       </h2>
 
       <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden mb-5 ">
@@ -122,10 +119,10 @@ export const MiEvaluacion = () => {
             <thead className="text-base uppercase">
               <tr>
                 <th className="px-6 py-4 whitespace-nowrap">Mes</th>
-                <th className="px-6 py-4 whitespace-nowrap">Nota 1</th>
-                <th className="px-6 py-4 whitespace-nowrap">Nota 2</th>
-                <th className="px-6 py-4 whitespace-nowrap">Nota 3</th>
-                <th className="px-6 py-4 whitespace-nowrap">Nota 4</th>
+                <th className="px-6 py-4 whitespace-nowrap">Habilidades blandas</th>
+                <th className="px-6 py-4 whitespace-nowrap">Desempeño</th>
+                <th className="px-6 py-4 whitespace-nowrap">Autoevaluación</th>
+                <th className="px-6 py-4 whitespace-nowrap">Habilidades duras</th>
                 <th className="px-6 py-4 whitespace-nowrap">Promedio</th>
               </tr>
             </thead>
