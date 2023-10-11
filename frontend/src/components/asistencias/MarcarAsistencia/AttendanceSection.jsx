@@ -53,7 +53,7 @@ export const AttendanceSection = ({
             </div>
           ) : (
             <button
-              className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12"
+              className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4 ml-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12"
               onClick={handleButtonClick}
               disabled={buttonClicked}
             >

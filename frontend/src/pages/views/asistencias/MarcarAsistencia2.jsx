@@ -6,8 +6,9 @@ import {
   AttendanceSection,
   CameraSection,
 } from "../../../components/asistencias/MarcarAsistencia";
+import {handleRegistroAsistencia2} from "../../../components/asistencias/helper/ApiMarcarAsistencia"
 
-export const MarcarAsistencia = () => {
+export const MarcarAsistencia2 = () => {
   const [horaActual, setHoraActual] = useState(new Date());
   const [mostrarBotonEntrada, setMostrarBotonEntrada] = useState(false);
   const [mostrarBotonSalida, setMostrarBotonSalida] = useState(false);
@@ -30,7 +31,6 @@ export const MarcarAsistencia = () => {
     }, 1000);
 
     const fecha = new Date().toISOString().slice(0, 10);
-    // comprobar si ya se marcó la entrada y la salida (true o false)
     const entradaMarcadaLocal = localStorage.getItem(`entrada_${fecha}`);
     const salidaMarcadaLocal = localStorage.getItem(`salida_${fecha}`);
 
@@ -58,10 +58,9 @@ export const MarcarAsistencia = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.attendance[0].admission_time == "00:00:00") {
+        if (data.attendance.admission_time == "00:00:00") {
           setSegundaFotoTomada(false);
-        }
-        else {
+        } else {
           setSegundaFotoTomada(true);
         }
       })
@@ -75,75 +74,7 @@ export const MarcarAsistencia = () => {
   }, []);
 
   const handleRegistroAsistencia = (tipo) => {
-    setCargando(true);
-    const fecha = new Date().toISOString().slice(0, 10);
 
-    const formData = new FormData();
-    const shift = localStorage.getItem("shift");
-    const iduser = localStorage.getItem("iduser");
-    const photoName = `${shift.charAt(0)}-${iduser}-${tipo === "admission" ? "e" : "s"
-      }-${fecha}.jpg`;
-
-    formData.append(`${tipo}_image`, fotoCapturada, photoName);
-
-    console.log(`${tipo}_image`);
-
-    const tokenD = AES.decrypt(
-      localStorage.getItem("token"),
-      import.meta.env.VITE_TOKEN_KEY
-    );
-
-    const token = tokenD.toString(enc.Utf8);
-
-    fetch(import.meta.env.VITE_API_URL + "/attendance/create", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (tipo === "admission") {
-          const hora = horaActual.getHours();
-          const minutos = horaActual.getMinutes();
-          const turno = localStorage.getItem("shift");
-          setMostrarBotonEntrada(false);
-          setFotoUsuario(false);
-          setFotoCapturada(null);
-          setMostrarBotonCamara(true);
-          setVideoEnabled(false);
-
-          toast.success("Entrada Marcada");
-
-          if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
-            setTardanzaMañana(true);
-          } else {
-            setTardanzaMañana(false);
-          }
-
-          if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
-            setTardanzaTarde(true);
-          } else {
-            setTardanzaTarde(false);
-          }
-
-          localStorage.setItem(`entrada_${fecha}`, "true");
-
-        } else {
-          setMostrarBotonSalida(false);
-          setMostrarBotonCamara(false);
-          setFotoUsuario(false);
-          setFotoCapturada(null);
-          setVideoEnabled(false);
-          setCameraStream(null);
-          toast.success("Salida Marcada");
-          localStorage.setItem(`salida_${fecha}`, "true");
-        }
-      })
-      .catch((error) => {
-        console.error("Error al enviar la solicitud:", error);
-      });
   };
 
   const verificarHorario = () => { };
@@ -156,18 +87,7 @@ export const MarcarAsistencia = () => {
     setCapturing(false);
   };
 
-  // const startCamera = () => {
-  //   navigator.mediaDevices
-  //     .getUserMedia({ video: true })
-  //     .then((stream) => {
-  //       setCameraStream(stream);
-  //       videoRef.current.srcObject = stream;
-  //       videoRef.current.style.transform = "scaleX(-1)";
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error accessing camera:", error);
-  //     });
-  // };
+
 
   const startCamera = () => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -181,7 +101,6 @@ export const MarcarAsistencia = () => {
         })
         .catch((error) => {
           console.error("Error al acceder a la cámara:", error);
-          toast.error('No se puede acceder a la cámara. Por favor verifica los permisos.');
           if (cameraStream) {
             cameraStream.getTracks().forEach((track) => {
               track.stop();
@@ -231,10 +150,7 @@ export const MarcarAsistencia = () => {
             setMostrarBotonCamara(false);
             setSegundaFotoTomada(true);
             setCargando(false);
-          } else {
             setMostrarBotonSalida(true);
-            setMostrarBotonCamara(false);
-            setCargando(false);
           }
 
           stopCamera();
@@ -262,9 +178,20 @@ export const MarcarAsistencia = () => {
 
   const [buttonClickedAdmission, setButtonClickedAdmission] = useState(false);
 
-  const handleButtonClickAdmission = () => {
+  const handleButtonClickAdmission = async () => {
     setButtonClickedAdmission(true);
-    handleRegistroAsistencia("admission");
+  
+    try {
+      const result = await handleRegistroAsistencia2("admission", fotoCapturada);
+      
+      if (result.error === "Sin horario") {
+        console.log("Sin horario");
+      } else {
+        console.log("Resultado:", result);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+    }
   };
 
   const [buttonClicked, setButtonClicked] = useState(false);

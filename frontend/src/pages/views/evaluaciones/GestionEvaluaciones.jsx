@@ -4,7 +4,7 @@ import Nota from '../../../components/evaluaciones/Evaluacion/Nota';
 import TablaEvaluaciones from '../../../components/evaluaciones/Evaluador/TablaEvaluaciones';
 import { AES, enc } from 'crypto-js';
 
-export const EvaluacionesColaborador = () => {
+export const GestionEvaluaciones = () => {
   const { id, name } = useParams();
 
   const [user, setUser] = useState(null);
@@ -38,8 +38,9 @@ export const EvaluacionesColaborador = () => {
         const data = await response.json();
         
         if (data && data.length > 0) {
-          const foundUser = data.find(item => item.user && item.user.id === parseInt(id));
+          const foundUser = data.filter(item => item.user_id === parseInt(id));
 
+          // console.log(foundUser)
 
           if (foundUser) {
             setUser(foundUser.user);
@@ -57,6 +58,8 @@ export const EvaluacionesColaborador = () => {
       }
     };
 
+   
+
     fetchUser();
   }, [id]);
 
@@ -73,13 +76,17 @@ export const EvaluacionesColaborador = () => {
               <p className='text-gray-400'>Nota Final:</p>
             </div>
             <div className='flex flex-row justify-between'>
-              <p>{name}</p>
+              <p>{name
+                .toLowerCase()
+                .split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ')}</p>
               <p>15.5</p>
             </div>
           </div>
       )}
-
+  
       <TablaEvaluaciones/>
     </div>
   );
-};
+}
