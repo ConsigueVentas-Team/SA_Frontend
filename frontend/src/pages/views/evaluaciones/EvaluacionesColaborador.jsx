@@ -85,8 +85,8 @@ export const EvaluacionesColaborador = () => {
             </div>
           </div>
       )}
-
+  
       <TablaEvaluaciones/>
     </div>
   );
-};
+}
