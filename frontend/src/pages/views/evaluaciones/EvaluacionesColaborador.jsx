@@ -38,8 +38,9 @@ export const EvaluacionesColaborador = () => {
         const data = await response.json();
         
         if (data && data.length > 0) {
-          const foundUser = data.find(item => item.user && item.user.id === parseInt(id));
+          const foundUser = data.filter(item => item.user_id === parseInt(id));
 
+          // console.log(foundUser)
 
           if (foundUser) {
             setUser(foundUser.user);
@@ -56,6 +57,8 @@ export const EvaluacionesColaborador = () => {
         setIsLoading(false);
       }
     };
+
+   
 
     fetchUser();
   }, [id]);

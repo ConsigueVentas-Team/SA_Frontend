@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import Nota from '../../../components/evaluaciones/Evaluacion/Nota';
+// import Nota from '../../../components/evaluaciones/Evaluacion/Nota';
 import TablaEvaluaciones from '../../../components/evaluaciones/Evaluador/TablaEvaluaciones';
 import { AES, enc } from 'crypto-js';
 
