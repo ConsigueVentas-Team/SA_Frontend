@@ -65,7 +65,7 @@ const TablaEvaluaciones = ({ rol }) => {
     }
     return filas;
   };
-
+  /// comentando
   return (
     <div>
       <ModalConfirmacion
@@ -113,6 +113,7 @@ const TablaEvaluaciones = ({ rol }) => {
           </tr>
         </tbody>
       </table>
+      
     </div>
   );
 };
