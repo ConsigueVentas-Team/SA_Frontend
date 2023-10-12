@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import TablaEvaluaciones from '../../../components/evaluaciones/Evaluador/TablaEvaluaciones';
-import { AES, enc } from 'crypto-js';
-=======
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Nota from "../../../components/evaluaciones/Evaluacion/Nota";
 import TablaEvaluaciones from "../../../components/evaluaciones/Evaluador/TablaEvaluaciones";
 import { AES, enc } from "crypto-js";
->>>>>>> c6713d78938e3f2e46069b09f4dd205311bdf38a
 
 export const GestionEvaluaciones = () => {
   const { id, name } = useParams();
