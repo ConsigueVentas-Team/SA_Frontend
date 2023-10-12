@@ -49,23 +49,6 @@ const TablaEvaluaciones = ({ rol }) => {
   const botonClase = "uppercase";
   const celdaClase = "px-6 py-4 whitespace-nowrap";
 
-  const renderFilasDeHabilidades = (numFilas, numColumnas, mes) => {
-    const filas = [];
-    for (let i = 0; i < numFilas; i++) {
-      const celdas = [];
-      for (let j = 0; j < numColumnas; j++) {
-        celdas.push(<td key={j} className={celdaClase}></td>);
-      }
-      filas.push(
-        <tr key={i} className={filaClase}>
-          <td className={celdaClase}>{mes}</td>
-          {celdas}
-        </tr>
-      );
-    }
-    return filas;
-  };
-
   return (
     <div>
       <ModalConfirmacion
@@ -90,20 +73,41 @@ const TablaEvaluaciones = ({ rol }) => {
           {mostrarEncabezados && (
             <tr className={`${filaClase} bg-[#0e161b]`}>
               <td className={celdaClase}>MES</td>
-              <td className={celdaClase}>HABILIDAD 1</td>
-              <td className={celdaClase}>HABILIDAD 2</td>
+              {rol === "Colaborador" && (
+                <td className={celdaClase}>HABILIDAD 1</td>
+              )}
+              {rol === "Colaborador" && (
+                <td className={celdaClase}>HABILIDAD 2</td>
+              )}
               {rol === "Colaborador" && (
                 <td className={celdaClase}>HABILIDAD 3</td>
+              )}
+              {!(rol === "Colaborador") && (
+                <td className={celdaClase}>HABILIDAD</td>
               )}
               <td className={celdaClase}>PROMEDIO</td>
             </tr>
           )}
 
-          {renderFilasDeHabilidades(
-            numFilas,
-            (rol === "Lider Nucleo" || rol === "Gerencia") ? 3 : 4,
-            mesActual
+          {numFilas > 0 && (
+            <tr className={filaClase}>
+              <td className={celdaClase}>{mesActual}</td>
+              {rol === "Colaborador" && (
+                <td className={celdaClase}></td>
+              )}
+              {rol === "Colaborador" && (
+                <td className={celdaClase}></td>
+              )}
+              {rol === "Colaborador" && (
+                <td className={celdaClase}></td>
+              )}
+              {!(rol === "Colaborador") && (
+                <td className={celdaClase}></td>
+              )}
+              <td className={celdaClase}></td>
+            </tr>
           )}
+
           <tr className={filaClase}>
             <td
               colSpan={rol === "Lider Nucleo" || rol === "Gerencia" ? 5 : 6}
