@@ -43,7 +43,7 @@ const TablaEvaluaciones = ({ rol }) => {
     setMostrarModal(false);
   };
 
-  const tablaClase = "w-full text-sm text-center text-white";
+  const tablaClase = "w-full text-sm text-center text-white rounded-lg";
   const encabezadosClase = "px-6 py-4 whitespace-nowrap text-base uppercase";
   const filaClase = "border-b border-cv-secondary ";
   const botonClase = "uppercase";
@@ -65,7 +65,7 @@ const TablaEvaluaciones = ({ rol }) => {
     }
     return filas;
   };
-  /// comentando
+
   return (
     <div>
       <ModalConfirmacion
@@ -77,10 +77,10 @@ const TablaEvaluaciones = ({ rol }) => {
         <thead>
           <tr>
             <th
-              colSpan={rol == "Lider Nucleo" ? 5 : 6}
+              colSpan={rol === "Lider Nucleo" || rol === "Gerencia" ? 5 : 6}
               className={encabezadosClase}
             >
-              {rol == "Lider Nucleo"
+              {rol === "Lider Nucleo" || rol === "Gerencia"
                 ? "EVALUACIONES LIDER"
                 : "EVALUACIONES COLABORADOR"}
             </th>
@@ -101,11 +101,14 @@ const TablaEvaluaciones = ({ rol }) => {
 
           {renderFilasDeHabilidades(
             numFilas,
-            rol == "Lider Nucleo" ? 3 : 4,
+            (rol === "Lider Nucleo" || rol === "Gerencia") ? 3 : 4,
             mesActual
           )}
           <tr className={filaClase}>
-            <td colSpan={rol == "Lider Nucleo" ? 5 : 6} className={celdaClase}>
+            <td
+              colSpan={rol === "Lider Nucleo" || rol === "Gerencia" ? 5 : 6}
+              className={celdaClase}
+            >
               <button className={botonClase} onClick={agregarFila}>
                 Agregar Evaluación +
               </button>
@@ -113,7 +116,6 @@ const TablaEvaluaciones = ({ rol }) => {
           </tr>
         </tbody>
       </table>
-      
     </div>
   );
 };
