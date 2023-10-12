@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Nota from "../../../components/evaluaciones/Evaluacion/Nota";
 import TablaEvaluaciones from "../../../components/evaluaciones/Evaluador/TablaEvaluaciones";
 import { AES, enc } from "crypto-js";
+import Modal from "../../views/evaluaciones/Modal";
 
 export const GestionEvaluaciones = () => {
   const { id, name } = useParams();
@@ -11,6 +12,17 @@ export const GestionEvaluaciones = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [rol, setRol] = useState(null);
 
+  //
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  //
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -66,7 +78,7 @@ export const GestionEvaluaciones = () => {
         const apiUrl = import.meta.env.VITE_API_URL;
         const tokenKey = import.meta.env.VITE_TOKEN_KEY;
 
-        const url = new URL(`${apiUrl}/users/${id}`); 
+        const url = new URL(`${apiUrl}/users/${id}`);
 
         const tokenD = AES.decrypt(localStorage.getItem("token"), tokenKey);
         const token = tokenD.toString(enc.Utf8);
@@ -99,31 +111,36 @@ export const GestionEvaluaciones = () => {
   }, [id]);
 
   return (
-    <div className="flex flex-col gap-4">
-      {isLoading ? (
-        <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
-          <p className="text-gray-400">Cargando usuario ...</p>
-        </div>
-      ) : (
-        <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
-          <div className="flex flex-row justify-between">
-            <p className="text-gray-400">Nombre:</p>
-            <p className="text-gray-400">Nota Final:</p>
+    <>
+      <button onClick={handleOpenModal}>Abrir Modal</button>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <div className="flex flex-col gap-4">
+        {isLoading ? (
+          <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
+            <p className="text-gray-400">Cargando usuario ...</p>
           </div>
-          <div className="flex flex-row justify-between">
-            <p>
-              {name
-                .toLowerCase()
-                .split("-")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ")}{id}
-            </p>
-            <p>15.5</p>
+        ) : (
+          <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
+            <div className="flex flex-row justify-between">
+              <p className="text-gray-400">Nombre:</p>
+              <p className="text-gray-400">Nota Final:</p>
+            </div>
+            <div className="flex flex-row justify-between">
+              <p>
+                {name
+                  .toLowerCase()
+                  .split("-")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")}
+                {id}
+              </p>
+              <p>15.5</p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-<TablaEvaluaciones rol={rol} id={id} />
-    </div>
+        <TablaEvaluaciones rol={rol} id={id} />
+      </div>
+    </>
   );
 };
