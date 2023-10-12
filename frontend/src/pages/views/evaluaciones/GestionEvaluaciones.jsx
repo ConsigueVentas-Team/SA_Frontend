@@ -116,14 +116,14 @@ export const GestionEvaluaciones = () => {
                 .toLowerCase()
                 .split("-")
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ")}
+                .join(" ")}{id}
             </p>
             <p>15.5</p>
           </div>
         </div>
       )}
 
-      <TablaEvaluaciones rol={rol} />
+<TablaEvaluaciones rol={rol} id={id} />
     </div>
   );
 };
