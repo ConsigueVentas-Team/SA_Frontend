@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Nota from "../../../components/evaluaciones/Evaluacion/Nota";
 import TablaEvaluaciones from "../../../components/evaluaciones/Evaluador/TablaEvaluaciones";
@@ -12,7 +12,6 @@ export const GestionEvaluaciones = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [rol, setRol] = useState(null);
 
-  //
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -22,7 +21,7 @@ export const GestionEvaluaciones = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  //
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -56,9 +55,7 @@ export const GestionEvaluaciones = () => {
             console.error(`No se encontró un usuario con el ID ${id}.`);
           }
         } else {
-          console.error(
-            "No se encontraron usuarios en la respuesta de la API."
-          );
+          console.error("No se encontraron usuarios en la respuesta de la API.");
         }
 
         setIsLoading(false);
@@ -71,7 +68,6 @@ export const GestionEvaluaciones = () => {
     fetchUser();
   }, [id]);
 
-  // usuarioo
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -91,7 +87,7 @@ export const GestionEvaluaciones = () => {
         });
 
         if (!response.ok) {
-          throw new Error(
+          throw Error(
             `Error al obtener datos del usuario: ${response.status}`
           );
         }
@@ -113,7 +109,7 @@ export const GestionEvaluaciones = () => {
   return (
     <>
       <button onClick={handleOpenModal}>Abrir Modal</button>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={11} />
       <div className="flex flex-col gap-4">
         {isLoading ? (
           <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
@@ -121,7 +117,7 @@ export const GestionEvaluaciones = () => {
           </div>
         ) : (
           <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row justify between">
               <p className="text-gray-400">Nombre:</p>
               <p className="text-gray-400">Nota Final:</p>
             </div>
@@ -132,7 +128,6 @@ export const GestionEvaluaciones = () => {
                   .split("-")
                   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                   .join(" ")}
-                {id}
               </p>
               <p>15.5</p>
             </div>
