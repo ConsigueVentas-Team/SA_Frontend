@@ -9,7 +9,6 @@ export const Cumpleaños = () => {
 	const [month, setMonth] = useState(new Date().toLocaleString('es-ES', { month: 'long' }).toUpperCase());
 	// const [selectedDay, setSelectedDay] = useState('')
 
-
 	const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_TOKEN_KEY)
 	const token = tokenD.toString(enc.Utf8)
 
