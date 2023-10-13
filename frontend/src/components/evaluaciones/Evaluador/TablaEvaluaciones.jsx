@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import ModalConfirmacion from "./Modals/ModalConfirmacion";
+import { AES, enc } from "crypto-js";
 
-const TablaEvaluaciones = ({ rol }) => {
+const TablaEvaluaciones = ({ rol,id}) => {
   const [numFilas, setNumFilas] = useState(0);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarEncabezados, setMostrarEncabezados] = useState(false);
@@ -31,11 +32,41 @@ const TablaEvaluaciones = ({ rol }) => {
     setMostrarModal(true);
   };
 
-  const confirmarAgregarFila = () => {
+  const confirmarAgregarFila = async () => {
     setNumFilas(numFilas + 1);
     setMostrarModal(false);
     if (numFilas === 0) {
       setMostrarEncabezados(true);
+    }
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const tokenKey = import.meta.env.VITE_TOKEN_KEY;
+
+      const url = new URL(`${apiUrl}/evaluation/create`);
+
+      const tokenD = AES.decrypt(localStorage.getItem("token"), tokenKey);
+      const token = tokenD.toString(enc.Utf8);
+
+      const data = {
+        user_id: id,
+      };
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error al agregar evaluación: ${response.status}`);
+      }
+
+    } catch (error) {
+      console.error("Error al agregar la evaluación:", error.message);
     }
   };
 
@@ -109,9 +140,9 @@ const TablaEvaluaciones = ({ rol }) => {
               colSpan={rol === "Lider Nucleo" || rol === "Gerencia" ? 5 : 6}
               className={celdaClase}
             >
-              <button className={botonClase} onClick={agregarFila}>
-                Agregar Evaluación +
-              </button>
+          <button className="uppercase" onClick={agregarFila}>
+            Agregar Evaluación +
+          </button>
             </td>
           </tr>
         </tbody>
