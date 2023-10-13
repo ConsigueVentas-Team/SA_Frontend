@@ -12,10 +12,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import SearchBar from "./SearchBar";
 import PaginationControls from "./PaginationControls";
 import { useUserApi } from "../hooks/UserApi";
+import Loading from "../../essentials/Loading";
 
 export default function UserList({ filters }) {
   const [globalFilter, setGlobalFilter] = useState("");
   const { users, isLoading } = useUserApi(filters);
+
 
   const dataFinal = useMemo(() => users, [users]);
   const columns = [
@@ -85,17 +87,21 @@ export default function UserList({ filters }) {
 
   return (
     <div className="p-2 max-w-5xl- mx-auto">
-      <div className="justify-between mb-2">
-        <SearchBar
-          value={globalFilter ?? ""}
-          onChange={(value) => setGlobalFilter(String(value))}
-          placeholder="Buscar por"
-          className="rounded-md border border-solid border-cv-primary bg-transparent p-2 text-cv-cyan outline-none w-full md:w-full lg:w-[40%] xl:w-[30%]"
-        />
-      </div>
       {isLoading ? (
-        <div className="text-center">Cargando...</div>
+        // Muestra el componente Loading solo mientras isLoading es true
+        <Loading />
       ) : (
+        <div className="justify-between mb-2">
+          <SearchBar
+            value={globalFilter ?? ""}
+            onChange={(value) => setGlobalFilter(String(value))}
+            placeholder="Buscar por"
+            className="rounded-md border border-solid border-cv-primary bg-transparent p-2 text-cv-cyan outline-none w-full md:w-full lg:w-[40%] xl:w-[30%]"
+          />
+        </div>
+      )}
+
+      {!isLoading && (
         <div className="w-full bg-[#0e161b] shadow-md rounded-t overflow-hidden overflow-x-auto scrollbar">
           <table className="w-full text-sm text-center text-white">
             <thead>
@@ -132,7 +138,8 @@ export default function UserList({ filters }) {
           </table>
         </div>
       )}
-      <PaginationControls table={table} />
+
+      {!isLoading && <PaginationControls table={table} />}
     </div>
   );
 }
