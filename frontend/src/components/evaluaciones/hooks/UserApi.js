@@ -6,44 +6,61 @@ export function useUserApi(filters) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const obtenerUsuarios = async (page) => {
+        const obtenerUsuarios = async () => {
             setIsLoading(true);
             try {
-                const url = new URL(import.meta.env.VITE_API_URL + "/users");
-                url.searchParams.append("page", page);
+                let allUsers = [];
+                let page = 1;
 
-                for (const [key, value] of Object.entries(filters)) {
-                    if (value) url.searchParams.append(key, value);
+                while (true) {
+                    const url = new URL(import.meta.env.VITE_API_URL + "/users");
+
+                    // Agregar los filtros
+                    for (const [key, value] of Object.entries(filters)) {
+                        if (value) url.searchParams.append(key, value);
+                    }
+
+                    url.searchParams.append("page", page);
+
+                    const tokenD = AES.decrypt(
+                        localStorage.getItem("token"),
+                        import.meta.env.VITE_TOKEN_KEY
+                    );
+                    const token = tokenD.toString(enc.Utf8);
+
+                    const response = await fetch(url, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    const data = await response.json();
+                    if (response.ok) {
+                        allUsers = allUsers.concat(data.data);
+
+                        // Si no hay más resultados, salir del bucle
+                        if (data.data.length < 1) {
+                            break;
+                        }
+
+                        page++;
+                    } else {
+                        console.error("Error al obtener los usuarios:", data.error);
+                        setIsLoading(false);
+                        return;
+                    }
                 }
 
-                const tokenD = AES.decrypt(
-                    localStorage.getItem("token"),
-                    import.meta.env.VITE_TOKEN_KEY
-                );
-                const token = tokenD.toString(enc.Utf8);
-
-                const response = await fetch(url, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                const data = await response.json();
-                if (response.ok) {
-                    setUsers(data.data);
-                    setIsLoading(false);
-                } else {
-                    console.error("Error al obtener los usuarios:", data.error);
-                    setIsLoading(false);
-                }
+                setUsers(allUsers);
+                setIsLoading(false);
             } catch (error) {
                 console.error("Error al obtener los usuarios:", error);
                 setIsLoading(false);
             }
         };
 
-        obtenerUsuarios(0);
+        obtenerUsuarios();
     }, [filters]);
 
     return { users, isLoading };
