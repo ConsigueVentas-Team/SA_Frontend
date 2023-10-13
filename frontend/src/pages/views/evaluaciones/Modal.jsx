@@ -1,17 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { AES, enc } from "crypto-js";
 
-const Modal = ({ isOpen, onClose }) => {
-  const [notas, setNotas] = useState([null, null, null, null]);
+const Modal = ({ isOpen, onClose, idd }) => {
+  const [softskills, setSoftskills] = useState("");
+  const [performance, setPerformance] = useState("");
+  const [autoevaluation, setAutoevaluation] = useState("");
+  const [hardskills, setHardskills] = useState("");
+  const [error, setError] = useState(null);
 
-  const handleGuardar = () => {
-    // Calculate the average of the notes
-    const sum = notas.reduce((acc, nota) => (nota !== null ? acc + nota : acc), 0);
-    const validNotes = notas.filter((nota) => nota !== null).length;
-    const promedioCalculado = validNotes === 0 ? null : sum / validNotes;
+  const handleGuardar = async () => {
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const tokenKey = import.meta.env.VITE_TOKEN_KEY;
 
-    // Set the average in the state
-    setNotas(notas);
-    onClose();
+      const url = new URL(`${apiUrl}/evaluation/notes/${idd}`);
+
+      const tokenD = AES.decrypt(localStorage.getItem("token"), tokenKey);
+      const token = tokenD.toString(enc.Utf8);
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          softskills,
+          performance,
+          autoevaluation,
+          hardskills,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error al guardar los datos: ${response.status}`);
+      }
+
+      onClose();
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -24,27 +52,75 @@ const Modal = ({ isOpen, onClose }) => {
         <h2 className="text-xl font-bold text-center mb-4">HABILIDADES BLANDAS</h2>
         <h4 className="text-1xl font-bold text-center mb-4 text-gray-600">SETIEMBRE</h4>
 
-        {notas.map((nota, index) => (
-          <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4" key={index}>
-            <div className="flex items-center mb-4">
-              <label className="w-1/4 text-black">Nota {index + 1}:</label>
-              <input
-                type="number"
-                placeholder={`Nota ${index + 1}`}
-                value={nota !== null ? nota : ""}
-                onChange={(e) => {
-                  const newNotas = [...notas];
-                  newNotas[index] = e.target.value === "" ? null : parseFloat(e.target.value);
-                  setNotas(newNotas);
-                }}
-                className="w-3/4 rounded p-2 ml-2 border border-gray-300"
-              />
-            </div>
+        <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4">
+          <div className="flex items-center mb-4">
+            <label className="w-1/4 text-black">ID:</label>
+            <input
+              type="text"
+              placeholder="ID"
+              value={idd}
+              readOnly
+              className="w-3/4 rounded p-2 ml-2 border border-gray-300"
+            />
           </div>
-        ))}
+        </div>
+
+        <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4">
+          <div className="flex items-center mb-4">
+            <label className="w-1/4 text-black">Nota 1:</label>
+            <input
+              type="number"
+              placeholder="Nota 1"
+              value={softskills}
+              onChange={(e) => setSoftskills(e.target.value)}
+              className="w-3/4 rounded p-2 ml-2 border border-gray-300"
+            />
+          </div>
+        </div>
+
+        <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4">
+          <div className="flex items-center mb-4">
+            <label className="w-1/4 text-black">Nota 2:</label>
+            <input
+              type="number"
+              placeholder="Nota 2"
+              value={performance}
+              onChange={(e) => setPerformance(e.target.value)}
+              className="w-3/4 rounded p-2 ml-2 border border-gray-300"
+            />
+          </div>
+        </div>
+
+        <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4">
+          <div className="flex items-center mb-4">
+            <label className="w-1/4 text-black">Nota 3:</label>
+            <input
+              type="number"
+              placeholder="Nota 3"
+              value={autoevaluation}
+              onChange={(e) => setAutoevaluation(e.target.value)}
+              className="w-3/4 rounded p-2 ml-2 border border-gray-300"
+            />
+          </div>
+        </div>
+
+        <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4">
+          <div className="flex items-center mb-4">
+            <label className="w-1/4 text-black">Nota 4:</label>
+            <input
+              type="number"
+              placeholder="Nota 4"
+              value={hardskills}
+              onChange={(e) => setHardskills(e.target.value)}
+              className="w-3/4 rounded p-2 ml-2 border border-gray-300"
+            />
+          </div>
+        </div>
+
+        {error && <p className="text-red-500">{error}</p>}
 
         <p className="text-black text-right mb-4">
-          Promedio: {notas.every((nota) => nota !== null) ? (notas.reduce((acc, nota) => acc + nota, 0) / 4).toFixed(2) : "N/A"}
+          Promedio: {((parseFloat(softskills) + parseFloat(performance) + parseFloat(autoevaluation) + parseFloat(hardskills)) / 4).toFixed(2)}
         </p>
         <hr className="my-4 border-t border-gray-400" />
         <div className="flex justify-between">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import TablaEvaluaciones from "../../../components/evaluaciones/Evaluador/TablaEvaluaciones";
 import { AES, enc } from "crypto-js";
@@ -11,7 +11,6 @@ export const GestionEvaluaciones = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [rol, setRol] = useState(null);
 
-  //
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -21,7 +20,7 @@ export const GestionEvaluaciones = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  //
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -62,7 +61,6 @@ export const GestionEvaluaciones = () => {
     fetchUser();
   }, [id]);
 
-  // usuarioo
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -82,7 +80,7 @@ export const GestionEvaluaciones = () => {
         });
 
         if (!response.ok) {
-          throw new Error(
+          throw Error(
             `Error al obtener datos del usuario: ${response.status}`
           );
         }
@@ -104,7 +102,7 @@ export const GestionEvaluaciones = () => {
   return (
     <>
       <button onClick={handleOpenModal}>Abrir Modal</button>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={11} />
       <div className="flex flex-col gap-4">
 
         {isLoading ? (

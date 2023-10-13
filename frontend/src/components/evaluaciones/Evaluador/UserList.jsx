@@ -19,7 +19,9 @@ export default function UserList({ filters }) {
   const { users, isLoading } = useUserApi(filters);
 
 
-  const dataFinal = useMemo(() => users, [users]);
+  const filteredUsers = useMemo(() => users.filter(user => user.status === true), [users]);
+
+  const dataFinal = useMemo(() => filteredUsers, [filteredUsers]);
   const columns = [
     {
       header: "Nombre",
@@ -50,10 +52,7 @@ export default function UserList({ filters }) {
         <span>{row.original.position[0].core.department.name}</span>
       ),
     },
-    {
-      header: "Estado",
-      accessorKey: "estado",
-    },
+
     {
       header: "Acciones",
       accessorKey: "acciones",
