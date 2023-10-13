@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AES, enc } from "crypto-js";
+import Loading from "../../../components/essentials/Loading";
 
 export const MiEvaluacion = () => {
   const id = localStorage.getItem("iduser");
@@ -111,9 +112,7 @@ export const MiEvaluacion = () => {
   return (
     <div className="flex flex-col gap-0">
       {isLoading ? (
-        <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
-          <p className="text-gray-400">Cargando usuario ...</p>
-        </div>
+        <Loading />
       ) : (
         <div className="w-full rounded-lg bg-cv-primary py-4 px-8 mb-4">
           <div className="flex flex-row justify-between">
@@ -218,4 +217,4 @@ export const MiEvaluacion = () => {
       
     </div>
   );
-};
+}
