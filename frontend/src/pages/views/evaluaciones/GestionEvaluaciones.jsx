@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Nota from "../../../components/evaluaciones/Evaluacion/Nota";
 import TablaEvaluaciones from "../../../components/evaluaciones/Evaluador/TablaEvaluaciones";
 import { AES, enc } from "crypto-js";
 import Modal from "../../views/evaluaciones/Modal";
 
 export const GestionEvaluaciones = () => {
   const { id, name } = useParams();
-
+ const [idd, setIdd] = useState(null);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [rol, setRol] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -51,6 +51,7 @@ export const GestionEvaluaciones = () => {
 
           if (foundUser) {
             setUser(foundUser.user);
+            setIdd(foundUser.id);  
           } else {
             console.error(`No se encontró un usuario con el ID ${id}.`);
           }
@@ -66,7 +67,7 @@ export const GestionEvaluaciones = () => {
     };
 
     fetchUser();
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -94,6 +95,7 @@ export const GestionEvaluaciones = () => {
 
         const userData = await response.json();
 
+
         setRol(userData.usuario.roles[0].name);
       } catch (error) {
         console.error(
@@ -104,12 +106,13 @@ export const GestionEvaluaciones = () => {
     };
 
     fetchUserInfo();
-  }, [id]);
+  }, []);
 
   return (
     <>
       <button onClick={handleOpenModal}>Abrir Modal</button>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={27} />
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={idd} />
+
       <div className="flex flex-col gap-4">
         {isLoading ? (
           <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
@@ -134,7 +137,7 @@ export const GestionEvaluaciones = () => {
           </div>
         )}
 
-        <TablaEvaluaciones rol={rol} id={id} />
+        <TablaEvaluaciones rol={rol} id={id} setIdd={setIdd} />
       </div>
     </>
   );

@@ -93,7 +93,7 @@ export default function UserList({ filters }) {
         />
       </div>
       {isLoading ? (
-        <div className="text-center">Cargando...</div>
+        <div className="text-gray-400 font-md">Cargando ...</div>
       ) : (
         <div className="w-full bg-[#0e161b] shadow-md rounded-t overflow-hidden overflow-x-auto scrollbar">
           <table className="w-full text-sm text-center text-white">

@@ -10,7 +10,7 @@ const ModalConfirmacion = ({ isOpen, onConfirm, onClose }) => {
                 style={{ margin: "50px" }}
                 onClick={(e) => e.stopPropagation()} // Evitar que el clic dentro del modal lo cierre
             >
-                <p className="text-black text-center mb-4">
+                <p className="text-black text-center font-medium  mb-4 p-10">
                     ¿Estás seguro de que deseas crear una evaluación?
                 </p>
                 <div className="flex justify-center">

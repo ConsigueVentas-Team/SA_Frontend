@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ModalConfirmacion from "./Modals/ModalConfirmacion";
 import { AES, enc } from "crypto-js";
 
-const TablaEvaluaciones = ({ rol, id }) => {
+const TablaEvaluaciones = ({ rol, id, setIdd }) => {
   const [numFilas, setNumFilas] = useState(0);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarEncabezados, setMostrarEncabezados] = useState(false);
@@ -76,10 +76,11 @@ const TablaEvaluaciones = ({ rol, id }) => {
   const tablaClase = "w-full text-sm text-center text-white rounded-lg";
   const encabezadosClase = "px-6 py-4 whitespace-nowrap text-base uppercase";
   const filaClase = "border-b border-cv-secondary ";
-  const botonClase = "uppercase";
+  const botonClase = "uppercase text-cv-cyan font-semibold";
   const celdaClase = "px-6 py-4 whitespace-nowrap";
 
   const renderEvaluaciones = () => {
+    
     return evaluacion.map((evaluacionItem, index) => (
       <tr key={index} className={filaClase}>
         <td className={celdaClase}>{evaluacionItem.date}</td>
@@ -120,6 +121,8 @@ const TablaEvaluaciones = ({ rol, id }) => {
         }
 
         const data = await response.json();
+
+        setIdd(data.data[data.data.length - 1].id);
         setEvaluacion(data.data);
       } catch (error) {
         console.error("Error al obtener la evaluación:", error.message);
@@ -127,7 +130,7 @@ const TablaEvaluaciones = ({ rol, id }) => {
     };
 
     obtenerEvaluacion();
-  }, [id]);
+  }, []);
 
   return (
     <div>
@@ -153,12 +156,12 @@ const TablaEvaluaciones = ({ rol, id }) => {
           {mostrarEncabezados && (
             <tr className={`${filaClase} bg-[#0e161b]`}>
               <td className={celdaClase}>MES</td>
-              <td className={celdaClase}>NOTA1</td>
-              <td className={celdaClase}>NOTA2</td>
+              <td className={celdaClase}>NOTA 1</td>
+              <td className={celdaClase}>NOTA 2</td>
               {rol === "Colaborador" && (
-                <td className={celdaClase}>NOTA3</td>
+                <td className={celdaClase}>NOTA 3</td>
               )}
-              <td className={celdaClase}>NOTA4</td>
+              <td className={celdaClase}>NOTA 4</td>
               <td className={celdaClase}>PROMEDIO</td>
             </tr>
           )}
@@ -171,7 +174,7 @@ const TablaEvaluaciones = ({ rol, id }) => {
               className={celdaClase}
             >
               <button className={botonClase} onClick={agregarFila}>
-                Agregar Evaluación +
+                Agregar Evaluación
               </button>
             </td>
           </tr>

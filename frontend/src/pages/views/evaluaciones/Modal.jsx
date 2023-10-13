@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { AES, enc } from "crypto-js";
 
 const Modal = ({ isOpen, onClose, idd }) => {
@@ -46,14 +46,13 @@ const Modal = ({ isOpen, onClose, idd }) => {
     <div
       className={`fixed top-0 left-0 w-full h-full text-black flex items-center justify-center bg-black bg-opacity-50 ${
         isOpen ? "block" : "hidden"
-      }`}
-    >
+      }`}>
       <div className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md" style={{ margin: "50px" }}>
         <h2 className="text-xl font-bold text-center mb-4">HABILIDADES BLANDAS</h2>
         <h4 className="text-1xl font-bold text-center mb-4 text-gray-600">SETIEMBRE</h4>
 
-        <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4">
-          <div className="flex items-center mb-4">
+        <div className="mb-4 rounded-lg border border-black bg-gray-100">
+          <div className="flex items-center">
             <label className="w-1/4 text-black">ID:</label>
             <input
               type="text"
@@ -65,8 +64,8 @@ const Modal = ({ isOpen, onClose, idd }) => {
           </div>
         </div>
 
-        <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4">
-          <div className="flex items-center mb-4">
+        <div className="mb-4 rounded-lg border border-black bg-gray-100">
+          <div className="flex items-center">
             <label className="w-1/4 text-black">Nota 1:</label>
             <input
               type="number"
@@ -78,8 +77,8 @@ const Modal = ({ isOpen, onClose, idd }) => {
           </div>
         </div>
 
-        <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4">
-          <div className="flex items-center mb-4">
+        <div className="mb-4 rounded-lg border border-black bg-gray-100">
+          <div className="flex items-center">
             <label className="w-1/4 text-black">Nota 2:</label>
             <input
               type="number"
@@ -91,8 +90,8 @@ const Modal = ({ isOpen, onClose, idd }) => {
           </div>
         </div>
 
-        <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4">
-          <div className="flex items-center mb-4">
+        <div className="mb-4 rounded-lg border border-black bg-gray-100">
+          <div className="flex items-center">
             <label className="w-1/4 text-black">Nota 3:</label>
             <input
               type="number"
@@ -104,8 +103,8 @@ const Modal = ({ isOpen, onClose, idd }) => {
           </div>
         </div>
 
-        <div className="mb-4 rounded-lg border border-black bg-gray-100 p-4">
-          <div className="flex items-center mb-4">
+        <div className="mb-4 rounded-lg border border-black bg-gray-100">
+          <div className="flex items-center">
             <label className="w-1/4 text-black">Nota 4:</label>
             <input
               type="number"
