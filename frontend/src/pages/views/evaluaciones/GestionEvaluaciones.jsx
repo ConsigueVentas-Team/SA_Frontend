@@ -102,7 +102,7 @@ export const GestionEvaluaciones = () => {
   return (
     <>
       <button onClick={handleOpenModal}>Abrir Modal</button>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={11} />
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={27} />
       <div className="flex flex-col gap-4">
 
         {isLoading ? (
