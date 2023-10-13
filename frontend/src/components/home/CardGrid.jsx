@@ -24,10 +24,10 @@ export const CardGrid = () => {
 				if (response.ok) {
 					setBirthday(data);
 				} else {
-					console.error('Error al obtener los usuarios:', data.error);
+					console.error('Error al obtener los cumpleaños de los usuarios:', data.error);
 				}
 			} catch (error) {
-				console.error('Error al obtener los usuarios:', error);
+				console.error('Error al obtener los cumpleaños de los usuarios:', error);
 			}
 		};
 		fetchBirthday();
