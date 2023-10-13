@@ -19,9 +19,8 @@ export default function UserList({ filters }) {
   const { users, isLoading } = useUserApi(filters);
 
 
-  const filteredUsers = useMemo(() => users.filter(user => user.status === true), [users]);
-
-  const dataFinal = useMemo(() => filteredUsers, [filteredUsers]);
+  const dataFinal = useMemo(() => users, [users]);
+  
   const columns = [
     {
       header: "Nombre",
