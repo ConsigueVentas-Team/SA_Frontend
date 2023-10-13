@@ -11,8 +11,14 @@ export const MiEvaluacion = () => {
     return rol === usuarioRol;
   } 
 
-  const [user, setUser] = useState(null);
-  const [nota1, setNota1] = useState(null);
+  const [evaluacionEstado, setEvaluacionEstado] = useState(false)
+
+  const [softskills, setSoftskills] = useState(0);
+  const [performance, setPerformance] = useState(0);
+  const [hardskills, setHardskills] = useState(0);
+  const [autoevaluation, setAutoevaluation] = useState(0);
+  const [promedio, setPromedio] = useState(0);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -39,21 +45,27 @@ export const MiEvaluacion = () => {
 
         const data = await response.json();
 
+
         if (data && data.length > 0) {
+
           const foundUser = data.find(
-            (item) => item.user && item.user.id === parseInt(id)
+            (item) => item.user_id == parseInt(id)
           );
-          //console.log("asdasdsa" + foundUser.notes[0].note);
-          setNota1(foundUser.notes[0].note);
+
+        
           if (foundUser) {
-            setUser(foundUser.user);
+            setSoftskills(foundUser.softskills);
+            setPerformance(foundUser.performance);
+            setHardskills(foundUser.hardskills);
+            setAutoevaluation(foundUser.autoevaluation);
+            setPromedio(foundUser.promedio);
+            setEvaluacionEstado(true)
           } else {
+            setEvaluacionEstado(false)
             console.error(`No se encontró un usuario con el ID.`);
           }
         } else {
-          console.error(
-            "No se encontraron usuarios en la respuesta de la API."
-          );
+          setEvaluacionEstado(false)
         }
 
         setIsLoading(false);
@@ -64,7 +76,7 @@ export const MiEvaluacion = () => {
     };
 
     fetchUser();
-  }, []);
+  }, [id]);
 
   // Obtén el mes actual y los tres meses siguientes
   const currentDate = new Date();
@@ -89,12 +101,12 @@ export const MiEvaluacion = () => {
     monthNames.push(months[nextMonthIndex]);
   }
   // Calcula el promedio de un conjunto de notas
-  const calcularPromedio = (notas) => {
-    const notasNumericas = notas.map((nota) => parseFloat(nota));
-    const sumaNotas = notasNumericas.reduce((total, nota) => total + nota, 0);
-    const promedio = sumaNotas / notasNumericas.length;
-    return promedio.toFixed(2); // Redondea a 2 decimales
-  };
+  // const calcularPromedio = (notas) => {
+  //   const notasNumericas = notas.map((nota) => parseFloat(nota));
+  //   const sumaNotas = notasNumericas.reduce((total, nota) => total + nota, 0);
+  //   const promedio = sumaNotas / notasNumericas.length;
+  //   return promedio.toFixed(2); // Redondea a 2 decimales
+  // };
 
   return (
     <div className="flex flex-col gap-0">
@@ -110,17 +122,28 @@ export const MiEvaluacion = () => {
           </div>
           <div className="flex flex-row justify-between">
             <p className="text-white font-medium">{name}</p>
-            <p className="text-white font-medium">15.5</p>
+            <p className="text-white font-medium">{promedio}</p>
           </div>
         </div>
       )}
 
+      <div>
+        {
+          !evaluacionEstado && (
+            <div>
+              <p className="text-gray-400 font-semibold pb-4 px-2">Usted aún no cuenta con sus notas, comuníquese con sú lider</p>
+            </div>
+          )
+        }
+      </div>
+
       {
         evaluarRol('Colaborador') ? (
+
           <>
           {/* 'DESEMPEÑO' Table */}
       <h2 className="text-white text-center text-xl bg-[#0e161b] py-2 rounded-tl-lg rounded-tr-lg border-b border-cv-secondary">
-        Tabla del Colaborador
+        Colaborador
       </h2>
       <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden ">
         <div className="w-full min-w-full overflow-x-auto scrollbar">
@@ -128,10 +151,10 @@ export const MiEvaluacion = () => {
             <thead className="text-base uppercase">
               <tr>
                 <th className="px-6 py-4 whitespace-nowrap">Mes</th>
-                <th className="px-6 py-4 whitespace-nowrap">Nota 1</th>
-                <th className="px-6 py-4 whitespace-nowrap">Nota 2</th>
-                <th className="px-6 py-4 whitespace-nowrap">Nota 3</th>
-                <th className="px-6 py-4 whitespace-nowrap">Nota 4</th>
+                <th className="px-6 py-4 whitespace-nowrap">Habilidades blandas</th>
+                <th className="px-6 py-4 whitespace-nowrap">Desempeño</th>
+                <th className="px-6 py-4 whitespace-nowrap">Autoevaluación</th>
+                <th className="px-6 py-4 whitespace-nowrap">Habilidades duras</th>
                 <th className="px-6 py-4 whitespace-nowrap">Promedio</th>
               </tr>
             </thead>
@@ -139,12 +162,12 @@ export const MiEvaluacion = () => {
               {monthNames.map((monthName, index) => (
                 <tr className="border-b border-cv-secondary" key={index}>
                   <th className="px-6 py-4 whitespace-nowrap">{monthName}</th>
-                  <td className="px-6 py-4 whitespace-nowrap">0.0</td>
-                  <td className="px-6 py-4 whitespace-nowrap">0.0</td>
-                  <td className="px-6 py-4 whitespace-nowrap">0.0</td>
-                  <td className="px-6 py-4 whitespace-nowrap">0.0</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{performance}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{softskills}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{autoevaluation}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{hardskills}</td>
                   <th className="px-6 py-4 whitespace-nowrap">
-                    {calcularPromedio([0, 0, 0, 0])}
+                    {promedio}
                   </th>
                 </tr>
               ))}
@@ -156,7 +179,7 @@ export const MiEvaluacion = () => {
         ): (
           <>
                 <h2 className="text-white text-center text-xl bg-[#0e161b] py-2 rounded-tl-lg rounded-tr-lg border-b border-cv-secondary">
-                  Tabla de los líderes
+                  Líderes
                 </h2>
 
                 <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden mb-5 ">
@@ -176,12 +199,12 @@ export const MiEvaluacion = () => {
                         {monthNames.map((monthName, index) => (
                           <tr className="border-b border-cv-secondary" key={index}>
                             <th className="px-6 py-4 whitespace-nowrap">{monthName}</th>
-                            <td className="px-6 py-4 whitespace-nowrap">{nota1}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">0.0</td>
-                            <td className="px-6 py-4 whitespace-nowrap">0.0</td>
-                            <td className="px-6 py-4 whitespace-nowrap">0.0</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{performance}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{softskills}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{autoevaluation}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{hardskills}</td>
                             <th className="px-6 py-4 whitespace-nowrap">
-                              {calcularPromedio([nota1, 0, 0, 0])}
+                              {promedio}
                             </th>
                           </tr>
                         ))}
