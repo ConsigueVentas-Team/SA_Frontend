@@ -127,7 +127,7 @@ export const Colaboradores = () => {
   const obtenerUsuarios = async (page) => {
     setCargando(true);
     try {
-      const url = new URL(import.meta.env.VITE_API_URL + "/users");
+      const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
 
       url.searchParams.append("page", page);
 

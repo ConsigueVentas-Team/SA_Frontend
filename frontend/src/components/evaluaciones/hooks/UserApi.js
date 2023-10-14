@@ -26,6 +26,7 @@ export function useUserApi(filters) {
                         localStorage.getItem("token"),
                         import.meta.env.VITE_TOKEN_KEY
                     );
+                    
                     const token = tokenD.toString(enc.Utf8);
 
                     const response = await fetch(url, {

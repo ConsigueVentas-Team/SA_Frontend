@@ -101,7 +101,7 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">
 										<div className="flex flex-col items-center ">
-											{users.status === 1 ?
+											{users.status === true ?
 												<div className='flex items-center justify-center'>
 													<div className="w-3 h-3 mr-2 bg-green-500 rounded-full"></div>Activo
 												</div> :
@@ -109,7 +109,6 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 													<div className='flex items-center justify-center'>
 														<div className="w-3 h-3 mr-2 bg-red-500 rounded-full"></div>Inactivo
 													</div>
-													<p className='text-center'>{users.status_description}</p>
 												</>
 											}
 										</div>
