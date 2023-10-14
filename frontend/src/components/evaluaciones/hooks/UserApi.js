@@ -13,7 +13,7 @@ export function useUserApi(filters) {
                 let page = 1;
 
                 while (true) {
-                    const url = new URL(import.meta.env.VITE_API_URL + "/users");
+                    const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
 
                     // Agregar los filtros
                     for (const [key, value] of Object.entries(filters)) {
@@ -26,7 +26,7 @@ export function useUserApi(filters) {
                         localStorage.getItem("token"),
                         import.meta.env.VITE_TOKEN_KEY
                     );
-                    
+
                     const token = tokenD.toString(enc.Utf8);
 
                     const response = await fetch(url, {
@@ -38,7 +38,8 @@ export function useUserApi(filters) {
 
                     const data = await response.json();
                     if (response.ok) {
-                        allUsers = allUsers.concat(data.data);
+                        // Agregar los usuarios a la matriz
+                        allUsers = [...allUsers, ...data.data];
 
                         // Si no hay más resultados, salir del bucle
                         if (data.data.length < 1) {
@@ -53,6 +54,7 @@ export function useUserApi(filters) {
                     }
                 }
 
+                console.log("allUsers", allUsers); // Agrega este console.log para verificar los datos
                 setUsers(allUsers);
                 setIsLoading(false);
             } catch (error) {
