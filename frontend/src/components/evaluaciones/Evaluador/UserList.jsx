@@ -16,7 +16,7 @@ import { useUserApi } from "../hooks/UserApi";
 export default function UserList({ filters }) {
   const [globalFilter, setGlobalFilter] = useState("");
   const { users, isLoading } = useUserApi(filters);
-  console.log("desde tabla"+users)
+  console.log("Usuarios:", JSON.stringify(users, null, 2));
   const filteredUsers = useMemo(() => users.filter(user => user.status === true), [users]);
 
   const dataFinal = useMemo(() => filteredUsers, [filteredUsers]);
