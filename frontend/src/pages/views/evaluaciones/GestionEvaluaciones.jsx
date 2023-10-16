@@ -7,7 +7,7 @@ import Loading from "../../../components/essentials/Loading";
 
 export const GestionEvaluaciones = () => {
   const { id, name } = useParams();
- const [idd, setIdd] = useState(null);
+  const [idd, setIdd] = useState(null);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [rol, setRol] = useState(null);
