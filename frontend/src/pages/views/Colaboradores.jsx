@@ -213,7 +213,7 @@ export const Colaboradores = () => {
     formData.append("role_id", updateUser.role);
     formData.append("status", updateUser.status);
     formData.append("status_description", updateUser.statusDescription);
-    formData.append("_method", "PUT");
+    formData.append("_method", "POST");
 
     try {
       const response = await fetch(
@@ -226,7 +226,13 @@ export const Colaboradores = () => {
           body: formData,
         }
       );
+
+      console.log("Response", response);
+
       const data = await response.json();
+
+      console.log("Data", data);
+
       if (response.ok) {
         const usuariosActualizados = users.map((usuario) => {
           if (usuario.id === updateUser.id) {
