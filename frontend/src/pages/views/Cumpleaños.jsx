@@ -24,7 +24,7 @@ export const Cumpleaños = () => {
 			url.searchParams.append('d', selectedDay);
 
 			const response = await fetch(url, {
-				method: "POST",
+				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
