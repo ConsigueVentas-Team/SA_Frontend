@@ -32,7 +32,7 @@ export const Notifications = () => {
 
     const fetchNotifications = async () => {
         try {
-            const url = new URL(import.meta.env.VITE_API_URL + '/notifications');
+            const url = new URL(import.meta.env.VITE_API_URL + '/notification/list');
 
             const response = await fetch(url, {
                 headers: {

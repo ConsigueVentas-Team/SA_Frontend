@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ModalConfirmacion from "./Modals/ModalConfirmacion";
 import { AES, enc } from "crypto-js";
 
@@ -8,30 +8,30 @@ const TablaEvaluaciones = ({ rol, id, setIdd }) => {
   const [mostrarEncabezados, setMostrarEncabezados] = useState(false);
   const [evaluacion, setEvaluacion] = useState([]);
 
-  const obtenerNombreDelMes = (fecha) => {
-    const meses = [
-      "ENERO",
-      "FEBRERO",
-      "MARZO",
-      "ABRIL",
-      "MAYO",
-      "JUNIO",
-      "JULIO",
-      "AGOSTO",
-      "SEPTIEMBRE",
-      "OCTUBRE",
-      "NOVIEMBRE",
-      "DICIEMBRE",
-    ];
-    return meses[fecha.getMonth()];
-  };
+    const obtenerNombreDelMes = (fecha) => {
+        const meses = [
+            "ENERO",
+            "FEBRERO",
+            "MARZO",
+            "ABRIL",
+            "MAYO",
+            "JUNIO",
+            "JULIO",
+            "AGOSTO",
+            "SEPTIEMBRE",
+            "OCTUBRE",
+            "NOVIEMBRE",
+            "DICIEMBRE",
+        ];
+        return meses[fecha.getMonth()];
+    };
 
-  const fechaActual = new Date();
-  const mesActual = obtenerNombreDelMes(fechaActual);
+    const fechaActual = new Date();
+    const mesActual = obtenerNombreDelMes(fechaActual);
 
-  const agregarFila = () => {
-    setMostrarModal(true);
-  };
+    const agregarFila = () => {
+        setMostrarModal(true);
+    };
 
   const confirmarAgregarFila = async () => {
     setNumFilas(numFilas + 1);
@@ -69,15 +69,15 @@ const TablaEvaluaciones = ({ rol, id, setIdd }) => {
     }
   };
 
-  const cancelarAgregarFila = () => {
-    setMostrarModal(false);
-  };
+    const cancelarAgregarFila = () => {
+        setMostrarModal(false);
+    };
 
-  const tablaClase = "w-full text-sm text-center text-white rounded-lg";
-  const encabezadosClase = "px-6 py-4 whitespace-nowrap text-base uppercase";
-  const filaClase = "border-b border-cv-secondary ";
-  const botonClase = "uppercase text-cv-cyan font-semibold";
-  const celdaClase = "px-6 py-4 whitespace-nowrap";
+    const tablaClase = "w-full text-sm text-center text-white";
+    const encabezadosClase = " py-4 whitespace-nowrap text-base uppercase";
+    const filaClase = "border-b border-cv-secondary ";
+    const botonClase = "uppercase";
+    const celdaClase = "px-6 py-4 whitespace-nowrap";
 
   const renderEvaluaciones = () => {
     

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import TablaEvaluaciones from "../../../components/evaluaciones/Evaluador/TablaEvaluaciones";
 import { AES, enc } from "crypto-js";
 import Modal from "../../views/evaluaciones/Modal";
+import Loading from "../../../components/essentials/Loading";
 
 export const GestionEvaluaciones = () => {
   const { id, name } = useParams();
@@ -114,27 +115,34 @@ export const GestionEvaluaciones = () => {
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={idd} />
 
       <div className="flex flex-col gap-4">
+
         {isLoading ? (
-          <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
-            <p className="text-gray-400">Cargando usuario ...</p>
-          </div>
+          <Loading />
         ) : (
-          <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
-            <div className="flex flex-row justify between">
-              <p className="text-gray-400">Nombre:</p>
-              <p className="text-gray-400">Nota Final:</p>
+          <div>
+            <div className="w-full rounded-lg bg-cv-primary py-4 px-8">
+              <div className="flex flex-row justify-between">
+                <p className="text-gray-400">Nombre:</p>
+                <p className="text-gray-400">Nota Final:</p>
+              </div>
+
+              <div className="flex flex-row justify-between">
+                <p>
+                  {name
+                    .toLowerCase()
+                    .split("-")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
+                  {id}
+                </p>
+                <p>15.5</p>
+              </div>
+
+
             </div>
-            <div className="flex flex-row justify-between">
-              <p>
-                {name
-                  .toLowerCase()
-                  .split("-")
-                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(" ")}
-              </p>
-              <p>15.5</p>
-            </div>
+            <TablaEvaluaciones rol={rol} id={id} />
           </div>
+
         )}
 
         <TablaEvaluaciones rol={rol} id={id} setIdd={setIdd} />

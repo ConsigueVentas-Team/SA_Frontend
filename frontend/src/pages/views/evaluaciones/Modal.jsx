@@ -48,7 +48,7 @@ const Modal = ({ isOpen, onClose, idd }) => {
         isOpen ? "block" : "hidden"
       }`}>
       <div className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md" style={{ margin: "50px" }}>
-        <h2 className="text-xl font-bold text-center mb-4">HABILIDADES BLANDAS</h2>
+        <h2 className=" font-bold text-center mb-4">HABILIDADES BLANDAS</h2>
         <h4 className="text-1xl font-bold text-center mb-4 text-gray-600">SETIEMBRE</h4>
 
         <div className="mb-4 rounded-lg border border-black bg-gray-100">

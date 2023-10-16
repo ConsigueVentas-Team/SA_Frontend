@@ -16,7 +16,7 @@ import { useUserApi } from "../hooks/UserApi";
 export default function UserList({ filters }) {
   const [globalFilter, setGlobalFilter] = useState("");
   const { users, isLoading } = useUserApi(filters);
-
+  console.log("desde tabla"+users)
   const filteredUsers = useMemo(() => users.filter(user => user.status === true), [users]);
 
   const dataFinal = useMemo(() => filteredUsers, [filteredUsers]);
@@ -93,7 +93,11 @@ export default function UserList({ filters }) {
         />
       </div>
       {isLoading ? (
+<<<<<<< HEAD
         <div className="text-gray-400 font-md py-2 px-2">Cargando ...</div>
+=======
+        <div className="text-gray-400 font-md">Cargando ...</div>
+>>>>>>> d80dbe92cc1475c017d6344d025998a05f119fa2
       ) : (
         <div className="w-full bg-[#0e161b] shadow-md rounded-t overflow-hidden overflow-x-auto scrollbar">
           <table className="w-full text-sm text-center text-white">
