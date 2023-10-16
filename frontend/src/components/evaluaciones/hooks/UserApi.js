@@ -9,12 +9,7 @@ export function useUserApi(filters) {
         const obtenerUsuarios = async (page) => {
             setIsLoading(true);
             try {
-                const url = new URL(import.meta.env.VITE_API_URL + "/users");
-                url.searchParams.append("page", page);
-
-                for (const [key, value] of Object.entries(filters)) {
-                    if (value) url.searchParams.append(key, value);
-                }
+                const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
 
                 const tokenD = AES.decrypt(
                     localStorage.getItem("token"),
