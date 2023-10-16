@@ -9,21 +9,8 @@ export function useUserApi(filters) {
         const obtenerUsuarios = async () => {
             setIsLoading(true);
             try {
-<<<<<<< HEAD
-                const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
-=======
-                let allUsers = [];
-                let page = 1;
 
-                while (true) {
                     const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
-
-                    // Agregar los filtros
-                    for (const [key, value] of Object.entries(filters)) {
-                        if (value) url.searchParams.append(key, value);
-                    }
-
-                    url.searchParams.append("page", page);
 
                     const tokenD = AES.decrypt(
                         localStorage.getItem("token"),
@@ -40,26 +27,11 @@ export function useUserApi(filters) {
                     });
 
                     const data = await response.json();
-                    if (response.ok) {
-                        // Agregar los usuarios a la matriz
-                        allUsers = [...allUsers, ...data.data];
+                    
 
-                        // Si no hay más resultados, salir del bucle
-                        if (data.data.length < 1) {
-                            break;
-                        }
-
-                        page++;
-                    } else {
-                        console.error("Error al obtener los usuarios:", data.error);
-                        setIsLoading(false);
-                        return;
-                    }
-                }
->>>>>>> d80dbe92cc1475c017d6344d025998a05f119fa2
-
-                console.log("allUsers", allUsers); // Agrega este console.log para verificar los datos
-                setUsers(allUsers);
+                    console.log(data)
+               
+                setUsers(data.data);
                 setIsLoading(false);
             } catch (error) {
                 console.error("Error al obtener los usuarios:", error);

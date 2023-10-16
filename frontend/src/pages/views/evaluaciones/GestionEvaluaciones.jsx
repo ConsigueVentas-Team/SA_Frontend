@@ -137,15 +137,10 @@ export const GestionEvaluaciones = () => {
                 </p>
                 <p>15.5</p>
               </div>
-
-
             </div>
-            <TablaEvaluaciones rol={rol} id={id} />
+            <TablaEvaluaciones rol={rol} id={id} setIdd={setIdd} />
           </div>
-
         )}
-
-        <TablaEvaluaciones rol={rol} id={id} setIdd={setIdd} />
       </div>
     </>
   );
