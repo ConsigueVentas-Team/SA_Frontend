@@ -13,13 +13,12 @@ import SearchBar from "./SearchBar";
 import PaginationControls from "./PaginationControls";
 import { useUserApi } from "../hooks/UserApi";
 
-export default function UserList({ filters }) {
+export default function UserList() {
   const [globalFilter, setGlobalFilter] = useState("");
-  const { users, isLoading } = useUserApi(filters);
-  console.log("desde tabla"+users)
-  const filteredUsers = useMemo(() => users.filter(user => user.status === true), [users]);
+  const { users, isLoading } = useUserApi();
+  console.log("Usuarios:", JSON.stringify(users, null, 2));
 
-  const dataFinal = useMemo(() => filteredUsers, [filteredUsers]);
+  const dataFinal = useMemo(() => users, [users]);
   const columns = [
     {
       header: "Nombre",
@@ -71,6 +70,7 @@ export default function UserList({ filters }) {
   ];
 
   const table = useReactTable({
+    minRows:0,
     data: dataFinal,
     columns,
     state: {
@@ -79,7 +79,7 @@ export default function UserList({ filters }) {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    getFilteredRowModel: getFilteredRowModel()
   });
 
   return (
