@@ -1,24 +1,12 @@
 import { useState, useEffect } from 'react'
 import ModalConfirmacion from './Modals/ModalConfirmacion'
 import { AES, enc } from 'crypto-js'
-import Modal from '../../../pages/views/evaluaciones/Modal'
 
-const TablaEvaluaciones = ({ rol, id, setIdd }) => {
+const TablaEvaluaciones = ({ rol, id, setIdd, setIsModalOpen }) => {
     const [numFilas, setNumFilas] = useState(0)
     const [mostrarModal, setMostrarModal] = useState(false)
     const [mostrarEncabezados, setMostrarEncabezados] = useState(false)
     const [evaluacion, setEvaluacion] = useState([])
-    const [selectedRow, setSelectedRow] = useState(null)
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [lastRow, setLastRow] = useState(null)
-
-    const openModal = () => {
-        setIsModalOpen(true)
-    }
-
-    const closeModal = () => {
-        setIsModalOpen(false)
-    }
 
     const obtenerNombreDelMes = fecha => {
         const meses = [
@@ -88,10 +76,10 @@ const TablaEvaluaciones = ({ rol, id, setIdd }) => {
                 promedio: 'N/A',
             }
 
-            setEvaluacion([...evaluacion, nuevaFila])
+            const result = await response.json()
+            setIdd(result.data.id)
 
-            const lastRow = data.data[data.data.length - 1].id
-            setLastRow(lastRow)
+            setEvaluacion([...evaluacion, nuevaFila])
         } catch (error) {
             console.error('Error al agregar la evaluación:', error.message)
         }
@@ -103,46 +91,6 @@ const TablaEvaluaciones = ({ rol, id, setIdd }) => {
 
     const filaClase = 'border-b border-cv-secondary'
     const celdaClase = 'px-6 py-4 whitespace-nowrap'
-
-    const renderEvaluaciones = () => {
-        return evaluacion.map((evaluacionItem, index) => (
-            <tr
-                key={index}
-                className={`${filaClase} hover:bg-gray-700`}
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                    setSelectedRow(evaluacionItem)
-                    openModal()
-                }}>
-                <Modal
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                    idd={lastRow}
-                />
-
-                <td className={celdaClase}>{evaluacionItem.date}</td>
-                <td className={celdaClase}>
-                    {evaluacionItem.softskills || 'N/A'}
-                </td>
-                <td className={celdaClase}>
-                    {evaluacionItem.performance || 'N/A'}
-                </td>
-                {rol === 'Colaborador' && (
-                    <td className={celdaClase}>
-                        {evaluacionItem.hardskills || 'N/A'}
-                    </td>
-                )}
-                <td className={celdaClase}>
-                    {rol === 'Colaborador'
-                        ? eval.autoevaluation || 'N/A'
-                        : eval.promedio || 'N/A'}
-                </td>
-                <td className={celdaClase}>
-                    {evaluacionItem.promedio || 'N/A'}
-                </td>
-            </tr>
-        ))
-    }
 
     useEffect(() => {
         const obtenerEvaluacion = async () => {
@@ -173,7 +121,6 @@ const TablaEvaluaciones = ({ rol, id, setIdd }) => {
 
                 const data = await response.json()
 
-                setIdd(data.data[data.data.length - 1].id)
                 setEvaluacion(data.data)
             } catch (error) {
                 console.error('Error al obtener la evaluación:', error.message)
@@ -182,6 +129,54 @@ const TablaEvaluaciones = ({ rol, id, setIdd }) => {
 
         obtenerEvaluacion()
     }, [])
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const apiUrl = import.meta.env.VITE_API_URL
+                const tokenKey = import.meta.env.VITE_TOKEN_KEY
+
+                const url = new URL(`${apiUrl}/evaluation/list`)
+
+                const tokenD = AES.decrypt(
+                    localStorage.getItem('token'),
+                    tokenKey
+                )
+                const token = tokenD.toString(enc.Utf8)
+
+                const response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Error al obtener datos: ${response.status}`
+                    )
+                }
+                //   setIsLoading(false)
+
+                const data = await response.json()
+
+                if (data) {
+                    const dataMisEvaluaciones = data.filter(
+                        element => element.user_id == parseInt(id)
+                    )
+                    setEvaluacion([...dataMisEvaluaciones])
+                    if (dataMisEvaluaciones.length > 0) {
+                        //   setEvaluacionEstado(true)
+                    }
+                }
+            } catch (error) {
+                console.error('Error al obtener el usuario:', error.message)
+                //   setIsLoading(false);
+            }
+        }
+
+        fetchUser()
+    })
 
     return (
         <div>
@@ -220,7 +215,39 @@ const TablaEvaluaciones = ({ rol, id, setIdd }) => {
                         </tr>
                     )}
 
-                    {renderEvaluaciones()}
+                    {evaluacion.map((evaluacionItem, index) => (
+                        <tr
+                            key={index}
+                            className={`${filaClase} hover:bg-gray-700`}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                setIdd(evaluacionItem.id)
+                                setIsModalOpen(true)
+                            }}>
+                            <td className={celdaClase}>
+                                {evaluacionItem.date}
+                            </td>
+                            <td className={celdaClase}>
+                                {evaluacionItem.softskills || 'N/A'}
+                            </td>
+                            <td className={celdaClase}>
+                                {evaluacionItem.performance || 'N/A'}
+                            </td>
+                            {rol === 'Colaborador' && (
+                                <td className={celdaClase}>
+                                    {evaluacionItem.hardskills || 'N/A'}
+                                </td>
+                            )}
+                            <td className={celdaClase}>
+                                {rol === 'Colaborador'
+                                    ? eval.autoevaluation || 'N/A'
+                                    : eval.promedio || 'N/A'}
+                            </td>
+                            <td className={celdaClase}>
+                                {evaluacionItem.promedio || 'N/A'}
+                            </td>
+                        </tr>
+                    ))}
 
                     <tr className={filaClase}>
                         <td

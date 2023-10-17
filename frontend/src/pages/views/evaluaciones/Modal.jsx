@@ -92,7 +92,7 @@ const Modal = ({ isOpen, onClose, idd }) => {
                     {mes}
                 </h4>
 
-                {/* <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
+                <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                     <div className='flex items-center'>
                         <label className='w-2/4 text-gray-500'>ID:</label>
                         <input
@@ -103,7 +103,7 @@ const Modal = ({ isOpen, onClose, idd }) => {
                             className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                         />
                     </div>
-                </div> */}
+                </div>
 
                 <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                     <div className='flex items-center'>
