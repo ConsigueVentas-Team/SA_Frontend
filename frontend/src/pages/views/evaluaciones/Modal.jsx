@@ -59,24 +59,23 @@ const Modal = ({ isOpen, onClose, idd }) => {
         ) {
             setError('Todos los campos son obligatorios')
         } else {
-            if (softskills < 0 || softskills > 20) {
-                setError('La nota de softskills debe estar entre 0 y 20')
+            if (softskills > 0 && softskills < 20) {
+                if (performance > 0 && performance < 20) {
+                    if (autoevaluation > 0 && autoevaluation < 20) {
+                        if (hardskills > 0 && hardskills < 20) {
+                            handleGuardar()
+                        } else {
+                            setError('La nota debe ser entre 1 y 20')
+                        }
+                    } else {
+                        setError('La nota debe ser entre 1 y 20')
+                    }
+                } else {
+                    setError('La nota debe ser entre 1 y 20')
+                }
+            } else {
+                setError('La nota debe ser entre 1 y 20')
             }
-
-            if (performance < 0 || performance > 20) {
-                setError('La nota de performance debe estar entre 0 y 20')
-            }
-
-            if (hardskills < 0 || hardskills > 20) {
-                setError('La nota de hardskills debe estar entre 0 y 20')
-            }
-
-            if (autoevaluation < 0 || autoevaluation > 20) {
-                setError('La nota de autoevaluation debe estar entre 0 y 20')
-            }
-
-            handleGuardar()
-            setError(null)
         }
     }
 
@@ -93,7 +92,7 @@ const Modal = ({ isOpen, onClose, idd }) => {
                     {mes}
                 </h4>
 
-                <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
+                {/* <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                     <div className='flex items-center'>
                         <label className='w-2/4 text-gray-500'>ID:</label>
                         <input
@@ -104,7 +103,7 @@ const Modal = ({ isOpen, onClose, idd }) => {
                             className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                         />
                     </div>
-                </div>
+                </div> */}
 
                 <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                     <div className='flex items-center'>
