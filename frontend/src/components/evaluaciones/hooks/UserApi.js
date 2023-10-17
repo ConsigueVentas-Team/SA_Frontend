@@ -1,23 +1,16 @@
 import { useState, useEffect } from "react";
 import { AES, enc } from "crypto-js";
 
-export function useUserApi(filters) {
+export function useUserApi() {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [hasMore, setHasMore] = useState(true);
-    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(false); // Cambiar a "false" inicialmente
 
     useEffect(() => {
         const fetchUsers = async () => {
             setIsLoading(true);
             try {
                 const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
-
-                for (const [key, value] of Object.entries(filters)) {
-                    if (value) url.searchParams.append(key, value);
-                }
-
-                url.searchParams.append("page", page);
 
                 const tokenD = AES.decrypt(
                     localStorage.getItem("token"),
@@ -34,18 +27,9 @@ export function useUserApi(filters) {
                 });
 
                 const data = await response.json();
+
                 if (response.ok) {
-                    if (page === 1) {
-                        // Si es la primera página, reemplaza los usuarios.
-                        setUsers(data.data);
-                    } else {
-                        // Si es una página adicional, agrega usuarios a los existentes.
-                        setUsers((prevUsers) => [...prevUsers, ...data.data]);
-                    }
-                    setHasMore(data.data.length > 0);
-                    if (data.data.length > 0) {
-                        setPage((prevPage) => prevPage + 1);
-                    }
+                    setUsers(data.data);
                 } else {
                     console.error("Error al obtener los usuarios:", data.error);
                 }
@@ -57,7 +41,7 @@ export function useUserApi(filters) {
         };
 
         fetchUsers();
-    }, [filters, page]);
+    }, []);
 
     return { users, isLoading, hasMore };
 }
