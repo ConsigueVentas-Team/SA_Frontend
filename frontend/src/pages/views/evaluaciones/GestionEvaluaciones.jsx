@@ -10,7 +10,7 @@ export const GestionEvaluaciones = () => {
     const [idd, setIdd] = useState(null)
     // const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-    const [rol, setRol] = useState(null)
+    // const [rol, setRol] = useState(null)
 
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -75,46 +75,46 @@ export const GestionEvaluaciones = () => {
         fetchUser()
     }, [])
 
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            try {
-                const apiUrl = import.meta.env.VITE_API_URL
-                const tokenKey = import.meta.env.VITE_TOKEN_KEY
+    // useEffect(() => {
+    //     const fetchUserInfo = async () => {
+    //         try {
+    //             const apiUrl = import.meta.env.VITE_API_URL
+    //             const tokenKey = import.meta.env.VITE_TOKEN_KEY
 
-                const url = new URL(`${apiUrl}/users/${id}`)
+    //             const url = new URL(`${apiUrl}/users/${id}`)
 
-                const tokenD = AES.decrypt(
-                    localStorage.getItem('token'),
-                    tokenKey
-                )
-                const token = tokenD.toString(enc.Utf8)
+    //             const tokenD = AES.decrypt(
+    //                 localStorage.getItem('token'),
+    //                 tokenKey
+    //             )
+    //             const token = tokenD.toString(enc.Utf8)
 
-                const response = await fetch(url, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
+    //             const response = await fetch(url, {
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             })
 
-                if (!response.ok) {
-                    throw Error(
-                        `Error al obtener datos del usuario: ${response.status}`
-                    )
-                }
+    //             if (!response.ok) {
+    //                 throw Error(
+    //                     `Error al obtener datos del usuario: ${response.status}`
+    //                 )
+    //             }
 
-                const userData = await response.json()
+    //             const userData = await response.json()
 
-                setRol(userData.usuario.roles[0].name)
-            } catch (error) {
-                console.error(
-                    'Error al obtener los datos adicionales del usuario:',
-                    error.message
-                )
-            }
-        }
+    //             setRol(userData.usuario.roles[0].name)
+    //         } catch (error) {
+    //             console.error(
+    //                 'Error al obtener los datos adicionales del usuario:',
+    //                 error.message
+    //             )
+    //         }
+    //     }
 
-        fetchUserInfo()
-    }, [])
+    //     fetchUserInfo()
+    // }, [])
 
     return (
         <>
@@ -145,11 +145,11 @@ export const GestionEvaluaciones = () => {
                                         .join(' ')}
                                     {id}
                                 </p>
-                                <p>15.5</p>
+                                <p>20</p>
                             </div>
                         </div>
                         <TablaEvaluaciones
-                            rol={rol}
+                            // rol={rol}
                             id={id}
                             // isOpen={isModalOpen}
                             // handleCloseModal={handleCloseModal}

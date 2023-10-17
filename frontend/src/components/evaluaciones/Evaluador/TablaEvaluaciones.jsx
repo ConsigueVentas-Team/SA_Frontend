@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import ModalConfirmacion from './Modals/ModalConfirmacion'
 import { AES, enc } from 'crypto-js'
 
-const TablaEvaluaciones = ({ rol, id, setIdd, setIsModalOpen }) => {
+const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen }) => {
     const [numFilas, setNumFilas] = useState(0)
     const [mostrarModal, setMostrarModal] = useState(false)
-    const [mostrarEncabezados, setMostrarEncabezados] = useState(false)
+    // const [mostrarEncabezados, setMostrarEncabezados] = useState(true)
     const [evaluacion, setEvaluacion] = useState([])
 
     const obtenerNombreDelMes = fecha => {
@@ -36,9 +36,9 @@ const TablaEvaluaciones = ({ rol, id, setIdd, setIsModalOpen }) => {
     const confirmarAgregarFila = async () => {
         setNumFilas(numFilas)
         setMostrarModal(false)
-        if (numFilas === 0) {
-            setMostrarEncabezados(true)
-        }
+        // if (numFilas === 0) {
+        //     setMostrarEncabezados(true)
+        // }
 
         try {
             const apiUrl = import.meta.env.VITE_API_URL
@@ -67,19 +67,19 @@ const TablaEvaluaciones = ({ rol, id, setIdd, setIsModalOpen }) => {
                 )
             }
 
-            const nuevaFila = {
-                date: mesActual,
-                softskills: 'N/A',
-                performance: 'N/A',
-                autoevaluation: 'N/A',
-                hardskills: 'N/A',
-                promedio: 'N/A',
-            }
+            // const nuevaFila = {
+            //     date: mesActual,
+            //     softskills: 'N/A',
+            //     performance: 'N/A',
+            //     autoevaluation: 'N/A',
+            //     hardskills: 'N/A',
+            //     promedio: 'N/A',
+            // }
 
             const result = await response.json()
             setIdd(result.data.id)
 
-            setEvaluacion([...evaluacion, nuevaFila])
+            // setEvaluacion([...evaluacion, nuevaFila])
         } catch (error) {
             console.error('Error al agregar la evaluación:', error.message)
         }
@@ -185,35 +185,38 @@ const TablaEvaluaciones = ({ rol, id, setIdd, setIsModalOpen }) => {
                 onConfirm={confirmarAgregarFila}
                 onClose={cancelarAgregarFila}
             />
+
             <table className='w-full text-sm text-center text-white'>
                 <thead>
                     <tr>
                         <th
                             colSpan={
-                                rol === 'Lider Nucleo' || rol === 'Gerencia'
-                                    ? 6
-                                    : 7
+                                7
+                                // rol === 'Lider Nucleo' || rol === 'Gerencia'
+                                //     ? 6
+                                //     : 7
                             }
                             className=' py-4 whitespace-nowrap text-base uppercase'>
-                            {rol === 'Lider Nucleo' || rol === 'Gerencia'
+                            {/* {rol === 'Lider Nucleo' || rol === 'Gerencia'
                                 ? 'EVALUACIONES LIDER'
-                                : 'EVALUACIONES COLABORADOR'}
+                                : 'EVALUACIONES COLABORADOR'} */}
+                            EVALUACIONES
                         </th>
                     </tr>
                 </thead>
                 <tbody className='bg-cv-primary'>
-                    {mostrarEncabezados && (
-                        <tr className={`${filaClase} bg-[#0e161b]`}>
-                            <td className={celdaClase}>MES</td>
-                            <td className={celdaClase}>NOTA 1</td>
-                            <td className={celdaClase}>NOTA 2</td>
-                            {rol === 'Colaborador' && (
-                                <td className={celdaClase}>NOTA 3</td>
-                            )}
-                            <td className={celdaClase}>NOTA 4</td>
-                            <td className={celdaClase}>PROMEDIO</td>
-                        </tr>
-                    )}
+                    {/* {mostrarEncabezados && ( */}
+                    <tr className={`${filaClase} bg-[#0e161b]`}>
+                        <td className={celdaClase}>MES</td>
+                        <td className={celdaClase}>softskills</td>
+                        <td className={celdaClase}>hardskills</td>
+                        {/* {rol === 'Colaborador' && ( */}
+                        <td className={celdaClase}>performance</td>
+                        {/* )} */}
+                        <td className={celdaClase}>autoevaluation</td>
+                        <td className={celdaClase}>PROMEDIO</td>
+                    </tr>
+                    {/* )} */}
 
                     {evaluacion.map((evaluacionItem, index) => (
                         <tr
@@ -233,16 +236,19 @@ const TablaEvaluaciones = ({ rol, id, setIdd, setIsModalOpen }) => {
                             <td className={celdaClase}>
                                 {evaluacionItem.performance || 'N/A'}
                             </td>
-                            {rol === 'Colaborador' && (
-                                <td className={celdaClase}>
-                                    {evaluacionItem.hardskills || 'N/A'}
-                                </td>
-                            )}
+                            {/* {rol === 'Colaborador' && ( */}
                             <td className={celdaClase}>
+                                {evaluacionItem.hardskills || 'N/A'}
+                            </td>
+                            {/* )} */}
+                            <td className={celdaClase}>
+                                {evaluacionItem.autoevaluation || 'N/A'}
+                            </td>
+                            {/* <td className={celdaClase}>
                                 {rol === 'Colaborador'
                                     ? eval.autoevaluation || 'N/A'
                                     : eval.promedio || 'N/A'}
-                            </td>
+                            </td> */}
                             <td className={celdaClase}>
                                 {evaluacionItem.promedio || 'N/A'}
                             </td>
@@ -252,12 +258,15 @@ const TablaEvaluaciones = ({ rol, id, setIdd, setIsModalOpen }) => {
                     <tr className={filaClase}>
                         <td
                             colSpan={
-                                rol === 'Lider Nucleo' || rol === 'Gerencia'
-                                    ? 6
-                                    : 7
+                                7
+                                // rol === 'Lider Nucleo' || rol === 'Gerencia'
+                                //     ? 6
+                                //     : 7
                             }
                             className={celdaClase}>
-                            <button className='uppercase' onClick={agregarFila}>
+                            <button
+                                className='uppercase font-medium text-cv-cyan-hover'
+                                onClick={agregarFila}>
                                 Agregar Evaluación
                             </button>
                         </td>
