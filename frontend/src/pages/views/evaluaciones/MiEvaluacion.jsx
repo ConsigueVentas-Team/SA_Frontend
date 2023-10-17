@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { AES, enc } from "crypto-js";
 import Loading from "../../../components/essentials/Loading";
+import HeaderTableMyEvaluation from "../../../components/evaluaciones/MyEvaluationView/HeaderTableMyEvaluation";
+import BodyTableMyEvaluation from "../../../components/evaluaciones/MyEvaluationView/BodyTableMyEvaluation";
 
 export const MiEvaluacion = () => {
   const id = localStorage.getItem("iduser");
@@ -14,13 +16,10 @@ export const MiEvaluacion = () => {
 
   const [evaluacionEstado, setEvaluacionEstado] = useState(false)
 
-  const [softskills, setSoftskills] = useState(0);
-  const [performance, setPerformance] = useState(0);
-  const [hardskills, setHardskills] = useState(0);
-  const [autoevaluation, setAutoevaluation] = useState(0);
   const [promedio, setPromedio] = useState(0);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [dataMisEvaluacionesFiltradas, setDataMisEvaluacionesFiltradas] = useState([])
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -43,33 +42,20 @@ export const MiEvaluacion = () => {
         if (!response.ok) {
           throw new Error(`Error al obtener datos: ${response.status}`);
         }
+        setIsLoading(false)
 
         const data = await response.json();
 
-
-        if (data && data.length > 0) {
-
-          const foundUser = data.find(
-            (item) => item.user_id == parseInt(id)
+        if(data){
+          const dataMisEvaluaciones = data.filter(
+            (element) => element.user_id == parseInt(id)
           );
-
-        
-          if (foundUser) {
-            setSoftskills(foundUser.softskills);
-            setPerformance(foundUser.performance);
-            setHardskills(foundUser.hardskills);
-            setAutoevaluation(foundUser.autoevaluation);
-            setPromedio(foundUser.promedio);
+          setDataMisEvaluacionesFiltradas([...dataMisEvaluaciones])
+          if(dataMisEvaluaciones.length > 0){
             setEvaluacionEstado(true)
-          } else {
-            setEvaluacionEstado(false)
-            console.error(`No se encontró un usuario con el ID.`);
           }
-        } else {
-          setEvaluacionEstado(false)
         }
 
-        setIsLoading(false);
       } catch (error) {
         console.error("Error al obtener el usuario:", error.message);
         setIsLoading(false);
@@ -78,36 +64,6 @@ export const MiEvaluacion = () => {
 
     fetchUser();
   }, [id]);
-
-  // Obtén el mes actual y los tres meses siguientes
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth(); // 0 = enero, 1 = febrero, ...
-  const months = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
-  const monthNames = [];
-  for (let i = 0; i < 4; i++) {
-    const nextMonthIndex = (currentMonth + i) % 12;
-    monthNames.push(months[nextMonthIndex]);
-  }
-  // Calcula el promedio de un conjunto de notas
-  // const calcularPromedio = (notas) => {
-  //   const notasNumericas = notas.map((nota) => parseFloat(nota));
-  //   const sumaNotas = notasNumericas.reduce((total, nota) => total + nota, 0);
-  //   const promedio = sumaNotas / notasNumericas.length;
-  //   return promedio.toFixed(2); // Redondea a 2 decimales
-  // };
 
   return (
     <div className="flex flex-col gap-0">
@@ -136,85 +92,21 @@ export const MiEvaluacion = () => {
         }
       </div>
 
-      {
-        evaluarRol('Colaborador') ? (
 
-          <>
-          {/* 'DESEMPEÑO' Table */}
       <h2 className="text-white text-center text-xl bg-[#0e161b] py-2 rounded-tl-lg rounded-tr-lg border-b border-cv-secondary">
-        Colaborador
+        { evaluarRol('Colaborador') ? "Colaborador" :"Líderes"   }
       </h2>
+
       <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden ">
         <div className="w-full min-w-full overflow-x-auto scrollbar">
           <table className="w-full text-sm text-left text-white">
-            <thead className="text-base uppercase">
-              <tr>
-                <th className="px-6 py-4 whitespace-nowrap">Mes</th>
-                <th className="px-6 py-4 whitespace-nowrap">Habilidades blandas</th>
-                <th className="px-6 py-4 whitespace-nowrap">Desempeño</th>
-                <th className="px-6 py-4 whitespace-nowrap">Autoevaluación</th>
-                <th className="px-6 py-4 whitespace-nowrap">Habilidades duras</th>
-                <th className="px-6 py-4 whitespace-nowrap">Promedio</th>
-              </tr>
-            </thead>
-            <tbody className="bg-cv-primary">
-              {monthNames.map((monthName, index) => (
-                <tr className="border-b border-cv-secondary" key={index}>
-                  <th className="px-6 py-4 whitespace-nowrap">{monthName}</th>
-                  <td className="px-6 py-4 whitespace-nowrap">{performance}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{softskills}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{autoevaluation}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{hardskills}</td>
-                  <th className="px-6 py-4 whitespace-nowrap">
-                    {promedio}
-                  </th>
-                </tr>
-              ))}
-            </tbody>
+            <HeaderTableMyEvaluation/>
+            <BodyTableMyEvaluation dataPerUser={dataMisEvaluacionesFiltradas} actualizarPromedio={setPromedio}/>
           </table>
         </div>
       </div>
-          </>
-        ): (
-          <>
-                <h2 className="text-white text-center text-xl bg-[#0e161b] py-2 rounded-tl-lg rounded-tr-lg border-b border-cv-secondary">
-                  Líderes
-                </h2>
 
-                <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden mb-5 ">
-                  <div className="w-full min-w-full overflow-x-auto scrollbar">
-                    <table className="w-full text-sm text-left text-white">
-                      <thead className="text-base uppercase">
-                        <tr>
-                          <th className="px-6 py-4 whitespace-nowrap">Mes</th>
-                          <th className="px-6 py-4 whitespace-nowrap">Habilidades blandas</th>
-                          <th className="px-6 py-4 whitespace-nowrap">Desempeño</th>
-                          <th className="px-6 py-4 whitespace-nowrap">Autoevaluación</th>
-                          <th className="px-6 py-4 whitespace-nowrap">Habilidades duras</th>
-                          <th className="px-6 py-4 whitespace-nowrap">Promedio</th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-cv-primary">
-                        {monthNames.map((monthName, index) => (
-                          <tr className="border-b border-cv-secondary" key={index}>
-                            <th className="px-6 py-4 whitespace-nowrap">{monthName}</th>
-                            <td className="px-6 py-4 whitespace-nowrap">{performance}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">{softskills}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">{autoevaluation}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">{hardskills}</td>
-                            <th className="px-6 py-4 whitespace-nowrap">
-                              {promedio}
-                            </th>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                </>
-        )
-      }
-      
+
     </div>
   );
 }
