@@ -66,47 +66,51 @@ export const MiEvaluacion = () => {
   }, [id]);
 
   return (
-    <div className="flex flex-col gap-0">
+    <div
+      className={`flex flex-col gap-0 ${
+        isLoading && "h-[100%]"
+      }`}
+    >
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="w-full rounded-lg bg-cv-primary py-4 px-8 mb-4">
-          <div className="flex flex-row justify-between">
-            <p className="text-gray-400 font-medium">Nombre:</p>
-            <p className="text-gray-400 font-medium">Nota Final:</p>
-          </div>
-          <div className="flex flex-row justify-between">
-            <p className="text-white font-medium">{name}</p>
-            <p className="text-white font-medium">{promedio}</p>
-          </div>
-        </div>
-      )}
-
-      <div>
-        {
-          !evaluacionEstado && (
-            <div>
-              <p className="text-gray-400 font-semibold pb-4 px-2">Usted aún no cuenta con sus notas, comuníquese con sú lider</p>
+        <>
+          <div className="w-full rounded-lg bg-cv-primary py-4 px-8 mb-4">
+            <div className="flex flex-row justify-between">
+              <p className="text-gray-400 font-medium">Nombre:</p>
+              <p className="text-gray-400 font-medium">Nota Final:</p>
             </div>
-          )
-        }
-      </div>
+            <div className="flex flex-row justify-between">
+              <p className="text-white font-medium">{name}</p>
+              <p className="text-white font-medium">{promedio}</p>
+            </div>
+          </div>
 
+          <div>
+            {!evaluacionEstado && (
+                <p className="text-gray-400 font-semibold pb-4 px-2">
+                  Usted aún no cuenta con sus notas, comuníquese con sú lider
+                </p>
+            )}
+          </div>
 
-      <h2 className="text-white text-center text-xl bg-[#0e161b] py-2 rounded-tl-lg rounded-tr-lg border-b border-cv-secondary">
-        { evaluarRol('Colaborador') ? "Colaborador" :"Líderes"   }
-      </h2>
+          <h2 className="text-white text-center text-xl bg-[#0e161b] py-2 rounded-tl-lg rounded-tr-lg border-b border-cv-secondary">
+            {evaluarRol("Colaborador") ? "Colaborador" : "Líderes"}
+          </h2>
 
-      <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden ">
-        <div className="w-full min-w-full overflow-x-auto scrollbar">
-          <table className="w-full text-sm text-left text-white">
-            <HeaderTableMyEvaluation/>
-            <BodyTableMyEvaluation dataPerUser={dataMisEvaluacionesFiltradas} actualizarPromedio={setPromedio}/>
-          </table>
-        </div>
-      </div>
-
-
+          <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden ">
+            <div className="w-full min-w-full overflow-x-auto scrollbar">
+              <table className="w-full text-sm text-left text-white">
+                <HeaderTableMyEvaluation />
+                <BodyTableMyEvaluation
+                  dataPerUser={dataMisEvaluacionesFiltradas}
+                  actualizarPromedio={setPromedio}
+                />
+              </table>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
