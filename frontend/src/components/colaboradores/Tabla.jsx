@@ -20,15 +20,6 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 									Nombre
 								</th>
 								<th scope="col" className="px-6 py-4 whitespace-nowrap">
-									Teléfono
-								</th>
-								<th scope="col" className="px-6 py-4 whitespace-nowrap">
-									Email
-								</th>
-								<th scope="col" className="px-6 py-4 whitespace-nowrap">
-									DNI
-								</th>
-								<th scope="col" className="px-6 py-4 whitespace-nowrap">
 									Departamento
 								</th>
 								<th scope="col" className="px-6 py-4 whitespace-nowrap">
@@ -39,9 +30,6 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 								</th>
 								<th scope="col" className="px-6 py-4 whitespace-nowrap">
 									Turno
-								</th>
-								<th scope="col" className="px-6 py-4 whitespace-nowrap">
-									F. Nacimiento
 								</th>
 								<th scope="col" className="px-6 py-4 whitespace-nowrap">
 									F. Ingreso
@@ -67,15 +55,6 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 										{`${users.name} ${users.surname}`}
 									</th>
 									<td className="px-6 py-4 whitespace-nowrap">
-										{users.cellphone}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.email}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.dni}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
 										{users.position[0].core.department.name}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">
@@ -86,9 +65,6 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">
 										{users.shift}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{users.birthday}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">
 										{users.date_start}
