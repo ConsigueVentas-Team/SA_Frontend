@@ -1,22 +1,37 @@
+import { useState, useEffect } from "react";
 
 import PropTypes from 'prop-types';
 import Tooltip from "@mui/material/Tooltip";
 
 export const SearchBar = ({ value, onChange }) => {
+	const [inputValue, setInputValue] = useState(value);
+	const debounceTime = 500; // Establece el tiempo de debounce en milisegundos
+
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			onChange(inputValue); // Llama a onChange después de debounceTime
+		}, debounceTime);
+
+		// Limpia el temporizador anterior en cada cambio de inputValue
+		return () => clearTimeout(timeoutId);
+	}, [inputValue, onChange]);
+
+	const handleInputChange = (e) => {
+		setInputValue(e.target.value);
+	};
 
 	return (
-		<>
-			<div className="relative flex w-full flex-wrap items-stretch">
-				<input
-					type="text"
-					value={value}
-					onChange={onChange}
-					className="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-md border border-solid border-cv-primary bg-transparent bg-clip-padding p-2 text-base font-normal leading-relaxed text-cv-cyan outline-none transition duration-200 ease-in-out"
-					placeholder="Buscar por nombre o apellido" />
-			</div>
-		</>
-	)
-}
+		<div className="relative flex w-full flex-wrap items-stretch">
+			<input
+				type="text"
+				value={inputValue}
+				onChange={handleInputChange}
+				className="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-md border border-solid border-cv-primary bg-transparent bg-clip-padding p-2 text-base font-normal leading-relaxed text-cv-cyan outline-none transition duration-200 ease-in-out"
+				placeholder="Buscar por nombre o apellido"
+			/>
+		</div>
+	);
+};
 
 SearchBar.propTypes = {
 	value: PropTypes.string.isRequired,

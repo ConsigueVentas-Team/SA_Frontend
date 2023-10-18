@@ -115,8 +115,8 @@ export const Colaboradores = () => {
     setShift(event.target.value);
   };
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const handleSearchChange = (value) => {
+    setName(value);
   };
 
   useEffect(() => {
@@ -288,7 +288,7 @@ export const Colaboradores = () => {
 
         <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-9 gap-x-0 md:gap-4">
           <div className="col-span-1 row-start-2 md:col-span-8 md:row-start-1">
-            <SearchBar value={name} onChange={handleNameChange} />
+            <SearchBar value={name} onChange={handleSearchChange} />
           </div>
           <div className="col-span-2 md:col-start-1 md:row-start-2">
             <SelectOption
