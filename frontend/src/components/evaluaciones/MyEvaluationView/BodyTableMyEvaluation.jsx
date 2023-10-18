@@ -22,8 +22,10 @@ function BodyTableMyEvaluation({ dataPerUser, actualizarPromedio }) {
       (accumulator, currentValue) => accumulator + currentValue.data[0].promedio,
       0
     )/filtrarVacios.length;
-    actualizarPromedio(promedioFinal)
-    console.log("PROMEDIO FINAL",promedioFinal);
+    isNaN(promedioFinal)
+      ? actualizarPromedio("-")
+      : actualizarPromedio(promedioFinal);
+    
     setData([...filtrarVacios]);
   }, [dataPerUser]);
 
