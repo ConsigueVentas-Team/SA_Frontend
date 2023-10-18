@@ -49,6 +49,8 @@ export const Asistencias = () => {
   );
   const token = tokenD.toString(enc.Utf8);
 
+  console.log("Etapa 1");
+
   useEffect(() => {
     fetch(import.meta.env.VITE_API_URL + "/departments/list", {
       headers: {
@@ -58,6 +60,8 @@ export const Asistencias = () => {
     })
       .then((response) => response.json())
       .then((data) => setDepartments(data));
+
+      console.log("Etapa 2");
 
     fetch(import.meta.env.VITE_API_URL + "/cores/list", {
       headers: {
@@ -69,10 +73,14 @@ export const Asistencias = () => {
       .then((data) => setCores(data));
   }, [token]);
 
+  console.log("Etapa 3");
+
   const departmentOptions = departments.map((department) => ({
     value: department.id,
     label: department.name,
   }));
+
+  console.log("Etapa 4");
 
   const coreOptions = cores
     .filter((core) => core.department_id === parseInt(selectedDepartment))
@@ -99,11 +107,16 @@ export const Asistencias = () => {
       const url = new URL(import.meta.env.VITE_API_URL + `/attendance`);
       url.searchParams.append("page", page);
 
+      console.log("Etapa 6");
+
       if (date) url.searchParams.append("date", date);
       if (shift) url.searchParams.append("shift", shift);
       if (department) url.searchParams.append("department", department);
       if (core) url.searchParams.append("core", core);
       if (name) url.searchParams.append("name", name);
+
+
+      console.log("Etapa 7");
 
       const response = await fetch(url, {
         headers: {
@@ -111,6 +124,8 @@ export const Asistencias = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      console.log("Etapa 8");
       const data = await response.json();
       if (response.ok) {
         setAttendance(data.data);
