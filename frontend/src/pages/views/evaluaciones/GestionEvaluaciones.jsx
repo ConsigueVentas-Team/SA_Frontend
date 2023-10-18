@@ -142,7 +142,7 @@ export const GestionEvaluaciones = () => {
                                                 word.charAt(0).toUpperCase() + word.slice(1)
                                         )
                                         .join(' ')
-                                    } {id}
+                                    }
                                 </p>
                                 <p>20</p>
                             </div>
