@@ -23,7 +23,6 @@ function BodyTableMyEvaluation({ dataPerUser, actualizarPromedio }) {
       0
     )/filtrarVacios.length;
     actualizarPromedio(promedioFinal)
-    console.log("PROMEDIO FINAL",promedioFinal);
     setData([...filtrarVacios]);
   }, [dataPerUser]);
 
