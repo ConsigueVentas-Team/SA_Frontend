@@ -139,11 +139,10 @@ export const GestionEvaluaciones = () => {
                                         .split('-')
                                         .map(
                                             word =>
-                                                word.charAt(0).toUpperCase() +
-                                                word.slice(1)
+                                                word.charAt(0).toUpperCase() + word.slice(1)
                                         )
-                                        .join(' ')}
-                                    {id}
+                                        .join(' ')
+                                    } {id}
                                 </p>
                                 <p>20</p>
                             </div>

@@ -204,17 +204,17 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen }) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody className='bg-cv-primary'>
+                <tbody className='bg-cv-primary rounded-tl-lg rounded-tr-lg border-b border-cv-secondary'>
                     {/* {mostrarEncabezados && ( */}
                     <tr className={`${filaClase} bg-[#0e161b]`}>
-                        <td className={celdaClase}>MES</td>
-                        <td className={celdaClase}>softskills</td>
-                        <td className={celdaClase}>hardskills</td>
+                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>MES</td>
+                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>HABILIDADES BLANDAS</td>
+                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>HABILIDADES TÉCNICAS</td>
                         {/* {rol === 'Colaborador' && ( */}
-                        <td className={celdaClase}>performance</td>
+                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>RENDIMIENTO</td>
                         {/* )} */}
-                        <td className={celdaClase}>autoevaluation</td>
-                        <td className={celdaClase}>PROMEDIO</td>
+                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>AUTOEVALUACIÓN</td>
+                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>PROMEDIO</td>
                     </tr>
                     {/* )} */}
 
