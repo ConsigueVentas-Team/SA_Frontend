@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useEvaluationApi } from "../hooks/EvaluationApi";
+import Loading from '../../essentials/Loading'
 
 function ListaNotas({ filters }) {
   const { notas, isLoading: apiIsLoading } = useEvaluationApi(filters);
@@ -18,7 +19,7 @@ function ListaNotas({ filters }) {
     <div>
       <h1>Notas de Evaluación</h1>
       {isLoading ? (
-        <p>Cargando...</p>
+        <Loading/>
       ) : (
         <ul>
           {notas && notas.length > 0 ? (
