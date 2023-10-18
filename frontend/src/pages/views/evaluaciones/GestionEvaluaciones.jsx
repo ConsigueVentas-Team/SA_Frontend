@@ -7,15 +7,22 @@ import Loading from '../../../components/essentials/Loading'
 
 export const GestionEvaluaciones = () => {
     const { id, name } = useParams()
+
     const [idd, setIdd] = useState(null)
-    // const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-    // const [rol, setRol] = useState(null)
 
     const [isModalOpen, setIsModalOpen] = useState(false)
 
+    const [promedio, setPromedio] = useState([])
+
     const handleCloseModal = () => {
         setIsModalOpen(false)
+    }
+
+    const computarNombre = () => {
+        const nombre = name.split('-')
+        const nombreComputado = nombre.join(' ')
+        return nombreComputado
     }
 
     useEffect(() => {
@@ -75,50 +82,8 @@ export const GestionEvaluaciones = () => {
         fetchUser()
     }, [])
 
-    // useEffect(() => {
-    //     const fetchUserInfo = async () => {
-    //         try {
-    //             const apiUrl = import.meta.env.VITE_API_URL
-    //             const tokenKey = import.meta.env.VITE_TOKEN_KEY
-
-    //             const url = new URL(`${apiUrl}/users/${id}`)
-
-    //             const tokenD = AES.decrypt(
-    //                 localStorage.getItem('token'),
-    //                 tokenKey
-    //             )
-    //             const token = tokenD.toString(enc.Utf8)
-
-    //             const response = await fetch(url, {
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                     Authorization: `Bearer ${token}`,
-    //                 },
-    //             })
-
-    //             if (!response.ok) {
-    //                 throw Error(
-    //                     `Error al obtener datos del usuario: ${response.status}`
-    //                 )
-    //             }
-
-    //             const userData = await response.json()
-
-    //             setRol(userData.usuario.roles[0].name)
-    //         } catch (error) {
-    //             console.error(
-    //                 'Error al obtener los datos adicionales del usuario:',
-    //                 error.message
-    //             )
-    //         }
-    //     }
-
-    //     fetchUserInfo()
-    // }, [])
-
     return (
         <>
-            {/* <button onClick={handleOpenModal}>Abrir Modal</button> */}
             <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={idd} />
 
             <div className='flex flex-col gap-4'>
@@ -134,24 +99,14 @@ export const GestionEvaluaciones = () => {
 
                             <div className='flex flex-row justify-between'>
                                 <p>
-                                    {name
-                                        .toLowerCase()
-                                        .split('-')
-                                        .map(
-                                            word =>
-                                                word.charAt(0).toUpperCase() + word.slice(1)
-                                        )
-                                        .join(' ')
-                                    } {id}
+                                    {computarNombre()}
                                 </p>
-                                <p>20</p>
+                                <p>{promedio}</p>
                             </div>
                         </div>
                         <TablaEvaluaciones
-                            // rol={rol}
+                            setPromedio={setPromedio}
                             id={id}
-                            // isOpen={isModalOpen}
-                            // handleCloseModal={handleCloseModal}
                             setIdd={setIdd}
                             setIsModalOpen={setIsModalOpen}
                         />
