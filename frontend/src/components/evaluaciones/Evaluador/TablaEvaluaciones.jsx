@@ -2,11 +2,24 @@ import { useState, useEffect } from 'react'
 import ModalConfirmacion from './Modals/ModalConfirmacion'
 import { AES, enc } from 'crypto-js'
 
-const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen }) => {
+const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
     const [numFilas, setNumFilas] = useState(0)
     const [mostrarModal, setMostrarModal] = useState(false)
-    // const [mostrarEncabezados, setMostrarEncabezados] = useState(true)
     const [evaluacion, setEvaluacion] = useState([])
+
+    const calcularPromedio = () => {
+        if (evaluacion.length > 0) {
+            const promedio = evaluacion.reduce((acc, curr) => {
+                return acc + curr.promedio
+            }, 0)
+
+            const prom = promedio / evaluacion.length
+
+            return prom.toFixed(2)
+        }
+    }
+
+    setPromedio(calcularPromedio())
 
     const obtenerNombreDelMes = fecha => {
         const meses = [
@@ -36,9 +49,7 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen }) => {
     const confirmarAgregarFila = async () => {
         setNumFilas(numFilas)
         setMostrarModal(false)
-        // if (numFilas === 0) {
-        //     setMostrarEncabezados(true)
-        // }
+      
 
         try {
             const apiUrl = import.meta.env.VITE_API_URL
@@ -67,19 +78,11 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen }) => {
                 )
             }
 
-            // const nuevaFila = {
-            //     date: mesActual,
-            //     softskills: 'N/A',
-            //     performance: 'N/A',
-            //     autoevaluation: 'N/A',
-            //     hardskills: 'N/A',
-            //     promedio: 'N/A',
-            // }
+            
 
             const result = await response.json()
             setIdd(result.data.id)
 
-            // setEvaluacion([...evaluacion, nuevaFila])
         } catch (error) {
             console.error('Error al agregar la evaluación:', error.message)
         }

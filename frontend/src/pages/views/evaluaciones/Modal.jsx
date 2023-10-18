@@ -91,7 +91,7 @@ const Modal = ({ isOpen, onClose, idd }) => {
 
     return (
         <div
-            className={`fixed top-0 left-0 w-full text-black flex items-center justify-center bg-black bg-opacity-50 ${isOpen ? 'block' : 'hidden'
+            className={`fixed top-0 left-0 w-full h-full text-black flex items-center justify-center bg-black bg-opacity-50 ${isOpen ? 'block' : 'hidden'
                 }`}>
             {isSaving ? (
                 <Loading />
