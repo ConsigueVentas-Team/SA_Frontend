@@ -1,11 +1,13 @@
-const ModalConfirmacion = ({ isOpen, onConfirm, onClose }) => {
+
+const ModalConfirmacion = ({ isOpen, onConfirm, onClose}) => {
     return (
-        <div
+        
+                <div
             className={`fixed top-0 left-0 w-full h-full text-black flex items-center justify-center bg-black bg-opacity-50 ${isOpen ? "block" : "hidden"
                 }`}
             onClick={onClose}
         >
-            <div
+                <div
                 className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md"
                 style={{ margin: "50px" }}
                 onClick={(e) => e.stopPropagation()} // Evitar que el clic dentro del modal lo cierre
@@ -26,7 +28,9 @@ const ModalConfirmacion = ({ isOpen, onConfirm, onClose }) => {
                     </button>
                 </div>
             </div>
+            
         </div>
+        
     );
 };
 

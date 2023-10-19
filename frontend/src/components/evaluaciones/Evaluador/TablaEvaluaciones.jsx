@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react'
 import ModalConfirmacion from './Modals/ModalConfirmacion'
 import { AES, enc } from 'crypto-js'
+import { ModalSpinners } from './Modals/ModalSpinners'
+import { set } from 'date-fns'
 
-const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
+
+const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, setNota2, setNota3, setNota4 }) => {
     const [numFilas, setNumFilas] = useState(0)
     const [mostrarModal, setMostrarModal] = useState(false)
     const [evaluacion, setEvaluacion] = useState([])
+    const [isLoading, setIsLoading] = useState(false);
 
     const calcularPromedio = () => {
         if (evaluacion.length > 0) {
@@ -47,6 +51,7 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
     }
 
     const confirmarAgregarFila = async () => {
+
         setNumFilas(numFilas)
         setMostrarModal(false)
       
@@ -78,11 +83,10 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
                 )
             }
 
-            
-
             const result = await response.json()
             setIdd(result.data.id)
 
+            isLoading(false)
         } catch (error) {
             console.error('Error al agregar la evaluación:', error.message)
         }
@@ -90,6 +94,7 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
 
     const cancelarAgregarFila = () => {
         setMostrarModal(false)
+        setIsLoading(true)
     }
 
     const filaClase = 'border-b border-cv-secondary'
@@ -125,6 +130,8 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
                 const data = await response.json()
 
                 setEvaluacion(data.data)
+
+
             } catch (error) {
                 console.error('Error al obtener la evaluación:', error.message)
             }
@@ -159,7 +166,7 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
                         `Error al obtener datos: ${response.status}`
                     )
                 }
-                //   setIsLoading(false)
+                // setIsLoading(false)
 
                 const data = await response.json()
 
@@ -172,6 +179,8 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
                         //   setEvaluacionEstado(true)
                     }
                 }
+
+                setIsLoading(false)
             } catch (error) {
                 console.error('Error al obtener el usuario:', error.message)
                 //   setIsLoading(false);
@@ -189,7 +198,9 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
                 onClose={cancelarAgregarFila}
             />
 
-            <table className='w-full text-sm text-center text-white'>
+            <ModalSpinners isOpen={isLoading}/>
+
+                <table className='w-full text-sm text-center text-white'>
                 <thead>
                     <tr>
                         <th
@@ -210,7 +221,7 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
                 <tbody className='bg-cv-primary rounded-tl-lg rounded-tr-lg border-b border-cv-secondary'>
                     {/* {mostrarEncabezados && ( */}
                     <tr className={`${filaClase} bg-[#0e161b]`}>
-                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>MES</td>
+                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>FECHA</td>
                         <td className={celdaClase} style={{ fontWeight: 'bold' }}>HABILIDADES BLANDAS</td>
                         <td className={celdaClase} style={{ fontWeight: 'bold' }}>HABILIDADES TÉCNICAS</td>
                         {/* {rol === 'Colaborador' && ( */}
@@ -221,13 +232,18 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
                     </tr>
                     {/* )} */}
 
-                    {evaluacion.map((evaluacionItem, index) => (
+                    
+                  {evaluacion.map((evaluacionItem, index) => (
                         <tr
                             key={index}
                             className={`${filaClase} hover:bg-gray-700`}
                             style={{ cursor: 'pointer' }}
                             onClick={() => {
                                 setIdd(evaluacionItem.id)
+                                setNota1(evaluacionItem.softskills)
+                                setNota2(evaluacionItem.performance)
+                                setNota3(evaluacionItem.hardskills)
+                                setNota4(evaluacionItem.autoevaluation)
                                 setIsModalOpen(true)
                             }}>
                             <td className={celdaClase}>
@@ -258,7 +274,7 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
                         </tr>
                     ))}
 
-                    <tr className={filaClase}>
+                    <tr className=''>
                         <td
                             colSpan={
                                 7
@@ -266,7 +282,7 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
                                 //     ? 6
                                 //     : 7
                             }
-                            className={celdaClase}>
+                            className='px-6 py-4 whitespace-nowrap bg-cv-primary'>
                             <button
                                 className='uppercase font-medium text-cv-cyan-hover'
                                 onClick={agregarFila}>
@@ -276,6 +292,9 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio }) => {
                     </tr>
                 </tbody>
             </table>
+
+
+            
         </div>
     )
 }

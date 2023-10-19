@@ -8,7 +8,6 @@ export const MiEvaluacion = () => {
   const id = localStorage.getItem("iduser");
   const name = localStorage.getItem("name");
   const rol = localStorage.getItem("rol");  
-  console.log("dasdasda"+id)
 
   const evaluarRol = (usuarioRol) => {
     return rol === usuarioRol;
