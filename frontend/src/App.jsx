@@ -49,7 +49,7 @@ function App() {
 
   const resetInactivityTimer = () => {
     clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(handleInactivity, 2 * 60 * 1000);
+    inactivityTimer = setTimeout(handleInactivity, 30 * 60 * 1000);
   };
 
   useEffect(() => {
