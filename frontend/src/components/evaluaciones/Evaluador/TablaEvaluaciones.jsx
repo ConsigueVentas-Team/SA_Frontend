@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import ModalConfirmacion from './Modals/ModalConfirmacion'
 import { AES, enc } from 'crypto-js'
 import { ModalSpinners } from './Modals/ModalSpinners'
-import { set } from 'date-fns'
 
 
 const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, setNota2, setNota3, setNota4 }) => {
