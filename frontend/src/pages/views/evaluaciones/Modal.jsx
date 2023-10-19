@@ -2,19 +2,13 @@ import { useState } from 'react'
 import { AES, enc } from 'crypto-js'
 import Loading from '../../../components/essentials/Loading'
 
-const Modal = ({ isOpen, onClose, idd }) => {
-    const [mes, setMes] = useState('Enero')
+const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
     const [softskills, setSoftskills] = useState('')
     const [performance, setPerformance] = useState('')
     const [autoevaluation, setAutoevaluation] = useState('')
     const [hardskills, setHardskills] = useState('')
     const [error, setError] = useState(null)
     const [isSaving, setIsSaving] = useState(false);
-
-    const handleCloseModal = () => {
-        setIsSaving(false);
-        onClose();
-    };
 
     const handleGuardar = async () => {
         try {
@@ -74,6 +68,7 @@ const Modal = ({ isOpen, onClose, idd }) => {
                     if (autoevaluation > 0 && autoevaluation < 20) {
                         if (hardskills > 0 && hardskills < 20) {
                             handleGuardar()
+                            setIsSaving(true);
                         } else {
                             setError('La nota debe ser entre 1 y 20')
                         }
@@ -100,11 +95,11 @@ const Modal = ({ isOpen, onClose, idd }) => {
                     className='modal mx-auto bg-white p-4 rounded-lg shadow-md'
                     style={{ margin: '50px' }}>
                     <h2 className=' font-bold text-center mb-4'>CARGAR NOTAS</h2>
-                    <h4 className='text-1xl font-bold text-center mb-4 text-gray-600 uppercase'>
+                    {/* <h4 className='text-1xl font-bold text-center mb-4 text-gray-600 uppercase'>
                         {mes}
-                    </h4>
+                    </h4> */}
 
-                    <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
+                    {/* <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
                             <label className='w-2/4 text-gray-500'>ID:</label>
                             <input
@@ -115,12 +110,12 @@ const Modal = ({ isOpen, onClose, idd }) => {
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                             />
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
                             <label className='w-2/4 text-gray-500'>
-                                Habilidades Blandas:
+                                Habilidades Blandas
                             </label>
                             <input
                                 type='number'
@@ -135,7 +130,7 @@ const Modal = ({ isOpen, onClose, idd }) => {
                     <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
                             <label className='w-2/4 text-gray-500'>
-                                Habildiades Tecnicas:
+                                Habildiades Tecnicas
                             </label>
                             <input
                                 type='number'
@@ -150,7 +145,7 @@ const Modal = ({ isOpen, onClose, idd }) => {
                     <div className='mb-4 rounded-lg border border-gray-400  bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
                             <label className='w-2/4 text-gray-500'>
-                                Rendimiento:
+                                Rendimiento
                             </label>
                             <input
                                 type='number'
@@ -165,7 +160,7 @@ const Modal = ({ isOpen, onClose, idd }) => {
                     <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
                             <label className='w-2/4 text-gray-500'>
-                                Autoevaluacion:
+                                Autoevaluacion
                             </label>
                             <input
                                 type='number'
@@ -200,7 +195,6 @@ const Modal = ({ isOpen, onClose, idd }) => {
                         <button
                             onClick={() => {
                                 validarFormulario();
-                                setIsSaving(true);
                             }}
                             className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:font-semibold'
                             style={{ backgroundColor: '#16232b' }}>
