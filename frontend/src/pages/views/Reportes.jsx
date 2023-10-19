@@ -35,10 +35,10 @@ const Reportes = () => {
   }, []);
 
   const tarjetasData = [
-    { titulo: "Total Usuarios", porcentaje: 15, numero: 465165 },
-    { titulo: "Total Usuarios", porcentaje: 2, numero: 465165 },
-    { titulo: "Total Usuarios", porcentaje: 20, numero: 465165 },
-    { titulo: "Total Usuarios", porcentaje: 5, numero: 465165 },
+    { titulo: "TOTAL USUARIOS", porcentaje: 15, numero: 465165 },
+    { titulo: "USUARIOS ACTIVOS", porcentaje: 2, numero: 465165 },
+    { titulo: "INGRESOS", porcentaje: 20, numero: 465165 },
+    { titulo: "SALIDAS", porcentaje: 5, numero: 465165 },  
   ];
   const [mostrar, setMostrar] = useState(false);
   const filtrar = () => {

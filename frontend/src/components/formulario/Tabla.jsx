@@ -83,7 +83,7 @@ export default function Tabla({
   return (
     <Box
       sx={{ width: "100%" }}
-      className=" bg-cv-primary rounded-md overflow-hidden mt-20"
+      className=" bg-cv-primary rounded-md overflow-hidden mt-10"
     >
       <TableContainer className="bg-cv-primary ">
         <Table sx={{ minWidth: 500 }} aria-label="Tabla Evaluaciones">
