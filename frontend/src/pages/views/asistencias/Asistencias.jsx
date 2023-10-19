@@ -9,8 +9,26 @@ import {
 } from "../../../components/asistencias/Asistencias";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ChecklistIcon from '@mui/icons-material/Checklist';
+import ChecklistIcon from "@mui/icons-material/Checklist";
 import Loading from "../../../components/essentials/Loading";
+
+const getData = async (url) => {
+  const tokenD = AES.decrypt(
+    localStorage.getItem("token"),
+    import.meta.env.VITE_TOKEN_KEY
+  );
+  const token = tokenD.toString(enc.Utf8);
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => data);
+
+  return response;
+};
 
 export const Asistencias = () => {
   const [attendance, setAttendance] = useState(null);
@@ -23,8 +41,6 @@ export const Asistencias = () => {
   );
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const [viewCalendar, setViewCalendar] = useState(false);
-  const [viewLeyenda, setViewLeyenda] = useState(false);
   const [cargando, setCargando] = useState(true);
   const [pagination, setPagination] = useState({
     current_page: 1,
@@ -51,27 +67,25 @@ export const Asistencias = () => {
 
   console.log("Etapa 1");
 
-  useEffect(() => {
-    fetch(import.meta.env.VITE_API_URL + "/departments/list", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setDepartments(data));
+  fetch(import.meta.env.VITE_API_URL + "/departments/list", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => setDepartments([...data]));
 
-      console.log("Etapa 2");
+  console.log("Etapa 2");
 
-    fetch(import.meta.env.VITE_API_URL + "/cores/list", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setCores(data));
-  }, [token]);
+  fetch(import.meta.env.VITE_API_URL + "/cores/list", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => setCores([...data]));
 
   console.log("Etapa 3");
 
@@ -97,15 +111,17 @@ export const Asistencias = () => {
     setName(event.target.value);
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     setCargando(true);
     obtenerAsistencia(date, shift, department, core, name);
   }, [date, shift, department, core, name]);
 
-  const obtenerAsistencia = async (page) => {
+  const obtenerAsistencia = async () => {
     try {
-      const url = new URL(import.meta.env.VITE_API_URL + `/attendance`);
-      url.searchParams.append("page", page);
+      const url = new URL(import.meta.env.VITE_API_URL + `/attendance/list`);
+      url.searchParams.append("page", currentPage);
 
       console.log("Etapa 6");
 
@@ -115,8 +131,8 @@ export const Asistencias = () => {
       if (core) url.searchParams.append("core", core);
       if (name) url.searchParams.append("name", name);
 
-
       console.log("Etapa 7");
+      console.log(url);
 
       const response = await fetch(url, {
         headers: {
@@ -124,6 +140,8 @@ export const Asistencias = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      console.log(response);
 
       console.log("Etapa 8");
       const data = await response.json();
@@ -140,7 +158,7 @@ export const Asistencias = () => {
   };
 
   const handlePageChange = (newPage) => {
-    obtenerAsistencia(newPage);
+    setCurrentPage(newPage);
   };
 
   const handleClearFilter = () => {
@@ -159,15 +177,12 @@ export const Asistencias = () => {
     setShowImageModal(false);
   };
 
-  const openUtil = () => {
-    setViewLeyenda(true);
-    setViewCalendar(true);
-  };
+  // VALID STATES
+  const [isOpenCalendar, setIsOpenCalendar] = useState(false);
 
-  const closeUtil = () => {
-    setViewLeyenda(false);
-    setViewCalendar(false);
-  };
+  const openCalendar = () => setIsOpenCalendar(true);
+  const closeCalendar = () => setIsOpenCalendar(false);
+ 
 
   const handleDayClick = (selectedDay) => {
     const formattedDate = selectedDay.toISOString().split("T")[0];
@@ -175,40 +190,37 @@ export const Asistencias = () => {
     setDate(formattedDate);
   };
 
+
+  console.log("DATOS", date, month);
+
+
   return (
     <>
-      <nav className="flex" >
-            <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
-                <li className="inline-flex items-center">
-                    <div className="inline-flex items-center text-base font-medium text-gray-400">
-                        <ChecklistIcon />
-                        <span className='ml-1 text-base font-medium md:ml-2'>Asistencias</span>
-                    </div>
-                </li>
-            </ol>
-        </nav>
+      <nav className="flex">
+        <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
+          <li className="inline-flex items-center">
+            <div className="inline-flex items-center text-base font-medium text-gray-400">
+              <ChecklistIcon />
+              <span className="ml-1 text-base font-medium md:ml-2">
+                Asistencias
+              </span>
+            </div>
+          </li>
+        </ol>
+      </nav>
       <div className="h-full bg-cv-secondary mt-5">
         <div className="space-y-3 w-full">
           <div className="flex w-full">
             <div>
-              {viewCalendar && viewLeyenda ? (
-                <button
-                  className="flex items-center justify-center p-2 mr-3 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold"
-                  onClick={closeUtil}
-                  >
-                  <ExpandLessIcon />
-                </button>
-              ) : (
-                <button
-                  className="flex items-center justify-center p-2 mr-3 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold"
-                  onClick={openUtil}
-                >
-                  <ExpandMoreIcon />
-                </button>
-              )}
+              <button
+                className="flex items-center justify-center p-2 mr-3 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold"
+                onClick={isOpenCalendar ? closeCalendar : openCalendar}
+              >
+                {isOpenCalendar ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </button>
             </div>
             <div className="w-full">
-              <Filtros
+              {/* <Filtros
                 name={name}
                 shift={shift}
                 department={department}
@@ -226,15 +238,19 @@ export const Asistencias = () => {
                 setSelectedCore={setSelectedCore}
                 openImageModal={openImageModal}
                 setImage={setImage}
-              />
+              /> */}
             </div>
           </div>
-          {viewCalendar && viewLeyenda && (
+          {isOpenCalendar && (
             <div className="w-full flex flex-col md:flex-row justify-start gap-3">
-              <div className={`w-full md:w-1/3 animate-fade-in ${viewLeyenda ? 'opacity-100' : 'opacity-0'}`}>
+              <div
+                className={`w-full md:w-1/3 animate-fade-in`}
+              >
                 <Leyenda />
               </div>
-              <div className={`w-full md:w-4/6 space-y-3 animate-fade-in ${viewCalendar ? 'opacity-100' : 'opacity-0'}`}>
+              <div
+                className={`w-full md:w-4/6 space-y-3 animate-fade-in`}
+              >
                 <div className="w-full bg-cv-primary rounded-lg">
                   <div className="w-full flex flex-col items-center justify-between">
                     <Calendar
@@ -260,9 +276,9 @@ export const Asistencias = () => {
             />
           )}
 
-          {showImageModal && (
+          {/* {showImageModal && (
             <ModalImagen image={image} closeImageModal={closeImageModal} />
-          )}
+          )} */}
         </div>
       </div>
     </>
