@@ -34,6 +34,7 @@ export const Area = () => {
   const [cargando, setCargando] = useState(true);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(false);
 
   useEffect(() => {
     setCargando(false);
@@ -65,6 +66,11 @@ export const Area = () => {
   const cerrarEliminarModal = () => {
     setMostrarEliminarModal(false);
   };
+
+  const closeAlert = () => {
+    setAlertMessage(false);
+  };
+
   const manejarEnvio = (e) => {
     e.preventDefault();
     if (palabra === "") return;
@@ -79,6 +85,7 @@ export const Area = () => {
     ).then(() => {
       setPalabra("");
       setLoading(false);
+      setAlertMessage(true);
     });
   };
 
@@ -158,7 +165,17 @@ export const Area = () => {
             </div>
           </div>
         )}
-
+        {alertMessage && (
+          <div className="bg-green-200 border-green-400 text-green-700 border px-4 py-3 rounded relative mt-4" role="alert">
+            <strong className="font-bold">¡Éxito!</strong>
+            <span className="block sm:inline">El envío se ha completado con éxito.</span>
+            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+              <button onClick={closeAlert} className="text-green-700">
+                <span className="text-green-400">×</span>
+              </button>
+            </span>
+          </div>
+        )}
         {loading ? <Loading /> : (
           <Tabla
             data={Position}
