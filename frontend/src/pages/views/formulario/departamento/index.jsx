@@ -123,21 +123,24 @@ export const Departamento = () => {
 
           <button onClick={openModal} className="w-50 py-2 px-5 mt-10 rounded-md text-cv-primary text-white bg-cv-primary flex items-center justify-center text-l font-semibold">AGREGAR</button>
           {mostrarModal && (
-            <div className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md">
-              <form onSubmit={manejarEnvio}>
-                <div className="flex gap-8 w-10/12 sm:items-center flex-col sm:flex-row items-start">
-                  <Input
-                    valor={palabra}
-                    actualizarValor={setPalabra}
-                    label={"Departamento"}
-                    textoHolder={"Ingresa departamento"}
-                  ></Input>
-                </div>
-                <div className="flex justify-end gap-4 mt-4">
-                  <Submit></Submit>
-                  <button onClick={closeModal} className="w-50 py-1 px-5 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-l font-semibold uppercase active:scale-95 ease-in-out duration-300">Cerrar</button>
-                </div>
-              </form>
+            <div className="fixed inset-0 flex items-center justify-center z-50">
+              <div className="fixed inset-0 bg-black opacity-50"></div>
+              <div className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <form onSubmit={manejarEnvio}>
+                  <div className="flex gap-12 w-12/12 sm:items-center flex-col sm:flex-row items-start text-black">
+                    <Input
+                      valor={palabra}
+                      actualizarValor={setPalabra}
+                      label={"Departamento"}
+                      textoHolder={"Ingresa departamento"}
+                    ></Input>
+                  </div>
+                  <div className="flex justify-center gap-4 mt-4">
+                    <Submit></Submit>
+                    <button onClick={closeModal} className="w-50 py-1 px-5 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-l font-semibold uppercase active:scale-95 ease-in-out duration-300">Cerrar</button>
+                  </div>
+                </form>
+              </div>
             </div>
           )}
 

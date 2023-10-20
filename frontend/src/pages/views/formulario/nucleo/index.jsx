@@ -61,10 +61,11 @@ export const Nucleo = () => {
   const cerrarEliminarModal = () => {
     setMostrarEliminarModal(false);
   };
+
   const manejarEnvio = (e) => {
     e.preventDefault();
     if (palabra == "") return;
-    else {
+    setLoading(true);
       AgregarDato(
         token,
         palabra,
@@ -72,9 +73,10 @@ export const Nucleo = () => {
         department_id,
         "false",
         setIsChecked
-      );
-    }
-    setPalabra("");
+      ).then(() => {
+        setPalabra("");
+        setLoading(false);
+      });
   };
 
   const openModal = () => {
@@ -92,7 +94,7 @@ export const Nucleo = () => {
 
   return (
     <>
-      <div className="w-full ">
+      <div className="w-full">
         <ActiveLastBreadcrumb actual={"nucleo"}></ActiveLastBreadcrumb>
         {MostrarEditarModal && (
           <ModalBox
@@ -131,43 +133,41 @@ export const Nucleo = () => {
           ></ModalBoxEliminar>
         )}
 
-
         <button onClick={openModal} className="w-50 py-2 px-5 mt-10 rounded-md text-cv-primary text-white bg-cv-primary flex items-center justify-center text-l font-semibold">AGREGAR</button>
         {mostrarModal && (
-          <div className="modal w-80 mx-auto bg-white p-4 rounded-lg shadow-md">
-            <form
-              className="w-full flex justify-center gap-11 flex-col md:flex-col  mt-7 items-center "
-              onSubmit={manejarEnvio}
-            >
-              <div className="w-50 sm:items-center flex flex-col sm:flex-row items-start">
-                <Inputs
-                  valor={palabra}
-                  actualizarValor={setPalabra}
-                  setDepartment_id={setDepartment_id}
-                  token={token}
-                ></Inputs>
-              </div>
-              <div className="flex justify-center gap-4 mt-4">
-                <Submit></Submit>
-                <button onClick={closeModal} className="w-50 py-1 px-5 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-l font-semibold uppercase active:scale-95 ease-in-out duration-300">Cerrar</button>
-              </div>
-            </form>
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-black opacity-50"></div>
+            <div className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <form
+                className="w-full flex justify-center gap-11 flex-col md:flex-col  mt-7 items-center "
+                onSubmit={manejarEnvio}
+              >
+                <div className="w-50 sm:items-center flex flex-col sm:flex-row items-start">
+                  <Inputs
+                    valor={palabra}
+                    actualizarValor={setPalabra}
+                    setDepartment_id={setDepartment_id}
+                    token={token}
+                  ></Inputs>
+                </div>
+                <div className="flex justify-center gap-4 mt-4">
+                  <Submit></Submit>
+                  <button onClick={closeModal} className="w-50 py-1 px-5 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-l font-semibold uppercase active:scale-95 ease-in-out duration-300">Cerrar</button>
+                </div>
+              </form>
+            </div>
           </div>
         )}
 
-      {cargando ? (
-        <Tabla
-          data={Nucleos}
-          abrirEliminarModal={abrirEliminarModal}
-          abrirEditarModal={abrirEditarModal}
-          nucleo={"Núcleo"}
-        ></Tabla>
-      ) : (
-        <div className="w-full h-96 flex justify-center items-center ">
-          <Loading></Loading>
-        </div>
-      )}
-    </div >
+        {loading ? <Loading /> : (
+          <Tabla
+            data={Nucleos}
+            abrirEliminarModal={abrirEliminarModal}
+            abrirEditarModal={abrirEditarModal}
+            nucleo={"Núcleo"}
+          ></Tabla>
+        )}
+      </div >
     </>
   );
 };

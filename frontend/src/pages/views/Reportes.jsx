@@ -9,11 +9,13 @@ import Tarjeta from "../../components/reportes/Tarjeta";
 import { useEffect } from "react";
 import ObtenerDatos from "../../components/formulario/Helpers/hooks/ObtenerDatos";
 import { AES, enc } from "crypto-js";
+
 const Reportes = () => {
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
     import.meta.env.VITE_TOKEN_KEY
   );
+
   const token = tokenD.toString(enc.Utf8);
   const [departamentos, setDepartamentos] = useState([]);
   const [nucleos, setNucleos] = useState([]);
@@ -38,7 +40,7 @@ const Reportes = () => {
     { titulo: "TOTAL USUARIOS", porcentaje: 15, numero: 465165 },
     { titulo: "USUARIOS ACTIVOS", porcentaje: 2, numero: 465165 },
     { titulo: "INGRESOS", porcentaje: 20, numero: 465165 },
-    { titulo: "SALIDAS", porcentaje: 5, numero: 465165 },  
+    { titulo: "SALIDAS", porcentaje: 5, numero: 465165 },
   ];
   const [mostrar, setMostrar] = useState(false);
   const filtrar = () => {
