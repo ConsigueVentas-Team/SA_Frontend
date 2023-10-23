@@ -74,6 +74,7 @@ export const Departamento = () => {
     } catch (error) {
     } finally {
       setLoading(false);
+      setMostrarModal(false);
     }
   };
 

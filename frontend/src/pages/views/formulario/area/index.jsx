@@ -86,6 +86,7 @@ export const Area = () => {
       setPalabra("");
       setLoading(false);
       setAlertMessage(true);
+      setMostrarModal(false);
     });
   };
 
