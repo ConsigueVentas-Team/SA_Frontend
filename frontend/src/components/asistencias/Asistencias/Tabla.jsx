@@ -5,7 +5,9 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setImage }) => {
+export const Tabla = ({ data, currentPage, lastPage, total, setCurrentPage, openImageModal, setImage }) => {
+
+	console.log("ATTENDANCE ", data);
 
 	const handleViewClick = (attendance) => {
 		openImageModal();
@@ -47,9 +49,11 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 								<tr key={attendance.id} className='border-b border-cv-secondary'>
 									<th scope="row" className="px-6 py-4 text-center whitespace-nowrap">
 										{attendance.user.position[0].core.department.name}
+										
 									</th>
 									<td className="px-6 py-4 text-center whitespace-nowrap">
 										{attendance.user.position[0].core.name}
+										
 									</td>
 									<td className="px-6 py-4 text-center whitespace-nowrap">
 										{attendance.user.shift}
@@ -62,16 +66,16 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 									</th>
 									<th scope="row" className="px-6 py-4 text-center whitespace-nowrap">
 										<div className='flex items-center justify-center'>
-											{attendance.attendance === 1 && (
+											{attendance.attendance && (
 												<div className="w-5 h-5 rounded-full bg-[#24FF00]"></div>
 											)}
-											{attendance.delay === 1 && attendance.justification === 0 && (
+											{attendance.delay && !attendance.justification && (
 												<div className="w-5 h-5 rounded-full bg-[#FAFF00]"></div>
 											)}
-											{attendance.delay === 0 && attendance.justification === 0 && attendance.attendance === 0 && (
+											{!attendance.delay && !attendance.justification && !attendance.attendance && (
 												<div className="w-5 h-5 rounded-full bg-[#FF0000]"></div>
 											)}
-											{(attendance.justification === 1) && (
+											{(attendance.justification) && (
 												<div className="w-5 h-5 rounded-full bg-[#57F3FF]"></div>
 											)}
 										</div>
@@ -93,18 +97,18 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 				<nav className="flex items-center justify-center w-full gap-2 px-6 py-4 md:justify-between">
 					<div className='w-full'>
 						<p className='text-sm font-normal whitespace-nowrap'>
-							{`Página ${pagination.current_page} de ${pagination.last_page}`}
+							{`Página ${currentPage} de ${lastPage}`}
 						</p>
 					</div>
 					<div className='flex items-center justify-center w-full gap-2 md:justify-end'>
 						<p className='text-sm font-normal whitespace-nowrap'>
-							{`${pagination.from} - ${pagination.to} de ${pagination.total}`}
+							{`${currentPage*12 +1} - ${currentPage*12 +12} de ${total}`}
 						</p>
 						<div className='inline-flex items-center gap-1 whitespace-nowrap'>
 							<button
-								onClick={() => handlePageChange(1)}
-								disabled={pagination.current_page === 1}
-								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === 1
+								onClick={() => setCurrentPage(1)}
+								disabled={currentPage === 1}
+								className={`flex items-center justify-center p-1 rounded-full ${currentPage === 1 
 									? 'text-white/25'
 									: 'text-white hover:bg-cv-secondary'
 									} `}
@@ -112,9 +116,9 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 								<FirstPageIcon />
 							</button>
 							<button
-								onClick={() => handlePageChange(pagination.current_page - 1)}
-								disabled={pagination.current_page === 1}
-								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === 1
+								onClick={() => setCurrentPage(currentPage - 1)}
+								disabled={currentPage === 1}
+								className={`flex items-center justify-center p-1 rounded-full ${currentPage === 1 
 									? 'text-white/25'
 									: 'text-white hover:bg-cv-secondary'
 									} `}
@@ -122,9 +126,9 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 								<KeyboardArrowLeft />
 							</button>
 							<button
-								onClick={() => handlePageChange(pagination.current_page + 1)}
-								disabled={pagination.current_page === pagination.last_page}
-								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === pagination.last_page
+								onClick={() => setCurrentPage(currentPage + 1)}
+								disabled={currentPage === lastPage}
+								className={`flex items-center justify-center p-1 rounded-full ${currentPage === lastPage 
 									? 'text-white/25'
 									: 'text-white hover:bg-cv-secondary'
 									} `}
@@ -132,9 +136,9 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 								<KeyboardArrowRight />
 							</button>
 							<button
-								onClick={() => handlePageChange(pagination.last_page)}
-								disabled={pagination.current_page === pagination.last_page}
-								className={`flex items-center justify-center p-1 rounded-full ${pagination.current_page === pagination.last_page
+								onClick={() => setCurrentPage(lastPage)}
+								disabled={currentPage === lastPage}
+								className={`flex items-center justify-center p-1 rounded-full ${currentPage === lastPage 
 									? 'text-white/25'
 									: 'text-white hover:bg-cv-secondary'
 									} `}
@@ -150,9 +154,11 @@ export const Tabla = ({ data, pagination, handlePageChange, openImageModal, setI
 }
 
 Tabla.propTypes = {
-	data: PropTypes.array.isRequired,
-	pagination: PropTypes.object.isRequired,
-	handlePageChange: PropTypes.func.isRequired,
-	openImageModal: PropTypes.func.isRequired,
-	setImage: PropTypes.func.isRequired,
+  data: PropTypes.array.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  lastPage: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  openImageModal: PropTypes.func.isRequired,
+  setImage: PropTypes.func.isRequired,
 };
