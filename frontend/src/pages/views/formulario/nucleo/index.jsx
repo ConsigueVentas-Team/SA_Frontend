@@ -82,6 +82,7 @@ export const Nucleo = () => {
       setPalabra("");
       setLoading(false);
       setAlertMessage(true);
+      setMostrarModal(false);
     });
   };
 
