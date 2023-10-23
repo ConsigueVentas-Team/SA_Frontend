@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Submit, InputArea } from "../../../../components/formulario";
 import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar";
 import Tabla from "../../../../components/formulario/Tabla";
@@ -32,6 +32,10 @@ export const Area = () => {
   const [idArea, setIdArea] = useState("");
   const [cores, setCores] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(false);
+
   useEffect(() => {
     setCargando(false);
     async function fetchData() {
@@ -62,26 +66,42 @@ export const Area = () => {
   const cerrarEliminarModal = () => {
     setMostrarEliminarModal(false);
   };
+
+  const closeAlert = () => {
+    setAlertMessage(false);
+  };
+
   const manejarEnvio = (e) => {
     e.preventDefault();
-    if (palabra == "") return;
-    else {
-      AgregarDato(
-        token,
-        palabra,
-        "position",
-        department_id,
-        coreId,
-        setIsChecked
-      );
-    }
-    setPalabra("");
+    if (palabra === "") return;
+    setLoading(true);
+    AgregarDato(
+      token,
+      palabra,
+      "position",
+      department_id,
+      coreId,
+      setIsChecked
+    ).then(() => {
+      setPalabra("");
+      setLoading(false);
+      setAlertMessage(true);
+      setMostrarModal(false);
+    });
+  };
+
+  const openModal = () => {
+    setMostrarModal(true);
+  };
+
+  const closeModal = () => {
+    setMostrarModal(false);
   };
 
   if (Position === null) {
-    // Puedes mostrar un mensaje de carga o cualquier otro contenido adecuado.
-    return <Loading></Loading>;
+    return <Loading />;
   }
+
   return (
     <>
       <ActiveLastBreadcrumb actual={"perfil"}></ActiveLastBreadcrumb>
@@ -122,20 +142,42 @@ export const Area = () => {
             cerrarEliminarModal={cerrarEliminarModal}
           ></ModalBoxEliminar>
         )}
-        <form
-          className="w-full flex justify-center gap-11 flex-col md:flex-row  mt-7 items-center "
-          onSubmit={manejarEnvio}
-        >
-          <InputArea
-            valor={palabra}
-            actualizarValor={setPalabra}
-            setDepartment_id={setDepartment_id}
-            setCoreId={setCoreId}
-            token={token}
-          ></InputArea>
-          <Submit></Submit>
-        </form>
-        {cargando ? (
+
+        <button onClick={openModal} className="w-50 py-2 px-5 mt-10 rounded-md text-cv-primary text-white bg-cv-primary flex items-center justify-center text-l font-semibold">AGREGAR</button>
+        {mostrarModal && (
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-black opacity-50"></div>
+            <div className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <form onSubmit={manejarEnvio}>
+                <div className="w-50 sm:items-center flex flex-col sm:flex-row items-start">
+                  <InputArea
+                    valor={palabra}
+                    actualizarValor={setPalabra}
+                    setDepartment_id={setDepartment_id}
+                    setCoreId={setCoreId}
+                    token={token}
+                  ></InputArea>
+                </div>
+                <div className="flex justify-center gap-4 mt-4">
+                  <Submit></Submit>
+                  <button onClick={closeModal} className="w-50 py-1 px-5 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-l font-semibold uppercase active:scale-95 ease-in-out duration-300">Cerrar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+        {alertMessage && (
+          <div className="bg-green-200 border-green-400 text-green-700 border px-4 py-3 rounded relative mt-4" role="alert">
+            <strong className="font-bold">¡Éxito!</strong>
+            <span className="block sm:inline">El envío se ha completado con éxito.</span>
+            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+              <button onClick={closeAlert} className="text-green-700">
+                <span className="text-green-400">×</span>
+              </button>
+            </span>
+          </div>
+        )}
+        {loading ? <Loading /> : (
           <Tabla
             data={Position}
             abrirEliminarModal={abrirEliminarModal}
@@ -143,10 +185,6 @@ export const Area = () => {
             nucleo={"Núcleo"}
             perfil={"Perfil"}
           ></Tabla>
-        ) : (
-          <div className="w-full h-96 flex justify-center items-center ">
-            <Loading></Loading>
-          </div>
         )}
       </div>
     </>

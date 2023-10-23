@@ -9,6 +9,10 @@ export const GestionEvaluaciones = () => {
     const { id, name } = useParams()
 
     const [idd, setIdd] = useState(null)
+    const [nota1, setNota1] = useState(null)
+    const [nota2, setNota2] = useState(null)
+    const [nota3, setNota3] = useState(null)
+    const [nota4, setNota4] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
 
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -84,7 +88,7 @@ export const GestionEvaluaciones = () => {
 
     return (
         <>
-            <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={idd} />
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={idd} nota1={nota1} nota2={nota2} nota3={nota3} nota4={nota4} />
 
             <div className='flex flex-col gap-4'>
                 {isLoading ? (
@@ -109,6 +113,11 @@ export const GestionEvaluaciones = () => {
                             id={id}
                             setIdd={setIdd}
                             setIsModalOpen={setIsModalOpen}
+
+                            setNota1={setNota1}
+                            setNota2={setNota2}
+                            setNota3={setNota3}
+                            setNota4={setNota4}
                         />
                     </div>
                 )}

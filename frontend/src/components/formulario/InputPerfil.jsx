@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Input from "./Input";
 import PropTypes from "prop-types";
 import ObtenerDatos from "./Helpers/hooks/ObtenerDatos";
+
 export const InputArea = ({
   actualizarValor,
   valor,
@@ -46,9 +47,9 @@ export const InputArea = ({
     }
   };
   return (
-    <div className="flex gap-4 w-full sm:items-center flex-col sm:flex-row items-start ">
-      <label htmlFor="names" className="block mb-1 font-medium text-gray-300">
-        Departamento
+    <div className="flex gap-4 w-full sm:items-center flex-col sm:flex-col items-start ">
+      <label htmlFor="names" className="block mb-1 font-medium text-black">
+        Departamento:
       </label>
       <div className="w-full ">
         <select
@@ -65,8 +66,8 @@ export const InputArea = ({
           ))}
         </select>
       </div>
-      <label htmlFor="names" className="block mb-1 font-medium text-gray-300">
-        Nucleo{" "}
+      <label htmlFor="names" className="block mb-1 font-medium text-black">
+        Nucleo{" "}:
       </label>
       <div className="w-full ">
         <select
@@ -88,11 +89,11 @@ export const InputArea = ({
           })}
         </select>
       </div>
-      <div className="flex gap-4 w-full sm:items-center flex-col sm:flex-row items-start ">
+      <div className="flex gap-1 w-full sm:items-center flex-col sm:flex-col items-start text-black">
         <Input
           actualizarValor={actualizarValor}
           valor={valor}
-          label={"Perfil"}
+          label={"Perfil:"}
           textoHolder={"Ingresa su perfil"}
           filterShift={filterShift == 0 ? "Selecciona" : ""}
         ></Input>

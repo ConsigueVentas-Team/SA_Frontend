@@ -1,11 +1,12 @@
-export const Submit = () => {
+export const Submit = ({onClose}) => {
   
   return (
     <>
       <input
         type="submit"
-        value="Registrar"
-        className="w-2/12 h-12 bg-cv-cyan hover:bg-cv-cyan/70 border-2 border-cv-cyan hover:border-cv-cyan/70 rounded-lg py-2 px-5 text-cv-primary font-bold whitespace-nowrap active:scale-95 ease-in-out duration-300"
+        value="Agregar"
+        className="w-50 py-1 px-5 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-l font-semibold uppercase active:scale-95 ease-in-out duration-300 cursor-pointer"
+        onClick={() => { onClose(); }}
       />
     </>
   );

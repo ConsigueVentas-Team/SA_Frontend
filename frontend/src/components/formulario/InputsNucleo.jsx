@@ -25,8 +25,8 @@ export const Inputs = ({ actualizarValor, valor, setDepartment_id, token }) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-start w-full gap-8 sm:items-center sm:flex-row ">
-      <label htmlFor="names" className="block mb-1 font-medium text-gray-300">
+    <div className="flex flex-col items-start w-full gap-5 sm:items-center sm:flex-col text-black ">
+      <label htmlFor="names" className="block font-medium text-black">
         Departamento
       </label>
       <div className="w-full ">
