@@ -22,7 +22,7 @@ export const FechDataJustificaciones = async ({ page }) => {
 
         const data = await response.json()
         // console.log(data.Justifications)
-        return data.Justifications
+        return data
     } catch (error) {
         // Manejo de errores en caso de fallo en la llamada a la API
         console.error('Error al obtener los datos de la API:', error)
