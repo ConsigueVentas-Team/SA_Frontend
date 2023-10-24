@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { SelectOption } from './Elements';
 
 export const Filtros = (props) => {
@@ -62,4 +64,19 @@ export const Filtros = (props) => {
             </div>
         </div>
     );
+};
+
+
+Filtros.propTypes = {
+  shift: PropTypes.any.isRequired,
+  departmentOptions: PropTypes.any.isRequired,
+  coreOptions: PropTypes.any.isRequired,
+  selectedDepartment: PropTypes.any.isRequired,
+  selectedCore: PropTypes.any.isRequired,
+  handleShiftChange: PropTypes.any.isRequired,
+  handleClearFilter: PropTypes.any.isRequired,
+  setDepartment: PropTypes.any.isRequired,
+  setCore: PropTypes.any.isRequired,
+  setSelectedDepartment: PropTypes.any.isRequired,
+  setSelectedCore: PropTypes.any.isRequired
 };
