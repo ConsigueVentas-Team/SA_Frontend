@@ -78,6 +78,8 @@ export const Departamento = () => {
     }
   };
 
+  
+
   if (Departamentos === null) {
     return <Loading></Loading>;
   }
