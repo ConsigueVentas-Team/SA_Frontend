@@ -1,11 +1,12 @@
 import React from "react";
 import { PieChart, Pie, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
-const Circular = ({ data }) => {
+const Circular = ({ primero, segundo, tercero }) => {
+
   // Extraer los valores de las categorías
-  const aceptado = data[0].total_justification_aceptado || 0;
-  const enProceso = data[0].total_justification_en_proceso || 0;
-  const rechazado = data[0].total_justification_rechazado || 0;
+  const aceptado = primero;
+  const enProceso = segundo;
+  const rechazado = tercero;
 
   const dataForChart = [
     { name: "Aceptado", value: aceptado, fill: "green" },

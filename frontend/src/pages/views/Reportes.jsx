@@ -18,7 +18,6 @@ const Reportes = () => {
   const token = tokenD.toString(enc.Utf8);
   const [apiDataUsuariosSector, setApiDataUsuariosSector] = useState([]);
   const [apiDataAsistenciasSector, setApiDataAsistenciasSector] = useState([]);
-  const [apiDataJustificacionesSector, setApiDataJustificacionesSector] = useState([]);
   const [filtroDepartamento, setFiltroDepartamento] = useState("");
 
   const [departamentos, setDepartamentos] = useState([]);
@@ -37,6 +36,10 @@ const Reportes = () => {
   const [totalTardanzas, setTotalTardanzas] = useState(0);
   const [totalFaltas, setTotalFaltas] = useState(0);
   const [totalJustificaciones, setTotalJustificaciones] = useState(0);
+
+  const [aceptado, setAceptado] = useState(0);
+  const [enProceso, setEnProceso] = useState(0);
+  const [rechazado, setRechazado] = useState(0);
   ////////////////////////////////
   useEffect(() => {
     async function fetchData() {
@@ -62,6 +65,11 @@ const Reportes = () => {
         setTotalTardanzas((data.reportes_asistencias[0].department_absence_count)+(data.reportes_asistencias[12].department_absence_count)+(data.reportes_asistencias[17].department_absence_count));
         setTotalFaltas((data.reportes_asistencias[0].department_delay_count)+(data.reportes_asistencias[12].department_delay_count)+(data.reportes_asistencias[17].department_delay_count));
         setTotalJustificaciones((data.reportes_asistencias[0].department_justification_count)+(data.reportes_asistencias[12].department_justification_count)+(data.reportes_asistencias[17].department_justification_count));
+        ////
+        setAceptado(data.reportes_justificacion[0].total_justification_aceptado);
+        setRechazado(data.reportes_justificacion[0].total_justification_rechazado);
+        setEnProceso(data.reportes_justificacion[0].total_justification_en_proceso);
+
         //----------------------------------------------
         const filteredData = data.reportes_usuarios.reporte_general.reduce(
           (acc, current) => {
@@ -79,8 +87,6 @@ const Reportes = () => {
 
         setApiDataUsuariosSector(filteredData);
         setApiDataAsistenciasSector(data.reportes_asistencias);
-        setApiDataJustificacionesSector(data.reportes_justificacion)
-        console.log(data.reportes_justificacion)
       } else {
         console.error("Error al obtener datos de informes");
       }
@@ -232,7 +238,7 @@ const Reportes = () => {
                   Estado de Justificaciones
                 </h1>
                 <div className="w-full h-full">
-                <Circular data={apiDataJustificacionesSector} />
+                <Circular primero={aceptado} segundo={enProceso} tercero={rechazado} />
                 </div>
               </div>
             </div>
@@ -240,7 +246,6 @@ const Reportes = () => {
         </>
       ) : (
         <section className="flex items-center justify-center w-full h-full mt-20">
-          {/* hola */}
           <img src="./2Q.png" alt="" className="w-1/4 rounded-2xl " />
         </section>
       )}
