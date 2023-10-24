@@ -7,8 +7,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export const Tabla = ({ data, currentPage, lastPage, total, setCurrentPage, openImageModal, setImage }) => {
 
-	console.log("ATTENDANCE ", data);
-
 	const handleViewClick = (attendance) => {
 		openImageModal();
 		setImage(attendance)
@@ -83,7 +81,7 @@ export const Tabla = ({ data, currentPage, lastPage, total, setCurrentPage, open
 									<td className="sticky right-0 text-center  whitespace-nowrap bg-cv-primary">
 										<div className='flex items-center justify-center'>
 											<button
-												onClick={() => handleViewClick(attendance)}
+												// onClick={() => handleViewClick(attendance)}
 												className='p-2 duration-300 ease-in-out border rounded-md border-cv-secondary text-cv-cyan hover:bg-cv-cyan hover:text-cv-primary active:scale-95'>
 												<VisibilityIcon />
 											</button>

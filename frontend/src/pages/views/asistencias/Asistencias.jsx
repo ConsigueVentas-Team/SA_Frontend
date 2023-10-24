@@ -20,8 +20,8 @@ export const Asistencias = () => {
     newDate.getMonth() + 1
   }-${newDate.getDate()}`;
 
-
-  const [attendance, setAttendance] = useState(null);
+  const [currentData, setCurrentData] = useState([])
+  const [attendance, setAttendance] = useState([]);
 
   const [showImageModal, setShowImageModal] = useState(false);
   const [image, setImage] = useState([]);
@@ -49,27 +49,6 @@ export const Asistencias = () => {
   );
   const token = tokenD.toString(enc.Utf8);
 
-
-  fetch(import.meta.env.VITE_API_URL + "/departments/list", {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => setDepartments([...data]));
-
-
-  fetch(import.meta.env.VITE_API_URL + "/cores/list", {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => setCores([...data]));
-
-
   const departmentOptions = departments.map((department) => ({
     value: department.id,
     label: department.name,
@@ -90,29 +69,53 @@ export const Asistencias = () => {
     setName(event.target.value);
   };
 
-  const [currentPage, setCurrentPage] = useState(12);
+  const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [total, setTotal]= useState(0);
 
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
 
 
- console.log("AQUIIII NO ES");
-  fetch(`${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((response) => response.json())
-    .then((response) => {
-      console.log("ATTENDANCE AQUIIUI ", response);
-      setAttendance([...response.data])
-      setCargando(false)
-      setLastPage(response.last_page)
-      setTotal(response.total);
-    });
+  useEffect(()=>{
+    fetch(import.meta.env.VITE_API_URL + "/departments/list", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setDepartments([...data]));
+  
+  
+    fetch(import.meta.env.VITE_API_URL + "/cores/list", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setCores([...data]));
 
+
+    fetch(`${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        setCurrentData([...response.data])
+        setCargando(false)
+        setLastPage(response.last_page)
+        setTotal(response.total);
+      });
+  },[])
+
+
+  useEffect(()=>{
+    setAttendance([...currentData])
+  },[currentData])
 
   const handleClearFilter = () => {
     setShift("");
@@ -139,22 +142,27 @@ export const Asistencias = () => {
   };
   
 
+  const getCore = (coreId)=>{
+    const searchedCore = cores.filter(e => e.id == coreId)[0]
+    return searchedCore.name
+  }
+
   useEffect(()=>{
-    fetch(`${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((response) => response.json())
-    .then((response) => {
-      setAttendance([...response.data])
-      setCargando(false)
-      
-    });
+    let url = `${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`
+    url =  (core) ? `${url}&core=${getCore(core)}`:url
+    url =  (shift) ? `${url}&shift=${shift}`:url
 
-  },[currentPage, token])
-
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        setAttendance([...response.data])
+      });
+  },[date,currentPage,shift,core])
 
   return (
     <>
