@@ -72,8 +72,8 @@ export const Justificaciones = () => {
                                     )
                                 }>
                                 <option value=''>Tipo de justificación</option>
-                                <option value='0'>Falta</option>
-                                <option value='1'>Tardanza</option>
+                                <option value={false}>Falta</option>
+                                <option value={true}>Tardanza</option>
                             </select>
                         </div>
                         {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
