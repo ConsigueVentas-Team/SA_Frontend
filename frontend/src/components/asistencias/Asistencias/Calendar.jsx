@@ -120,10 +120,12 @@ export const Calendar = ({ setSelectedMonth, onDayClick, selectedDay }) => {
     )
 }
 
+
+// UPDATED HERER
+
+
 Calendar.propTypes = {
-    birthdays: PropTypes.array.isRequired,
-    fetchBirthdays: PropTypes.func.isRequired,
-    selectedMonth: PropTypes.string.isRequired,
-    setSelectedMonth: PropTypes.func.isRequired,
-    onDayClick: PropTypes.func.isRequired,
-}
+  setSelectedMonth: PropTypes.func.isRequired,
+  onDayClick: PropTypes.func.isRequired,
+  selectedDay: PropTypes.string.isRequired,
+};
