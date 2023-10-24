@@ -13,6 +13,8 @@ export const FechData = async ({ page }) => {
         const turno = localStorage.getItem('shift')
         const user_id = localStorage.getItem('iduser')
 
+        // console.log(turno)
+
         if (rol === 'Colaborador') {
             url = `${
                 import.meta.env.VITE_API_URL
