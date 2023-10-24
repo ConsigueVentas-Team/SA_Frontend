@@ -10,29 +10,17 @@ export const CardList = ({
     searchName,
 }) => {
 
-    // console.log(buscador_tipoJustificacion)s
-
     return (
         <>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5'>
                 {cards
                     .filter((post) => {
-                        const justificationTypeArray = Array.isArray(post.type)
-                            ? post.type
-                            : [post.type]
-
-                            
-
-                            // console.log(justificationTypeArray)
                         if (buscador_tipoJustificacion === '') {
-                            // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
                             return true
                         } else {
                             // Filtrar por el tipo de justificación seleccionado
-                            return justificationTypeArray.includes(
-                                // Number(buscador_tipoJustificacion)
-                                buscador_tipoJustificacion
-                            )
+                            const tipoSeleccionado = JSON.parse(buscador_tipoJustificacion);
+                            return post.type === tipoSeleccionado;
                         }
                     })
                     .filter((post) => {
