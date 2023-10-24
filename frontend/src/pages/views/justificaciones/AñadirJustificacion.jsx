@@ -43,6 +43,7 @@ export const AñadirJustificacion = () => {
             .then((e) => {
                 setCards(e.data)
                 setCountPage(e.total)
+                // console.log(e)
             })
             .catch((e) => setCards(e))
     }

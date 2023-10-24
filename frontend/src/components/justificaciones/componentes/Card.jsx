@@ -96,9 +96,11 @@ export const Card = ({ card, page }) => {
                             </span>
                             <div className='whitespace-normal'>
                                 <textarea
-                                    className='bg-transparent text-sm align-top w-full h-auto resize-none'
+                                    className='bg-transparent text-sm align-top w-full h-auto resize-none overflow-hidden'
                                     disabled
-                                    value={card.reason}></textarea>
+                                    maxLength={87} // Cambia el número 100 por el límite de caracteres que desees
+                                    value={card.reason.length > 87 ? `${card.reason.substring(0, 87)} ...` : card.reason}
+                                />
                             </div>
                         </li>
                     </ul>
