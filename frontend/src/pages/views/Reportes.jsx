@@ -8,6 +8,10 @@ import BarrasAsistencia from "../../components/reportes/graficos/BarrasAsistenci
 import Circular from "../../components/reportes/graficos/Circular";
 import Tarjeta from "../../components/reportes/Tarjeta";
 import ObtenerDatos from "../../components/formulario/Helpers/hooks/ObtenerDatos";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import AddIcon from "@mui/icons-material/Add";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import AddModeratorIcon from "@mui/icons-material/AddModerator";
 
 const Reportes = () => {
   const tokenD = AES.decrypt(
@@ -38,6 +42,7 @@ const Reportes = () => {
   const [totalFaltas, setTotalFaltas] = useState(0);
   const [totalJustificaciones, setTotalJustificaciones] = useState(0);
 
+  const [totalJus, setTotalJus] = useState(0);
   const [aceptado, setAceptado] = useState(0);
   const [enProceso, setEnProceso] = useState(0);
   const [rechazado, setRechazado] = useState(0);
@@ -56,23 +61,51 @@ const Reportes = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setApiDataUser(data.reportes_usuarios.reporte_general)
-        setApiDataAsis(data.reportes_asistencias)
+        setApiDataUser(data.reportes_usuarios.reporte_general);
+
+        setApiDataAsis(data.reportes_asistencias);
         //----------------------------------------------
         setTotalUsuarios(data.reportes_usuarios.reporte_total.total_usuarios);
-        setUsuariosActivos(data.reportes_usuarios.reporte_total.usuarios_activos);
-        setIngresosMes(data.reportes_usuarios.reporte_total.ingresos_mes[0].count);
+        setUsuariosActivos(
+          data.reportes_usuarios.reporte_total.usuarios_activos
+        );
+        setIngresosMes(
+          data.reportes_usuarios.reporte_total.ingresos_mes[0].count
+        );
 
         /////
-        setTotalAsistencias((data.reportes_asistencias[0].department_attendance_count)+(data.reportes_asistencias[12].department_attendance_count)+(data.reportes_asistencias[17].department_attendance_count) );
-        setTotalTardanzas((data.reportes_asistencias[0].department_absence_count)+(data.reportes_asistencias[12].department_absence_count)+(data.reportes_asistencias[17].department_absence_count));
-        setTotalFaltas((data.reportes_asistencias[0].department_delay_count)+(data.reportes_asistencias[12].department_delay_count)+(data.reportes_asistencias[17].department_delay_count));
-        setTotalJustificaciones((data.reportes_asistencias[0].department_justification_count)+(data.reportes_asistencias[12].department_justification_count)+(data.reportes_asistencias[17].department_justification_count));
-        ////
-        setAceptado(data.reportes_justificacion[0].total_justification_aceptado);
-        setRechazado(data.reportes_justificacion[0].total_justification_rechazado);
-        setEnProceso(data.reportes_justificacion[0].total_justification_en_proceso);
+        setTotalAsistencias(
+          data.reportes_asistencias[0].department_attendance_count +
+            data.reportes_asistencias[12].department_attendance_count +
+            data.reportes_asistencias[17].department_attendance_count
+        );
+        setTotalTardanzas(
+          data.reportes_asistencias[0].department_absence_count +
+            data.reportes_asistencias[12].department_absence_count +
+            data.reportes_asistencias[17].department_absence_count
+        );
+        setTotalFaltas(
+          data.reportes_asistencias[0].department_delay_count +
+            data.reportes_asistencias[12].department_delay_count +
+            data.reportes_asistencias[17].department_delay_count
+        );
+        setTotalJustificaciones(
+          data.reportes_asistencias[0].department_justification_count +
+            data.reportes_asistencias[12].department_justification_count +
+            data.reportes_asistencias[17].department_justification_count
+        );
 
+        /////
+        setAceptado(
+          data.reportes_justificacion[0].total_justification_aceptado
+        );
+        setRechazado(
+          data.reportes_justificacion[0].total_justification_rechazado
+        );
+        setEnProceso(
+          data.reportes_justificacion[0].total_justification_en_proceso
+        );
+        setTotalJus(data.reportes_justificacion[0].total_justifications);
         //----------------------------------------------
         const filteredData = data.reportes_usuarios.reporte_general.reduce(
           (acc, current) => {
@@ -88,7 +121,16 @@ const Reportes = () => {
           []
         );
         setApiDataUsuariosSector(filteredData);
-        setApiDataAsistenciasSector(data.reportes_asistencias);
+        const filteredAsisData = data.reportes_asistencias.filter(
+          (item, index, self) => {
+            return (
+              self.findIndex(
+                (el) => el.department_name === item.department_name
+              ) === index
+            );
+          }
+        );
+        setApiDataAsistenciasSector(filteredAsisData);
       } else {
         console.error("Error al obtener datos de informes");
       }
@@ -119,6 +161,36 @@ const Reportes = () => {
       datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
         return dato.department_name == "Departamento Operativo";
       });
+      // ******************************************** */
+      if (core == 5) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Creativo";
+        });
+        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+          return dato.core_name == "Creativo";
+        });
+      } else if (core == 6) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Audiovisual";
+        });
+        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+          return dato.core_name == "Audiovisual";
+        });
+      } else if (core == 10) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Marca Cliente";
+        });
+        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+          return dato.core_name == "Marca Cliente";
+        });
+      } else if (core == 11) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Marca Proyecto";
+        });
+        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+          return dato.core_name == "Marca Proyecto";
+        });
+      }
     } else if (departamento == 2) {
       console.log("Comercial");
       datosFiltrados = apiDataUser.filter((dato) => {
@@ -127,6 +199,40 @@ const Reportes = () => {
       datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
         return dato.department_name == "Departamento Comercial";
       });
+      // ******************************************** */
+      if (core == 31) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Atención al Cliente";
+        });
+        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+          return dato.core_name == "Atención al Cliente";
+        });
+      } else if (core == 1) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Sistemas";
+        });
+        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+          return dato.core_name == "Sistemas";
+        });
+      } else if (core == 7) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Diseño Web";
+        });
+        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+          return dato.core_name == "Diseño Web";
+        });
+      } else if (core == 8) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Logística";
+        });
+      } else if (core == 9) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Comercial";
+        });
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Comercial";
+        });
+      }
     } else if (departamento == 3) {
       console.log("Estratégico");
       datosFiltrados = apiDataUser.filter((dato) => {
@@ -135,13 +241,34 @@ const Reportes = () => {
       datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
         return dato.department_name == "Departamento Estratégico";
       });
+      // ******************************************** */
+      if (core == 2) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Administrativo";
+        });
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Administrativo";
+        });
+      } else if (core == 3) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Talento Humano";
+        });
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Talento Humano";
+        });
+      } else if (core == 4) {
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Publicidad Digital";
+        });
+        datosFiltrados = apiDataUser.filter((dato) => {
+          return dato.core_name == "Publicidad Digital";
+        });
+      }
     }
     setApiDataUsuariosSector(datosFiltrados);
     setApiDataAsistenciasSector(datosFiltradoAsistencia);
     setMostrar(true);
   };
-  
-  
 
   const borrar = () => {
     window.location.reload();
@@ -157,7 +284,10 @@ const Reportes = () => {
   return (
     <div className="flex flex-col items-center w-full gap-4 ">
       <section className="flex flex-col gap-5 ">
-        <h1 className="mb-4 text-3xl">Reportes</h1>
+        <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
+          <AssessmentIcon />
+          <span className="ml-1 text-base font-medium md:ml-2">REPORTES</span>
+        </h1>
         <div className="flex items-start justify-between">
           <div className="flex flex-wrap w-full gap-10">
             <SelectBox
@@ -181,10 +311,14 @@ const Reportes = () => {
             ></SelectBox>
           </div>
           <div className="flex gap-3">
-            <button className="p-2 rounded bg-cv-cyan " onClick={borrar}>
-              Limpiar
+            <button
+              className="px-5 rounded text-gray-950 bg-cv-cyan"
+              onClick={borrar}
+            >
+              <strong>Limpiar</strong>
             </button>
-            <button className="p-2 rounded bg-cv-primary " onClick={filtrar}>
+
+            <button className="p-2 rounded bg-cv-primary  " onClick={filtrar}>
               Filtrar
             </button>
           </div>
@@ -193,7 +327,12 @@ const Reportes = () => {
       {mostrar ? (
         <>
           <section className="flex flex-wrap items-start justify-start w-full py-3 text-2xl border-t-2 ">
-            <h1>Usuarios</h1>
+            <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
+              <PeopleAltIcon />
+              <span className="ml-1 text-base font-medium md:ml-2">
+                USUARIOS
+              </span>
+            </h1>
             <div className="flex flex-wrap justify-between w-full gap-4 mt-4 gap-y-2 sm:flex-nowrap">
               <Tarjeta
                 titulo="TOTAL DE USUARIOS"
@@ -225,17 +364,26 @@ const Reportes = () => {
               </div>
               <div className="box-border w-2/6 p-5 mt-4 -ml-3 text-sm rounded-lg bg-cv-primary h-80">
                 <h1 className="text-lg font-medium ">TIPOS DE SALIDA</h1>
-                <BarraHor titulo="FINALIZO CONVENIO" total={80} porcentaje={80} />
+                <BarraHor
+                  titulo="FINALIZO CONVENIO"
+                  total={80}
+                  porcentaje={80}
+                />
                 <BarraHor titulo="SE RETIRÓ" total={20} porcentaje={20} />
               </div>
             </div>
           </section>
           <section className="w-full py-3 text-2xl border-t-2 ">
-            <h1>Asistencias</h1>
+            <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
+              <AddIcon />
+              <span className="ml-1 text-base font-medium md:ml-2">
+                ASISTENCIAS
+              </span>
+            </h1>
             <article>
               <div className="box-content flex items-start justify-start w-full gap-4 ">
                 <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
-                <TarjetaAsistencia
+                  <TarjetaAsistencia
                     name1="Aistencias"
                     name2="Tardanzas"
                     name3="faltas"
@@ -258,28 +406,37 @@ const Reportes = () => {
             </article>
           </section>
           <section className="flex flex-wrap items-start justify-start w-full py-3 text-2xl border-t-2 ">
-            <h1>Justificaciones</h1>
+            <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
+              <AddModeratorIcon />
+              <span className="ml-1 text-base font-medium md:ml-2">
+                JUSTIFICACIONES
+              </span>
+            </h1>
             <div className="box-content flex items-start justify-start w-full gap-4 ">
-            <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+              <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
                 <h1 className="text-lg font-medium ">
                   Estado de Justificaciones
                 </h1>
                 <div className="w-full h-full">
-                <Circular primero={aceptado} segundo={enProceso} tercero={rechazado} />
+                  <Circular
+                    primero={aceptado}
+                    segundo={enProceso}
+                    tercero={rechazado}
+                  />
                 </div>
               </div>
               <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
-                  <TarjetaAsistencia
-                    name1="Total justificaciones"
-                    name2="Justifiaciones Aceptadas"
-                    name3="Justificaciones Rechazadas"
-                    name4="Justificaciones en Progreso"
-                    asistencias={totalAsistencias}
-                    faltas={aceptado}
-                    justificaciones={enProceso}
-                    tardanzas={rechazado}
-                  />
-                </div>
+                <TarjetaAsistencia
+                  name1="Total justificaciones"
+                  name2="Justifiaciones Aceptadas"
+                  name3="Justificaciones Rechazadas"
+                  name4="Justificaciones en Progreso"
+                  asistencias={totalJus}
+                  faltas={aceptado}
+                  justificaciones={enProceso}
+                  tardanzas={rechazado}
+                />
+              </div>
             </div>
           </section>
         </>

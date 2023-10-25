@@ -24,7 +24,6 @@ const CustomTooltip = ({ active, label, payload }) => {
 
 const Barras = ({ barras }) => {
   const showCoreXAxis = barras.length > 3;
-console.log(barras)
   return (
     <ResponsiveContainer width="100%">
       <BarChart data={barras} barSize={30}>
