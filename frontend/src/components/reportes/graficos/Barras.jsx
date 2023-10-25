@@ -6,7 +6,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 
@@ -24,10 +23,16 @@ const CustomTooltip = ({ active, label, payload }) => {
 };
 
 const Barras = ({ barras }) => {
+  const showCoreXAxis = barras.length > 3;
+console.log(barras)
   return (
     <ResponsiveContainer width="100%">
       <BarChart data={barras} barSize={30}>
-        <XAxis dataKey="department_name" />
+        {showCoreXAxis ? (
+          <XAxis dataKey="core_name" />
+        ) : (
+          <XAxis dataKey="department_name" />
+        )}
         <YAxis />
         <Tooltip
           contentStyle={{ color: "red" }}
@@ -45,7 +50,7 @@ const Barras = ({ barras }) => {
           }
           fill="#57F3FF"
         />
-        {barras === 3 && (
+        {showCoreXAxis && (
           <>
             <Bar dataKey="uv" fill="red" />
             <Bar dataKey="amt" fill="#24FF00" />

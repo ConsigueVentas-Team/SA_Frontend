@@ -3,7 +3,7 @@ const BarraHor = ({ titulo, total, porcentaje }) => {
 
   return (
     <>
-      <h1 className="text-lg font-medium">FINALIZÓ CONVENIO</h1>
+    <br />
       <h2 className="text-xs font-medium">{titulo}</h2>
       <div className="flex gap-4 items-center w-full">
         <div className="w-full border-t-2 mt-3 h-20 flex justify-center items-center">

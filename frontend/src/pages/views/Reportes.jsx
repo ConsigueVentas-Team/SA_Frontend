@@ -18,7 +18,8 @@ const Reportes = () => {
   const token = tokenD.toString(enc.Utf8);
   const [apiDataUsuariosSector, setApiDataUsuariosSector] = useState([]);
   const [apiDataAsistenciasSector, setApiDataAsistenciasSector] = useState([]);
-  const [filtroDepartamento, setFiltroDepartamento] = useState("");
+  const [apiDataUser, setApiDataUser] = useState([]);
+  const [apiDataAsis, setApiDataAsis] = useState([]);
 
   const [departamentos, setDepartamentos] = useState([]);
   const [nucleos, setNucleos] = useState([]);
@@ -55,6 +56,8 @@ const Reportes = () => {
 
       if (response.ok) {
         const data = await response.json();
+        setApiDataUser(data.reportes_usuarios.reporte_general)
+        setApiDataAsis(data.reportes_asistencias)
         //----------------------------------------------
         setTotalUsuarios(data.reportes_usuarios.reporte_total.total_usuarios);
         setUsuariosActivos(data.reportes_usuarios.reporte_total.usuarios_activos);
@@ -84,7 +87,6 @@ const Reportes = () => {
           },
           []
         );
-
         setApiDataUsuariosSector(filteredData);
         setApiDataAsistenciasSector(data.reportes_asistencias);
       } else {
@@ -107,17 +109,42 @@ const Reportes = () => {
   }, []);
 
   const filtrar = () => {
+    let datosFiltrados = apiDataUser;
+    let datosFiltradoAsistencia = apiDataAsis;
+    if (departamento == 1) {
+      console.log("Operativo");
+      datosFiltrados = apiDataUser.filter((dato) => {
+        return dato.department_name == "Departamento Operativo";
+      });
+      datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+        return dato.department_name == "Departamento Operativo";
+      });
+    } else if (departamento == 2) {
+      console.log("Comercial");
+      datosFiltrados = apiDataUser.filter((dato) => {
+        return dato.department_name == "Departamento Comercial";
+      });
+      datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+        return dato.department_name == "Departamento Comercial";
+      });
+    } else if (departamento == 3) {
+      console.log("Estratégico");
+      datosFiltrados = apiDataUser.filter((dato) => {
+        return dato.department_name == "Departamento Estratégico";
+      });
+      datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+        return dato.department_name == "Departamento Estratégico";
+      });
+    }
+    setApiDataUsuariosSector(datosFiltrados);
+    setApiDataAsistenciasSector(datosFiltradoAsistencia);
     setMostrar(true);
   };
+  
+  
 
   const borrar = () => {
-    setMostrar(false);
-
-    setCore("");
-    setDepartamento("");
-    setTurno("");
-    setMes("");
-    setYear("");
+    window.location.reload();
   };
 
   const mostrarNucleo = (id_departamento) => {
@@ -125,7 +152,6 @@ const Reportes = () => {
       (nucleo) => id_departamento == nucleo.department.id
     );
     setNucleosFiltrados(filtrado);
-    console.log(nucleosFiltrados);
   };
 
   return (
@@ -198,8 +224,9 @@ const Reportes = () => {
                 <Barras barras={apiDataUsuariosSector} />
               </div>
               <div className="box-border w-2/6 p-5 mt-4 -ml-3 text-sm rounded-lg bg-cv-primary h-80">
-              <BarraHor titulo="FINALIZO CONVENIO" total={80} porcentaje={80} />
-              <BarraHor titulo="SE RETIRÓ" total={20} porcentaje={20} />
+                <h1 className="text-lg font-medium ">TIPOS DE SALIDA</h1>
+                <BarraHor titulo="FINALIZO CONVENIO" total={80} porcentaje={80} />
+                <BarraHor titulo="SE RETIRÓ" total={20} porcentaje={20} />
               </div>
             </div>
           </section>
@@ -208,7 +235,11 @@ const Reportes = () => {
             <article>
               <div className="box-content flex items-start justify-start w-full gap-4 ">
                 <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
-                  <TarjetaAsistencia
+                <TarjetaAsistencia
+                    name1="Aistencias"
+                    name2="Tardanzas"
+                    name3="faltas"
+                    name4="justificaciones"
                     asistencias={totalAsistencias}
                     faltas={totalFaltas}
                     justificaciones={totalJustificaciones}
@@ -229,11 +260,7 @@ const Reportes = () => {
           <section className="flex flex-wrap items-start justify-start w-full py-3 text-2xl border-t-2 ">
             <h1>Justificaciones</h1>
             <div className="box-content flex items-start justify-start w-full gap-4 ">
-              <div className="box-border flex flex-col justify-between w-4/6 p-5 mt-4 text-sm rounded-lg  h-80">
-              
-
-              </div>
-              <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+            <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
                 <h1 className="text-lg font-medium ">
                   Estado de Justificaciones
                 </h1>
@@ -241,6 +268,18 @@ const Reportes = () => {
                 <Circular primero={aceptado} segundo={enProceso} tercero={rechazado} />
                 </div>
               </div>
+              <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                  <TarjetaAsistencia
+                    name1="Total justificaciones"
+                    name2="Justifiaciones Aceptadas"
+                    name3="Justificaciones Rechazadas"
+                    name4="Justificaciones en Progreso"
+                    asistencias={totalAsistencias}
+                    faltas={aceptado}
+                    justificaciones={enProceso}
+                    tardanzas={rechazado}
+                  />
+                </div>
             </div>
           </section>
         </>
