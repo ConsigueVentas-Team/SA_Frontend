@@ -27,21 +27,13 @@ export default function ModalHorario({ onclose }) {
 
     const handleAddSchedule = () => {
         if (selectedOptionDay && selectedOption && hours && minutes) {
-            // Crear un nuevo horario con los valores seleccionados
-            const newSchedule = {
+            const newScheduleEntry = {
                 day: selectedOptionDay,
                 option: selectedOption,
                 time: `${hours}:${minutes}`,
             };
 
-            // Agregar el nuevo horario al estado de horarios
-            setSchedule([...schedule, newSchedule]);
-
-            // Limpiar las selecciones
-            setSelectedOptionDay("");
-            setSelectedOption("");
-            setHours("");
-            setMinutes("");
+            setSchedule([...schedule, newScheduleEntry]);
         }
     };
 
@@ -109,55 +101,57 @@ export default function ModalHorario({ onclose }) {
                 </div>
                 <div className="flex justify-around flex-col">
                     <label className="font-medium">Horario</label>
-                    <table className="rounded-md border-2 border-transparent bg-[#F5F7FB] mt-3 mb-3">
-                        <tr>
-                            <th className="border-2 border-gray-200 w-1/6"></th>
-                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                Lunes
-                            </th>
-                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                Martes
-                            </th>
-                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                Miércoles
-                            </th>
-                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                Jueves
-                            </th>
-                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                Viernes
-                            </th>
-                        </tr>
-                        <tr>
-                            <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                Inicio
-                            </td>
-                            {schedule
-                                .filter((entry) => entry.option === "Inicio")
-                                .map((entry, index) => (
-                                    <td
-                                        key={index}
-                                        className="border-2 border-gray-200 w-1/6"
-                                    >
-                                        {entry.time}
+                    <table className="rounded-md border-2 border-gray-200 bg-[#F5F7FB] mt-3 mb-3">
+                        <thead>
+                            <tr>
+                                <th className="border-2 border-gray-200 w-1/6"></th>
+                                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                    Lunes
+                                </th>
+                                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                    Martes
+                                </th>
+                                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                    Miércoles
+                                </th>
+                                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                    Jueves
+                                </th>
+                                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                    Viernes
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                    Inicio
+                                </td>
+                                {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"].map((day, index) => (
+                                    <td key={index} className="border-2 border-gray-200 w-1/6">
+                                        {schedule
+                                            .filter((entry) => entry.option === "Inicio" && entry.day === day)
+                                            .map((entry, index) => (
+                                                <span key={index}>{entry.time}</span>
+                                            ))}
                                     </td>
                                 ))}
-                        </tr>
-                        <tr>
-                            <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                Fin
-                            </td>
-                            {schedule
-                                .filter((entry) => entry.option === "Fin")
-                                .map((entry, index) => (
-                                    <td
-                                        key={index}
-                                        className="border-2 border-gray-200 w-1/6"
-                                    >
-                                        {entry.time}
+                            </tr>
+                            <tr>
+                                <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                    Fin
+                                </td>
+                                {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"].map((day, index) => (
+                                    <td key={index} className="border-2 border-gray-200 w-1/6">
+                                        {schedule
+                                            .filter((entry) => entry.option === "Fin" && entry.day === day)
+                                            .map((entry, index) => (
+                                                <span key={index}>{entry.time}</span>
+                                            ))}
                                     </td>
                                 ))}
-                        </tr>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 
