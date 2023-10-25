@@ -15,8 +15,8 @@ export const ModalAgregar = ({
     const [reason, setReason] = useState('')
     const [evidence, setEvidence] = useState('')
 
-    const [radioButton, setRadioButton] = useState(false)
-    const [showLabel, setShowLabel] = useState(true)
+    // const [radioButton, setRadioButton] = useState(false)
+    // const [showLabel, setShowLabel] = useState(true)
     const [justification_date_max, setJustification_date_max] = useState('')
 
     // console.log({ justification_date, justification_date_max })
@@ -193,7 +193,7 @@ export const ModalAgregar = ({
                                             Fecha
                                         </label>
 
-                                        <div className='flex mb-2 gap-1'>
+                                        {/* <div className='flex mb-2 gap-1'>
                                             {showLabel && (
                                                 <label
                                                     htmlFor='radio'
@@ -211,7 +211,7 @@ export const ModalAgregar = ({
                                                     setShowLabel(!showLabel)
                                                 }}
                                             />
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     <input
@@ -224,7 +224,7 @@ export const ModalAgregar = ({
                                     />
                                 </div>
 
-                                {radioButton && (
+                                {/* {radioButton && (
                                     <div className='w-full flex flex-col text-sm text-black'>
                                         <label htmlFor='date' className='mb-2'>
                                             Fecha Máxima
@@ -238,7 +238,7 @@ export const ModalAgregar = ({
                                             onChange={handleDateChange}
                                         />
                                     </div>
-                                )}
+                                )} */}
                             </div>
                             <div className='w-full flex justify-center'>
                                 {dateError && (

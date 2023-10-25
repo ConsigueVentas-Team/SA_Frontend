@@ -24,7 +24,7 @@ const SelectBox = ({ label, data, mostrarNucleo, valor, setSelectedValue }) => {
         className="text-white rounded-lg px-2 py-1  bg-cv-primary outline-none w-96"
         onChange={handleDepartamentoChange}
       >
-        <option value="">---Seleccionar---</option>
+        <option value="">SELECCIONAR</option>
         {label == "Departamento" || label == "Núcleo"
           ? data.map((dato) => (
               <option value={dato.id} key={dato.id}>

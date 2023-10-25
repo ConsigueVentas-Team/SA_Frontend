@@ -33,7 +33,7 @@ export const DatosEmpresa = ({ colaborador }) => {
     },
     {
       label: "Estado:",
-      value: colaborador.usuario.status === 1 ? "Activo" : "Inactivo",
+      value: colaborador.usuario.status === true ? "Activo" : "Inactivo",
     },
   ];
 

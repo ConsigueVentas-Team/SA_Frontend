@@ -1,14 +1,13 @@
-import { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { AES, enc } from "crypto-js";
 import SelectBox from "../../components/reportes/SelectBox";
 import TarjetaAsistencia from "../../components/reportes/TarjetaAsistencia";
 import BarraHor from "../../components/reportes/graficos/BarraHor";
 import Barras from "../../components/reportes/graficos/Barras";
+import BarrasAsistencia from "../../components/reportes/graficos/BarrasAsistencia";
 import Circular from "../../components/reportes/graficos/Circular";
 import Tarjeta from "../../components/reportes/Tarjeta";
-import { useEffect } from "react";
 import ObtenerDatos from "../../components/formulario/Helpers/hooks/ObtenerDatos";
-import { AES, enc } from "crypto-js";
 
 const Reportes = () => {
   const tokenD = AES.decrypt(
@@ -17,15 +16,88 @@ const Reportes = () => {
   );
 
   const token = tokenD.toString(enc.Utf8);
+  const [apiDataUsuariosSector, setApiDataUsuariosSector] = useState([]);
+  const [apiDataAsistenciasSector, setApiDataAsistenciasSector] = useState([]);
+  const [apiDataUser, setApiDataUser] = useState([]);
+  const [apiDataAsis, setApiDataAsis] = useState([]);
+
   const [departamentos, setDepartamentos] = useState([]);
   const [nucleos, setNucleos] = useState([]);
   const [nucleosFiltrados, setNucleosFiltrados] = useState([]);
-  //crear para un useState para cada valor de cada select
   const [core, setCore] = useState("");
   const [departamento, setDepartamento] = useState("");
   const [turno, setTurno] = useState("");
-  const [mes, setMes] = useState("");
-  const [year, setYear] = useState("");
+  const [mostrar, setMostrar] = useState(true);
+
+  const [totalUsuarios, setTotalUsuarios] = useState(0);
+  const [usuariosActivos, setUsuariosActivos] = useState(0);
+  const [ingresosMes, setIngresosMes] = useState(0);
+
+  const [totalAsistencias, setTotalAsistencias] = useState(0);
+  const [totalTardanzas, setTotalTardanzas] = useState(0);
+  const [totalFaltas, setTotalFaltas] = useState(0);
+  const [totalJustificaciones, setTotalJustificaciones] = useState(0);
+
+  const [aceptado, setAceptado] = useState(0);
+  const [enProceso, setEnProceso] = useState(0);
+  const [rechazado, setRechazado] = useState(0);
+  ////////////////////////////////
+  useEffect(() => {
+    async function fetchData() {
+      const url = new URL(import.meta.env.VITE_API_URL + "/reports/list");
+      url.searchParams.append("page", 0);
+
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setApiDataUser(data.reportes_usuarios.reporte_general)
+        setApiDataAsis(data.reportes_asistencias)
+        //----------------------------------------------
+        setTotalUsuarios(data.reportes_usuarios.reporte_total.total_usuarios);
+        setUsuariosActivos(data.reportes_usuarios.reporte_total.usuarios_activos);
+        setIngresosMes(data.reportes_usuarios.reporte_total.ingresos_mes[0].count);
+
+        /////
+        setTotalAsistencias((data.reportes_asistencias[0].department_attendance_count)+(data.reportes_asistencias[12].department_attendance_count)+(data.reportes_asistencias[17].department_attendance_count) );
+        setTotalTardanzas((data.reportes_asistencias[0].department_absence_count)+(data.reportes_asistencias[12].department_absence_count)+(data.reportes_asistencias[17].department_absence_count));
+        setTotalFaltas((data.reportes_asistencias[0].department_delay_count)+(data.reportes_asistencias[12].department_delay_count)+(data.reportes_asistencias[17].department_delay_count));
+        setTotalJustificaciones((data.reportes_asistencias[0].department_justification_count)+(data.reportes_asistencias[12].department_justification_count)+(data.reportes_asistencias[17].department_justification_count));
+        ////
+        setAceptado(data.reportes_justificacion[0].total_justification_aceptado);
+        setRechazado(data.reportes_justificacion[0].total_justification_rechazado);
+        setEnProceso(data.reportes_justificacion[0].total_justification_en_proceso);
+
+        //----------------------------------------------
+        const filteredData = data.reportes_usuarios.reporte_general.reduce(
+          (acc, current) => {
+            if (
+              !acc.find(
+                (item) => item.department_name === current.department_name
+              )
+            ) {
+              acc.push(current);
+            }
+            return acc;
+          },
+          []
+        );
+        setApiDataUsuariosSector(filteredData);
+        setApiDataAsistenciasSector(data.reportes_asistencias);
+      } else {
+        console.error("Error al obtener datos de informes");
+      }
+    }
+
+    fetchData();
+  }, [token]);
+
+  ////////////////////////////////
   useEffect(() => {
     async function fetchData() {
       const listaDepartamentos = await ObtenerDatos(token, "departments");
@@ -36,32 +108,50 @@ const Reportes = () => {
     fetchData();
   }, []);
 
-  const tarjetasData = [
-    { titulo: "TOTAL USUARIOS", porcentaje: 15, numero: 465165 },
-    { titulo: "USUARIOS ACTIVOS", porcentaje: 2, numero: 465165 },
-    { titulo: "INGRESOS", porcentaje: 20, numero: 465165 },
-    { titulo: "SALIDAS", porcentaje: 5, numero: 465165 },
-  ];
-  const [mostrar, setMostrar] = useState(false);
   const filtrar = () => {
+    let datosFiltrados = apiDataUser;
+    let datosFiltradoAsistencia = apiDataAsis;
+    if (departamento == 1) {
+      console.log("Operativo");
+      datosFiltrados = apiDataUser.filter((dato) => {
+        return dato.department_name == "Departamento Operativo";
+      });
+      datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+        return dato.department_name == "Departamento Operativo";
+      });
+    } else if (departamento == 2) {
+      console.log("Comercial");
+      datosFiltrados = apiDataUser.filter((dato) => {
+        return dato.department_name == "Departamento Comercial";
+      });
+      datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+        return dato.department_name == "Departamento Comercial";
+      });
+    } else if (departamento == 3) {
+      console.log("Estratégico");
+      datosFiltrados = apiDataUser.filter((dato) => {
+        return dato.department_name == "Departamento Estratégico";
+      });
+      datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
+        return dato.department_name == "Departamento Estratégico";
+      });
+    }
+    setApiDataUsuariosSector(datosFiltrados);
+    setApiDataAsistenciasSector(datosFiltradoAsistencia);
     setMostrar(true);
   };
-  const borrar = () => {
-    setMostrar(false);
+  
+  
 
-    setCore("");
-    setDepartamento("");
-    setTurno("");
-    setMes("");
-    setYear("");
+  const borrar = () => {
+    window.location.reload();
   };
+
   const mostrarNucleo = (id_departamento) => {
-    console.log(" estoy aqui, mi id es ", id_departamento);
     const filtrado = nucleos.filter(
       (nucleo) => id_departamento == nucleo.department.id
     );
     setNucleosFiltrados(filtrado);
-    console.log(nucleosFiltrados);
   };
 
   return (
@@ -89,31 +179,6 @@ const Reportes = () => {
               label={"Turno"}
               data={["Mañana", "Tarde"]}
             ></SelectBox>
-            <SelectBox
-              setSelectedValue={setMes}
-              valor={mes}
-              label={"Mes"}
-              data={[
-                "Enero",
-                "Febrero",
-                "Marzo",
-                "Abril",
-                "Mayo",
-                "Junio",
-                "Julio",
-                "Agosto",
-                "Septiembre",
-                "Octubre",
-                "Noviembre",
-                "Diciembre",
-              ]}
-            ></SelectBox>
-            <SelectBox
-              setSelectedValue={setYear}
-              valor={year}
-              label={"Año"}
-              data={[2023]}
-            ></SelectBox>
           </div>
           <div className="flex gap-3">
             <button className="p-2 rounded bg-cv-cyan " onClick={borrar}>
@@ -130,23 +195,38 @@ const Reportes = () => {
           <section className="flex flex-wrap items-start justify-start w-full py-3 text-2xl border-t-2 ">
             <h1>Usuarios</h1>
             <div className="flex flex-wrap justify-between w-full gap-4 mt-4 gap-y-2 sm:flex-nowrap">
-              {tarjetasData.map((tarjeta) => (
-                <Tarjeta
-                  titulo={tarjeta.titulo}
-                  porcentaje={tarjeta.porcentaje}
-                  numero={tarjeta.numero}
-                ></Tarjeta>
-              ))}
+              <Tarjeta
+                titulo="TOTAL DE USUARIOS"
+                porcentaje={100}
+                numero={totalUsuarios}
+              />
+              <Tarjeta
+                titulo="USUARIOS ACTIVOS"
+                porcentaje={70}
+                numero={usuariosActivos}
+              />
+              <Tarjeta
+                titulo="INGRESOS ÚLTIMO MES"
+                porcentaje={20}
+                numero={ingresosMes}
+              />
+              <Tarjeta
+                titulo="SALIDAS ÚLTIMO MES"
+                porcentaje={10}
+                numero={20}
+              />
             </div>
             <div className="box-border flex items-start justify-between w-full gap-7">
               <div className="flex flex-col items-start w-4/6 gap-4 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80 box ">
                 <h1 className="text-lg font-medium ">
                   USUARIOS ACTIVOS POR SECTOR
                 </h1>
-                <Barras></Barras>
+                <Barras barras={apiDataUsuariosSector} />
               </div>
               <div className="box-border w-2/6 p-5 mt-4 -ml-3 text-sm rounded-lg bg-cv-primary h-80">
-                <BarraHor></BarraHor> <BarraHor></BarraHor>
+                <h1 className="text-lg font-medium ">TIPOS DE SALIDA</h1>
+                <BarraHor titulo="FINALIZO CONVENIO" total={80} porcentaje={80} />
+                <BarraHor titulo="SE RETIRÓ" total={20} porcentaje={20} />
               </div>
             </div>
           </section>
@@ -155,40 +235,56 @@ const Reportes = () => {
             <article>
               <div className="box-content flex items-start justify-start w-full gap-4 ">
                 <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
-                  <TarjetaAsistencia></TarjetaAsistencia>
+                <TarjetaAsistencia
+                    name1="Aistencias"
+                    name2="Tardanzas"
+                    name3="faltas"
+                    name4="justificaciones"
+                    asistencias={totalAsistencias}
+                    faltas={totalFaltas}
+                    justificaciones={totalJustificaciones}
+                    tardanzas={totalTardanzas}
+                  />
                 </div>
                 <div className="box-border flex flex-col justify-between w-4/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
                   <h1 className="text-lg font-medium ">
-                    Asistencia por Sectores
+                    ASISTENCIAS POR SECTORES
                   </h1>
                   <div className="w-full h-5/6">
-                    <Barras barras={3}></Barras>
-                  </div>
-                </div>
-              </div>
-              <div className="box-content flex items-start justify-start w-full gap-4 ">
-                <div className="box-border flex flex-col justify-between w-4/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
-                  <h1 className="text-lg font-medium ">Justificaciones</h1>
-                  <div className="w-full h-5/6">
-                    <Barras></Barras>
-                  </div>
-                </div>
-                <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
-                  <h1 className="text-lg font-medium ">
-                    Estado de Justificaciones
-                  </h1>
-                  <div className="w-full h-full">
-                    <Circular></Circular>
+                    <BarrasAsistencia data={apiDataAsistenciasSector} />
                   </div>
                 </div>
               </div>
             </article>
           </section>
-          <section></section>
+          <section className="flex flex-wrap items-start justify-start w-full py-3 text-2xl border-t-2 ">
+            <h1>Justificaciones</h1>
+            <div className="box-content flex items-start justify-start w-full gap-4 ">
+            <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                <h1 className="text-lg font-medium ">
+                  Estado de Justificaciones
+                </h1>
+                <div className="w-full h-full">
+                <Circular primero={aceptado} segundo={enProceso} tercero={rechazado} />
+                </div>
+              </div>
+              <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                  <TarjetaAsistencia
+                    name1="Total justificaciones"
+                    name2="Justifiaciones Aceptadas"
+                    name3="Justificaciones Rechazadas"
+                    name4="Justificaciones en Progreso"
+                    asistencias={totalAsistencias}
+                    faltas={aceptado}
+                    justificaciones={enProceso}
+                    tardanzas={rechazado}
+                  />
+                </div>
+            </div>
+          </section>
         </>
       ) : (
         <section className="flex items-center justify-center w-full h-full mt-20">
-          {/* hola */}
           <img src="./2Q.png" alt="" className="w-1/4 rounded-2xl " />
         </section>
       )}
