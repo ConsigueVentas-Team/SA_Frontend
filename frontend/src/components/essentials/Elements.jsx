@@ -62,42 +62,40 @@ export const Notifications = () => {
 
     return (
         <>
-            <ClickAwayListener onClickAway={handleClickAway}>
-                <div>
-                    <Tooltip title="Notificaciones">
-                        <button onClick={handleShowNotifications} className="relative outline-none">
-                            <div className="absolute top-0 left-0 flex items-center justify-center w-5 h-5 bg-red-500 rounded-full">
-                                <span className="text-sm text-white ">{notificacion.length}</span>
-                            </div>
-                            <div className="p-1.5">
-                                <NotificationsIcon sx={{ fontSize: 30 }} />
-                            </div>
-                        </button>
-                    </Tooltip>
-                    {showNotifications && (
-                        <div className="absolute right-0 z-50 w-full px-1 shadow-2xl md:right-6 top-16 md:max-w-md">
-                            <div className="overflow-hidden rounded-b-lg bg-cv-primary">
-                                <div className="p-2">
-                                    <h3 className="pb-2 shadow-lg">{notificacion.length} Notificaciones</h3>
-                                    <div className="w-full h-auto overflow-y-auto divide-y divide-gray-500 max-h-56 scrollbar">
-                                        <NotificationItem data={notificacion} itemShow={itemShow} />
-                                    </div>
-                                </div>
-                                {
-                                    notificacion.length > 4 && (
-                                        <button onClick={handleShowMore} className="block w-full font-bold text-center text-cv-primary bg-cv-cyan hover:bg-cv-cyan-hover">
-                                            <div className="w-full p-2.5 transition duration-300 ease-in-out active:scale-110">
-                                                {showAll ? 'Ver menos' : 'Ver más'}
-                                            </div>
-                                        </button>
-                                    )
-                                }
+        <ClickAwayListener onClickAway={handleClickAway}>
+            <div>
+                <Tooltip title="Notificaciones">
+                    <button onClick={handleShowNotifications} className="relative outline-none transition-transform transform">
+                        <div className="absolute top-0 left-0 flex items-center justify-center w-5 h-5 bg-red-500 rounded-full">
+                            <span className="text-sm text-white ">{notificacion.length}</span>
+                        </div>
+                        <div className={`p-1.5 transform ${showNotifications ? 'rotate-y-180 scale-125' : 'rotate-y-0 scale-100'} transition-transform origin-center duration-5000 ease-in-out`}>
+                            <NotificationsIcon sx={{ fontSize: 30 }} />
+                        </div>
+                    </button>
+                </Tooltip>
+                <div className={`absolute right-0 z-50 w-full px-1 shadow-2xl md:right-6 top-16 md:max-w-md transition-transform transform ${showNotifications ? 'scale-y-100' : 'scale-y-0'} origin-top`}>
+                    <div className="overflow-hidden rounded-b-lg bg-cv-primary">
+                        <div className="p-2">
+                            <h3 className="pb-2 shadow-lg">
+                                {notificacion.length} {notificacion.length === 1 ? 'Notificación' : 'Notificaciones'}
+                            </h3>
+                            <div className="w-full h-auto overflow-y-auto divide-y divide-gray-500 max-h-56 scrollbar">
+                                <NotificationItem data={notificacion} itemShow={itemShow} />
                             </div>
                         </div>
-                    )}
-                </div >
-            </ClickAwayListener>
-        </>
+                        {notificacion.length > 4 && (
+                            <button onClick={handleShowMore} className="block w-full font-bold text-center text-cv-primary bg-cv-cyan hover-bg-cv-cyan-hover transition-transform transform">
+                                <div className={`w-full p-2.5 transform ${showAll ? 'scale-100' : 'scale-120'} transition-transform duration-300 ease-in-out active:scale-110`}>
+                                    {showAll ? 'Ver menos' : 'Ver más'}
+                                </div>
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </ClickAwayListener>
+    </>
     )
 }
 
@@ -112,8 +110,8 @@ export const NotificationItem = ({ data, itemShow }) => {
         <>
             {data.slice(0, itemShow).map((item) => (
                 <div key={item.id}>
-                    <div className="w-full py-1.5">
-                        <div className="flex items-center justify-between w-full">
+                    <div className="w-full py-1.5 ">
+                        <div className="flex items-center justify-between w-full ">
                             <h3 className={
                                 "font-semibold text-normal text-white"
                             }>
