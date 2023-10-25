@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { AES, enc } from "crypto-js";
 import SelectBox from "../../components/reportes/SelectBox";
 import TarjetaAsistencia from "../../components/reportes/TarjetaAsistencia";
-import BarraHor from "../../components/reportes/graficos/BarraHor";
 import Barras from "../../components/reportes/graficos/Barras";
 import BarrasAsistencia from "../../components/reportes/graficos/BarrasAsistencia";
 import Circular from "../../components/reportes/graficos/Circular";
@@ -46,7 +45,7 @@ const Reportes = () => {
   const [aceptado, setAceptado] = useState(0);
   const [enProceso, setEnProceso] = useState(0);
   const [rechazado, setRechazado] = useState(0);
-  ////////////////////////////////
+
   useEffect(() => {
     async function fetchData() {
       const url = new URL(import.meta.env.VITE_API_URL + "/reports/list");
@@ -62,8 +61,8 @@ const Reportes = () => {
       if (response.ok) {
         const data = await response.json();
         setApiDataUser(data.reportes_usuarios.reporte_general);
-
         setApiDataAsis(data.reportes_asistencias);
+
         //----------------------------------------------
         setTotalUsuarios(data.reportes_usuarios.reporte_total.total_usuarios);
         setUsuariosActivos(
@@ -74,26 +73,32 @@ const Reportes = () => {
         );
 
         /////
-        setTotalAsistencias(
-          data.reportes_asistencias[0].department_attendance_count +
-            data.reportes_asistencias[12].department_attendance_count +
-            data.reportes_asistencias[17].department_attendance_count
+        const sumUniqueValues = (data, property) => {
+          const uniqueValues = [...new Set(data.map((item) => item[property]))];
+          return uniqueValues.reduce((acc, count) => acc + count, 0);
+        };
+
+        const totalAsistencias = sumUniqueValues(
+          data.reportes_asistencias,
+          "department_attendance_count"
         );
-        setTotalTardanzas(
-          data.reportes_asistencias[0].department_absence_count +
-            data.reportes_asistencias[12].department_absence_count +
-            data.reportes_asistencias[17].department_absence_count
+        const totalFaltas = sumUniqueValues(
+          data.reportes_asistencias,
+          "department_absence_count"
         );
-        setTotalFaltas(
-          data.reportes_asistencias[0].department_delay_count +
-            data.reportes_asistencias[12].department_delay_count +
-            data.reportes_asistencias[17].department_delay_count
+        const totalTardanzas = sumUniqueValues(
+          data.reportes_asistencias,
+          "department_delay_count"
         );
-        setTotalJustificaciones(
-          data.reportes_asistencias[0].department_justification_count +
-            data.reportes_asistencias[12].department_justification_count +
-            data.reportes_asistencias[17].department_justification_count
+        const totalJustificaciones = sumUniqueValues(
+          data.reportes_asistencias,
+          "department_justification_count"
         );
+
+        setTotalAsistencias(totalAsistencias);
+        setTotalFaltas(totalFaltas);
+        setTotalTardanzas(totalTardanzas);
+        setTotalJustificaciones(totalJustificaciones);
 
         /////
         setAceptado(
@@ -106,6 +111,7 @@ const Reportes = () => {
           data.reportes_justificacion[0].total_justification_en_proceso
         );
         setTotalJus(data.reportes_justificacion[0].total_justifications);
+
         //----------------------------------------------
         const filteredData = data.reportes_usuarios.reporte_general.reduce(
           (acc, current) => {
@@ -139,7 +145,6 @@ const Reportes = () => {
     fetchData();
   }, [token]);
 
-  ////////////////////////////////
   useEffect(() => {
     async function fetchData() {
       const listaDepartamentos = await ObtenerDatos(token, "departments");
@@ -151,120 +156,62 @@ const Reportes = () => {
   }, []);
 
   const filtrar = () => {
-    let datosFiltrados = apiDataUser;
-    let datosFiltradoAsistencia = apiDataAsis;
-    if (departamento == 1) {
-      console.log("Operativo");
-      datosFiltrados = apiDataUser.filter((dato) => {
-        return dato.department_name == "Departamento Operativo";
-      });
-      datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
-        return dato.department_name == "Departamento Operativo";
-      });
-      // ******************************************** */
-      if (core == 5) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Creativo";
-        });
-        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
-          return dato.core_name == "Creativo";
-        });
-      } else if (core == 6) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Audiovisual";
-        });
-        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
-          return dato.core_name == "Audiovisual";
-        });
-      } else if (core == 10) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Marca Cliente";
-        });
-        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
-          return dato.core_name == "Marca Cliente";
-        });
-      } else if (core == 11) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Marca Proyecto";
-        });
-        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
-          return dato.core_name == "Marca Proyecto";
-        });
-      }
-    } else if (departamento == 2) {
-      console.log("Comercial");
-      datosFiltrados = apiDataUser.filter((dato) => {
-        return dato.department_name == "Departamento Comercial";
-      });
-      datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
-        return dato.department_name == "Departamento Comercial";
-      });
-      // ******************************************** */
-      if (core == 31) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Atención al Cliente";
-        });
-        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
-          return dato.core_name == "Atención al Cliente";
-        });
-      } else if (core == 1) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Sistemas";
-        });
-        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
-          return dato.core_name == "Sistemas";
-        });
-      } else if (core == 7) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Diseño Web";
-        });
-        datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
-          return dato.core_name == "Diseño Web";
-        });
-      } else if (core == 8) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Logística";
-        });
-      } else if (core == 9) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Comercial";
-        });
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Comercial";
-        });
-      }
-    } else if (departamento == 3) {
-      console.log("Estratégico");
-      datosFiltrados = apiDataUser.filter((dato) => {
-        return dato.department_name == "Departamento Estratégico";
-      });
-      datosFiltradoAsistencia = apiDataAsis.filter((dato) => {
-        return dato.department_name == "Departamento Estratégico";
-      });
-      // ******************************************** */
-      if (core == 2) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Administrativo";
-        });
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Administrativo";
-        });
-      } else if (core == 3) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Talento Humano";
-        });
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Talento Humano";
-        });
-      } else if (core == 4) {
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Publicidad Digital";
-        });
-        datosFiltrados = apiDataUser.filter((dato) => {
-          return dato.core_name == "Publicidad Digital";
-        });
+    console.log(core);
+    let datosFiltrados = [];
+    let datosFiltradoAsistencia = [];
+
+    const departamentoMappings = {
+      1: {
+        name: "Departamento Operativo",
+        cores: {
+          5: "Creativo",
+          6: "Audiovisual",
+          10: "Marca Cliente",
+          11: "Marca Proyecto",
+        },
+      },
+      2: {
+        name: "Departamento Comercial",
+        cores: {
+          31: "Atencion al Cliente",
+          1: "Sistemas",
+          7: "Diseño Web",
+          8: "Logística",
+          9: "Comercial",
+        },
+      },
+      3: {
+        name: "Departamento Estratégico",
+        cores: {
+          2: "Administrativo",
+          3: "Talento Humano",
+          4: "Publicidad Digital",
+        },
+      },
+    };
+
+    const departamentoInfo = departamentoMappings[departamento];
+
+    if (departamentoInfo) {
+      console.log(departamentoInfo.name);
+      datosFiltrados = apiDataUser.filter(
+        (dato) => dato.department_name == departamentoInfo.name
+      );
+      datosFiltradoAsistencia = apiDataAsis.filter(
+        (dato) => dato.department_name == departamentoInfo.name
+      );
+
+      const coreName = departamentoInfo.cores[core];
+      if (coreName) {
+        datosFiltrados = apiDataUser.filter(
+          (dato) => dato.core_name == coreName
+        );
+        datosFiltradoAsistencia = apiDataAsis.filter(
+          (dato) => dato.core_name == coreName
+        );
       }
     }
+
     setApiDataUsuariosSector(datosFiltrados);
     setApiDataAsistenciasSector(datosFiltradoAsistencia);
     setMostrar(true);
@@ -370,10 +317,10 @@ const Reportes = () => {
               <div className="box-content flex items-start justify-start w-full gap-4 ">
                 <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
                   <TarjetaAsistencia
-                    name1="Aistencias"
+                    name1="Asistencias"
                     name2="Tardanzas"
-                    name3="faltas"
-                    name4="justificaciones"
+                    name3="Faltas"
+                    name4="Justificaciones"
                     asistencias={totalAsistencias}
                     faltas={totalFaltas}
                     justificaciones={totalJustificaciones}
@@ -399,7 +346,7 @@ const Reportes = () => {
               </span>
             </h1>
             <div className="box-content flex items-start justify-start w-full gap-4 ">
-              <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+              <div className="box-border flex flex-col justify-between w-3/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
                 <h1 className="text-lg font-medium ">
                   Estado de Justificaciones
                 </h1>
@@ -411,9 +358,9 @@ const Reportes = () => {
                   />
                 </div>
               </div>
-              <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+              <div className="box-border w-3/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
                 <TarjetaAsistencia
-                  name1="Total justificaciones"
+                  name1="Total de justificaciones"
                   name2="Justifiaciones Aceptadas"
                   name3="Justificaciones Rechazadas"
                   name4="Justificaciones en Progreso"
