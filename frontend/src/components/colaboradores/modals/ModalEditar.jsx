@@ -12,6 +12,7 @@ import {
   Switch,
 } from "./ModalElements";
 import Loading from "../../essentials/Loading";
+import ModalHorario from "./ModalHorario";
 
 export const ModalEditar = ({ close, updateUser, user, cargando }) => {
   // UseStates de campos a insertar
@@ -37,6 +38,7 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedCore, setSelectedCore] = useState("");
   const [selectedProfile, setSelectedProfile] = useState("");
+  const [modal, setModal] = useState(false)
 
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
@@ -209,6 +211,14 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
     updateUser(usuarioEditado);
   };
 
+  const handleOpenModal = () => {
+    setModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setModal(false)
+  }
+
   return (
     <>
       <div className="fixed top-0 left-0 z-50 w-screen h-screen overflow-y-auto p-2.5 flex flex-col items-center justify-center bg-cv-secondary/50">
@@ -326,6 +336,10 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
                     options={shiftOptions}
                     onChange={handleShiftChange}
                   />
+                  <button onClick={handleOpenModal} className="w-2/5 bg-white border-2 text-black font-bolder p-1.5 rounded-lg flex items-center justify-center shadow-md"> Personalizar </button>
+                  {modal && <ModalHorario
+                    onclose={handleCloseModal}
+                  />}
                   <SelectRole
                     label="Rol"
                     id="role"
