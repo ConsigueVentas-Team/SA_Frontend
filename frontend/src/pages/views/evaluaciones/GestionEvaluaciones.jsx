@@ -60,7 +60,7 @@ export const GestionEvaluaciones = () => {
 
                 if (data && data.length > 0) {
                     const foundUser = data.find(
-                        item => item.user_id === parseInt(id)
+                        (item) => item.user_id === parseInt(id)
                     )
 
                     if (foundUser) {
@@ -88,7 +88,15 @@ export const GestionEvaluaciones = () => {
 
     return (
         <>
-            <Modal isOpen={isModalOpen} onClose={handleCloseModal} idd={idd} nota1={nota1} nota2={nota2} nota3={nota3} nota4={nota4} />
+            <Modal
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                idd={idd}
+                // nota1={nota1}
+                // nota2={nota2}
+                // nota3={nota3}
+                // nota4={nota4}
+            />
 
             <div className='flex flex-col gap-4'>
                 {isLoading ? (
@@ -102,9 +110,7 @@ export const GestionEvaluaciones = () => {
                             </div>
 
                             <div className='flex flex-row justify-between'>
-                                <p>
-                                    {computarNombre()}
-                                </p>
+                                <p>{computarNombre()}</p>
                                 <p>{promedio}</p>
                             </div>
                         </div>
@@ -113,7 +119,6 @@ export const GestionEvaluaciones = () => {
                             id={id}
                             setIdd={setIdd}
                             setIsModalOpen={setIsModalOpen}
-
                             setNota1={setNota1}
                             setNota2={setNota2}
                             setNota3={setNota3}

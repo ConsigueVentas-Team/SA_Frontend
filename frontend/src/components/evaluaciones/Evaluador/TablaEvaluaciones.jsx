@@ -3,12 +3,20 @@ import ModalConfirmacion from './Modals/ModalConfirmacion'
 import { AES, enc } from 'crypto-js'
 import { ModalSpinners } from './Modals/ModalSpinners'
 
-
-const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, setNota2, setNota3, setNota4 }) => {
+const TablaEvaluaciones = ({
+    id,
+    setIdd,
+    setIsModalOpen,
+    setPromedio,
+    setNota1,
+    setNota2,
+    setNota3,
+    setNota4,
+}) => {
     const [numFilas, setNumFilas] = useState(0)
     const [mostrarModal, setMostrarModal] = useState(false)
     const [evaluacion, setEvaluacion] = useState([])
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
     const calcularPromedio = () => {
         if (evaluacion.length > 0) {
@@ -24,7 +32,7 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, s
 
     setPromedio(calcularPromedio())
 
-    const obtenerNombreDelMes = fecha => {
+    const obtenerNombreDelMes = (fecha) => {
         const meses = [
             'ENERO',
             'FEBRERO',
@@ -50,10 +58,8 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, s
     }
 
     const confirmarAgregarFila = async () => {
-
         setNumFilas(numFilas)
         setMostrarModal(false)
-      
 
         try {
             const apiUrl = import.meta.env.VITE_API_URL
@@ -129,8 +135,6 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, s
                 const data = await response.json()
 
                 setEvaluacion(data.data)
-
-
             } catch (error) {
                 console.error('Error al obtener la evaluación:', error.message)
             }
@@ -171,7 +175,7 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, s
 
                 if (data) {
                     const dataMisEvaluaciones = data.filter(
-                        element => element.user_id == parseInt(id)
+                        (element) => element.user_id == parseInt(id)
                     )
                     setEvaluacion([...dataMisEvaluaciones])
                     if (dataMisEvaluaciones.length > 0) {
@@ -197,9 +201,9 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, s
                 onClose={cancelarAgregarFila}
             />
 
-            <ModalSpinners isOpen={isLoading}/>
+            <ModalSpinners isOpen={isLoading} />
 
-                <table className='w-full text-sm text-center text-white'>
+            <table className='w-full text-sm text-center text-white'>
                 <thead>
                     <tr>
                         <th
@@ -220,19 +224,42 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, s
                 <tbody className='bg-cv-primary rounded-tl-lg rounded-tr-lg border-b border-cv-secondary'>
                     {/* {mostrarEncabezados && ( */}
                     <tr className={`${filaClase} bg-[#0e161b]`}>
-                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>FECHA</td>
-                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>HABILIDADES BLANDAS</td>
-                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>HABILIDADES TÉCNICAS</td>
+                        <td
+                            className={celdaClase}
+                            style={{ fontWeight: 'bold' }}>
+                            FECHA
+                        </td>
+                        <td
+                            className={celdaClase}
+                            style={{ fontWeight: 'bold' }}>
+                            HABILIDADES BLANDAS
+                        </td>
+                        <td
+                            className={celdaClase}
+                            style={{ fontWeight: 'bold' }}>
+                            HABILIDADES TÉCNICAS
+                        </td>
                         {/* {rol === 'Colaborador' && ( */}
-                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>RENDIMIENTO</td>
+                        <td
+                            className={celdaClase}
+                            style={{ fontWeight: 'bold' }}>
+                            RENDIMIENTO
+                        </td>
                         {/* )} */}
-                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>AUTOEVALUACIÓN</td>
-                        <td className={celdaClase} style={{ fontWeight: 'bold' }}>PROMEDIO</td>
+                        <td
+                            className={celdaClase}
+                            style={{ fontWeight: 'bold' }}>
+                            AUTOEVALUACIÓN
+                        </td>
+                        <td
+                            className={celdaClase}
+                            style={{ fontWeight: 'bold' }}>
+                            PROMEDIO
+                        </td>
                     </tr>
                     {/* )} */}
 
-                    
-                  {evaluacion.map((evaluacionItem, index) => (
+                    {evaluacion.map((evaluacionItem, index) => (
                         <tr
                             key={index}
                             className={`${filaClase} hover:bg-gray-700`}
@@ -283,7 +310,7 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, s
                             }
                             className='px-6 py-4 whitespace-nowrap bg-cv-primary'>
                             <button
-                                className='uppercase font-medium text-cv-cyan-hover'
+                                className='uppercase font-medium text-cv-cyan'
                                 onClick={agregarFila}>
                                 Agregar Evaluación
                             </button>
@@ -291,9 +318,6 @@ const TablaEvaluaciones = ({ id, setIdd, setIsModalOpen,setPromedio, setNota1, s
                     </tr>
                 </tbody>
             </table>
-
-
-            
         </div>
     )
 }

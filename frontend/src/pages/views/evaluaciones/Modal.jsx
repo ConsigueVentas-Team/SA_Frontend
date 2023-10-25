@@ -8,7 +8,15 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
     const [autoevaluation, setAutoevaluation] = useState('')
     const [hardskills, setHardskills] = useState('')
     const [error, setError] = useState(null)
-    const [isSaving, setIsSaving] = useState(false);
+    const [isSaving, setIsSaving] = useState(false)
+
+    const clearForm = () => {
+        setSoftskills('')
+        setPerformance('')
+        setAutoevaluation('')
+        setHardskills('')
+        onClose()
+    }
 
     const handleGuardar = async () => {
         try {
@@ -47,7 +55,6 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
             setHardskills('')
             setError(null)
             setIsSaving(false)
-
         } catch (error) {
             setError(error.message)
             setIsSaving(false)
@@ -68,7 +75,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                     if (autoevaluation > 0 && autoevaluation < 20) {
                         if (hardskills > 0 && hardskills < 20) {
                             handleGuardar()
-                            setIsSaving(true);
+                            setIsSaving(true)
                         } else {
                             setError('La nota debe ser entre 1 y 20')
                         }
@@ -86,15 +93,18 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
 
     return (
         <div
-            className={`fixed top-0 left-0 w-full h-full text-black flex items-center justify-center bg-black bg-opacity-50 ${isOpen ? 'block' : 'hidden'
-                }`}>
+            className={`fixed top-0 left-0 w-full h-full text-black flex items-center justify-center bg-black bg-opacity-50 ${
+                isOpen ? 'block' : 'hidden'
+            }`}>
             {isSaving ? (
                 <Loading />
             ) : (
                 <div
                     className='modal mx-auto bg-white p-4 rounded-lg shadow-md'
                     style={{ margin: '50px' }}>
-                    <h2 className=' font-bold text-center mb-4'>CARGAR NOTAS</h2>
+                    <h2 className=' font-bold text-center mb-4'>
+                        CARGAR NOTAS
+                    </h2>
                     {/* <h4 className='text-1xl font-bold text-center mb-4 text-gray-600 uppercase'>
                         {mes}
                     </h4> */}
@@ -121,7 +131,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                                 type='number'
                                 placeholder='Nota 1'
                                 value={softskills}
-                                onChange={e => setSoftskills(e.target.value)}
+                                onChange={(e) => setSoftskills(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                             />
                         </div>
@@ -130,13 +140,13 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                     <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
                             <label className='w-2/4 text-gray-500'>
-                                Habildiades Tecnicas
+                                Habilidades Duras
                             </label>
                             <input
                                 type='number'
                                 placeholder='Nota 2'
                                 value={performance}
-                                onChange={e => setPerformance(e.target.value)}
+                                onChange={(e) => setPerformance(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                             />
                         </div>
@@ -145,13 +155,15 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                     <div className='mb-4 rounded-lg border border-gray-400  bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
                             <label className='w-2/4 text-gray-500'>
-                                Rendimiento
+                                Desempeño
                             </label>
                             <input
                                 type='number'
                                 placeholder='Nota 3'
                                 value={autoevaluation}
-                                onChange={e => setAutoevaluation(e.target.value)}
+                                onChange={(e) =>
+                                    setAutoevaluation(e.target.value)
+                                }
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                             />
                         </div>
@@ -166,7 +178,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                                 type='number'
                                 placeholder='Nota 4'
                                 value={hardskills}
-                                onChange={e => setHardskills(e.target.value)}
+                                onChange={(e) => setHardskills(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                             />
                         </div>
@@ -187,14 +199,14 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                     <hr className='my-4 border-t border-gray-400' />
                     <div className='flex justify-between'>
                         <button
-                            onClick={onClose}
+                            onClick={clearForm}
                             className='bg-white border border-black text-black px-4 py-2 rounded-lg mr-2 hover:font-semibold'
                             style={{ backgroundColor: '#fcfcfc' }}>
                             Cancelar
                         </button>
                         <button
                             onClick={() => {
-                                validarFormulario();
+                                validarFormulario()
                             }}
                             className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:font-semibold'
                             style={{ backgroundColor: '#16232b' }}>
