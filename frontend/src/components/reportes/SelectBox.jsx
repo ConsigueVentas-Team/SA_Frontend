@@ -10,7 +10,6 @@ const SelectBox = ({ label, data, mostrarNucleo, valor, setSelectedValue }) => {
   }
   const handleDepartamentoChange = (e) => {
     const selectedValue = e.target.value;
-    console.log(typeof setSelectedValue);
     setSelectedValue(selectedValue);
     setDepartamento(selectedValue);
   };

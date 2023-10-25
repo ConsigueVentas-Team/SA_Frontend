@@ -10,14 +10,18 @@ import {
 } from "recharts";
 
 const BarrasAsistencia = ({ data }) => {
-  const departmentData = data.filter((item, index, self) =>
-    self.findIndex((el) => el.department_name === item.department_name) === index
-  );
+  let xAxisDataKey;
+
+  if (data.length > 3) {
+    xAxisDataKey = "core_name";
+  }else{
+    xAxisDataKey = "department_name";
+  }
 
   return (
     <ResponsiveContainer width="100%">
-      <BarChart data={departmentData} barSize={30}>
-        <XAxis dataKey="department_name" />
+      <BarChart data={data} barSize={30}>
+        <XAxis dataKey={xAxisDataKey} />
         <YAxis />
         <Tooltip />
         <CartesianGrid strokeDasharray="1 0" horizontal={true} vertical={false} />
