@@ -349,27 +349,13 @@ const Reportes = () => {
                 porcentaje={20}
                 numero={ingresosMes}
               />
-              <Tarjeta
-                titulo="SALIDAS ÚLTIMO MES"
-                porcentaje={10}
-                numero={20}
-              />
             </div>
             <div className="box-border flex items-start justify-between w-full gap-7">
-              <div className="flex flex-col items-start w-4/6 gap-4 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80 box ">
-                <h1 className="text-lg font-medium ">
+              <div className="flex flex-col items-start w-full gap-4 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80 box">
+                <h1 className="text-lg font-medium">
                   USUARIOS ACTIVOS POR SECTOR
                 </h1>
                 <Barras barras={apiDataUsuariosSector} />
-              </div>
-              <div className="box-border w-2/6 p-5 mt-4 -ml-3 text-sm rounded-lg bg-cv-primary h-80">
-                <h1 className="text-lg font-medium ">TIPOS DE SALIDA</h1>
-                <BarraHor
-                  titulo="FINALIZO CONVENIO"
-                  total={80}
-                  porcentaje={80}
-                />
-                <BarraHor titulo="SE RETIRÓ" total={20} porcentaje={20} />
               </div>
             </div>
           </section>
