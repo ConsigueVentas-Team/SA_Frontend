@@ -1,14 +1,20 @@
-import { useState } from 'react'
+import {  useState } from 'react'
 import { AES, enc } from 'crypto-js'
 import Loading from '../../../components/essentials/Loading'
 
 const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
-    const [softskills, setSoftskills] = useState('')
-    const [performance, setPerformance] = useState('')
-    const [autoevaluation, setAutoevaluation] = useState('')
-    const [hardskills, setHardskills] = useState('')
+
+    const [softskills, setSoftskills] = useState(nota1)
+    const [performance, setPerformance] = useState(nota2)
+    const [autoevaluation, setAutoevaluation] = useState(nota3)
+    const [hardskills, setHardskills] = useState(nota4)
     const [error, setError] = useState(null)
     const [isSaving, setIsSaving] = useState(false)
+
+
+    console.log({nota1, nota2, nota3, nota4})
+    console.log({softskills, performance, autoevaluation, hardskills})
+
 
     const clearForm = () => {
         setSoftskills('')
@@ -16,6 +22,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
         setAutoevaluation('')
         setHardskills('')
         onClose()
+        setError(null)
     }
 
     const handleGuardar = async () => {
@@ -109,7 +116,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                         {mes}
                     </h4> */}
 
-                    {/* <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
+                    <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
                             <label className='w-2/4 text-gray-500'>ID:</label>
                             <input
@@ -120,7 +127,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                             />
                         </div>
-                    </div> */}
+                    </div>
 
                     <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
