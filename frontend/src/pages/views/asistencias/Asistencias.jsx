@@ -75,6 +75,8 @@ export const Asistencias = () => {
 
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
 
+  const [fetchingInProgress, setFetchingInProgress] = useState(true);
+
 
   useEffect(()=>{
     fetch(import.meta.env.VITE_API_URL + "/departments/list", {
@@ -109,6 +111,7 @@ export const Asistencias = () => {
         setCargando(false)
         setLastPage(response.last_page)
         setTotal(response.total);
+        setFetchingInProgress(false)
       });
   },[])
 
@@ -148,6 +151,7 @@ export const Asistencias = () => {
   }
 
   useEffect(()=>{
+    setFetchingInProgress(true);
     let url = `${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`
     url =  (core) ? `${url}&core=${getCore(core)}`:url
     url =  (shift) ? `${url}&shift=${shift}`:url
@@ -161,6 +165,8 @@ export const Asistencias = () => {
       .then((response) => response.json())
       .then((response) => {
         setAttendance([...response.data])
+        setFetchingInProgress(false);
+        closeCalendar()
       });
   },[date,currentPage,shift,core])
 
@@ -178,7 +184,8 @@ export const Asistencias = () => {
           </li>
         </ol>
       </nav>
-      <div className="h-full bg-cv-secondary mt-5">
+      {fetchingInProgress && <Loading />}
+      {!fetchingInProgress && <div className="h-full bg-cv-secondary mt-5">
         <div className="space-y-3 w-full">
           <div className="flex w-full">
             <div>
@@ -248,7 +255,7 @@ export const Asistencias = () => {
             <ModalImagen image={image} closeImageModal={closeImageModal} />
           )}
         </div>
-      </div>
+      </div>}
     </>
   );
 };
