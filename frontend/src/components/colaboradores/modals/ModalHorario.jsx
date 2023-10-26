@@ -17,12 +17,16 @@ export default function ModalHorario({ onclose }) {
 
     const handleHoursChange = (event) => {
         const newHours = event.target.value;
-        setHours(newHours);
+        if (newHours === "" || (newHours >= 0 && newHours <= 23)) {
+            setHours(newHours);
+        }
     };
 
     const handleMinutesChange = (event) => {
         const newMinutes = event.target.value;
-        setMinutes(newMinutes);
+        if (newMinutes === "" || (newMinutes >= 0 && newMinutes <= 59)) {
+            setMinutes(newMinutes);
+        }
     };
 
     const handleAddSchedule = () => {
@@ -38,7 +42,7 @@ export default function ModalHorario({ onclose }) {
     };
 
     return (
-        <div className="fixed top-0 left-0 z-50 w-screen h-screen overflow-y-auto p-2.5 flex flex-col items-center justify-center bg-cv-secondary/50">
+        <div className="fixed top-0 left-0 z-50 m-0 w-screen h-screen overflow-y-auto flex flex-col items-center justify-center bg-cv-secondary/50">
             <div className="relative w-full max-w-2xl max-h-full text-black bg-white rounded-lg p-5">
                 <h1 className="font-bold"> Personalizar horario </h1>
                 <div className="w-auto flex justify-around align-center direction-row m-2">
@@ -68,14 +72,14 @@ export default function ModalHorario({ onclose }) {
                                 placeholder="Horas"
                                 value={hours}
                                 onChange={handleHoursChange}
-                                className="w-1/2 bg-[#F5F7FB] rounded"
+                                className="w-1/2 bg-[#F5F7FB] rounded pl-4"
                             />
                             <input
                                 type="number"
                                 placeholder="Min."
                                 value={minutes}
                                 onChange={handleMinutesChange}
-                                className="w-1/2 bg-[#F5F7FB] rounded"
+                                className="w-1/2 bg-[#F5F7FB] rounded pl-6"
                             />
                         </div>
                     </div>
@@ -92,12 +96,13 @@ export default function ModalHorario({ onclose }) {
                             <option value="Fin">Fin</option>
                         </select>
                     </div>
-                    <button
-                        onClick={handleAddSchedule}
-                        className="bg-cv-primary text-white p-1 rounded-lg flex justify-center items-center"
-                    >
-                        +
-                    </button>
+                    <div className="flex justify-center items-center">
+                        <button
+                            onClick={handleAddSchedule}
+                            className="bg-cv-primary text-white p-1 rounded-lg flex justify-center items-center h-1/2"
+                        >+
+                        </button>
+                    </div>
                 </div>
                 <div className="flex justify-around flex-col">
                     <label className="font-medium">Horario</label>
@@ -128,7 +133,7 @@ export default function ModalHorario({ onclose }) {
                                     Inicio
                                 </td>
                                 {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"].map((day, index) => (
-                                    <td key={index} className="border-2 border-gray-200 w-1/6">
+                                    <td key={index} className="border-2 border-gray-200 w-1/6 pl-8">
                                         {schedule
                                             .filter((entry) => entry.option === "Inicio" && entry.day === day)
                                             .map((entry, index) => (
@@ -142,7 +147,7 @@ export default function ModalHorario({ onclose }) {
                                     Fin
                                 </td>
                                 {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"].map((day, index) => (
-                                    <td key={index} className="border-2 border-gray-200 w-1/6">
+                                    <td key={index} className="border-2 border-gray-200 w-1/6 pl-8">
                                         {schedule
                                             .filter((entry) => entry.option === "Fin" && entry.day === day)
                                             .map((entry, index) => (
@@ -156,14 +161,14 @@ export default function ModalHorario({ onclose }) {
                 </div>
 
                 <div className="flex justify-around items-center">
+                    <button className="w-1/3 border-2 p-1 mt-3 text-white bg-cv-primary border-cv-primary rounded-lg">
+                        AGREGAR
+                    </button>
                     <button
                         onClick={onclose}
                         className="bg-[#F5F7FB] w-1/3 border-2 p-1 mt-3 bg-white font-medium text-cv-primary border-cv-primary hover:text-white hover:bg-cv-primary rounded-lg"
                     >
                         CANCELAR
-                    </button>
-                    <button className="w-1/3 border-2 p-1 mt-3 text-white bg-cv-primary border-cv-primary rounded-lg">
-                        AGREGAR
                     </button>
                 </div>
             </div>
