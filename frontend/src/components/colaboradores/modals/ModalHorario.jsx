@@ -6,6 +6,7 @@ export default function ModalHorario({ onclose }) {
     const [hours, setHours] = useState("");
     const [minutes, setMinutes] = useState("");
     const [schedule, setSchedule] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleSelectChangeDay = (event) => {
         setSelectedOptionDay(event.target.value);
@@ -18,14 +19,14 @@ export default function ModalHorario({ onclose }) {
     const handleHoursChange = (event) => {
         const newHours = event.target.value;
         if (newHours === "" || (newHours >= 0 && newHours <= 23)) {
-            setHours(newHours);
+            setHours(newHours.padStart(2, '0'));
         }
     };
 
     const handleMinutesChange = (event) => {
         const newMinutes = event.target.value;
         if (newMinutes === "" || (newMinutes >= 0 && newMinutes <= 59)) {
-            setMinutes(newMinutes);
+            setMinutes(newMinutes.padStart(2, '0'));
         }
     };
 
@@ -37,7 +38,33 @@ export default function ModalHorario({ onclose }) {
                 time: `${hours}:${minutes}`,
             };
 
+            const inicioEntry = schedule.find(
+                (entry) => entry.option === "Inicio" && entry.day === selectedOptionDay
+            );
+
+            const finEntry = schedule.find(
+                (entry) => entry.option === "Fin" && entry.day === selectedOptionDay
+            );
+
+            if (selectedOption === "Fin" && inicioEntry) {
+                const startTime = new Date(`2023-10-26 ${inicioEntry.time}`);
+                const endTime = new Date(`2023-10-26 ${newScheduleEntry.time}`);
+                const timeDiff = endTime - startTime;
+                const hoursDiff = Math.floor(timeDiff / 3600000);
+
+                if (hoursDiff < 5) {
+                    setErrorMessage("La diferencia entre 'Inicio' y 'Fin' debe ser al menos 5 horas.");
+                    return;
+                }
+            } else if (selectedOption === "Fin" && !inicioEntry) {
+                setErrorMessage("Debes agregar una entrada 'Inicio' antes de una entrada 'Fin'.");
+                return;
+            }
+
             setSchedule([...schedule, newScheduleEntry]);
+            setErrorMessage("");
+        } else {
+            setErrorMessage("Completa todos los campos");
         }
     };
 
@@ -104,6 +131,7 @@ export default function ModalHorario({ onclose }) {
                         </button>
                     </div>
                 </div>
+                <span className="text-red-500 flex justify-center">{errorMessage}</span> {/* Muestra el mensaje de error */}
                 <div className="flex justify-around flex-col">
                     <label className="font-medium">Horario</label>
                     <table className="rounded-md border-2 border-gray-200 bg-[#F5F7FB] mt-3 mb-3">
