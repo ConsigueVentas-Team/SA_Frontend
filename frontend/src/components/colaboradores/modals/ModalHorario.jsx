@@ -16,20 +16,41 @@ export default function ModalHorario({ onclose }) {
     setSelectedOption(event.target.value);
   };
 
+  //Mass validacionesssssssssssssssssssssssss
   const handleHoursChange = (event) => {
     const newHours = event.target.value;
-    if (newHours === "" || (newHours >= 0 && newHours <= 23)) {
-      setHours(newHours.padStart(2, "0"));
+    const parsedHours = parseInt(newHours, 10);
+
+    if (!isNaN(parsedHours)) {
+      if (parsedHours >= 0 && parsedHours <= 23) {
+        setHours(parsedHours.toString().padStart(2, "0"));
+      } else if (parsedHours < 0) {
+        setHours("00");
+      } else {
+        setHours("23");
+      }
+    } else if (newHours === "") {
+      setHours("");
     }
   };
 
   const handleMinutesChange = (event) => {
     const newMinutes = event.target.value;
-    if (newMinutes === "" || (newMinutes >= 0 && newMinutes <= 59)) {
-      setMinutes(newMinutes.padStart(2, "0"));
+    const parsedMinutes = parseInt(newMinutes, 10);
+
+    if (!isNaN(parsedMinutes)) {
+      if (parsedMinutes >= 0 && parsedMinutes <= 59) {
+        setMinutes(parsedMinutes.toString().padStart(2, "0"));
+      } else if (parsedMinutes < 0) {
+        setMinutes("00");
+      } else {
+        setMinutes("59");
+      }
+    } else if (newMinutes === "") {
+      setMinutes("");
     }
   };
-
+  //
   const handleAddSchedule = () => {
     if (selectedOptionDay && selectedOption && hours && minutes) {
       const newScheduleEntry = {
@@ -82,6 +103,7 @@ export default function ModalHorario({ onclose }) {
     } else {
       setErrorMessage("Completa todos los campos");
     }
+    //
   };
 
   return (
