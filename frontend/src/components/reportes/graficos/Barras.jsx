@@ -22,13 +22,12 @@ const CustomTooltip = ({ active, label, payload }) => {
   return null;
 };
 
-const Barras = ({ barras }) => {
-  const showCoreXAxis = barras.length > 3;
+const Barras = ({ barras, isCore }) => {
   return (
     <ResponsiveContainer width="100%">
       <BarChart data={barras} barSize={30}>
-        {showCoreXAxis ? (
-          <XAxis dataKey="core_name" />
+        {isCore ? (
+          <XAxis dataKey="profile_name" />
         ) : (
           <XAxis dataKey="department_name" />
         )}
@@ -49,13 +48,6 @@ const Barras = ({ barras }) => {
           }
           fill="#57F3FF"
         />
-        {showCoreXAxis && (
-          <>
-            <Bar dataKey="uv" fill="red" />
-            <Bar dataKey="amt" fill="#24FF00" />
-            <Bar dataKey="amt" fill="#FAFF00" />
-          </>
-        )}
       </BarChart>
     </ResponsiveContainer>
   );

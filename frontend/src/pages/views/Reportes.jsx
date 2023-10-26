@@ -11,6 +11,7 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import AddIcon from "@mui/icons-material/Add";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import AddModeratorIcon from "@mui/icons-material/AddModerator";
+import Loading from "../../components/essentials/Loading";
 
 const Reportes = () => {
   const tokenD = AES.decrypt(
@@ -46,8 +47,12 @@ const Reportes = () => {
   const [enProceso, setEnProceso] = useState(0);
   const [rechazado, setRechazado] = useState(0);
 
+  const [loading, setLoading] = useState(true);
+  const [isCore, seIsCore] = useState(false);
+
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       const url = new URL(import.meta.env.VITE_API_URL + "/reports/list");
       url.searchParams.append("page", 0);
 
@@ -137,6 +142,7 @@ const Reportes = () => {
           }
         );
         setApiDataAsistenciasSector(filteredAsisData);
+        setLoading(false);
       } else {
         console.error("Error al obtener datos de informes");
       }
@@ -156,7 +162,6 @@ const Reportes = () => {
   }, []);
 
   const filtrar = () => {
-    console.log(core);
     let datosFiltrados = [];
     let datosFiltradoAsistencia = [];
 
@@ -193,7 +198,6 @@ const Reportes = () => {
     const departamentoInfo = departamentoMappings[departamento];
 
     if (departamentoInfo) {
-      console.log(departamentoInfo.name);
       datosFiltrados = apiDataUser.filter(
         (dato) => dato.department_name == departamentoInfo.name
       );
@@ -209,6 +213,7 @@ const Reportes = () => {
         datosFiltradoAsistencia = apiDataAsis.filter(
           (dato) => dato.core_name == coreName
         );
+        seIsCore(true);
       }
     }
 
@@ -273,105 +278,114 @@ const Reportes = () => {
       </section>
       {mostrar ? (
         <>
-          <section className="flex flex-wrap items-start justify-start w-full py-3 text-2xl border-t-2 ">
-            <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
-              <PeopleAltIcon />
-              <span className="ml-1 text-base font-medium md:ml-2">
-                USUARIOS
-              </span>
-            </h1>
-            <div className="flex flex-wrap justify-between w-full gap-4 mt-4 gap-y-2 sm:flex-nowrap">
-              <Tarjeta
-                titulo="TOTAL DE USUARIOS"
-                porcentaje={100}
-                numero={totalUsuarios}
-              />
-              <Tarjeta
-                titulo="USUARIOS ACTIVOS"
-                porcentaje={70}
-                numero={usuariosActivos}
-              />
-              <Tarjeta
-                titulo="INGRESOS ÚLTIMO MES"
-                porcentaje={20}
-                numero={ingresosMes}
-              />
-            </div>
-            <div className="box-border flex items-start justify-between w-full gap-7">
-              <div className="flex flex-col items-start w-full gap-4 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80 box">
-                <h1 className="text-lg font-medium">
-                  USUARIOS ACTIVOS POR SECTOR
+          {loading ? (
+            <Loading />
+          ) : (
+            <section>
+              <section className="flex flex-wrap items-start justify-start w-full py-3 text-2xl border-t-2 ">
+                <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
+                  <PeopleAltIcon />
+                  <span className="ml-1 text-base font-medium md:ml-2">
+                    USUARIOS
+                  </span>
                 </h1>
-                <Barras barras={apiDataUsuariosSector} />
-              </div>
-            </div>
-          </section>
-          <section className="w-full py-3 text-2xl border-t-2 ">
-            <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
-              <AddIcon />
-              <span className="ml-1 text-base font-medium md:ml-2">
-                ASISTENCIAS
-              </span>
-            </h1>
-            <article>
-              <div className="box-content flex items-start justify-start w-full gap-4 ">
-                <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
-                  <TarjetaAsistencia
-                    name1="Asistencias"
-                    name2="Tardanzas"
-                    name3="Faltas"
-                    name4="Justificaciones"
-                    asistencias={totalAsistencias}
-                    faltas={totalFaltas}
-                    justificaciones={totalJustificaciones}
-                    tardanzas={totalTardanzas}
+                <div className="flex flex-wrap justify-between w-full gap-4 mt-4 gap-y-2 sm:flex-nowrap">
+                  <Tarjeta
+                    titulo="TOTAL DE USUARIOS"
+                    porcentaje={100}
+                    numero={totalUsuarios}
+                  />
+                  <Tarjeta
+                    titulo="USUARIOS ACTIVOS"
+                    porcentaje={70}
+                    numero={usuariosActivos}
+                  />
+                  <Tarjeta
+                    titulo="INGRESOS ÚLTIMO MES"
+                    porcentaje={20}
+                    numero={ingresosMes}
                   />
                 </div>
-                <div className="box-border flex flex-col justify-between w-4/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
-                  <h1 className="text-lg font-medium ">
-                    ASISTENCIAS POR SECTORES
-                  </h1>
-                  <div className="w-full h-5/6">
-                    <BarrasAsistencia data={apiDataAsistenciasSector} />
+                <div className="box-border flex items-start justify-between w-full gap-7">
+                  <div className="flex flex-col items-start w-full gap-4 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80 box">
+                    <h1 className="text-lg font-medium">
+                      USUARIOS ACTIVOS POR SECTOR
+                    </h1>
+                    <Barras barras={apiDataUsuariosSector} isCore={isCore} />
                   </div>
                 </div>
-              </div>
-            </article>
-          </section>
-          <section className="flex flex-wrap items-start justify-start w-full py-3 text-2xl border-t-2 ">
-            <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
-              <AddModeratorIcon />
-              <span className="ml-1 text-base font-medium md:ml-2">
-                JUSTIFICACIONES
-              </span>
-            </h1>
-            <div className="box-content flex items-start justify-start w-full gap-4 ">
-              <div className="box-border flex flex-col justify-between w-3/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
-                <h1 className="text-lg font-medium ">
-                  Estado de Justificaciones
+              </section>
+              <section className="w-full py-3 text-2xl border-t-2 ">
+                <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
+                  <AddIcon />
+                  <span className="ml-1 text-base font-medium md:ml-2">
+                    ASISTENCIAS
+                  </span>
                 </h1>
-                <div className="w-full h-full">
-                  <Circular
-                    primero={aceptado}
-                    segundo={enProceso}
-                    tercero={rechazado}
-                  />
+                <article>
+                  <div className="box-content flex items-start justify-start w-full gap-4 ">
+                    <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                      <TarjetaAsistencia
+                        name1="Asistencias"
+                        name2="Tardanzas"
+                        name3="Faltas"
+                        name4="Justificaciones"
+                        asistencias={totalAsistencias}
+                        faltas={totalFaltas}
+                        justificaciones={totalJustificaciones}
+                        tardanzas={totalTardanzas}
+                      />
+                    </div>
+                    <div className="box-border flex flex-col justify-between w-4/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                      <h1 className="text-lg font-medium ">
+                        ASISTENCIAS POR SECTORES
+                      </h1>
+                      <div className="w-full h-5/6">
+                        <BarrasAsistencia
+                          data={apiDataAsistenciasSector}
+                          isCore={isCore}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </section>
+              <section className="flex flex-wrap items-start justify-start w-full py-3 text-2xl border-t-2 ">
+                <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
+                  <AddModeratorIcon />
+                  <span className="ml-1 text-base font-medium md:ml-2">
+                    JUSTIFICACIONES
+                  </span>
+                </h1>
+                <div className="box-content flex items-start justify-start w-full gap-4 ">
+                  <div className="box-border flex flex-col justify-between w-3/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                    <h1 className="text-lg font-medium ">
+                      Estado de Justificaciones
+                    </h1>
+                    <div className="w-full h-full">
+                      <Circular
+                        primero={aceptado}
+                        segundo={enProceso}
+                        tercero={rechazado}
+                      />
+                    </div>
+                  </div>
+                  <div className="box-border w-3/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                    <TarjetaAsistencia
+                      name1="Total de justificaciones"
+                      name2="Justifiaciones Aceptadas"
+                      name3="Justificaciones Rechazadas"
+                      name4="Justificaciones en Progreso"
+                      asistencias={totalJus}
+                      faltas={aceptado}
+                      justificaciones={enProceso}
+                      tardanzas={rechazado}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="box-border w-3/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
-                <TarjetaAsistencia
-                  name1="Total de justificaciones"
-                  name2="Justifiaciones Aceptadas"
-                  name3="Justificaciones Rechazadas"
-                  name4="Justificaciones en Progreso"
-                  asistencias={totalJus}
-                  faltas={aceptado}
-                  justificaciones={enProceso}
-                  tardanzas={rechazado}
-                />
-              </div>
-            </div>
-          </section>
+              </section>
+            </section>
+          )}
         </>
       ) : (
         <section className="flex items-center justify-center w-full h-full mt-20">
