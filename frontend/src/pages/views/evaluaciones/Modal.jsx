@@ -1,4 +1,4 @@
-import {  useState } from 'react'
+import { useState } from 'react'
 import { AES, enc } from 'crypto-js'
 import Loading from '../../../components/essentials/Loading'
 
@@ -12,8 +12,8 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
     const [isSaving, setIsSaving] = useState(false)
 
 
-    console.log({nota1, nota2, nota3, nota4})
-    console.log({softskills, performance, autoevaluation, hardskills})
+    console.log({ nota1, nota2, nota3, nota4 })
+    console.log({ softskills, performance, autoevaluation, hardskills })
 
 
     const clearForm = () => {
@@ -77,32 +77,31 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
         ) {
             setError('Todos los campos son obligatorios')
         } else {
-            if (softskills > 0 && softskills < 20) {
-                if (performance > 0 && performance < 20) {
-                    if (autoevaluation > 0 && autoevaluation < 20) {
-                        if (hardskills > 0 && hardskills < 20) {
+            if (softskills >= 0 && softskills <= 20) {
+                if (performance >= 0 && performance <= 20) {
+                    if (autoevaluation >= 0 && autoevaluation <= 20) {
+                        if (hardskills >= 0 && hardskills <= 20) {
                             handleGuardar()
                             setIsSaving(true)
                         } else {
-                            setError('La nota debe ser entre 1 y 20')
+                            setError('La nota debe ser entre 0 y 20')
                         }
                     } else {
-                        setError('La nota debe ser entre 1 y 20')
+                        setError('La nota debe ser entre 0 y 20')
                     }
                 } else {
-                    setError('La nota debe ser entre 1 y 20')
+                    setError('La nota debe ser entre 0 y 20')
                 }
             } else {
-                setError('La nota debe ser entre 1 y 20')
+                setError('La nota debe ser entre 0 y 20')
             }
         }
     }
 
     return (
         <div
-            className={`fixed top-0 left-0 w-full h-full text-black flex items-center justify-center bg-black bg-opacity-50 ${
-                isOpen ? 'block' : 'hidden'
-            }`}>
+            className={`fixed top-0 left-0 w-full h-full text-black flex items-center justify-center bg-black bg-opacity-50 ${isOpen ? 'block' : 'hidden'
+                }`}>
             {isSaving ? (
                 <Loading />
             ) : (
