@@ -12,7 +12,11 @@ const TablaEvaluaciones = ({
     setNota2,
     setNota3,
     setNota4,
+    rol
 }) => {
+
+    console.log(rol)
+
     const [numFilas, setNumFilas] = useState(0)
     const [mostrarModal, setMostrarModal] = useState(false)
     const [evaluacion, setEvaluacion] = useState([])
@@ -105,43 +109,6 @@ const TablaEvaluaciones = ({
     const filaClase = 'border-b border-cv-secondary'
     const celdaClase = 'px-6 py-4 whitespace-nowrap'
 
-    useEffect(() => {
-        const obtenerEvaluacion = async () => {
-            try {
-                const apiUrl = import.meta.env.VITE_API_URL
-                const tokenKey = import.meta.env.VITE_TOKEN_KEY
-                const url = new URL(`${apiUrl}/evaluation/user/${id}`)
-
-                const tokenD = AES.decrypt(
-                    localStorage.getItem('token'),
-                    tokenKey
-                )
-                const token = tokenD.toString(enc.Utf8)
-
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-
-                if (!response.ok) {
-                    throw new Error(
-                        `Error al obtener la evaluación: ${response.status}`
-                    )
-                }
-
-                const data = await response.json()
-
-                setEvaluacion(data.data)
-            } catch (error) {
-                console.error('Error al obtener la evaluación:', error.message)
-            }
-        }
-
-        obtenerEvaluacion()
-    }, [])
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -178,9 +145,11 @@ const TablaEvaluaciones = ({
                         (element) => element.user_id == parseInt(id)
                     )
                     setEvaluacion([...dataMisEvaluaciones])
-                    if (dataMisEvaluaciones.length > 0) {
-                        //   setEvaluacionEstado(true)
-                    }
+                    // if (dataMisEvaluaciones.length > 0) {
+                    //     //   setEvaluacionEstado(true)
+                    // }
+
+                    // console.log(dataMisEvaluaciones)
                 }
 
                 setIsLoading(false)
@@ -191,7 +160,7 @@ const TablaEvaluaciones = ({
         }
 
         fetchUser()
-    })
+    }, [])
 
     return (
         <div>
@@ -237,13 +206,13 @@ const TablaEvaluaciones = ({
                         <td
                             className={celdaClase}
                             style={{ fontWeight: 'bold' }}>
-                            HABILIDADES TÉCNICAS
+                            HABILIDADES DURAS
                         </td>
                         {/* {rol === 'Colaborador' && ( */}
                         <td
                             className={celdaClase}
                             style={{ fontWeight: 'bold' }}>
-                            RENDIMIENTO
+                            DESEMPEÑO
                         </td>
                         {/* )} */}
                         <td

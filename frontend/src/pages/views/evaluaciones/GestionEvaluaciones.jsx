@@ -6,17 +6,21 @@ import Modal from '../../views/evaluaciones/Modal'
 import Loading from '../../../components/essentials/Loading'
 
 export const GestionEvaluaciones = () => {
-    const { id, name } = useParams()
+    let { id, name} = useParams()
+    const nombre = name.split('-')
+    const nombreComputado = nombre.join(' ')
+    const match = nombreComputado.match(/^(.*?)\s(Colaborador|Lider Nucleo|Gerencia)$/);
+    const nombreCompleto = match[1]
+    const rolUsuario = match[2]
 
+    const [rol, setRol] = useState(rolUsuario)
     const [idd, setIdd] = useState(null)
     const [nota1, setNota1] = useState(null)
     const [nota2, setNota2] = useState(null)
     const [nota3, setNota3] = useState(null)
     const [nota4, setNota4] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-
     const [isModalOpen, setIsModalOpen] = useState(false)
-
     const [promedio, setPromedio] = useState([])
 
     const handleCloseModal = () => {
@@ -24,9 +28,7 @@ export const GestionEvaluaciones = () => {
     }
 
     const computarNombre = () => {
-        const nombre = name.split('-')
-        const nombreComputado = nombre.join(' ')
-        return nombreComputado
+        return nombreCompleto
     }
 
     useEffect(() => {
@@ -84,7 +86,7 @@ export const GestionEvaluaciones = () => {
         }
 
         fetchUser()
-    }, [])
+    }, [id])
 
     return (
         <>
@@ -92,10 +94,10 @@ export const GestionEvaluaciones = () => {
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 idd={idd}
-                // nota1={nota1}
-                // nota2={nota2}
-                // nota3={nota3}
-                // nota4={nota4}
+                nota1={nota1}
+                nota2={nota2}
+                nota3={nota3}
+                nota4={nota4}
             />
 
             <div className='flex flex-col gap-4'>
@@ -123,6 +125,7 @@ export const GestionEvaluaciones = () => {
                             setNota2={setNota2}
                             setNota3={setNota3}
                             setNota4={setNota4}
+                            rol={rol}
                         />
                     </div>
                 )}

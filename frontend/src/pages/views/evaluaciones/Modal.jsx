@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import {  useState } from 'react'
 import { AES, enc } from 'crypto-js'
 import Loading from '../../../components/essentials/Loading'
 
 const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
+
     const [softskills, setSoftskills] = useState('')
     const [performance, setPerformance] = useState('')
     const [autoevaluation, setAutoevaluation] = useState('')
@@ -10,12 +11,18 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
     const [error, setError] = useState(null)
     const [isSaving, setIsSaving] = useState(false)
 
+
+    console.log({nota1, nota2, nota3, nota4})
+    console.log({softskills, performance, autoevaluation, hardskills})
+
+
     const clearForm = () => {
         setSoftskills('')
         setPerformance('')
         setAutoevaluation('')
         setHardskills('')
         onClose()
+        setError(null)
     }
 
     const handleGuardar = async () => {
@@ -109,7 +116,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                         {mes}
                     </h4> */}
 
-                    {/* <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
+                    <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
                             <label className='w-2/4 text-gray-500'>ID:</label>
                             <input
@@ -120,7 +127,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                             />
                         </div>
-                    </div> */}
+                    </div>
 
                     <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
@@ -129,7 +136,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder='Nota 1'
+                                placeholder={nota1}
                                 value={softskills}
                                 onChange={(e) => setSoftskills(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
@@ -144,7 +151,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder='Nota 2'
+                                placeholder={nota2}
                                 value={performance}
                                 onChange={(e) => setPerformance(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
@@ -159,7 +166,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder='Nota 3'
+                                placeholder={nota3}
                                 value={autoevaluation}
                                 onChange={(e) =>
                                     setAutoevaluation(e.target.value)
@@ -176,7 +183,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder='Nota 4'
+                                placeholder={nota4}
                                 value={hardskills}
                                 onChange={(e) => setHardskills(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
