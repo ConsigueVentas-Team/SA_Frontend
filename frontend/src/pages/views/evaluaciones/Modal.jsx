@@ -4,10 +4,10 @@ import Loading from '../../../components/essentials/Loading'
 
 const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
 
-    const [softskills, setSoftskills] = useState(nota1)
-    const [performance, setPerformance] = useState(nota2)
-    const [autoevaluation, setAutoevaluation] = useState(nota3)
-    const [hardskills, setHardskills] = useState(nota4)
+    const [softskills, setSoftskills] = useState('')
+    const [performance, setPerformance] = useState('')
+    const [autoevaluation, setAutoevaluation] = useState('')
+    const [hardskills, setHardskills] = useState('')
     const [error, setError] = useState(null)
     const [isSaving, setIsSaving] = useState(false)
 
@@ -136,7 +136,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder='Nota 1'
+                                placeholder={nota1}
                                 value={softskills}
                                 onChange={(e) => setSoftskills(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
@@ -151,7 +151,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder='Nota 2'
+                                placeholder={nota2}
                                 value={performance}
                                 onChange={(e) => setPerformance(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
@@ -166,7 +166,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder='Nota 3'
+                                placeholder={nota3}
                                 value={autoevaluation}
                                 onChange={(e) =>
                                     setAutoevaluation(e.target.value)
@@ -183,7 +183,7 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder='Nota 4'
+                                placeholder={nota4}
                                 value={hardskills}
                                 onChange={(e) => setHardskills(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'

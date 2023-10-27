@@ -149,7 +149,7 @@ const TablaEvaluaciones = ({
                     //     //   setEvaluacionEstado(true)
                     // }
 
-                    console.log(dataMisEvaluaciones)
+                    // console.log(dataMisEvaluaciones)
                 }
 
                 setIsLoading(false)
