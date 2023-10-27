@@ -49,6 +49,7 @@ const Reportes = () => {
 
   const [loading, setLoading] = useState(true);
   const [isCore, seIsCore] = useState(false);
+  const [isDepart, setIsDepart] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -173,14 +174,14 @@ const Reportes = () => {
           6: "Audiovisual",
           10: "Marca Cliente",
           11: "Marca Proyecto",
+          33: "Marketing",
         },
       },
       2: {
         name: "Departamento Comercial",
         cores: {
           31: "Atencion al Cliente",
-          1: "Sistemas",
-          7: "Diseño Web",
+          32: "Ejecutivo de Cuentas",
           8: "Logística",
           9: "Comercial",
         },
@@ -188,9 +189,22 @@ const Reportes = () => {
       3: {
         name: "Departamento Estratégico",
         cores: {
-          2: "Administrativo",
-          3: "Talento Humano",
+          34: "Analisis de Datos",
           4: "Publicidad Digital",
+        },
+      },
+      15: {
+        name: "Departamento Gestion",
+        cores: {
+          3: "Talento Humano",
+          2: "Administracion",
+        },
+      },
+      14: {
+        name: "Departamento Automatizacion",
+        cores: {
+          1: "Sistemas",
+          7: "Diseño Web",
         },
       },
     };
@@ -204,7 +218,7 @@ const Reportes = () => {
       datosFiltradoAsistencia = apiDataAsis.filter(
         (dato) => dato.department_name == departamentoInfo.name
       );
-
+      setIsDepart(true);
       const coreName = departamentoInfo.cores[core];
       if (coreName) {
         datosFiltrados = apiDataUser.filter(
@@ -264,14 +278,16 @@ const Reportes = () => {
           </div>
           <div className="flex gap-3">
             <button
-              className="px-5 rounded text-gray-950 bg-cv-cyan"
+              className="p-2 rounded pl-4 pr-4  text-gray-950 bg-cv-cyan  "
+              onClick={filtrar}
+            >
+              <strong>Filtrar</strong>
+            </button>
+            <button
+              className="p-2  pl-3 pr-3 rounded bg-cv-primary"
               onClick={borrar}
             >
               <strong>Limpiar</strong>
-            </button>
-
-            <button className="p-2 rounded bg-cv-primary  " onClick={filtrar}>
-              Filtrar
             </button>
           </div>
         </div>
@@ -311,7 +327,11 @@ const Reportes = () => {
                     <h1 className="text-lg font-medium">
                       USUARIOS ACTIVOS POR SECTOR
                     </h1>
-                    <Barras barras={apiDataUsuariosSector} isCore={isCore} />
+                    <Barras
+                      barras={apiDataUsuariosSector}
+                      isCore={isCore}
+                      isDepart={isDepart}
+                    />
                   </div>
                 </div>
               </section>
@@ -336,14 +356,15 @@ const Reportes = () => {
                         tardanzas={totalTardanzas}
                       />
                     </div>
-                    <div className="box-border flex flex-col justify-between w-4/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                    <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
                       <h1 className="text-lg font-medium ">
                         ASISTENCIAS POR SECTORES
                       </h1>
                       <div className="w-full h-5/6">
                         <BarrasAsistencia
-                          data={apiDataAsistenciasSector}
+                          barras={apiDataAsistenciasSector}
                           isCore={isCore}
+                          isDepart={isDepart}
                         />
                       </div>
                     </div>

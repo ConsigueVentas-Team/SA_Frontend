@@ -22,15 +22,34 @@ const CustomTooltip = ({ active, label, payload }) => {
   return null;
 };
 
-const Barras = ({ barras, isCore }) => {
+const Barras = ({ barras, isCore, isDepart }) => {
+  let xAxisDataKey = "department_name";
+  let barDataKey = "department_user_count";
+
+  if (isDepart && !isCore) {
+    xAxisDataKey = "core_name";
+    barDataKey = "core_user_count";
+    const uniqueData = [];
+    const existingValues = new Set();
+
+    for (const entry of barras) {
+      const value = entry[xAxisDataKey];
+      if (!existingValues.has(value)) {
+        existingValues.add(value);
+        uniqueData.push(entry);
+      }
+    }
+
+    barras = uniqueData;
+  } else if (isDepart && isCore) {
+    xAxisDataKey = "profile_name";
+    barDataKey = "profile_user_count";
+  }
+
   return (
     <ResponsiveContainer width="100%">
       <BarChart data={barras} barSize={30}>
-        {isCore ? (
-          <XAxis dataKey="profile_name" />
-        ) : (
-          <XAxis dataKey="department_name" />
-        )}
+        <XAxis dataKey={xAxisDataKey} />
         <YAxis />
         <Tooltip
           contentStyle={{ color: "red" }}
@@ -43,9 +62,7 @@ const Barras = ({ barras, isCore }) => {
           vertical={false}
         />
         <Bar
-          dataKey={(entry) =>
-            entry.department_user_count === 0 ? 1 : entry.department_user_count
-          }
+          dataKey={(entry) => (entry[barDataKey] === 0 ? 0 : entry[barDataKey])}
           fill="#57F3FF"
         />
       </BarChart>
