@@ -1,26 +1,16 @@
-import {  useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AES, enc } from 'crypto-js'
 import Loading from '../../../components/essentials/Loading'
 
 const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
-
-    const [softskills, setSoftskills] = useState('')
-    const [performance, setPerformance] = useState('')
-    const [autoevaluation, setAutoevaluation] = useState('')
-    const [hardskills, setHardskills] = useState('')
+    const [softskills, setSoftskills] = useState(nota1 || '')
+    const [performance, setPerformance] = useState(nota2 || '')
+    const [autoevaluation, setAutoevaluation] = useState(nota3 || '')
+    const [hardskills, setHardskills] = useState(nota4 || '')
     const [error, setError] = useState(null)
     const [isSaving, setIsSaving] = useState(false)
 
-
-    console.log({nota1, nota2, nota3, nota4})
-    console.log({softskills, performance, autoevaluation, hardskills})
-
-
     const clearForm = () => {
-        setSoftskills('')
-        setPerformance('')
-        setAutoevaluation('')
-        setHardskills('')
         onClose()
         setError(null)
     }
@@ -56,12 +46,6 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
             }
 
             onClose()
-            setSoftskills('')
-            setPerformance('')
-            setAutoevaluation('')
-            setHardskills('')
-            setError(null)
-            setIsSaving(false)
         } catch (error) {
             setError(error.message)
             setIsSaving(false)
@@ -70,33 +54,38 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
 
     const validarFormulario = () => {
         if (
-            softskills.trim() === '' ||
-            performance.trim() === '' ||
-            autoevaluation.trim() === '' ||
-            hardskills.trim() === ''
+            (softskills.trim() === '' && nota1 === '') ||
+            (performance.trim() === '' && nota2 === '') ||
+            (autoevaluation.trim() === '' && nota3 === '') ||
+            (hardskills.trim() === '' && nota4 === '')
         ) {
             setError('Todos los campos son obligatorios')
+        } else if (
+            softskills < 0 ||
+            softskills > 20 ||
+            performance < 0 ||
+            performance > 20 ||
+            autoevaluation < 0 ||
+            autoevaluation > 20 ||
+            hardskills < 0 ||
+            hardskills > 20
+        ) {
+            setError('La nota debe estar entre 0 y 20')
         } else {
-            if (softskills > 0 && softskills < 20) {
-                if (performance > 0 && performance < 20) {
-                    if (autoevaluation > 0 && autoevaluation < 20) {
-                        if (hardskills > 0 && hardskills < 20) {
-                            handleGuardar()
-                            setIsSaving(true)
-                        } else {
-                            setError('La nota debe ser entre 1 y 20')
-                        }
-                    } else {
-                        setError('La nota debe ser entre 1 y 20')
-                    }
-                } else {
-                    setError('La nota debe ser entre 1 y 20')
-                }
-            } else {
-                setError('La nota debe ser entre 1 y 20')
-            }
+            handleGuardar()
+            setIsSaving(true)
         }
     }
+
+    useEffect(() => {
+        if (isOpen) {
+            // Realizar alguna acción cuando el modal se abre, como cargar las notas actuales
+            setSoftskills(nota1 || '') // Cargar la nota1 actual si existe
+            setPerformance(nota2 || '') // Cargar la nota2 actual si existe
+            setAutoevaluation(nota3 || '') // Cargar la nota3 actual si existe
+            setHardskills(nota4 || '') // Cargar la nota4 actual si existe
+        }
+    }, [isOpen, nota1, nota2, nota3, nota4])
 
     return (
         <div
@@ -136,9 +125,8 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder={nota1}
                                 value={softskills}
-                                onChange={(e) => setSoftskills(e.target.value)}
+                                onChange={e => setSoftskills(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                             />
                         </div>
@@ -151,9 +139,8 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder={nota2}
                                 value={performance}
-                                onChange={(e) => setPerformance(e.target.value)}
+                                onChange={e => setPerformance(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                             />
                         </div>
@@ -166,9 +153,8 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder={nota3}
                                 value={autoevaluation}
-                                onChange={(e) =>
+                                onChange={e =>
                                     setAutoevaluation(e.target.value)
                                 }
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
@@ -183,9 +169,8 @@ const Modal = ({ isOpen, onClose, idd, nota1, nota2, nota3, nota4 }) => {
                             </label>
                             <input
                                 type='number'
-                                placeholder={nota4}
                                 value={hardskills}
-                                onChange={(e) => setHardskills(e.target.value)}
+                                onChange={e => setHardskills(e.target.value)}
                                 className='w-3/4 rounded p-2 ml-2 border border-gray-300'
                             />
                         </div>

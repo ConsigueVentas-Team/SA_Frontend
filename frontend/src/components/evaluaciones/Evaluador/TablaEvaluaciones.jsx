@@ -12,11 +12,8 @@ const TablaEvaluaciones = ({
     setNota2,
     setNota3,
     setNota4,
-    rol
+    rol,
 }) => {
-
-    console.log(rol)
-
     const [numFilas, setNumFilas] = useState(0)
     const [mostrarModal, setMostrarModal] = useState(false)
     const [evaluacion, setEvaluacion] = useState([])
@@ -35,27 +32,6 @@ const TablaEvaluaciones = ({
     }
 
     setPromedio(calcularPromedio())
-
-    const obtenerNombreDelMes = (fecha) => {
-        const meses = [
-            'ENERO',
-            'FEBRERO',
-            'MARZO',
-            'ABRIL',
-            'MAYO',
-            'JUNIO',
-            'JULIO',
-            'AGOSTO',
-            'SEPTIEMBRE',
-            'OCTUBRE',
-            'NOVIEMBRE',
-            'DICIEMBRE',
-        ]
-        return meses[fecha.getMonth()]
-    }
-
-    const fechaActual = new Date()
-    const mesActual = obtenerNombreDelMes(fechaActual)
 
     const agregarFila = () => {
         setMostrarModal(true)
@@ -109,7 +85,6 @@ const TablaEvaluaciones = ({
     const filaClase = 'border-b border-cv-secondary'
     const celdaClase = 'px-6 py-4 whitespace-nowrap'
 
-
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -142,7 +117,7 @@ const TablaEvaluaciones = ({
 
                 if (data) {
                     const dataMisEvaluaciones = data.filter(
-                        (element) => element.user_id == parseInt(id)
+                        element => element.user_id == parseInt(id)
                     )
                     setEvaluacion([...dataMisEvaluaciones])
                     // if (dataMisEvaluaciones.length > 0) {
@@ -160,7 +135,7 @@ const TablaEvaluaciones = ({
         }
 
         fetchUser()
-    }, [])
+    }, [id])
 
     return (
         <div>
@@ -177,56 +152,58 @@ const TablaEvaluaciones = ({
                     <tr>
                         <th
                             colSpan={
-                                7
-                                // rol === 'Lider Nucleo' || rol === 'Gerencia'
-                                //     ? 6
-                                //     : 7
+                                rol === 'Lider Nucleo' || rol === 'Gerencia'
+                                    ? 6
+                                    : 7
                             }
                             className=' py-4 whitespace-nowrap text-base uppercase'>
-                            {/* {rol === 'Lider Nucleo' || rol === 'Gerencia'
+                            {rol === 'Lider Nucleo' || rol === 'Gerencia'
                                 ? 'EVALUACIONES LIDER'
-                                : 'EVALUACIONES COLABORADOR'} */}
-                            EVALUACIONES
+                                : 'EVALUACIONES COLABORADOR'}
+                            {/* EVALUACIONES */}
                         </th>
                     </tr>
                 </thead>
                 <tbody className='bg-cv-primary rounded-tl-lg rounded-tr-lg border-b border-cv-secondary'>
-                    {/* {mostrarEncabezados && ( */}
                     <tr className={`${filaClase} bg-[#0e161b]`}>
                         <td
                             className={celdaClase}
                             style={{ fontWeight: 'bold' }}>
                             FECHA
                         </td>
-                        <td
-                            className={celdaClase}
-                            style={{ fontWeight: 'bold' }}>
-                            HABILIDADES BLANDAS
-                        </td>
-                        <td
-                            className={celdaClase}
-                            style={{ fontWeight: 'bold' }}>
-                            HABILIDADES DURAS
-                        </td>
-                        {/* {rol === 'Colaborador' && ( */}
-                        <td
-                            className={celdaClase}
-                            style={{ fontWeight: 'bold' }}>
-                            DESEMPEÑO
-                        </td>
-                        {/* )} */}
-                        <td
-                            className={celdaClase}
-                            style={{ fontWeight: 'bold' }}>
-                            AUTOEVALUACIÓN
-                        </td>
+
+                        {rol === 'Lider Nucleo' || rol === 'Gerencia' ? (
+                            <td
+                                className={celdaClase}
+                                style={{ fontWeight: 'bold' }}>
+                                AUTOEVALUACIÓN
+                            </td>
+                        ) : (
+                            <>
+                                <td
+                                    className={celdaClase}
+                                    style={{ fontWeight: 'bold' }}>
+                                    HABILIDADES BLANDAS
+                                </td>
+                                <td
+                                    className={celdaClase}
+                                    style={{ fontWeight: 'bold' }}>
+                                    HABILIDADES DURAS
+                                </td>
+                                <td
+                                    className={celdaClase}
+                                    style={{ fontWeight: 'bold' }}>
+                                    DESEMPEÑO
+                                </td>
+                            </>
+                        )}
+
                         <td
                             className={celdaClase}
                             style={{ fontWeight: 'bold' }}>
                             PROMEDIO
                         </td>
                     </tr>
-                    {/* )} */}
 
                     {evaluacion.map((evaluacionItem, index) => (
                         <tr
@@ -244,25 +221,24 @@ const TablaEvaluaciones = ({
                             <td className={celdaClase}>
                                 {evaluacionItem.date}
                             </td>
-                            <td className={celdaClase}>
-                                {evaluacionItem.softskills || 'N/A'}
-                            </td>
-                            <td className={celdaClase}>
-                                {evaluacionItem.performance || 'N/A'}
-                            </td>
-                            {/* {rol === 'Colaborador' && ( */}
-                            <td className={celdaClase}>
-                                {evaluacionItem.hardskills || 'N/A'}
-                            </td>
-                            {/* )} */}
-                            <td className={celdaClase}>
-                                {evaluacionItem.autoevaluation || 'N/A'}
-                            </td>
-                            {/* <td className={celdaClase}>
-                                {rol === 'Colaborador'
-                                    ? eval.autoevaluation || 'N/A'
-                                    : eval.promedio || 'N/A'}
-                            </td> */}
+                            {rol === 'Lider Nucleo' || rol === 'Gerencia' ? (
+                                <td className={celdaClase}>
+                                    {evaluacionItem.autoevaluation || 'N/A'}
+                                </td>
+                            ) : (
+                                <>
+                                    <td className={celdaClase}>
+                                        {evaluacionItem.softskills || 'N/A'}
+                                    </td>
+                                    <td className={celdaClase}>
+                                        {evaluacionItem.performance || 'N/A'}
+                                    </td>
+                                    <td className={celdaClase}>
+                                        {evaluacionItem.hardskills || 'N/A'}
+                                    </td>
+                                </>
+                            )}
+
                             <td className={celdaClase}>
                                 {evaluacionItem.promedio || 'N/A'}
                             </td>
@@ -272,10 +248,9 @@ const TablaEvaluaciones = ({
                     <tr className=''>
                         <td
                             colSpan={
-                                7
-                                // rol === 'Lider Nucleo' || rol === 'Gerencia'
-                                //     ? 6
-                                //     : 7
+                                rol === 'Lider Nucleo' || rol === 'Gerencia'
+                                    ? 6
+                                    : 7
                             }
                             className='px-6 py-4 whitespace-nowrap bg-cv-primary'>
                             <button
