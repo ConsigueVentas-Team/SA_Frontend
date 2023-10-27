@@ -8,6 +8,7 @@ export default function ModalHorario({ onclose }) {
     const [minutes, setMinutes] = useState("");
     const [schedule, setSchedule] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
+    const [scheduleData, setScheduleData] = useState([]);
 
     const handleSelectChangeDay = (event) => {
         setSelectedOptionDay(event.target.value);
@@ -55,11 +56,11 @@ export default function ModalHorario({ onclose }) {
     const handleAddSchedule = () => {
         if (selectedOptionDay && selectedOption && hours && minutes) {
             const newScheduleEntry = {
-                day: selectedOptionDay,
-                option: selectedOption,
-                time: `${hours}:${minutes}`,
+                day: parseInt(selectedOptionDay, 10),
+                Inicio: `${hours}:${minutes}`,
+                Fin: selectedOption === 'Fin' ? `${hours}:${minutes}` : '',
             };
-            console.log('Mensaje',newScheduleEntry)
+            console.log('Mensaje', newScheduleEntry);
 
             const inicioEntry = schedule.find(
                 (entry) => entry.option === "Inicio" && entry.day === selectedOptionDay
@@ -89,60 +90,33 @@ export default function ModalHorario({ onclose }) {
             }
 
             // verificamosssssssssssssssssssssssssssssssssssssss
-            const existingEntry = schedule.find(
-                (entry) =>
-                    entry.day === selectedOptionDay && entry.option === selectedOption
-            );
+            const existingEntryIndex = scheduleData.findIndex(entry => entry.day === newScheduleEntry.day);
 
-            if (existingEntry) {
-                setErrorMessage(
-                    `Ya has agregado una hora para ${selectedOptionDay} (${selectedOption}).`
-                );
+            if (existingEntryIndex !== -1) {
+                // Actualizar el registro existente si corresponde
+                if (selectedOption === 'Inicio') {
+                    scheduleData[existingEntryIndex].inicio = newScheduleEntry.inicio;
+                } else {
+                    scheduleData[existingEntryIndex].fin = newScheduleEntry.fin;
+                }
             } else {
-                setSchedule([...schedule, newScheduleEntry]);
-                setErrorMessage("");
+                // Agregar un nuevo registro para este día
+                scheduleData.push(newScheduleEntry);
             }
+
+            // Actualizar el estado scheduleData
+            setScheduleData([...scheduleData]);
         } else {
-            setErrorMessage("Completa todos los campos");
+            setErrorMessage('Completa todos los campos');
         }
         //
     };
 
     //Peticion Post
-    const enviarDatosAlBackend = () => {
-
+    const enviarDatosAlBackend = (scheduleData) => {
+        console.log('CUALQUIER COSA',scheduleData)
         const url = new URL(import.meta.env.VITE_API_URL + "/schedule/create");
-        const dayNumber = parseInt(selectedOptionDay, 10);
-
-        const datosDeHorario = [
-            {
-                "day": 1,
-                "Inicio": "08:00",
-                "Fin": "16:00"
-            },
-            {
-                "day": 2,
-                "Inicio": "08:00",
-                "Fin": "16:00"
-            },
-            {
-                "day": 3,
-                "Inicio": "08:00",
-                "Fin": "16:00"
-            },
-            {
-                "day": 4,
-                "Inicio": "08:00",
-                "Fin": "16:00"
-            },
-            {
-                "day": 5,
-                "Inicio": "08:00",
-                "Fin": "16:00"
-            }
-        ]
-
-        console.log(datosDeHorario)
+        //const dayNumber = parseInt(selectedOptionDay, 10);
 
         const tokenD = AES.decrypt(
             localStorage.getItem("token"),
@@ -157,11 +131,15 @@ export default function ModalHorario({ onclose }) {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(datosDeHorario),
+                body: JSON.stringify(scheduleData),
             })
                 .then(response => {
-                    if (!response.ok) {
+                    if (response.status === 201) {
+                        console.log('Si se enviaron datos', response)
+                        return response.json();
+                    } else if (!response.ok) {
                         throw new Error('La respuesta de la red no fue exitosa');
+
                     }
                     return response.json();
                 })
@@ -313,7 +291,7 @@ export default function ModalHorario({ onclose }) {
                 </div>
                 <div className="flex justify-around items-center">
                     <button className="w-1/3 border-2 p-1 mt-3 text-white bg-cv-primary border-cv-primary rounded-lg"
-                        onClick={enviarDatosAlBackend}>
+                        onClick={() => enviarDatosAlBackend(scheduleData)}>
                         AGREGAR
                     </button>
                     <button
@@ -327,3 +305,5 @@ export default function ModalHorario({ onclose }) {
         </div>
     );
 }
+
+
