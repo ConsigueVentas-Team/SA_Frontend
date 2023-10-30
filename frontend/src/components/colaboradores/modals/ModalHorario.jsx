@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AES, enc } from "crypto-js";
 
-export default function ModalHorario({ onclose }) {
+export default function ModalHorario({ onclose,id }) {
+    console.log("mi id"+id)
     const [selectedOptionDay, setSelectedOptionDay] = useState("");
     const [selectedOption, setSelectedOption] = useState("");
     const [hours, setHours] = useState("");
@@ -9,6 +10,7 @@ export default function ModalHorario({ onclose }) {
     const [schedule, setSchedule] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
     const [scheduleData, setScheduleData] = useState([]);
+    const [backendResponse, setBackendResponse] = useState(null);
 
     const handleSelectChangeDay = (event) => {
         setSelectedOptionDay(event.target.value);
@@ -18,7 +20,6 @@ export default function ModalHorario({ onclose }) {
         setSelectedOption(event.target.value);
     };
 
-    //Mass validacionesssssssssssssssssssssssss
     const handleHoursChange = (event) => {
         const newHours = event.target.value;
         const parsedHours = parseInt(newHours, 10);
@@ -52,13 +53,14 @@ export default function ModalHorario({ onclose }) {
             setMinutes("");
         }
     };
-    //
+
     const handleAddSchedule = () => {
         if (selectedOptionDay && selectedOption && hours && minutes) {
             const newScheduleEntry = {
                 day: parseInt(selectedOptionDay, 10),
-                Inicio: `${hours}:${minutes}`,
-                Fin: selectedOption === 'Fin' ? `${hours}:${minutes}` : '',
+                inicio: `${hours}:${minutes}`,
+                fin: "23:00",
+                usuario: id
             };
             console.log('Mensaje', newScheduleEntry);
 
@@ -100,57 +102,87 @@ export default function ModalHorario({ onclose }) {
                     scheduleData[existingEntryIndex].fin = newScheduleEntry.fin;
                 }
             } else {
-                // Agregar un nuevo registro para este día
                 scheduleData.push(newScheduleEntry);
             }
 
-            // Actualizar el estado scheduleData
             setScheduleData([...scheduleData]);
         } else {
             setErrorMessage('Completa todos los campos');
         }
-        //
+
     };
 
-    //Peticion Post
     const enviarDatosAlBackend = (scheduleData) => {
-        console.log('CUALQUIER COSA',scheduleData)
         const url = new URL(import.meta.env.VITE_API_URL + "/schedule/create");
-        //const dayNumber = parseInt(selectedOptionDay, 10);
-
         const tokenD = AES.decrypt(
             localStorage.getItem("token"),
             import.meta.env.VITE_TOKEN_KEY
         );
         const token = tokenD.toString(enc.Utf8);
 
-        useEffect(() => {
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(scheduleData),
-            })
-                .then(response => {
-                    if (response.status === 201) {
-                        console.log('Si se enviaron datos', response)
-                        return response.json();
-                    } else if (!response.ok) {
-                        throw new Error('La respuesta de la red no fue exitosa');
+        console.log("Enviando datos al backend:", JSON.stringify(scheduleData));
+        const scheduleData1 = [
+            {
+              day: 1, 
+              inicio: "12:00",
+              fin: "16:00", 
+              usuario: id            
+            },
+            {
+              day: 2, 
+              inicio: "12:00",
+              fin: "16:00", 
+              usuario: id
+            },
+            {
+              day: 3, 
+              inicio: "12:00",
+              fin: "16:00", 
+              usuario: id
+            },
+            {
+              day: 4, 
+              inicio: "12:00",
+              fin: "16:00", 
+              usuario: id
+            },
+            {
+              day: 5, 
+              inicio: "12:00",
+              fin: "16:00", 
+              usuario: id
+            },
+            
+          ];
+          console.log("yo " + JSON.stringify(scheduleData1));
+          console.log("otro " + JSON.stringify(scheduleData));
+          
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
 
-                    }
+            body: JSON.stringify(scheduleData1),
+        })
+            .then((response) => {
+                if (response.status === 201) {
+                    console.log("Respuesta exitosa del servidor:", response);
                     return response.json();
-                })
-                .then(data => {
-                    console.log('Datos enviados al backend con éxito:', data);
-                })
-                .catch(error => {
-                    console.error('Error al enviar los datos al backend', error);
-                });
-        }, [token]);
-
+                } else if (!response.ok) {
+                    console.error("La respuesta de la red no fue exitosa");
+                    throw new Error("La respuesta de la red no fue exitosa");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log("Datos enviados al backend con éxito:", data);
+                setBackendResponse(data);
+            })
+            .catch((error) => {
+                console.error("Error al enviar los datos al backend", error);
+            });
     };
 
     return (
@@ -305,5 +337,3 @@ export default function ModalHorario({ onclose }) {
         </div>
     );
 }
-
-
