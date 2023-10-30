@@ -108,7 +108,6 @@ export default function ModalHorario({ onclose, id }) {
 
     const transformDataForBackend = (schedule) => {
         const usuario = id;
-        console.log(id)
         const transformedData = [];
 
         const dayToNumber = {
@@ -191,7 +190,6 @@ export default function ModalHorario({ onclose, id }) {
             setErrorMessage("");
 
             if (dataForBackend.length > 0) {
-                console.log("Enviando datos al backend:", JSON.stringify(dataForBackend));
 
                 fetch(url, {
                     method: "POST",
@@ -203,20 +201,16 @@ export default function ModalHorario({ onclose, id }) {
                 })
                     .then((response) => {
                         if (response.status === 201) {
-                            console.log("Respuesta exitosa del servidor:", response);
                             return response.json();
                         } else if (!response.ok) {
-                            console.error("La respuesta de la red no fue exitosa");
                             throw new Error("La respuesta de la red no fue exitosa");
                         }
                         return response.json();
                     })
                     .then((data) => {
-                        console.log("Datos enviados al backend con éxito:", data);
                         setBackendResponse(data);
                     })
                     .catch((error) => {
-                        console.error("Error al enviar los datos al backend", error);
                     });
             } else {
                 setErrorMessage("Completa los horarios 'Inicio' y 'Fin' para cada día.");
