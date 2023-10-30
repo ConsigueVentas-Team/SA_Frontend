@@ -65,7 +65,7 @@ const Modal = ({
             }
 
             onClose()
-            setFeching(feching => feching + 1)
+            setFeching(feching => !feching)
         } catch (error) {
             setError(error.message)
             setIsSaving(false)

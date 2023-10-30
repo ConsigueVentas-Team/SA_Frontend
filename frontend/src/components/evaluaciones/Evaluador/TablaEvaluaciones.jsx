@@ -13,6 +13,7 @@ const TablaEvaluaciones = ({
     setNota3,
     setNota4,
     rol,
+    feching,
 }) => {
     const [numFilas, setNumFilas] = useState(0)
     const [mostrarModal, setMostrarModal] = useState(false)
@@ -118,7 +119,7 @@ const TablaEvaluaciones = ({
 
     const cancelarAgregarFila = () => {
         setMostrarModal(false)
-        // setIsLoading(false)
+        setIsLoading(false)
     }
 
     const filaClase = 'border-b border-cv-secondary'
@@ -126,7 +127,7 @@ const TablaEvaluaciones = ({
 
     useEffect(() => {
         fetchUser()
-    }, [])
+    }, [feching])
 
     return (
         <div>

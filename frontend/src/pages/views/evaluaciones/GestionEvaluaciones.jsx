@@ -15,7 +15,7 @@ export const GestionEvaluaciones = () => {
     const nombreCompleto = match[1]
     const rolUsuario = match[2]
 
-    const [feching, setFeching] = useState(1)
+    const [feching, setFeching] = useState(false)
     const [rol, setRol] = useState(rolUsuario)
     const [idd, setIdd] = useState(null)
     const [nota1, setNota1] = useState(null)
@@ -33,6 +33,7 @@ export const GestionEvaluaciones = () => {
     const computarNombre = () => {
         return nombreCompleto
     }
+
     const fetchUser = async () => {
         try {
             const apiUrl = import.meta.env.VITE_API_URL
@@ -81,11 +82,7 @@ export const GestionEvaluaciones = () => {
 
     useEffect(() => {
         fetchUser()
-    }, [id])
-
-    if (feching > 1) {
-        fetchUser()
-    }
+    }, [])
 
     return (
         <>
@@ -127,6 +124,7 @@ export const GestionEvaluaciones = () => {
                             setNota3={setNota3}
                             setNota4={setNota4}
                             rol={rol}
+                            feching={feching}
                         />
                     </div>
                 )}
