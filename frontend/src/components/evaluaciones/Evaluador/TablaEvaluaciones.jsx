@@ -14,6 +14,7 @@ const TablaEvaluaciones = ({
     setNota4,
     rol,
 }) => {
+    // const [isFeching, setIsFeching] = useState(false)
     const [numFilas, setNumFilas] = useState(0)
     const [mostrarModal, setMostrarModal] = useState(false)
     const [evaluacion, setEvaluacion] = useState([])
@@ -37,8 +38,46 @@ const TablaEvaluaciones = ({
         setMostrarModal(true)
     }
 
+    const fetchUser = async () => {
+        try {
+            const apiUrl = import.meta.env.VITE_API_URL
+            const tokenKey = import.meta.env.VITE_TOKEN_KEY
+
+            const url = new URL(`${apiUrl}/evaluation/list`)
+
+            const tokenD = AES.decrypt(localStorage.getItem('token'), tokenKey)
+            const token = tokenD.toString(enc.Utf8)
+
+            const response = await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+
+            if (!response.ok) {
+                throw new Error(`Error al obtener datos: ${response.status}`)
+            }
+            // setIsLoading(false)
+
+            const data = await response.json()
+
+            if (data) {
+                const dataMisEvaluaciones = data.filter(
+                    element => element.user_id == parseInt(id)
+                )
+                setEvaluacion([...dataMisEvaluaciones])
+            }
+
+            setIsLoading(false)
+        } catch (error) {
+            console.error('Error al obtener el usuario:', error.message)
+            setIsLoading(false)
+        }
+    }
+
     const confirmarAgregarFila = async () => {
-        setIsLoading(true)
+        // setIsLoading(true)
         setNumFilas(numFilas)
         setMostrarModal(false)
 
@@ -73,6 +112,7 @@ const TablaEvaluaciones = ({
             setIdd(result.data.id)
 
             setIsLoading(false)
+            fetchUser()
         } catch (error) {
             console.error('Error al agregar la evaluación:', error.message)
         }
@@ -80,67 +120,19 @@ const TablaEvaluaciones = ({
 
     const cancelarAgregarFila = () => {
         setMostrarModal(false)
-        setIsLoading(false)
+        // setIsLoading(false)
     }
-
-    // const cancelarModalEspacio = () => {
-    //     setMostrarModal(false)
-    // }
 
     const filaClase = 'border-b border-cv-secondary'
     const celdaClase = 'px-6 py-4 whitespace-nowrap'
 
+    // useEffect(() => {
+    //     fetchUser()
+    // }, [id])
+
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const apiUrl = import.meta.env.VITE_API_URL
-                const tokenKey = import.meta.env.VITE_TOKEN_KEY
-
-                const url = new URL(`${apiUrl}/evaluation/list`)
-
-                const tokenD = AES.decrypt(
-                    localStorage.getItem('token'),
-                    tokenKey
-                )
-                const token = tokenD.toString(enc.Utf8)
-
-                const response = await fetch(url, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-
-                if (!response.ok) {
-                    throw new Error(
-                        `Error al obtener datos: ${response.status}`
-                    )
-                }
-                // setIsLoading(false)
-
-                const data = await response.json()
-
-                if (data) {
-                    const dataMisEvaluaciones = data.filter(
-                        element => element.user_id == parseInt(id)
-                    )
-                    setEvaluacion([...dataMisEvaluaciones])
-                    // if (dataMisEvaluaciones.length > 0) {
-                    //     //   setEvaluacionEstado(true)
-                    // }
-
-                    // console.log(dataMisEvaluaciones)
-                }
-
-                setIsLoading(false)
-            } catch (error) {
-                console.error('Error al obtener el usuario:', error.message)
-                //   setIsLoading(false);
-            }
-        }
-
         fetchUser()
-    }, [id])
+    }, [])
 
     return (
         <div>
