@@ -10,7 +10,6 @@ const SelectBox = ({ label, data, mostrarNucleo, valor, setSelectedValue }) => {
   }
   const handleDepartamentoChange = (e) => {
     const selectedValue = e.target.value;
-    console.log(typeof setSelectedValue);
     setSelectedValue(selectedValue);
     setDepartamento(selectedValue);
   };
@@ -27,9 +26,9 @@ const SelectBox = ({ label, data, mostrarNucleo, valor, setSelectedValue }) => {
         <option value="">SELECCIONAR</option>
         {label == "Departamento" || label == "Núcleo"
           ? data.map((dato) => (
-              <option value={dato.id} key={dato.id}>
-                {dato.name}
-              </option>
+            <option value={dato.id} key={dato.id}>
+            {dato.name.replace('Departamento', '')}
+          </option>
             ))
           : data.map((dato) => (
               <option key={dato} value={dato}>

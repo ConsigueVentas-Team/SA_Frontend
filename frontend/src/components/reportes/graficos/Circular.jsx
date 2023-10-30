@@ -9,9 +9,9 @@ const Circular = ({ primero, segundo, tercero }) => {
   const rechazado = tercero;
 
   const dataForChart = [
-    { name: "Aceptado", value: aceptado, fill: "green" },
-    { name: "En Proceso", value: enProceso, fill: "#57F3FF" },
-    { name: "Rechazado", value: rechazado, fill: "red" },
+    { name: "Aceptado", value: aceptado, fill: "#24ff00" },
+    { name: "En Proceso", value: enProceso, fill: "#57f3ff" },
+    { name: "Rechazado", value: rechazado, fill: "#ff0000" },
   ];
 
   return (
@@ -26,7 +26,7 @@ const Circular = ({ primero, segundo, tercero }) => {
           outerRadius={80}
           label
         />
-        <Legend />
+          <Legend iconSize={20} iconType="circle" />
         <Tooltip />
       </PieChart>
     </ResponsiveContainer>

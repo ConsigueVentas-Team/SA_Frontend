@@ -62,7 +62,7 @@ export const Tabla = ({ data, pagination, handlePageChange }) => {
 									<td className="sticky right-0 w-48 p-1 px-6 py-4 text-center bg-cv-primary">
 										<div className='flex flex-row items-center justify-center space-x-2'>
 											<Link
-												to={`/evaluacion/${users.id}/${users.name}-${users.surname}`}
+												to={`/evaluacion/${users.id}/${users.name}-${users.surname}-${users.roles[0].name}`}
 												key={users.id}>
 												<button
 													onClick={() => users.id}
