@@ -15,6 +15,7 @@ import Loading from "../../essentials/Loading";
 import ModalHorario from "./ModalHorario";
 
 export const ModalEditar = ({ close, updateUser, user, cargando }) => {
+
   // UseStates de campos a insertar
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -329,15 +330,16 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
                     onChange={handleProfileChange}
                     disabled={!selectedCore}
                   />
-                  <Select
+                  {/* <!--<Select
                     label="Turno"
                     id="shift"
                     value={shift}
                     options={shiftOptions}
                     onChange={handleShiftChange}
-                  />
+                  />--> */}
+                  <label className="font-bolder text-black">Horario</label>
                   <button onClick={handleOpenModal} className="w-2/5 bg-white border-2 text-black font-bolder p-1.5 rounded-lg flex items-center justify-center shadow-md"> Personalizar </button>
-                  {modal && <ModalHorario
+                  {modal && <ModalHorario id={user.id}
                     onclose={handleCloseModal}
                   />}
                   <SelectRole
