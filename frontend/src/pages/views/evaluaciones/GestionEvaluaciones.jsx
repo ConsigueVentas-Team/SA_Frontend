@@ -6,7 +6,7 @@ import Modal from '../../views/evaluaciones/Modal'
 import Loading from '../../../components/essentials/Loading'
 
 export const GestionEvaluaciones = () => {
-    let { id, name} = useParams()
+    let { id, name } = useParams()
     const nombre = name.split('-')
     const nombreComputado = nombre.join(' ')
     const match = nombreComputado.match(/^(.*?)\s(Colaborador|Lider Nucleo|Gerencia)$/);
@@ -98,6 +98,7 @@ export const GestionEvaluaciones = () => {
                 nota2={nota2}
                 nota3={nota3}
                 nota4={nota4}
+                rol={rol}
             />
 
             <div className='flex flex-col gap-4'>
