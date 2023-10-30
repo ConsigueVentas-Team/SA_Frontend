@@ -32,7 +32,7 @@ export const Departamento = () => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
-  
+
 
   useEffect(() => {
     setCargando(false);
@@ -78,7 +78,7 @@ export const Departamento = () => {
     }
   };
 
-  
+
 
   if (Departamentos === null) {
     return <Loading></Loading>;
@@ -137,6 +137,7 @@ export const Departamento = () => {
               <div className="fixed inset-0 bg-black opacity-50"></div>
               <div className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <form onSubmit={manejarEnvio}>
+                  <h2 className="text-xl font-bold mb-4 text-black flex justify-center">AGREGAR DEPARTAMENTO</h2>
                   <div className="flex gap-12 w-12/12 sm:items-center flex-col sm:flex-row items-start text-black">
                     <Input
                       valor={palabra}

@@ -2,11 +2,11 @@ import { COLUMNS_TABLE_MY_EVALUATION } from "../../../constantes/evaluations/MyE
 
 const COLUMNAS = COLUMNS_TABLE_MY_EVALUATION.map((element) => element.value);
 
-function HeaderTableMyEvaluation() {
+function HeaderTableMyEvaluation({headers}) {
   return (
     <thead className="text-base uppercase">
       <tr>
-        {COLUMNAS.map((element, index) => (
+        {headers.map((element, index) => (
           <th key={index} className="px-6 py-4 whitespace-nowrap">
             {element}
           </th>

@@ -4,6 +4,19 @@ import Loading from "../../../components/essentials/Loading";
 import HeaderTableMyEvaluation from "../../../components/evaluaciones/MyEvaluationView/HeaderTableMyEvaluation";
 import BodyTableMyEvaluation from "../../../components/evaluaciones/MyEvaluationView/BodyTableMyEvaluation";
 
+
+const NOTAS_USER_HEADERS={
+  coloborador:{
+    headers:["Mes","Habilidades blandas","Desempeño","Habilidades duras","Promedio"],
+    fields:["softskills","performance","hardskills","promedio"]
+  },
+  lider:{
+    headers:["Mes","Autoevaluación","Promedio"],
+    fields:["autoevaluation","promedio"],
+  },
+}
+
+
 export const MiEvaluacion = () => {
   const id = localStorage.getItem("iduser");
   const name = localStorage.getItem("name");
@@ -100,10 +113,13 @@ export const MiEvaluacion = () => {
           <div className="w-full bg-[#0e161b] shadow-md  overflow-hidden ">
             <div className="w-full min-w-full overflow-x-auto scrollbar">
               <table className="w-full text-sm text-left text-white">
-                <HeaderTableMyEvaluation />
+                <HeaderTableMyEvaluation 
+                headers={evaluarRol("Colaborador")? NOTAS_USER_HEADERS.coloborador.headers : NOTAS_USER_HEADERS.lider.headers} 
+                />
                 <BodyTableMyEvaluation
                   dataPerUser={dataMisEvaluacionesFiltradas}
                   actualizarPromedio={setPromedio}
+                  fields={evaluarRol("Colaborador")? NOTAS_USER_HEADERS.coloborador.fields : NOTAS_USER_HEADERS.lider.fields} 
                 />
               </table>
             </div>
