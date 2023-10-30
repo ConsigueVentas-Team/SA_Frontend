@@ -9,10 +9,13 @@ export const GestionEvaluaciones = () => {
     let { id, name } = useParams()
     const nombre = name.split('-')
     const nombreComputado = nombre.join(' ')
-    const match = nombreComputado.match(/^(.*?)\s(Colaborador|Lider Nucleo|Gerencia)$/);
+    const match = nombreComputado.match(
+        /^(.*?)\s(Colaborador|Lider Nucleo|Gerencia)$/
+    )
     const nombreCompleto = match[1]
     const rolUsuario = match[2]
 
+    const [feching, setFeching] = useState(1)
     const [rol, setRol] = useState(rolUsuario)
     const [idd, setIdd] = useState(null)
     const [nota1, setNota1] = useState(null)
@@ -30,63 +33,59 @@ export const GestionEvaluaciones = () => {
     const computarNombre = () => {
         return nombreCompleto
     }
+    const fetchUser = async () => {
+        try {
+            const apiUrl = import.meta.env.VITE_API_URL
+            const tokenKey = import.meta.env.VITE_TOKEN_KEY
+
+            const url = new URL(`${apiUrl}/evaluation/list`)
+
+            const tokenD = AES.decrypt(localStorage.getItem('token'), tokenKey)
+            const token = tokenD.toString(enc.Utf8)
+
+            const response = await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+
+            if (!response.ok) {
+                throw new Error(`Error al obtener datos: ${response.status}`)
+            }
+
+            const data = await response.json()
+
+            if (data && data.length > 0) {
+                const foundUser = data.find(
+                    item => item.user_id === parseInt(id)
+                )
+
+                if (foundUser) {
+                    setIdd(foundUser.id)
+                } else {
+                    console.error(`No se encontró un usuario con el ID ${id}.`)
+                }
+            } else {
+                console.error(
+                    'No se encontraron usuarios en la respuesta de la API.'
+                )
+            }
+
+            setIsLoading(false)
+        } catch (error) {
+            console.error('Error al obtener el usuario:', error.message)
+            setIsLoading(false)
+        }
+    }
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const apiUrl = import.meta.env.VITE_API_URL
-                const tokenKey = import.meta.env.VITE_TOKEN_KEY
-
-                const url = new URL(`${apiUrl}/evaluation/list`)
-
-                const tokenD = AES.decrypt(
-                    localStorage.getItem('token'),
-                    tokenKey
-                )
-                const token = tokenD.toString(enc.Utf8)
-
-                const response = await fetch(url, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-
-                if (!response.ok) {
-                    throw new Error(
-                        `Error al obtener datos: ${response.status}`
-                    )
-                }
-
-                const data = await response.json()
-
-                if (data && data.length > 0) {
-                    const foundUser = data.find(
-                        (item) => item.user_id === parseInt(id)
-                    )
-
-                    if (foundUser) {
-                        setIdd(foundUser.id)
-                    } else {
-                        console.error(
-                            `No se encontró un usuario con el ID ${id}.`
-                        )
-                    }
-                } else {
-                    console.error(
-                        'No se encontraron usuarios en la respuesta de la API.'
-                    )
-                }
-
-                setIsLoading(false)
-            } catch (error) {
-                console.error('Error al obtener el usuario:', error.message)
-                setIsLoading(false)
-            }
-        }
-
         fetchUser()
     }, [id])
+
+    if (feching > 1) {
+        fetchUser()
+    }
 
     return (
         <>
@@ -99,6 +98,7 @@ export const GestionEvaluaciones = () => {
                 nota3={nota3}
                 nota4={nota4}
                 rol={rol}
+                setFeching={setFeching}
             />
 
             <div className='flex flex-col gap-4'>

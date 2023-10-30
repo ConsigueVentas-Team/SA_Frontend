@@ -14,7 +14,6 @@ const TablaEvaluaciones = ({
     setNota4,
     rol,
 }) => {
-    // const [isFeching, setIsFeching] = useState(false)
     const [numFilas, setNumFilas] = useState(0)
     const [mostrarModal, setMostrarModal] = useState(false)
     const [evaluacion, setEvaluacion] = useState([])
@@ -58,7 +57,6 @@ const TablaEvaluaciones = ({
             if (!response.ok) {
                 throw new Error(`Error al obtener datos: ${response.status}`)
             }
-            // setIsLoading(false)
 
             const data = await response.json()
 
@@ -77,7 +75,7 @@ const TablaEvaluaciones = ({
     }
 
     const confirmarAgregarFila = async () => {
-        // setIsLoading(true)
+        setIsLoading(true)
         setNumFilas(numFilas)
         setMostrarModal(false)
 
@@ -125,10 +123,6 @@ const TablaEvaluaciones = ({
 
     const filaClase = 'border-b border-cv-secondary'
     const celdaClase = 'px-6 py-4 whitespace-nowrap'
-
-    // useEffect(() => {
-    //     fetchUser()
-    // }, [id])
 
     useEffect(() => {
         fetchUser()
