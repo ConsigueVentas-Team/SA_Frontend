@@ -38,6 +38,7 @@ const TablaEvaluaciones = ({
     }
 
     const confirmarAgregarFila = async () => {
+        setIsLoading(true)
         setNumFilas(numFilas)
         setMostrarModal(false)
 
@@ -71,7 +72,7 @@ const TablaEvaluaciones = ({
             const result = await response.json()
             setIdd(result.data.id)
 
-            isLoading(false)
+            setIsLoading(false)
         } catch (error) {
             console.error('Error al agregar la evaluación:', error.message)
         }
@@ -79,8 +80,12 @@ const TablaEvaluaciones = ({
 
     const cancelarAgregarFila = () => {
         setMostrarModal(false)
-        setIsLoading(true)
+        setIsLoading(false)
     }
+
+    // const cancelarModalEspacio = () => {
+    //     setMostrarModal(false)
+    // }
 
     const filaClase = 'border-b border-cv-secondary'
     const celdaClase = 'px-6 py-4 whitespace-nowrap'
