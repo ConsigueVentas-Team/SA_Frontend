@@ -11,7 +11,7 @@ const clasificarData = (dataParaClasificar) => {
   return dataClasificada;
 };
 
-function BodyTableMyEvaluation({ dataPerUser, actualizarPromedio }) {
+function BodyTableMyEvaluation({ dataPerUser, actualizarPromedio, fields }) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -37,21 +37,15 @@ function BodyTableMyEvaluation({ dataPerUser, actualizarPromedio }) {
           <th className="px-6 py-4 whitespace-nowrap">
             {item.month.mes.charAt(0).toUpperCase() + item.month.mes.slice(1)}
           </th>
-          <td className="px-6 py-4 whitespace-nowrap">
-            {item.data[0].softskills}
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            {item.data[0].performance}
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            {item.data[0].hardskills}
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            {item.data[0].autoevaluation}
-          </td>
-          <th className="px-6 py-4 whitespace-nowrap">
-            {item.data[0].promedio}
-          </th>
+          {
+            fields.map((element, index)=>{
+              return (
+                <td key={index} className="px-6 py-4 whitespace-nowrap">
+                {item.data[0][element]}
+                </td>
+              )
+            })
+          }
         </tr>
       ))}
     </tbody>
