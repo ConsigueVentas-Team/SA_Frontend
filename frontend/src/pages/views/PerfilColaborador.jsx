@@ -116,7 +116,7 @@ export const PerfilColaborador = () => {
 								/>
 								<ProfileItem
 									label="Estado"
-									value={`${user.usuario.status === 1 ? 'Activo' : 'Inactivo'} ${user.usuario.status !== 1 ? user.usuario.status_description : ''}`}
+									value={`${user.usuario.status === true ? 'Activo' : 'Inactivo'} ${user.usuario.status !== 1 ? user.usuario.status_description : ''}`}
 								/>
 							</div>
 						</div>

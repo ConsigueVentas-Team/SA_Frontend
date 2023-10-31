@@ -151,7 +151,7 @@ export default function ModalHorario({ onclose, id }) {
         );
         const token = tokenD.toString(enc.Utf8);
         const dataForBackend = transformDataForBackend(scheduleData);
-
+            console.log(dataForBackend)
         const daysOfWeek = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
         const errors = [];
         for (const day of daysOfWeek) {
@@ -209,6 +209,7 @@ export default function ModalHorario({ onclose, id }) {
                     })
                     .then((data) => {
                         setBackendResponse(data);
+                        console.log(data)
                     })
                     .catch((error) => {
                     });
@@ -261,7 +262,7 @@ export default function ModalHorario({ onclose, id }) {
                         </div>
                     </div>
                     <div className="w-1/4">
-                        <label htmlFor="dropdown">---</label>
+                        <label htmlFor="dropdown" className="font-medium">Tiempo:</label>
                         <select
                             id="dropdown"
                             value={selectedOption}
@@ -357,7 +358,9 @@ export default function ModalHorario({ onclose, id }) {
                 <div className="flex justify-around items-center">
                     <button
                         className="w-1/3 border-2 p-1 mt-3 text-white bg-cv-primary border-cv-primary rounded-lg"
-                        onClick={() => enviarDatosAlBackend(schedule)}
+                        onClick={() => {
+                            enviarDatosAlBackend(schedule);
+                        }}
                     >
                         AGREGAR
                     </button>
