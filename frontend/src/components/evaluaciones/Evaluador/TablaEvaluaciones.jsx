@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import ModalConfirmacion from './Modals/ModalConfirmacion'
 import { AES, enc } from 'crypto-js'
 import { ModalSpinners } from './Modals/ModalSpinners'
+import AddBoxIcon from '@mui/icons-material/AddBox'
 
 const TablaEvaluaciones = ({
     id,
@@ -119,7 +120,7 @@ const TablaEvaluaciones = ({
         setIsLoading(false)
     }
 
-    const filaClase = 'border-b border-cv-secondary'
+    const filaClase = 'rounded border-cv-secondary'
     const celdaClase = 'px-6 py-4 whitespace-nowrap'
 
     useEffect(() => {
@@ -245,9 +246,9 @@ const TablaEvaluaciones = ({
                             }
                             className='px-6 py-4 whitespace-nowrap bg-cv-primary'>
                             <button
-                                className='uppercase font-medium text-cv-cyan'
+                                className=' text-cv-cyan uppercase font-semibold'
                                 onClick={agregarFila}>
-                                Agregar Evaluación
+                                <AddBoxIcon /> Agregar Evaluacion
                             </button>
                         </td>
                     </tr>
