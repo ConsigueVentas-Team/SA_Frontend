@@ -150,11 +150,17 @@ export const Asistencias = () => {
     return searchedCore.name
   }
 
+  const getDepartment = (departmentId)=>{
+    const searchedDepartment = departments.filter(e => e.id == departmentId)[0]
+    return searchedDepartment.name
+  }
+
   useEffect(()=>{
     setFetchingInProgress(true);
     let url = `${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`
     url =  (core) ? `${url}&core=${getCore(core)}`:url
     url =  (shift) ? `${url}&shift=${shift}`:url
+    url =  (department) ? `${url}&department=${getDepartment(department)}`:url
 
     fetch(url, {
       headers: {
@@ -167,8 +173,9 @@ export const Asistencias = () => {
         setAttendance([...response.data])
         setFetchingInProgress(false);
         closeCalendar()
+        console.log("REPONSE HERE", response);
       });
-  },[date,currentPage,shift,core])
+  },[date,currentPage,shift,core,department])
 
   return (
     <>
