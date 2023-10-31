@@ -32,8 +32,6 @@ const TablaEvaluaciones = ({
         }
     }
 
-    setPromedio(calcularPromedio())
-
     const agregarFila = () => {
         setMostrarModal(true)
     }
@@ -76,7 +74,6 @@ const TablaEvaluaciones = ({
     }
 
     const confirmarAgregarFila = async () => {
-        setIsLoading(true)
         setNumFilas(numFilas)
         setMostrarModal(false)
 
@@ -127,6 +124,7 @@ const TablaEvaluaciones = ({
 
     useEffect(() => {
         fetchUser()
+        setPromedio(calcularPromedio())
     }, [feching])
 
     return (
@@ -135,6 +133,7 @@ const TablaEvaluaciones = ({
                 isOpen={mostrarModal}
                 onConfirm={confirmarAgregarFila}
                 onClose={cancelarAgregarFila}
+                setIsLoading={setIsLoading}
             />
 
             <ModalSpinners isOpen={isLoading} />

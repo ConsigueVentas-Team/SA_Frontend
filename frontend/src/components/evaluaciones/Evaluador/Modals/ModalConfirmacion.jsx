@@ -1,4 +1,4 @@
-const ModalConfirmacion = ({ isOpen, onConfirm, onClose }) => {
+const ModalConfirmacion = ({ isOpen, onConfirm, onClose, setIsLoading }) => {
     return (
         <div
             className={`fixed top-0 left-0 w-full h-full text-black flex items-center justify-center bg-black bg-opacity-50 ${
@@ -18,6 +18,7 @@ const ModalConfirmacion = ({ isOpen, onConfirm, onClose }) => {
                         onClick={() => {
                             onConfirm()
                             onClose()
+                            setIsLoading(true)
                         }}
                         className='bg-blue-500 text-white px-4 py-2 rounded-lg'
                         style={{ backgroundColor: '#16232b' }}>

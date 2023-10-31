@@ -22,7 +22,7 @@ export const GestionEvaluaciones = () => {
     const [nota2, setNota2] = useState(null)
     const [nota3, setNota3] = useState(null)
     const [nota4, setNota4] = useState(null)
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [promedio, setPromedio] = useState([])
 
@@ -65,11 +65,13 @@ export const GestionEvaluaciones = () => {
                 if (foundUser) {
                     setIdd(foundUser.id)
                 } else {
-                    console.error(`No se encontró un usuario con el ID ${id}.`)
+                    console.error(
+                        `No se encontró evaluaciones con el usuario con el ID ${id}.`
+                    )
                 }
             } else {
                 console.error(
-                    'No se encontraron usuarios en la respuesta de la API.'
+                    'No exiten evaluaciones registradas en la base de datos.'
                 )
             }
 
