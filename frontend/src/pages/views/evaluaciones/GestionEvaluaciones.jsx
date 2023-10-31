@@ -107,11 +107,15 @@ export const GestionEvaluaciones = () => {
                     <div>
                         <div className='w-full rounded-lg bg-cv-primary py-4 px-8'>
                             <div className='flex flex-row justify-between'>
-                                <p className='text-gray-400'>Nombre:</p>
-                                <p className='text-gray-400'>Nota Final:</p>
+                                <p className='text-gray-400 font-medium'>
+                                    Nombre:
+                                </p>
+                                <p className='text-gray-400 font-medium'>
+                                    Nota Final:
+                                </p>
                             </div>
 
-                            <div className='flex flex-row justify-between'>
+                            <div className='flex flex-row justify-between font-medium'>
                                 <p>{computarNombre()}</p>
                                 <p>{promedio}</p>
                             </div>
