@@ -171,9 +171,8 @@ export const Asistencias = () => {
       .then((response) => response.json())
       .then((response) => {
         setAttendance([...response.data])
-        setFetchingInProgress(false);
         closeCalendar()
-        console.log("REPONSE HERE", response);
+        setFetchingInProgress(false);
       });
   },[date,currentPage,shift,core,department])
 
