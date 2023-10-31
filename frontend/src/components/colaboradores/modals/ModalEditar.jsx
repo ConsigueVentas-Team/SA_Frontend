@@ -59,7 +59,7 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
     setShift(user.shift);
     setBirthday(user.birthday);
     setAvatar(user.image);
-    setAvatarUrl(user.image_url);
+    setAvatarUrl(user.image_url.replace("http://127.0.0.1:8000","https://backend.consigueventas.com"));
     setDateStart(user.date_start);
     setDateEnd(user.date_end);
     setStatus(user.status);

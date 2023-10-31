@@ -16,7 +16,7 @@ export const BirthdayImage = ({ item }) => {
 
 	return (
 		<div className="flex flex-col items-center justify-center gap-4 w-28 md:w-40">
-			<img src={item.image_url} alt={name} className="rounded-full shadow-lg w-28 h-28 md:w-40 md:h-40 ring-2 ring-cv-cyan" />
+			<img src={item.image_url.replace("http://127.0.0.1:8000","https://backend.consigueventas.com")} alt={name} className="rounded-full shadow-lg w-28 h-28 md:w-40 md:h-40 ring-2 ring-cv-cyan" />
 		</div>
 	)
 }

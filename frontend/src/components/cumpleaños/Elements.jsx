@@ -23,7 +23,6 @@ export const ListItem = ({ user }) => {
         month: "long",
         year: "numeric",
     });
-
     return (
         <>
             <li className="p-2 py-3 sm:py-4">
@@ -31,7 +30,7 @@ export const ListItem = ({ user }) => {
                     <div className="flex-shrink-0">
                         <Avatar
                             alt={user.name}
-                            src={user.image_url}
+                            src={user.image_url.replace("http://127.0.0.1:8000","https://backend.consigueventas.com")}
                         />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -128,7 +127,7 @@ CardModal.propTypes = {
 export const BirthdayImage = ({ item }) => {
     return (
         <div className="flex flex-col items-center justify-center gap-4">
-            <img src={item.image_url} alt={item.name} className="w-40 h-40 rounded-full shadow-lg ring-2 ring-cv-cyan" />
+            <img src={item.image_url.replace("http://127.0.0.1:8000","https://backend.consigueventas.com")} alt={item.name} className="w-40 h-40 rounded-full shadow-lg ring-2 ring-cv-cyan" />
             <div>
                 <p className="text-xl text-center text-white font-nomal md:text-2xl">{`${item.name} ${item.surname}`}</p>
                 <p className="text-sm font-light text-center text-white truncate">{item.email}</p>

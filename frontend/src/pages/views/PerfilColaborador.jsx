@@ -12,7 +12,7 @@ export const PerfilColaborador = () => {
 
 	useEffect(() => {
 		const Profile = () => {
-			fetch(import.meta.env.VITE_API_URL + '/users/' + id, {
+			fetch('https://backend.consigueventas.com' + '/users/' + id, {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`
