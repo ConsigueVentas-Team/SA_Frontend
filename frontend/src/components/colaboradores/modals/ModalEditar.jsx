@@ -330,18 +330,19 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
                     onChange={handleProfileChange}
                     disabled={!selectedCore}
                   />
-                  {/* <!--<Select
-                    label="Turno"
+                  <div className="flex direction-row">
+                  <Select
+                    label="Horario"
                     id="shift"
                     value={shift}
                     options={shiftOptions}
                     onChange={handleShiftChange}
-                  />--> */}
-                  <label className="font-bolder text-black">Horario</label>
-                  <button onClick={handleOpenModal} className="w-2/5 bg-white border-2 text-black font-bolder p-1.5 rounded-lg flex items-center justify-center shadow-md"> Personalizar </button>
+                  />
+                  <button onClick={handleOpenModal} className="w-3/5 h-1/2 mt-8 ml-2 text-white bg-cv-primary border-cv-primary font-bolder p-1.5 rounded-lg flex items-center justify-center"> Personalizar </button>
                   {modal && <ModalHorario id={user.id}
                     onclose={handleCloseModal}
                   />}
+                  </div>
                   <SelectRole
                     label="Rol"
                     id="role"

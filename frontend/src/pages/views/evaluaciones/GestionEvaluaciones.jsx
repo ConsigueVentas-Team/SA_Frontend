@@ -22,7 +22,7 @@ export const GestionEvaluaciones = () => {
     const [nota2, setNota2] = useState(null)
     const [nota3, setNota3] = useState(null)
     const [nota4, setNota4] = useState(null)
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [promedio, setPromedio] = useState([])
 
@@ -65,11 +65,13 @@ export const GestionEvaluaciones = () => {
                 if (foundUser) {
                     setIdd(foundUser.id)
                 } else {
-                    console.error(`No se encontró un usuario con el ID ${id}.`)
+                    console.error(
+                        `No se encontró evaluaciones con el usuario con el ID ${id}.`
+                    )
                 }
             } else {
                 console.error(
-                    'No se encontraron usuarios en la respuesta de la API.'
+                    'No exiten evaluaciones registradas en la base de datos.'
                 )
             }
 
@@ -105,11 +107,15 @@ export const GestionEvaluaciones = () => {
                     <div>
                         <div className='w-full rounded-lg bg-cv-primary py-4 px-8'>
                             <div className='flex flex-row justify-between'>
-                                <p className='text-gray-400'>Nombre:</p>
-                                <p className='text-gray-400'>Nota Final:</p>
+                                <p className='text-gray-400 font-medium'>
+                                    Nombre:
+                                </p>
+                                <p className='text-gray-400 font-medium'>
+                                    Nota Final:
+                                </p>
                             </div>
 
-                            <div className='flex flex-row justify-between'>
+                            <div className='flex flex-row justify-between font-medium'>
                                 <p>{computarNombre()}</p>
                                 <p>{promedio}</p>
                             </div>

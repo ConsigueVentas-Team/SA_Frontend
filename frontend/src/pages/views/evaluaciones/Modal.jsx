@@ -59,6 +59,7 @@ const Modal = ({
             })
 
             if (!response.ok) {
+                setIsSaving(false)
                 throw new Error(
                     `Error al guardar los datos: ${response.status}`
                 )
@@ -66,8 +67,9 @@ const Modal = ({
 
             onClose()
             setFeching(feching => !feching)
+            setIsSaving(false)
         } catch (error) {
-            setError(error.message)
+            setError(`No se envió las notas ${error}`)
             setIsSaving(false)
         }
     }
@@ -75,11 +77,7 @@ const Modal = ({
     const validarFormulario = () => {
         if (rol === 'Colaborador') {
             // Validación específica para el rol "Colaborador"
-            if (
-                softskills.trim() === '' ||
-                hardskills.trim() === '' ||
-                performance.trim() === ''
-            ) {
+            if (softskills === '' || hardskills === '' || performance === '') {
                 setError('Todos los campos son obligatorios')
             } else if (
                 softskills < 0 ||

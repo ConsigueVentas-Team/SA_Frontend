@@ -10,6 +10,7 @@ export default function ModalHorario({ onclose, id }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [scheduleData, setScheduleData] = useState([]);
     const [backendResponse, setBackendResponse] = useState(null);
+    const [tablaLlena, setTablaLlena] = useState(false);
 
     const handleSelectChangeDay = (event) => {
         setSelectedOptionDay(event.target.value);
@@ -116,6 +117,7 @@ export default function ModalHorario({ onclose, id }) {
             Miercoles: 3,
             Jueves: 4,
             Viernes: 5,
+            Domingo: 6,
         };
 
         for (const day in dayToNumber) {
@@ -151,8 +153,8 @@ export default function ModalHorario({ onclose, id }) {
         );
         const token = tokenD.toString(enc.Utf8);
         const dataForBackend = transformDataForBackend(scheduleData);
-
-        const daysOfWeek = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
+            console.log(dataForBackend)
+        const daysOfWeek = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Domingo"];
         const errors = [];
         for (const day of daysOfWeek) {
             const inicioEntries = scheduleData.filter(
@@ -190,7 +192,7 @@ export default function ModalHorario({ onclose, id }) {
             setErrorMessage("");
 
             if (dataForBackend.length > 0) {
-
+                setTablaLlena(true)
                 fetch(url, {
                     method: "POST",
                     headers: {
@@ -209,20 +211,23 @@ export default function ModalHorario({ onclose, id }) {
                     })
                     .then((data) => {
                         setBackendResponse(data);
+                        console.log(data)
                     })
                     .catch((error) => {
                     });
             } else {
                 setErrorMessage("Completa los horarios 'Inicio' y 'Fin' para cada día.");
+                setTablaLlena(false)
             }
         }
     };
 
+    console.log(tablaLlena)
     return (
         <div className="fixed top-0 left-0 z-50 m-0 w-screen h-screen overflow-y-auto flex flex-col items-center justify-center bg-cv-secondary/50">
             <div className="relative w-full max-w-2xl max-h-full text-black bg-white rounded-lg p-5">
                 <h1 className="font-bold"> Personalizar horario </h1>
-                <div className="w-auto flex justify-around align-center direction-row m-2">
+                <div className="w-auto flex justify-between align-center direction-row m-2">
                     <div className="w-1/4">
                         <label htmlFor="dropdown" className="font-medium">
                             Dia:
@@ -239,6 +244,7 @@ export default function ModalHorario({ onclose, id }) {
                             <option value="Miercoles">Miercoles</option>
                             <option value="Jueves">Jueves</option>
                             <option value="Viernes">Viernes</option>
+                            <option value="Domingo">Domingo</option>
                         </select>
                     </div>
                     <div className="w-1/4">
@@ -261,7 +267,7 @@ export default function ModalHorario({ onclose, id }) {
                         </div>
                     </div>
                     <div className="w-1/4">
-                        <label htmlFor="dropdown">---</label>
+                        <label htmlFor="dropdown" className="font-medium">Tiempo:</label>
                         <select
                             id="dropdown"
                             value={selectedOption}
@@ -305,6 +311,9 @@ export default function ModalHorario({ onclose, id }) {
                                 <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
                                     Viernes
                                 </th>
+                                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                    Domingo
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -312,11 +321,11 @@ export default function ModalHorario({ onclose, id }) {
                                 <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
                                     Inicio
                                 </td>
-                                {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"].map(
+                                {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Domingo"].map(
                                     (day, index) => (
                                         <td
                                             key={index}
-                                            className="border-2 border-gray-200 w-1/6 pl-8"
+                                            className="border-2 border-gray-200 w-1/6 pl-6"
                                         >
                                             {schedule
                                                 .filter(
@@ -334,11 +343,11 @@ export default function ModalHorario({ onclose, id }) {
                                 <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
                                     Fin
                                 </td>
-                                {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"].map(
+                                {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Domingo"].map(
                                     (day, index) => (
                                         <td
                                             key={index}
-                                            className="border-2 border-gray-200 w-1/6 pl-8"
+                                            className="border-2 border-gray-200 w-1/6 pl-6"
                                         >
                                             {schedule
                                                 .filter(
@@ -357,7 +366,10 @@ export default function ModalHorario({ onclose, id }) {
                 <div className="flex justify-around items-center">
                     <button
                         className="w-1/3 border-2 p-1 mt-3 text-white bg-cv-primary border-cv-primary rounded-lg"
-                        onClick={() => enviarDatosAlBackend(schedule)}
+                        onClick={() => {
+                            enviarDatosAlBackend(schedule);
+                        }}
+                        disabled={tablaLlena}
                     >
                         AGREGAR
                     </button>
