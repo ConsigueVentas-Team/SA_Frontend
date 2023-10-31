@@ -9,7 +9,9 @@ export const SearchBar = ({ value, onChange }) => {
 
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
-			onChange(inputValue); // Llama a onChange después de debounceTime
+			// Capitaliza la primera letra antes de llamar a onChange
+			const capitalizedValue = capitalizeFirstLetter(inputValue);
+			onChange(capitalizedValue);
 		}, debounceTime);
 
 		// Limpia el temporizador anterior en cada cambio de inputValue
@@ -18,6 +20,11 @@ export const SearchBar = ({ value, onChange }) => {
 
 	const handleInputChange = (e) => {
 		setInputValue(e.target.value);
+	};
+
+	// Función para capitalizar la primera letra
+	const capitalizeFirstLetter = (value) => {
+		return value.charAt(0).toUpperCase() + value.slice(1);
 	};
 
 	return (
