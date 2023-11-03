@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { AES, enc } from "crypto-js";
+import Loading from "../../../components/essentials/Loading";
 
 export default function ModalHorario({ onclose, id }) {
     const [selectedOptionDay, setSelectedOptionDay] = useState("");
@@ -13,6 +14,7 @@ export default function ModalHorario({ onclose, id }) {
     const [tablaLlena, setTablaLlena] = useState(false);
 
     const [userSchedule, setUserSchedule] = useState([]);
+    const [ayuda, setAyuda] = useState("");
 
     const fetchUserSchedule = useCallback(async () => {
         try {
@@ -39,6 +41,7 @@ export default function ModalHorario({ onclose, id }) {
             } else {
                 console.error("Error al obtener el horario del usuario:", data.error);
             }
+            setAyuda("Cargado")
         } catch (error) {
             console.error("Error al obtener el horario del usuario:", error);
         }
@@ -267,9 +270,13 @@ export default function ModalHorario({ onclose, id }) {
         }
     };
 
-    console.log(userSchedule);
     return (
         <div className="fixed top-0 left-0 z-50 m-0 w-screen h-screen overflow-y-auto flex flex-col items-center justify-center bg-cv-secondary/50">
+          {ayuda !== "Cargado" ? (
+              <div>
+                <Loading />
+              </div>
+          ) : (
             <div className="relative w-full max-w-2xl max-h-full text-black bg-white rounded-lg p-5">
                 {userSchedule.length === 0 ? (
                     <div>
@@ -429,105 +436,97 @@ export default function ModalHorario({ onclose, id }) {
                     <div className="flex justify-around flex-col">
                         <label className="font-medium">Horario Establecido</label>
                         <table className="rounded-md border-2 border-gray-200 bg-[#F5F7FB] mt-3 mb-3">
-                            <thead>
-                                <tr>
-                                    <th className="border-2 border-gray-200 w-1/6"></th>
-                                    <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                        LUNES
-                                    </th>
-                                    <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                        MARTES
-                                    </th>
-                                    <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                        MIERCOLES
-                                    </th>
-                                    <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                        JUEVES
-                                    </th>
-                                    <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                        VIERNES
-                                    </th>
-                                    <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                        DOMINGO
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                        Inicio
-                                    </td>
-                                    {[
-                                        "Lunes",
-                                        "Martes",
-                                        "Miercoles",
-                                        "Jueves",
-                                        "Viernes",
-                                        "Domingo",
-                                    ].map((day, index) => (
-                                        <td
-                                            key={index}
-                                            className="border-2 border-gray-200 w-1/6 pl-8"
-                                        >
-                                            {userSchedule
-                                                .filter(
-                                                    (entry) =>
-                                                        entry.option === "Inicio" && entry.day === day
-                                                )
-                                                .map((entry, index) => (
-                                                    <span key={index}>{entry.time}</span>
-                                                ))}
-                                        </td>
-                                    ))}
-                                </tr>
-                                <tr>
-                                    <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                        Fin
-                                    </td>
-                                    {[
-                                        "Lunes",
-                                        "Martes",
-                                        "Miercoles",
-                                        "Jueves",
-                                        "Viernes",
-                                        "Domingo",
-                                    ].map((day, index) => (
-                                        <td
-                                            key={index}
-                                            className="border-2 border-gray-200 w-1/6 pl-8"
-                                        >
-                                            {userSchedule
-                                                .filter(
-                                                    (entry) => entry.option === "Fin" && entry.day === day
-                                                )
-                                                .map((entry, index) => (
-                                                    <span key={index}>{entry.time}</span>
-                                                ))}
-                                        </td>
-                                    ))}
-                                </tr>
-                            </tbody>
-                        </table>
+                <thead>
+                    <tr>
+                        <th className="border-2 border-gray-200 w-1/6"></th>
+                        <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                            LUNES
+                        </th>
+                        <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                            MARTES
+                        </th>
+                        <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                            MIÉRCOLES
+                        </th>
+                        <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                            JUEVES
+                        </th>
+                        <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                            VIERNES
+                        </th>
+                        <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                            DOMINGO
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                            Inicio
+                        </td>
+                        {[
+                            "Lunes",
+                            "Martes",
+                            "Miércoles",
+                            "Jueves",
+                            "Viernes",
+                            "Domingo",
+                        ].map((day, index) => (
+                            <td
+                                key={index}
+                                className="border-2 border-gray-200 w-1/6 pl-8"
+                            >
+                                {userSchedule.find(entry => entry.day_of_week === index + 1) ?
+                                    userSchedule.find(entry => entry.day_of_week === index + 1).start_time.substring(0, 5) :
+                                    "N/A"}
+                            </td>
+                        ))}
+                    </tr>
+                    <tr>
+                        <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                            Fin
+                        </td>
+                        {[
+                            "Lunes",
+                            "Martes",
+                            "Miércoles",
+                            "Jueves",
+                            "Viernes",
+                            "Domingo",
+                        ].map((day, index) => (
+                            <td
+                                key={index}
+                                className="border-2 border-gray-200 w-1/6 pl-8"
+                            >
+                                {userSchedule.find(entry => entry.day_of_week === index + 1) ?
+                                    userSchedule.find(entry => entry.day_of_week === index + 1).end_time.substring(0, 5) :
+                                    "N/A"}
+                            </td>
+                        ))}
+                    </tr>
+                </tbody>
+            </table>
                     </div>
                 )}
-                <div className="flex justify-around items-center">
-                    <button
-                        className="w-1/3 border-2 p-1 mt-3 text-white bg-cv-primary border-cv-primary rounded-lg"
-                        onClick={() => {
-                            enviarDatosAlBackend(schedule);
-                            onclose();
-                        }}
-                    >
-                        AGREGAR
-                    </button>
-                    <button
-                        onClick={onclose}
-                        className="bg-[#F5F7FB] w-1/3 border-2 p-1 mt-3 bg-white font-medium text-cv-primary border-cv-primary hover:text-white hover:bg-cv-primary rounded-lg"
-                    >
-                        CANCELAR
-                    </button>
-                </div>
-            </div>
+        <div className="flex justify-around items-center">
+            <button
+                className="w-1/3 border-2 p-1 mt-3 text-white bg-cv-primary border-cv-primary rounded-lg"
+                onClick={() => {
+                    enviarDatosAlBackend(schedule);
+                    onclose();
+                }}
+            >
+                AGREGAR
+            </button>
+            <button
+                onClick={onclose}
+                className="bg-[#F5F7FB] w-1/3 border-2 p-1 mt-3 bg-white font-medium text-cv-primary border-cv-primary hover:text-white hover-bg-cv-primary rounded-lg"
+            >
+                CANCELAR
+            </button>
         </div>
+      </div>
+       )}
+    </div>
     );
 }
