@@ -49,7 +49,18 @@ const Barras = ({ barras, isCore, isDepart }) => {
   return (
     <ResponsiveContainer width="100%">
       <BarChart data={barras} barSize={30}>
-        <XAxis dataKey={xAxisDataKey} />
+        <XAxis
+          dataKey={xAxisDataKey}
+          tickFormatter={(value) => {
+            const words = value.split(" ");
+            if (words.length > 1) {
+              return `${words[0].slice(0, 3)}. ${words.slice(1).join(" ")}`;
+            }
+            return value;
+          }}
+        />
+        <YAxis />
+
         <YAxis />
         <Tooltip
           contentStyle={{ color: "red" }}

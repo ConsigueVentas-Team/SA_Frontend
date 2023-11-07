@@ -9,13 +9,22 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+const labelMap = {
+  department_attendance_count: "Asistencia",
+  department_absence_count: "Falta",
+  department_delay_count: "Tardanza",
+  department_justification_count: "Justificación",
+  core_attendance_count: "Asistencia",
+  core_absence_count: "Falta",
+  core_delay_count: "Tardanza",
+  core_justification_count: "Justificación",
+  profile_attendance_count: "Asistencia",
+  profile_absence_count: "Falta",
+  profile_delay_count: "Tardanza",
+  profile_justification_count: "Justificación",
+};
+
 const BarrasAsistencia = ({ barras, isCore, isDepart }) => {
-  const labelMap = {
-    department_attendance_count: "Asistencia",
-    department_absence_count: "Falta",
-    department_delay_count: "Tardanza",
-    department_justification_count: "Justificación",
-  };
   let xAxisDataKey = "department_name";
   let barDataKey1 = "department_attendance_count";
   let barDataKey2 = "department_absence_count";
@@ -63,7 +72,8 @@ const BarrasAsistencia = ({ barras, isCore, isDepart }) => {
         />
         <YAxis />
         <Tooltip
-          formatter={(value, name) => [value, labelMap[name]]}
+          formatter={(value, name) => [value, labelMap[name]]
+        }
           labelStyle={{ color: "black", textTransform: "uppercase" }}
           contentStyle={{ fontWeight: "bold", fontSize: "16px" }}
           itemStyle={{ padding: 3, margin: 0 }}
