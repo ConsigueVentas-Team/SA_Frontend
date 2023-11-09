@@ -16,6 +16,8 @@ export default function ModalHorario({ onclose, id }) {
     const [userSchedule, setUserSchedule] = useState([]);
     const [ayuda, setAyuda] = useState("");
     const [alert, setAlert] = useState(false);
+    const [incluyeDomingo, setIncluyeDomingo] = useState(false);
+    
 
     const fetchUserSchedule = useCallback(async () => {
         try {
@@ -157,7 +159,8 @@ export default function ModalHorario({ onclose, id }) {
             Miercoles: 3,
             Jueves: 4,
             Viernes: 5,
-            Domingo: 6,
+            Sabado:6,
+            Domingo: 7,
         };
 
         for (const day in dayToNumber) {
@@ -200,8 +203,11 @@ export default function ModalHorario({ onclose, id }) {
             "Miercoles",
             "Jueves",
             "Viernes",
-            "Domingo",
         ];
+
+        if (incluyeDomingo) {
+            daysOfWeek.push("Sabado","Domingo");
+        }
         const errors = [];
         for (const day of daysOfWeek) {
             const inicioEntries = scheduleData.filter(
@@ -299,7 +305,12 @@ export default function ModalHorario({ onclose, id }) {
                                         <option value="Miercoles">Miercoles</option>
                                         <option value="Jueves">Jueves</option>
                                         <option value="Viernes">Viernes</option>
-                                        <option value="Domingo">Domingo</option>
+                                        {incluyeDomingo && (
+                                            <option value="Sabado">Sabado</option>
+                                        )}
+                                        {incluyeDomingo && (
+                                            <option value="Domingo">Domingo</option>
+                                        )}
                                     </select>
                                 </div>
                                 <div className="w-1/4">
@@ -345,6 +356,43 @@ export default function ModalHorario({ onclose, id }) {
                                     </button>
                                 </div>
                             </div>
+                            <div class="inline-flex items-center">
+                                <label
+                                    class="relative flex items-center p-3 rounded-full cursor-pointer"
+                                    for="login"
+                                    data-ripple-dark="true"
+                                >
+                                    <input
+                                        id="login"
+                                        type="checkbox"
+                                        class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:bg-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
+                                        onClick={() => setIncluyeDomingo(!incluyeDomingo)}
+
+                                    />
+                                    <div class="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-3.5 w-3.5"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                            stroke="currentColor"
+                                            stroke-width="1"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"
+                                            ></path>
+                                        </svg>
+                                    </div>
+                                </label>
+                                <label
+                                    class="mt-px font-light text-gray-700 cursor-pointer select-none"
+                                    for="login"
+                                >
+                                    Asiste Fin de Semana
+                                </label>
+                            </div>
                             {
                                 alert && (
                                     <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-5 mb-5" role="alert">
@@ -383,9 +431,16 @@ export default function ModalHorario({ onclose, id }) {
                                             <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
                                                 Viernes
                                             </th>
-                                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                Domingo
-                                            </th>
+                                            {incluyeDomingo && (
+                                                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                                    Sabado
+                                                </th>
+                                            )}
+                                            {incluyeDomingo && (
+                                                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                                    Domingo
+                                                </th>
+                                            )}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -399,11 +454,12 @@ export default function ModalHorario({ onclose, id }) {
                                                 "Miercoles",
                                                 "Jueves",
                                                 "Viernes",
+                                                "Sabado",
                                                 "Domingo",
                                             ].map((day, index) => (
                                                 <td
                                                     key={index}
-                                                    className="border-2 border-gray-200 w-1/6 pl-8"
+                                                    className="border-2 border-gray-200 w-1/6 pl-4"
                                                 >
                                                     {schedule
                                                         .filter(
@@ -426,11 +482,12 @@ export default function ModalHorario({ onclose, id }) {
                                                 "Miercoles",
                                                 "Jueves",
                                                 "Viernes",
+                                                "Sabado",
                                                 "Domingo",
                                             ].map((day, index) => (
                                                 <td
                                                     key={index}
-                                                    className="border-2 border-gray-200 w-1/6 pl-8"
+                                                    className="border-2 border-gray-200 w-1/6 pl-4"
                                                 >
                                                     {schedule
                                                         .filter(
@@ -469,9 +526,16 @@ export default function ModalHorario({ onclose, id }) {
                                         <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
                                             VIERNES
                                         </th>
-                                        <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                            DOMINGO
-                                        </th>
+                                        {incluyeDomingo && (
+                                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                                SABADO
+                                            </th>
+                                        )}
+                                        {incluyeDomingo && (
+                                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                                                DOMINGO
+                                            </th>
+                                        )}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -485,6 +549,7 @@ export default function ModalHorario({ onclose, id }) {
                                             "Miércoles",
                                             "Jueves",
                                             "Viernes",
+                                            "Sabado",
                                             "Domingo",
                                         ].map((day, index) => (
                                             <td
@@ -507,6 +572,7 @@ export default function ModalHorario({ onclose, id }) {
                                             "Miércoles",
                                             "Jueves",
                                             "Viernes",
+                                            "Sabado",
                                             "Domingo",
                                         ].map((day, index) => (
                                             <td
