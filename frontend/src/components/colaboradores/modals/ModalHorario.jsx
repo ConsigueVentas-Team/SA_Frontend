@@ -17,7 +17,7 @@ export default function ModalHorario({ onclose, id }) {
     const [ayuda, setAyuda] = useState("");
     const [alert, setAlert] = useState(false);
     const [incluyeDomingo, setIncluyeDomingo] = useState(false);
-    
+
 
     const fetchUserSchedule = useCallback(async () => {
         try {
@@ -159,7 +159,7 @@ export default function ModalHorario({ onclose, id }) {
             Miercoles: 3,
             Jueves: 4,
             Viernes: 5,
-            Sabado:6,
+            Sabado: 6,
             Domingo: 7,
         };
 
@@ -206,7 +206,7 @@ export default function ModalHorario({ onclose, id }) {
         ];
 
         if (incluyeDomingo) {
-            daysOfWeek.push("Sabado","Domingo");
+            daysOfWeek.push("Sabado", "Domingo");
         }
         const errors = [];
         for (const day of daysOfWeek) {
@@ -417,28 +417,28 @@ export default function ModalHorario({ onclose, id }) {
                                         <tr>
                                             <th className="border-2 border-gray-200 w-1/6"></th>
                                             <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                Lunes
+                                                LUNES
                                             </th>
                                             <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                Martes
+                                                MARTES
                                             </th>
                                             <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                Miércoles
+                                                MIÉRCOLES
                                             </th>
                                             <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                Jueves
+                                                JUEVES
                                             </th>
                                             <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                Viernes
+                                                VIERNES
                                             </th>
                                             {incluyeDomingo && (
                                                 <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                    Sabado
+                                                    SABADO
                                                 </th>
                                             )}
                                             {incluyeDomingo && (
                                                 <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                    Domingo
+                                                    DOMINGO
                                                 </th>
                                             )}
                                         </tr>
