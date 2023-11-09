@@ -8,14 +8,17 @@ import Circular from "../../components/reportes/graficos/Circular";
 import Tarjeta from "../../components/reportes/Tarjeta";
 import ObtenerDatos from "../../components/formulario/Helpers/hooks/ObtenerDatos";
 import AssessmentIcon from "@mui/icons-material/Assessment";
-import AddIcon from "@mui/icons-material/Add";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import AddModeratorIcon from "@mui/icons-material/AddModerator";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SortIcon from "@mui/icons-material/Sort";
 import Loading from "../../components/essentials/Loading";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import logo from "../../assets/logo.png";
 import pdfMake from "pdfmake/build/pdfmake";
+import html2canvas from "html2canvas";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -346,6 +349,7 @@ const Reportes = () => {
       },
     });
     /////////////////////////////////////////////////////////////////////////
+    
     pdfContent.push("\n", {
       text: "USUARIOS POR SECTORES: ",
       style: "subheader",
@@ -408,6 +412,18 @@ const Reportes = () => {
         },
       });
     }
+    pdfContent.push('\n\n'); 
+
+    const usuariosActivosPorSector = document.querySelector(
+      ".usuarios-activos-por-sector"
+    );
+    if (usuariosActivosPorSector) {
+      const usuariosActivosCanvas = await html2canvas(usuariosActivosPorSector);
+      const usuariosActivosDataUrl =
+        usuariosActivosCanvas.toDataURL("image/png");
+      pdfContent.push({ image: usuariosActivosDataUrl, width: 515 });
+    }
+
     /////////////////////////////////////////////////////////////////////////
     if (apiDataAsistenciasSector.length > 0) {
       pdfContent.push("\n", {
@@ -496,6 +512,17 @@ const Reportes = () => {
       });
     }
 
+    pdfContent.push('\n\n'); 
+    
+    const asistenciaPorSector = document.querySelector(
+      ".asistencia-por-sector"
+    );
+    if (asistenciaPorSector) {
+      const asistenciaCanvas = await html2canvas(asistenciaPorSector);
+      const asistenciaDataUrl = asistenciaCanvas.toDataURL("image/png");
+      pdfContent.push({ image: asistenciaDataUrl, width: 515 });
+    }
+
     const styles = {
       header: {
         fontSize: 18,
@@ -555,33 +582,37 @@ const Reportes = () => {
               setSelectedValue={setDepartamento}
             ></SelectBox>
             <SelectBox
-              setSelectedValue={setCore}
-              valor={core}
               label={"Núcleo"}
               data={nucleosFiltrados}
+              valor={core}
+              setSelectedValue={setCore}
             ></SelectBox>
           </div>
           <div className="flex gap-3">
-            <button
-              className="p-2 rounded pl-4 pr-4 text-gray-950 bg-red-500 flex items-center"
-              onClick={generatePDF}
-            >
-              <PictureAsPdfIcon className="mr-2" />
-              <strong>Reporte</strong>
-            </button>
+          <button
+  className="p-2 rounded pl-4 pr-4 text-gray-950 bg-red-500 flex items-center hover:bg-red-600"
+  onClick={generatePDF}
+>
+  <PictureAsPdfIcon className="mr-2" />
+  <strong>Reporte</strong>
+</button>
 
-            <button
-              className="p-2 rounded pl-4 pr-4  text-gray-950 bg-cv-cyan  "
-              onClick={filtrar}
-            >
-              <strong>Filtrar</strong>
-            </button>
-            <button
-              className="p-2  pl-3 pr-3 rounded bg-cv-primary"
-              onClick={borrar}
-            >
-              <strong>Limpiar</strong>
-            </button>
+<button
+  className="p-2 rounded pl-4 pr-4 text-gray-950 bg-cv-cyan ml-4 flex items-center hover:bg-cv-cyan-dark"
+  onClick={filtrar}
+>
+  <SortIcon className="mr-2" />
+  <strong>Filtrar</strong>
+</button>
+
+<button
+  className="p-2 pl-3 pr-3 rounded bg-cv-primary ml-4 flex items-center hover:bg-cv-primary-dark"
+  onClick={borrar}
+>
+  <DeleteIcon className="mr-2" />
+  <strong>Limpiar</strong>
+</button>
+
           </div>
         </div>
       </section>
@@ -610,17 +641,17 @@ const Reportes = () => {
                     />
                     <Tarjeta
                       titulo="USUARIOS ACTIVOS"
-                      porcentaje={70}
+                      porcentaje={90}
                       numero={usuariosActivos}
                     />
                     <Tarjeta
                       titulo="INGRESOS ÚLTIMO MES"
-                      porcentaje={20}
+                      porcentaje={10}
                       numero={ingresosMes}
                     />
                   </div>
                   <div className="box-border flex items-start justify-between w-full gap-7">
-                    <div className="flex flex-col items-start w-full gap-4 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80 box">
+                    <div className="flex flex-col items-start w-full gap-4 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80 box usuarios-activos-por-sector">
                       <h1 className="text-lg font-medium">
                         USUARIOS ACTIVOS POR SECTOR
                       </h1>
@@ -634,7 +665,7 @@ const Reportes = () => {
                 </section>
                 <section className="w-full py-3 text-2xl border-t-2 ">
                   <h1 className="inline-flex items-center w-full text-base font-medium text-white uppercase">
-                    <AddIcon />
+                    <PlaylistAddIcon />
                     <span className="ml-1 text-base font-medium md:ml-2">
                       ASISTENCIAS
                     </span>
@@ -653,7 +684,7 @@ const Reportes = () => {
                           tardanzas={totalTardanzas}
                         />
                       </div>
-                      <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                      <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80 asistencia-por-sector">
                         <h1 className="text-lg font-medium ">
                           ASISTENCIAS POR SECTORES
                         </h1>

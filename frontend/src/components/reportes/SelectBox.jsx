@@ -3,18 +3,25 @@ import { useState } from "react";
 
 const SelectBox = ({ label, data, mostrarNucleo, valor, setSelectedValue }) => {
   const [departamento, setDepartamento] = useState(0);
-  if (label == "Departamento") {
+
+  if (label === "Departamento") {
     useEffect(() => {
       mostrarNucleo(departamento);
     }, [departamento]);
   }
+
   const handleDepartamentoChange = (e) => {
     const selectedValue = e.target.value;
     setSelectedValue(selectedValue);
     setDepartamento(selectedValue);
+
+    if (selectedValue === "") {
+      window.location.reload();
+    }
   };
+
   return (
-    <div className="flex gap-4 items-center w-3/12">
+    <div className="flex gap-4 items-center w-3/12 mr-12">
       <label>{label}</label>
       <select
         value={valor}
@@ -24,11 +31,11 @@ const SelectBox = ({ label, data, mostrarNucleo, valor, setSelectedValue }) => {
         onChange={handleDepartamentoChange}
       >
         <option value="">SELECCIONAR</option>
-        {label == "Departamento" || label == "Núcleo"
+        {label === "Departamento" || label === "Núcleo"
           ? data.map((dato) => (
-            <option value={dato.id} key={dato.id}>
-            {dato.name.replace('Departamento', '')}
-          </option>
+              <option value={dato.id} key={dato.id}>
+                {dato.name.replace("Departamento", "")}
+              </option>
             ))
           : data.map((dato) => (
               <option key={dato} value={dato}>
