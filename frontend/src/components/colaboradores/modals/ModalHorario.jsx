@@ -264,10 +264,15 @@ export default function ModalHorario({ onclose, id }) {
                     })
                     .then((data) => {
                         setBackendResponse(data);
-                        console.log(data);
                         setAlert(true);
+                       
                     })
-                    .catch((error) => { });
+                    .catch((error) => { 
+                        console.error("Error:", error);
+                        setErrorMessage("Error al guardar el horario.");
+                    });
+
+                    onclose()
             } else {
                 setErrorMessage(
                     "Completa los horarios 'Inicio' y 'Fin' para cada día."
