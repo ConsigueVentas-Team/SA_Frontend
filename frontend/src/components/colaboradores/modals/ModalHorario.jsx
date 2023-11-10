@@ -265,14 +265,16 @@ export default function ModalHorario({ onclose, id }) {
                     .then((data) => {
                         setBackendResponse(data);
                         setAlert(true);
-                       
+                        setTimeout(() => {
+                            onclose(false);
+                        }, 2500);
                     })
                     .catch((error) => { 
                         console.error("Error:", error);
                         setErrorMessage("Error al guardar el horario.");
                     });
 
-                    onclose()
+                    
             } else {
                 setErrorMessage(
                     "Completa los horarios 'Inicio' y 'Fin' para cada día."
@@ -581,9 +583,10 @@ export default function ModalHorario({ onclose, id }) {
                     )}
                     <div className="flex justify-around items-center">
                         <button
+                            onClick={() => enviarDatosAlBackend(schedule)}
                             className="w-1/3 border-2 p-1 mt-3 text-white bg-cv-primary border-cv-primary rounded-lg"
                         >
-                            EDITAR
+                            AGREGAR
                         </button>
                         <button
                             onClick={onclose}
