@@ -141,6 +141,7 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
   };
 
   const handleDniChange = (event) => {
+    if (event.target.value.length > 8) return;
     setDni(event.target.value);
   };
 
