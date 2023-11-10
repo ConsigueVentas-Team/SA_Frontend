@@ -448,7 +448,7 @@ export default function ModalHorario({ onclose, id }) {
                 <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
                     Inicio
                 </td>
-                {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", ...(incluyeDomingo ? ["Sábado", "Domingo"] : [])].map((day, index) => (
+                {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", ...(incluyeDomingo ? ["Sabado", "Domingo"] : [])].map((day, index) => (
                     <td
                         key={index}
                         className="border-2 border-gray-200 w-1/6 pl-4"
@@ -468,7 +468,7 @@ export default function ModalHorario({ onclose, id }) {
                 <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
                     Fin
                 </td>
-                {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", ...(incluyeDomingo ? ["Sábado", "Domingo"] : [])].map((day, index) => (
+                {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", ...(incluyeDomingo ? ["Sabado", "Domingo"] : [])].map((day, index) => (
                     <td
                         key={index}
                         className="border-2 border-gray-200 w-1/6 pl-4"
@@ -533,10 +533,10 @@ export default function ModalHorario({ onclose, id }) {
                                         {[
                                             "Lunes",
                                             "Martes",
-                                            "Miércoles",
+                                            "Miercoles",
                                             "Jueves",
                                             "Viernes",
-                                            ...(userSchedule.length > 5 ? ["Sábado", "Domingo"] : []),
+                                            ...(userSchedule.length > 5 ? ["Sabado", "Domingo"] : []),
                                         ].map((day, index) => (
                                             <td
                                                 key={index}
@@ -555,10 +555,10 @@ export default function ModalHorario({ onclose, id }) {
                                         {[
                                             "Lunes",
                                             "Martes",
-                                            "Miércoles",
+                                            "Miercoles",
                                             "Jueves",
                                             "Viernes",
-                                            ...(userSchedule.length > 5 ? ["Sábado", "Domingo"] : []),
+                                            ...(userSchedule.length > 5 ? ["Sabado", "Domingo"] : []),
                                         ].map((day, index) => (
                                             <td
                                                 key={index}
