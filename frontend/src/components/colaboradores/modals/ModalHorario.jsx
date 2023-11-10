@@ -413,94 +413,78 @@ export default function ModalHorario({ onclose, id }) {
                             <div className="flex justify-around flex-col">
                                 <label className="font-medium">Horario</label>
                                 <table className="rounded-md border-2 border-gray-200 bg-[#F5F7FB] mt-3 mb-3">
-                                    <thead>
-                                        <tr>
-                                            <th className="border-2 border-gray-200 w-1/6"></th>
-                                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                LUNES
-                                            </th>
-                                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                MARTES
-                                            </th>
-                                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                MIÉRCOLES
-                                            </th>
-                                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                JUEVES
-                                            </th>
-                                            <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                VIERNES
-                                            </th>
-                                            {incluyeDomingo && (
-                                                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                    SABADO
-                                                </th>
-                                            )}
-                                            {incluyeDomingo && (
-                                                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                    DOMINGO
-                                                </th>
-                                            )}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                Inicio
-                                            </td>
-                                            {[
-                                                "Lunes",
-                                                "Martes",
-                                                "Miercoles",
-                                                "Jueves",
-                                                "Viernes",
-                                                "Sabado",
-                                                "Domingo",
-                                            ].map((day, index) => (
-                                                <td
-                                                    key={index}
-                                                    className="border-2 border-gray-200 w-1/6 pl-4"
-                                                >
-                                                    {schedule
-                                                        .filter(
-                                                            (entry) =>
-                                                                entry.option === "Inicio" && entry.day === day
-                                                        )
-                                                        .map((entry, index) => (
-                                                            <span key={index}>{entry.time}</span>
-                                                        ))}
-                                                </td>
-                                            ))}
-                                        </tr>
-                                        <tr>
-                                            <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
-                                                Fin
-                                            </td>
-                                            {[
-                                                "Lunes",
-                                                "Martes",
-                                                "Miercoles",
-                                                "Jueves",
-                                                "Viernes",
-                                                "Sabado",
-                                                "Domingo",
-                                            ].map((day, index) => (
-                                                <td
-                                                    key={index}
-                                                    className="border-2 border-gray-200 w-1/6 pl-4"
-                                                >
-                                                    {schedule
-                                                        .filter(
-                                                            (entry) =>
-                                                                entry.option === "Fin" && entry.day === day
-                                                        )
-                                                        .map((entry, index) => (
-                                                            <span key={index}>{entry.time}</span>
-                                                        ))}
-                                                </td>
-                                            ))}
-                                        </tr>
-                                    </tbody>
+                                <thead>
+            <tr>
+                <th className="border-2 border-gray-200 w-1/6"></th>
+                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                    LUNES
+                </th>
+                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                    MARTES
+                </th>
+                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                    MIÉRCOLES
+                </th>
+                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                    JUEVES
+                </th>
+                <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                    VIERNES
+                </th>
+                {incluyeDomingo && (
+                    <>
+                        <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                            SABADO
+                        </th>
+                        <th className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                            DOMINGO
+                        </th>
+                    </>
+                )}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                    Inicio
+                </td>
+                {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", ...(incluyeDomingo ? ["Sábado", "Domingo"] : [])].map((day, index) => (
+                    <td
+                        key={index}
+                        className="border-2 border-gray-200 w-1/6 pl-4"
+                    >
+                        {schedule
+                            .filter(
+                                (entry) =>
+                                    entry.option === "Inicio" && entry.day === day
+                            )
+                            .map((entry, index) => (
+                                <span key={index}>{entry.time}</span>
+                            ))}
+                    </td>
+                ))}
+            </tr>
+            <tr>
+                <td className="border-2 border-gray-200 w-1/6 font-medium p-2">
+                    Fin
+                </td>
+                {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", ...(incluyeDomingo ? ["Sábado", "Domingo"] : [])].map((day, index) => (
+                    <td
+                        key={index}
+                        className="border-2 border-gray-200 w-1/6 pl-4"
+                    >
+                        {schedule
+                            .filter(
+                                (entry) =>
+                                    entry.option === "Fin" && entry.day === day
+                            )
+                            .map((entry, index) => (
+                                <span key={index}>{entry.time}</span>
+                            ))}
+                    </td>
+                ))}
+            </tr>
+        </tbody>
                                 </table>
                             </div>
                         </div>
