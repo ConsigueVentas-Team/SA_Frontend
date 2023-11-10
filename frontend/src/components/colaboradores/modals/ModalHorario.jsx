@@ -577,11 +577,8 @@ export default function ModalHorario({ onclose, id }) {
                     <div className="flex justify-around items-center">
                         <button
                             className="w-1/3 border-2 p-1 mt-3 text-white bg-cv-primary border-cv-primary rounded-lg"
-                            onClick={() => {
-                                enviarDatosAlBackend(schedule);
-                            }}
                         >
-                            AGREGAR
+                            EDITAR
                         </button>
                         <button
                             onClick={onclose}
