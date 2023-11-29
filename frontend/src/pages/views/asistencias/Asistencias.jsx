@@ -16,10 +16,9 @@ import Loading from "../../../components/essentials/Loading";
 export const Asistencias = () => {
 
   const newDate = new Date();
-  const strDate = `${newDate.getFullYear()}-${
-    newDate.getMonth() + 1
-  }-${newDate.getDate()}`;
-
+  const strDate = `${newDate.getFullYear()}-${newDate.getMonth() + 1
+    }-${newDate.getDate()}`;
+    console.log(strDate)
   const [currentData, setCurrentData] = useState([])
   const [attendance, setAttendance] = useState([]);
 
@@ -71,14 +70,14 @@ export const Asistencias = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [total, setTotal]= useState(0);
+  const [total, setTotal] = useState(0);
 
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
 
   const [fetchingInProgress, setFetchingInProgress] = useState(true);
 
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch(import.meta.env.VITE_API_URL + "/departments/list", {
       headers: {
         "Content-Type": "application/json",
@@ -87,8 +86,8 @@ export const Asistencias = () => {
     })
       .then((response) => response.json())
       .then((data) => setDepartments([...data]));
-  
-  
+
+
     fetch(import.meta.env.VITE_API_URL + "/cores/list", {
       headers: {
         "Content-Type": "application/json",
@@ -99,26 +98,37 @@ export const Asistencias = () => {
       .then((data) => setCores([...data]));
 
 
-    fetch(`${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`, 
+  {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => response.json())
       .then((response) => {
-        setCurrentData([...response.data])
-        setCargando(false)
-        setLastPage(response.last_page)
+        console.log(response);
+        return response.json();
+      })
+      .then((response) => {
+        if (response && response.data && Array.isArray(response.data)) {
+          setCurrentData([...response.data]);
+          console.log(response.data);
+        } else {
+          console.error("La estructura de datos de la respuesta no es válida:", response);
+        }
+        setCargando(false);
+        setLastPage(response.last_page);
         setTotal(response.total);
-        setFetchingInProgress(false)
+        setFetchingInProgress(false);
+      })
+      .catch((error) => {
+        console.error("Error al obtener datos de asistencia:", error);
       });
-  },[])
+  }, [date]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     setAttendance([...currentData])
-  },[currentData])
+  }, [currentData])
 
   const handleClearFilter = () => {
     setShift("");
@@ -143,24 +153,24 @@ export const Asistencias = () => {
     const formattedDate = selectedDay.toISOString().split("T")[0];
     setDate(formattedDate);
   };
-  
 
-  const getCore = (coreId)=>{
+
+  const getCore = (coreId) => {
     const searchedCore = cores.filter(e => e.id == coreId)[0]
     return searchedCore.name
   }
 
-  const getDepartment = (departmentId)=>{
+  const getDepartment = (departmentId) => {
     const searchedDepartment = departments.filter(e => e.id == departmentId)[0]
     return searchedDepartment.name
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     setFetchingInProgress(true);
     let url = `${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`
-    url =  (core) ? `${url}&core=${getCore(core)}`:url
-    url =  (shift) ? `${url}&shift=${shift}`:url
-    url =  (department) ? `${url}&department=${getDepartment(department)}`:url
+    url = (core) ? `${url}&core=${getCore(core)}` : url
+    url = (shift) ? `${url}&shift=${shift}` : url
+    url = (department) ? `${url}&department=${getDepartment(department)}` : url
 
     fetch(url, {
       headers: {
@@ -174,7 +184,7 @@ export const Asistencias = () => {
         closeCalendar()
         setFetchingInProgress(false);
       });
-  },[date,currentPage,shift,core,department])
+  }, [date, currentPage, shift, core, department])
 
   return (
     <>

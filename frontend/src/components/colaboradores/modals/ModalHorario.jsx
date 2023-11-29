@@ -121,9 +121,9 @@ export default function ModalHorario({ onclose, id }) {
                 const timeDiff = endTime - startTime
                 const hoursDiff = Math.floor(timeDiff / 3600000)
 
-                if (hoursDiff < 5) {
+                if (hoursDiff < 3) {
                     setErrorMessage(
-                        "La diferencia entre 'Inicio' y 'Fin' debe ser al menos 5 horas."
+                        "La diferencia entre 'Inicio' y 'Fin' debe ser al menos 3 horas."
                     )
                     return
                 }
@@ -235,9 +235,9 @@ export default function ModalHorario({ onclose, id }) {
                 const timeDiff = endTime - startTime
                 const hoursDiff = Math.floor(timeDiff / 3600000)
 
-                if (hoursDiff < 5) {
+                if (hoursDiff < 3) {
                     errors.push(
-                        `La diferencia entre 'Inicio' y 'Fin' para el día ${day} debe ser al menos 5 horas.`
+                        `La diferencia entre 'Inicio' y 'Fin' para el día ${day} debe ser al menos 3 horas.`
                     )
                 }
             }
