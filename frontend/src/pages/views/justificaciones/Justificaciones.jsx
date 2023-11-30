@@ -64,7 +64,7 @@ export const Justificaciones = () => {
                         {/* Buscador por tipo de justificación: falta o tardanza */}
                         <div className='w-full text-white'>
                             <select
-                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
+                                className='px-3 py-2 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 value={buscador_tipoJustificacion}
                                 onChange={e =>
                                     setbuscador_tipoJustificacion(
@@ -79,7 +79,7 @@ export const Justificaciones = () => {
                         {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
                         <div className='w-full text-white'>
                             <select
-                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
+                                className='px-3 py-2 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 value={buscadorStatus}
                                 onChange={e =>
                                     setBuscadorStatus(e.target.value)
@@ -92,7 +92,7 @@ export const Justificaciones = () => {
                         </div>
                         <div className='w-full text-white'>
                             <input
-                                className='px-3 py-1 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
+                                className='px-3 py-2 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full'
                                 type='date'
                                 id='fecha'
                                 value={buscadorFecha}

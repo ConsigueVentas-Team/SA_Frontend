@@ -37,7 +37,7 @@ export const FechData = async ({ page }) => {
         
         const data = await response.json()
 
-        // console.log(data)
+        //console.log(data)
 
         return data
     } catch (error) {

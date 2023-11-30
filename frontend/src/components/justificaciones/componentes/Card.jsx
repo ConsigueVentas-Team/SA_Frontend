@@ -29,7 +29,7 @@ export const Card = ({ card, page }) => {
                 <div className='w-full flex items-center justify-between'>
                     <div className='border-2 border-cv-cyan w-14 h-14 bg-gray-100 rounded-full overflow-hidden'>
                         <img
-                            src={card.user.image_url.replace("http://127.0.0.1:8000","https://backend.consigueventas.com")}
+                            //src={card.user.image_url.replace("http://127.0.0.1:8000","https://backend.consigueventas.com")}
                             alt='Foto de Perfil'
                             className='w-full h-full object-cover'
                         />
