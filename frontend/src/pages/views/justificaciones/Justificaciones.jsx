@@ -101,7 +101,7 @@ export const Justificaciones = () => {
                         </div>
                         <div className='w-full md:w-auto'>
                             <button
-                                className='w-full text-cv-primary outline-none px-8 py-1 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
+                                className='w-full text-cv-primary outline-none px-8 py-1.5 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase'
                                 onClick={limpiar}>
                                 <CleaningServicesIcon />
                             </button>
@@ -118,20 +118,25 @@ export const Justificaciones = () => {
                         buscadorFecha={buscadorFecha}
                         searchName={name}
                     />
-                    <Pagination
-                        className='flex justify-center'
-                        count={Math.ceil(countPage / 6)}
-                        page={page}
-                        onChange={(event, value) => {
-                            setPage(value)
-                            handleBuscar(value)
-                        }}
-                        sx={{
-                            '& .MuiPaginationItem-root': {
-                                color: '#57F3FF', // Cambia '#colorDeseado' por el color que quieras.
-                            },
-                        }}
-                    />
+                    <div className='mt-5'>
+                        <Pagination
+                            color='primary'
+                            className='flex w-100 justify-around'
+                            count={Math.ceil(countPage / 6)}
+                            page={page}
+                            onChange={(event, value) => {
+                                setPage(value)
+                                handleBuscar(value)
+                            }}
+                            sx={{
+                                '& .MuiPaginationItem-root': {
+                                    color: 'white', // Color del texto del número
+                                },
+                            }}
+                            
+                        />
+                    </div>
+
                 </>
             </div>
 
