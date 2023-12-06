@@ -191,7 +191,7 @@ export const Asistencias = () => {
       <nav className="flex">
         <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
           <li className="inline-flex items-center">
-            <div className="inline-flex items-center text-base font-medium text-gray-400">
+            <div className="inline-flex items-center text-base font-medium text-white">
               <ChecklistIcon />
               <span className="ml-1 text-base font-medium md:ml-2">
                 Asistencias
