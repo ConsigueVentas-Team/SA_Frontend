@@ -280,7 +280,7 @@ export const MarcarAsistencia = () => {
       <nav className="flex">
         <ol className="inline-flex items-center space-x-1 uppercase md:space-x-3">
           <li>
-            <div className="flex items-center text-gray-500 ">
+            <div className="flex items-center text-white ">
               <ChevronRightIcon />
               <span className="ml-1 text-base font-medium md:ml-2">
                 Marcar asistencia
