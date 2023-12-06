@@ -8,6 +8,8 @@ import { FechDataJustificaciones } from './helpers/FechDataJustificaciones'
 import { ModalRechazado } from './componentes/ModalRechazado'
 import { AES, enc } from 'crypto-js'
 import { Alert, Snackbar } from '@mui/material'
+import Loading from '../essentials/Loading'
+import { CardDetail } from './componentes/CardDetail'
 
 export const RevisarJustificacion = () => {
     const navigate = useNavigate()
