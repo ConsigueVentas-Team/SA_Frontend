@@ -1,13 +1,11 @@
 import moment from "moment";
 
-export function CardDetail({ faltasList, isRechazadoOrAceptado, id}) {
-  console.log("Faltas List ", faltasList)
-  console.log("Rechazado o Aceptado ", isRechazadoOrAceptado)
-  console.log("ID ", id)
-  const rol = "Lider Nucleo"
+export function CardDetail({ faltasList, isRechazadoOrAceptado, id, rol, iduser}) {
+
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
+
   return (
     <div className="rounded-lg mt-2">
       {faltasList
@@ -163,7 +161,7 @@ export function CardDetail({ faltasList, isRechazadoOrAceptado, id}) {
               </div>
             </div>
 
-            {hasRole("Lider Nucleo") /*&& item.user.id != iduser*/ && (
+            {hasRole("Lider Nucleo") && item.user.id != iduser && (
               <div
                 className="flex justify-center flex-row
                                          gap-10 mt-4"
@@ -182,7 +180,7 @@ export function CardDetail({ faltasList, isRechazadoOrAceptado, id}) {
                 </button>
               </div>
             )}
-            {hasRole("Gerencia") /*&& item.user.id != iduser*/ && (
+            {hasRole("Gerencia") && item.user.id != iduser && (
               <div
                 className="flex justify-center flex-row
                                          gap-10 mt-4"

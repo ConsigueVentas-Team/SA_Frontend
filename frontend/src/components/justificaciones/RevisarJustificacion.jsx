@@ -18,7 +18,7 @@ export const RevisarJustificacion = () => {
     const { state } = useLocation()
     const { page, bandera } = state
     const [faltasList, setFaltasList] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     // MODALES
     const [showModalRechazado, setShowModalRechazado] = useState(false)
@@ -89,6 +89,7 @@ export const RevisarJustificacion = () => {
     }
 
     const fechtDataPorRol = page => {
+        setLoading(true)
         if (hasRole('Colaborador')) {
             FechData({ page })
                 .then(e => {
@@ -96,6 +97,7 @@ export const RevisarJustificacion = () => {
                     // console.log(page + 'colaborador')
                 })
                 .catch(e => console.log(e))
+                .finally(setLoading(false))
         } else if (bandera == true) {
             FechDataJustificaciones({ page })
                 .then(e => {
@@ -103,6 +105,7 @@ export const RevisarJustificacion = () => {
                     // console.log(page)
                 })
                 .catch(e => console.log(e))
+                .finally(setLoading(false))
         } else {
             FechData({ page })
                 .then(e => {
@@ -110,6 +113,7 @@ export const RevisarJustificacion = () => {
                     // console.log(page)
                 })
                 .catch(e => console.log(e))
+                .finally(setLoading(false))
         }
     }
 
@@ -186,7 +190,7 @@ export const RevisarJustificacion = () => {
                     loading ? (
                         <Loading />
                     ) : (
-                        <CardDetail faltasList={faltasList} isRechazadoOrAceptado={isRechazadoOrAceptado} id={id} />
+                        <CardDetail faltasList={faltasList} isRechazadoOrAceptado={isRechazadoOrAceptado} id={id} rol={rol} iduser={iduser}/>
                     )
                 }
             </div>
