@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export function CardDetail({ faltasList, isRechazadoOrAceptado,id }) {
+export function CardDetail({buttonLoading, faltasList, isRechazadoOrAceptado,id, iduser,rol,handleAceptar,handleRechazar }) {
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
@@ -160,10 +160,7 @@ export function CardDetail({ faltasList, isRechazadoOrAceptado,id }) {
             </div>
 
             {hasRole("Lider Nucleo") && item.user.id != iduser && (
-              <div
-                className="flex justify-center flex-row
-                                         gap-10 mt-4"
-              >
+              <div className="flex justify-center flex-row gap-10 mt-4">
                 <button
                   onClick={() => handleRechazar(item)}
                   className="uppercase basis-1/6 border-2  border-cv-cyan hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300 text-cv-cyan"
@@ -173,25 +170,7 @@ export function CardDetail({ faltasList, isRechazadoOrAceptado,id }) {
                 <button
                   onClick={() => handleAceptar(item)}
                   className="text-cv-primary basis-1/6 uppercase border-2 border-cv-cyan bg-cv-cyan hover:font-bold font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300"
-                >
-                  Aceptar
-                </button>
-              </div>
-            )}
-            {hasRole("Gerencia") && item.user.id != iduser && (
-              <div
-                className="flex justify-center flex-row
-                                         gap-10 mt-4"
-              >
-                <button
-                  onClick={() => handleRechazar(item)}
-                  className="uppercase basis-1/6 border-2  border-cv-cyan hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300 text-cv-cyan"
-                >
-                  Rechazar
-                </button>
-                <button
-                  onClick={() => handleAceptar(item)}
-                  className="text-cv-primary basis-1/6 uppercase border-2 border-cv-cyan bg-cv-cyan hover:font-bold font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300"
+                  disabled={buttonLoading}
                 >
                   Aceptar
                 </button>

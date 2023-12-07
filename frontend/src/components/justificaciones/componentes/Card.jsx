@@ -1,7 +1,9 @@
+import {useState} from "react";
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import Loading from "../../../components/essentials/Loading";
+
 
 export const Card = ({ card, page }) => {
     const navigate = useNavigate()
