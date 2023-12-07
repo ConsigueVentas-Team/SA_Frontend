@@ -4,6 +4,7 @@ export function CardDetail({buttonLoading, faltasList, isRechazadoOrAceptado,id,
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
+
   return (
     <div className="rounded-lg mt-2">
       {faltasList
