@@ -3,7 +3,6 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import Loading from "../../../components/essentials/Loading";
-import { useState } from 'react'
 
 
 export const Card = ({ card, page }) => {
