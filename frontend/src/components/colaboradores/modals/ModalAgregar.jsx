@@ -42,7 +42,7 @@ export const ModalAgregar = ({ close, addUser, cargando }) => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setDepartments(data));
+      .then((data) => setDepartments(data.data));
 
     fetch(import.meta.env.VITE_API_URL + "/cores/list", {
       headers: {
@@ -51,7 +51,7 @@ export const ModalAgregar = ({ close, addUser, cargando }) => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setCores(data));
+      .then((data) => setCores(data.data));
 
     fetch(import.meta.env.VITE_API_URL + "/position/list", {
       headers: {
@@ -60,7 +60,7 @@ export const ModalAgregar = ({ close, addUser, cargando }) => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setProfiles(data));
+      .then((data) => setProfiles(data.data));
   }, [token]);
 
   const departmentOptions = departments.map((department) => ({
@@ -69,14 +69,14 @@ export const ModalAgregar = ({ close, addUser, cargando }) => {
   }));
 
   const coreOptions = cores
-    .filter((core) => core.department_id === parseInt(selectedDepartment))
+    .filter((core) => core.department === parseInt(selectedDepartment))
     .map((core) => ({
       value: core.id,
       label: core.name,
     }));
 
   const profileOptions = profiles
-    .filter((profile) => profile.core_id === parseInt(selectedCore))
+    .filter((profile) => profile.core === parseInt(selectedCore))
     .map((profile) => ({
       value: profile.id,
       label: profile.name,

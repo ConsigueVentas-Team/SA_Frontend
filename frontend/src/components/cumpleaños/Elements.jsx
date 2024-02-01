@@ -30,7 +30,7 @@ export const ListItem = ({ user }) => {
                     <div className="flex-shrink-0">
                         <Avatar
                             alt={user.name}
-                            src={user.image_url.replace("http://127.0.0.1:8000","https://backend.consigueventas.com")}
+                            src={user.avatar.replace("http://127.0.0.1:8000","https://backend.consigueventas.com")}
                         />
                     </div>
                     <div className="flex-1 min-w-0">

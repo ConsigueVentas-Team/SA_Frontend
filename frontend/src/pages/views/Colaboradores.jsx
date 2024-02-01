@@ -30,6 +30,8 @@ export const Colaboradores = () => {
   const [selectedCore, setSelectedCore] = useState("");
   const [selectedProfile, setSelectedProfile] = useState("");
 
+  const [page, setPage] = useState(1);
+
   const [name, setName] = useState("");
   const [shift, setShift] = useState("");
   const [department, setDepartment] = useState("");
@@ -93,14 +95,14 @@ export const Colaboradores = () => {
   }));
 
   const coreOptions = cores
-    .filter((core) => core.department_id === parseInt(selectedDepartment))
+    .filter((core) => core.department === parseInt(selectedDepartment))
     .map((core) => ({
       value: core.id,
       label: core.name,
     }));
 
   const profileOptions = profiles
-    .filter((profile) => profile.core_id === parseInt(selectedCore))
+    .filter((profile) => profile.core=== parseInt(selectedCore))
     .map((profile) => ({
       value: profile.id,
       label: profile.name,
@@ -113,15 +115,15 @@ export const Colaboradores = () => {
 
   const handleShiftChange = (event) => {
     setShift(event.target.value);
-  };
+  };  
 
   const handleSearchChange = (value) => {
     setName(value);
   };
 
   useEffect(() => {
-    obtenerUsuarios(shift, position, department, core, name);
-  }, [shift, position, department, core, name]);
+    obtenerUsuarios(page, shift, position, department, core, name);
+  }, [page, shift, position, department, core, name]);  
 
   //* Listar Colaboradores
   const obtenerUsuarios = async (page) => {
