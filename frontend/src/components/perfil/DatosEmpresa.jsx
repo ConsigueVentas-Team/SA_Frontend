@@ -5,35 +5,35 @@ export const DatosEmpresa = ({ colaborador }) => {
   const colaboradorInfo = [
     {
       label: "Departamento:",
-      value: colaborador && colaborador.usuario.position[0].core.department.name,
+      value: colaborador && colaborador.user.position.core.department.name,
     },
     {
       label: "Núcleo:",
-      value: colaborador && colaborador.usuario.position[0].core.name,
+      value: colaborador && colaborador.user.position.core.name,
     },
     {
       label: "Perfil:",
-      value: colaborador && colaborador.usuario.position[0].name,
+      value: colaborador && colaborador.user.position.name,
     },
     {
       label: "Rol:",
-      value: colaborador.usuario.roles[0].name,
+      value: colaborador.user.role.name,
     },
     {
       label: "Fecha de ingreso:",
-      value: colaborador && colaborador.usuario.date_start,
+      value: colaborador && colaborador.user.date_start,
     },
     {
       label: "Fecha de salida:",
-      value: colaborador.usuario.date_end,
+      value: colaborador.user.date_end,
     },
     {
       label: "Turno:",
-      value: colaborador && colaborador.usuario.shift,
+      value: colaborador && colaborador.user.shift,
     },
     {
       label: "Estado:",
-      value: colaborador.usuario.status === true ? "Activo" : "Inactivo",
+      value: colaborador.user.status === true ? "Activo" : "Inactivo",
     },
   ];
 

@@ -129,7 +129,7 @@ export const Colaboradores = () => {
     try {
       const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
 
-      url.searchParams.append("page", page);
+      url.searchParams.append("page", page?page:1);
 
       if (name) url.searchParams.append("name", name);
       if (department) url.searchParams.append("department", department);
@@ -145,6 +145,9 @@ export const Colaboradores = () => {
       });
 
       const data = await response.json();
+
+      console.log("DATA: ", data);
+
       if (response.ok) {
         setUsers(data.data);
         setPagination(data);

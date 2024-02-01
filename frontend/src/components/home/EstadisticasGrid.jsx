@@ -26,6 +26,7 @@ export const EstadisticasGrid = () => {
 				});
 				const data = await response.json();
 				if (response.ok) {
+					console.log(data);
 					setUserData(data);
 				} else {
 					console.error('Error al obtener los usuarios:', data.error);
@@ -39,8 +40,7 @@ export const EstadisticasGrid = () => {
 
 	const cardAsistencia = [
 		{ title: "Asistencia", icon: <InsertEmoticonIcon sx={{ fontSize: 80, color: '#4caf50' }}/>, item: userData.Asistencia },
-		{
-			title: "Tardanzas", icon: <SentimentNeutralIcon sx={{ fontSize: 80, color: '#ffeb3b' }}/>, item: userData.Tardanzas },
+		{ title: "Tardanzas", icon: <SentimentNeutralIcon sx={{ fontSize: 80, color: '#ffeb3b' }}/>, item: userData.Tardanzas },
 		{ title: "Faltas", icon: <SentimentVeryDissatisfiedIcon sx={{ fontSize: 80, color: '#f44336' }}/>, item: userData.Faltas },
 		{ title: "Justificaciones", icon: <SentimentSatisfiedIcon sx={{ fontSize: 80, color: '#00bcd4' }}/>, item: userData.Justificaciones },
 	];

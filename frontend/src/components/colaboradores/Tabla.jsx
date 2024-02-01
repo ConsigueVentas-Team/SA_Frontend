@@ -8,7 +8,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from 'react-router-dom';
 
 export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal }) => {
-
 	return (
 		<>
 			<div className='w-full bg-[#0e161b] shadow-md  rounded-lg overflow-hidden'>
@@ -55,13 +54,13 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 										{`${users.name} ${users.surname}`}
 									</th>
 									<td className="px-6 py-4 whitespace-nowrap">
-										{users.position[0].core.department.name}
+										{users.position.core.department.name}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">
-										{users.position[0].core.name}
+										{users.position.core.name}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">
-										{users.position[0].name}
+										{users.position.name}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">
 										{users.shift}
@@ -73,7 +72,7 @@ export const Tabla = ({ data, pagination, handlePageChange, toggleEditarModal })
 										{users.date_end}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">
-										{users.roles[0].name}
+										{users.role.name}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">
 										<div className="flex flex-col items-center ">

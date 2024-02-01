@@ -13,32 +13,32 @@ export const DatosPersonales = ({ colaborador }) => {
         <CajaDatos
           label={"Nombres completos:"}
           estilos={"text-base md:text-xl font-semibold leading-tight"}
-          colaborador={colaborador.usuario.name + " " + colaborador.usuario.surname}
+          colaborador={colaborador.user.name + " " + colaborador.user.surname}
         ></CajaDatos>
         <div className="w-full flex items-center justify-center gap-5">
           <CajaDatos
             label={"DNI:"}
             estilos={"text-base md:text-xl font-semibold leading-tight"}
-            colaborador={colaborador && colaborador.usuario.dni}
+            colaborador={colaborador && colaborador.user.dni}
           ></CajaDatos>
           <CajaDatos
             label={"Fecha de nacimiento:"}
             estilos={"text-base md:text-xl font-semibold leading-tight"}
             colaborador={
-              colaborador && moment(colaborador.usuario.birthday).format("DD/MM/YYYY")
+              colaborador && moment(colaborador.user.birthday).format("DD/MM/YYYY")
             }
           ></CajaDatos>
           <CajaDatos
             label={"Teléfono:"}
             estilos={"text-base md:text-xl font-semibold leading-tight"}
             // colaborador={colaborador.usuario.Usuario[0].cellphone}
-            colaborador={colaborador.usuario.cellphone}
+            colaborador={colaborador.user.cellphone}
           ></CajaDatos>
         </div>
         <CajaDatos
           label={"Correo electrónico:"}
           estilos={"text-base md:text-xl font-semibold leading-tight"}
-          colaborador={colaborador.usuario.email}
+          colaborador={colaborador.user.email}
         ></CajaDatos>
       </div>
     </div>
