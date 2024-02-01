@@ -42,7 +42,7 @@ export const Notifications = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setNotificacion(data);
+                setNotificacion(data.data);
             } else {
                 console.error('Error al obtener las notificaciones:', data.error);
             }

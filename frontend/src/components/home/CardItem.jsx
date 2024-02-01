@@ -26,9 +26,9 @@ export const CardItem = ({ data }) => {
 							<div className="w-full">
 								<h2 className="text-white text-lgfont-semibold md:text-2xl ">{`${item.name.split(" ")[0]} ${item.surname.split(" ")[0]}`}</h2>
 								<BirthdayItem name={'Cumpleaños'} item={transformDate(item.birthday)} />
-								<BirthdayItem name={'Departamento'} item={item.position[0].core.department.name} />
-								<BirthdayItem name={'Núcleo'} item={item.position[0].core.name} />
-								<BirthdayItem name={'Perfil'} item={item.position[0].name} />
+								<BirthdayItem name={'Departamento'} item={item.position.core.department.name} />
+								<BirthdayItem name={'Núcleo'} item={item.position.core.name} />
+								<BirthdayItem name={'Perfil'} item={item.position.name} />
 							</div>
 						</div>
 						<div className='absolute w-full h-full -z-0'>
