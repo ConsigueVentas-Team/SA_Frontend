@@ -66,7 +66,7 @@ export const Colaboradores = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setDepartments(data));
+      .then((data) => setDepartments(data.data));
 
     fetch(import.meta.env.VITE_API_URL + "/cores/list", {
       headers: {
@@ -75,7 +75,7 @@ export const Colaboradores = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setCores(data));
+      .then((data) => setCores(data.data));
 
     fetch(import.meta.env.VITE_API_URL + "/position/list", {
       headers: {
@@ -84,7 +84,7 @@ export const Colaboradores = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setProfiles(data));
+      .then((data) => setProfiles(data.data));
   }, [token]);
 
   const departmentOptions = departments.map((department) => ({
