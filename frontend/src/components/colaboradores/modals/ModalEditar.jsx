@@ -52,19 +52,20 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
     setSurname(user.surname);
     setEmail(user.email);
     setDni(user.dni);
-    setSelectedDepartment(user.position[0].core.department.id);
-    setSelectedCore(user.position[0].core.id);
-    setSelectedProfile(user.position[0].id);
+    setSelectedDepartment(user.position.core.department.id);
+    setSelectedCore(user.position.core.id);
+    setSelectedProfile(user.position.id);
     setCellphone(user.cellphone);
     setShift(user.shift);
     setBirthday(user.birthday);
     setAvatar(user.image);
-    setAvatarUrl(user.image_url.replace("http://127.0.0.1:8000","https://backend.consigueventas.com"));
+    setAvatarUrl(user.avatar.replace("http://127.0.0.1:8000","https://backend.consigueventas.com"));
     setDateStart(user.date_start);
     setDateEnd(user.date_end);
     setStatus(user.status);
+    console.log("Dato User: ",user.status);
     setStatusDescription(user.status_description);
-    setRole(user.roles[0].id);
+    setRole(user.role.id);
   }, [user]);
 
   //** Rellenar Select Options */
@@ -76,7 +77,7 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setDepartments(data));
+      .then((data) => setDepartments(data.data));
 
     fetch(import.meta.env.VITE_API_URL + "/cores/list", {
       headers: {
@@ -85,7 +86,7 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setCores(data));
+      .then((data) => setCores(data.data));
 
     fetch(import.meta.env.VITE_API_URL + "/position/list", {
       headers: {
@@ -94,7 +95,7 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setProfiles(data));
+      .then((data) => setProfiles(data.data));
   }, [token]);
 
   const departmentOptions = departments.map((department) => ({
@@ -103,14 +104,14 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
   }));
 
   const coreOptions = cores
-    .filter((core) => core.department_id === parseInt(selectedDepartment))
+    .filter((core) => core.department === parseInt(selectedDepartment))
     .map((core) => ({
       value: core.id,
       label: core.name,
     }));
 
   const profileOptions = profiles
-    .filter((profile) => profile.core_id === parseInt(selectedCore))
+    .filter((profile) => profile.core === parseInt(selectedCore))
     .map((profile) => ({
       value: profile.id,
       label: profile.name,
@@ -176,9 +177,9 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
   };
 
   const handleStatusChange = (event) => {
-    const newStatus = event.target.checked ? 1 : 0;
+    const newStatus = event.target.checked ? true : false;
     setStatus(newStatus);
-    setStatusDescription(newStatus === 1 ? " " : "Termino su convenio");
+    setStatusDescription(newStatus === true ? " " : "Termino su convenio");
   };
 
   const handleStatusDescriptionChange = (event) => {

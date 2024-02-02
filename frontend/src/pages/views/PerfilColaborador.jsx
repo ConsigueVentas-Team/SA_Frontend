@@ -12,7 +12,7 @@ export const PerfilColaborador = () => {
 
 	useEffect(() => {
 		const Profile = () => {
-			fetch('https://backend.consigueventas.com' + '/users/' + id, {
+			fetch(import.meta.env.VITE_API_URL + '/users/' + id, {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`
@@ -45,31 +45,31 @@ export const PerfilColaborador = () => {
 						<div className='space-y-5'>
 							<ProfileItem
 								label="Nombres completos"
-								value={`${user.usuario.name} ${user.usuario.surname}`}
+								value={`${user.user.name} ${user.user.surname}`}
 							/>
 							<div className='w-full flex items-center justify-center gap-5'>
 								<ProfileItem
 									label="DNI"
-									value={user.usuario.dni}
+									value={user.user.dni}
 								/>
 								<ProfileItem
 									label="Fecha de nacimiento"
-									value={user.usuario.birthday}
+									value={user.user.birthday}
 								/>
 								<ProfileItem
 									label="Teléfono"
-									value={user.usuario.cellphone}
+									value={user.user.cellphone}
 								/>
 							</div>
 							<ProfileItem
 								label="Correo electrónico"
-								value={user.usuario.email}
+								value={user.user.email}
 							/>
 						</div>
 					</div>
 					<div className="col-span-1 md:col-span-2 row-span-5 md:col-start-4 bg-cv-primary rounded-2xl p-5 order-1 md:order-2">
 						<ProfileAvatar
-							image={user.usuario.image_url}
+							image={user.user.avatar}
 						/>
 					</div>
 					<div className="col-span-1 md:col-span-3 row-span-3 md:row-start-6  bg-cv-primary rounded-2xl p-5 order-3 md:order-3">
@@ -79,44 +79,44 @@ export const PerfilColaborador = () => {
 							<div className='w-full flex items-center justify-center gap-5'>
 								<ProfileItem
 									label="Departamento"
-									value={user.usuario.position[0].core.department.name}
+									value={user.user.position.core.department.name}
 								/>
 								<ProfileItem
 									label="Núcleo"
-									value={user.usuario.position[0].core.name}
+									value={user.user.position.core.name}
 								/>
 							</div>
 							<div className='w-full flex items-center justify-center gap-5'>
 
 								<ProfileItem
 									label="Perfil"
-									value={user.usuario.position[0].name}
+									value={user.user.position.name}
 								/>
 								<ProfileItem
 									label="Rol"
-									value={user.usuario.roles[0].name}
+									value={user.user.role.name}
 								/>
 
 							</div>
 							<div className='w-full flex items-center justify-center md:gap-5'>
 								<ProfileItem
 									label="Fecha de ingreso"
-									value={user.usuario.date_start}
+									value={user.user.date_start}
 								/>
 								<ProfileItem
 									label="Fecha de salida"
-									value={user.usuario.date_end}
+									value={user.user.date_end}
 								/>
 
 							</div>
 							<div className='w-full flex items-center justify-center gap-5'>
 								<ProfileItem
 									label="Turno"
-									value={user.usuario.shift}
+									value={user.user.shift}
 								/>
 								<ProfileItem
 									label="Estado"
-									value={`${user.usuario.status === true ? 'Activo' : 'Inactivo'} ${user.usuario.status !== 1 ? user.usuario.status_description : ''}`}
+									value={`${user.user.status === true ? 'Activo' : 'Inactivo'} ${user.user.status !== true ? user.user.status_description : ''}`}
 								/>
 							</div>
 						</div>

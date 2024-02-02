@@ -171,13 +171,16 @@ export const Colaboradores = () => {
     formData.append("surname", newUser.surname);
     formData.append("email", newUser.email);
     formData.append("dni", newUser.dni);
-    formData.append("position_id", newUser.selectedProfile);
+    formData.append("position", newUser.selectedProfile);
     formData.append("cellphone", newUser.cellphone);
     formData.append("shift", newUser.shift);
     formData.append("birthday", newUser.birthday);
-    formData.append("image", newUser.avatar);
+    formData.append("avatar", newUser.avatar);
     formData.append("date_start", newUser.dateStart);
     formData.append("date_end", newUser.dateEnd);
+
+    formData.append("username", newUser.dni);
+    formData.append("password", newUser.dni);
 
     fetch(import.meta.env.VITE_API_URL + "/register", {
       method: "POST",
@@ -214,17 +217,34 @@ export const Colaboradores = () => {
     formData.append("birthday", updateUser.birthday);
     formData.append("date_start", updateUser.dateStart);
     formData.append("date_end", updateUser.dateEnd);
-    formData.append("image", updateUser.avatar);
-    formData.append("role_id", updateUser.role);
+    formData.append("avatar", updateUser.avatar);
+    formData.append("role", updateUser.role);
     formData.append("status", updateUser.status);
     formData.append("status_description", updateUser.statusDescription);
-    formData.append("_method", "POST");
+
+    formData.append("_method", "PUT");
+
+    const responseData = await fetch(
+      import.meta.env.VITE_API_URL + `/users/${updateUser.id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const responsedata = await responseData.json();
+    console.log("DATON: ", responsedata);
+
+    formData.append("username", responsedata.user.username);
+    formData.append("password", responseData.user.password);
 
     try {
       const response = await fetch(
         import.meta.env.VITE_API_URL + `/users/${updateUser.id}/update`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -232,11 +252,7 @@ export const Colaboradores = () => {
         }
       );
 
-      console.log("Response", response);
-
       const data = await response.json();
-
-      console.log("Data", data);
 
       if (response.ok) {
         const usuariosActualizados = users.map((usuario) => {
