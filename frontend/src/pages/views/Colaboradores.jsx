@@ -224,22 +224,6 @@ export const Colaboradores = () => {
 
     formData.append("_method", "PUT");
 
-    const responseData = await fetch(
-      import.meta.env.VITE_API_URL + `/users/${updateUser.id}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const responsedata = await responseData.json();
-    console.log("DATON: ", responsedata);
-
-    formData.append("username", responsedata.user.username);
-    formData.append("password", responseData.user.password);
-
     try {
       const response = await fetch(
         import.meta.env.VITE_API_URL + `/users/${updateUser.id}/update`,

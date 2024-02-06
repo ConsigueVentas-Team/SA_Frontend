@@ -63,7 +63,6 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
     setDateStart(user.date_start);
     setDateEnd(user.date_end);
     setStatus(user.status);
-    console.log("Dato User: ",user.status);
     setStatusDescription(user.status_description);
     setRole(user.role.id);
   }, [user]);
