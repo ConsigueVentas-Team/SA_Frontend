@@ -222,13 +222,13 @@ export const Colaboradores = () => {
     formData.append("status", updateUser.status);
     formData.append("status_description", updateUser.statusDescription);
 
-    formData.append("_method", "PUT");
+    formData.append("_method", "PATCH");
 
     try {
       const response = await fetch(
         import.meta.env.VITE_API_URL + `/users/${updateUser.id}/update`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -51,14 +51,14 @@ export const MarcarAsistencia = () => {
     const token = tokenD.toString(enc.Utf8);
 
     fetch(import.meta.env.VITE_API_URL + "/attendance/id", {
-      method: "POST",
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.attendance[0].admission_time == "00:00:00") {
+        if (data.results[0].admissionTime == "00:00:00") {
           setSegundaFotoTomada(false);
         }
         else {
@@ -84,9 +84,7 @@ export const MarcarAsistencia = () => {
     const photoName = `${shift.charAt(0)}-${iduser}-${tipo === "admission" ? "e" : "s"
       }-${fecha}.jpg`;
 
-    formData.append(`${tipo}_image`, fotoCapturada, photoName);
-
-    console.log(`${tipo}_image`);
+    formData.append(`${tipo}Image`, fotoCapturada, photoName);
 
     const tokenD = AES.decrypt(
       localStorage.getItem("token"),
@@ -155,19 +153,6 @@ export const MarcarAsistencia = () => {
   const reiniciarConteo = () => {
     setCapturing(false);
   };
-
-  // const startCamera = () => {
-  //   navigator.mediaDevices
-  //     .getUserMedia({ video: true })
-  //     .then((stream) => {
-  //       setCameraStream(stream);
-  //       videoRef.current.srcObject = stream;
-  //       videoRef.current.style.transform = "scaleX(-1)";
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error accessing camera:", error);
-  //     });
-  // };
 
   const startCamera = () => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -242,7 +227,7 @@ export const MarcarAsistencia = () => {
           setFotoCapturada(blob);
         })
         .catch((error) => {
-          console.log("Error taking photo:", error);
+          console.error("Error taking photo:", error);
           setCapturing(false);
           setCargando(false);
         });

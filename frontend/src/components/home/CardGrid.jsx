@@ -13,7 +13,9 @@ export const CardGrid = () => {
 	useEffect(() => {
 		const fetchBirthday = async () => {
 			try {
-				const response = await fetch(import.meta.env.VITE_API_URL + '/birthday/nextBirthday', {
+				const currentMonth = new Date().getMonth() + 1; // Obtiene el mes actual
+				const currentDay = new Date().getDate(); // Obtiene el día actual
+				const response = await fetch(`${import.meta.env.VITE_API_URL}/birthday/nextBirthday?m=${currentMonth}&d=${currentDay}`, {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
@@ -32,6 +34,8 @@ export const CardGrid = () => {
 		};
 		fetchBirthday();
 	}, [token]);
+	
+	
 
 	return (
 		<>

@@ -43,7 +43,8 @@ export const CardList = ({
                             // Filtrar por "Rechazado"
                             return justificationTypeArray.includes(2)
                         } else {
-                            return false // Valor de búsqueda inválido, no se muestra ningún card
+                            // Valor de búsqueda inválido, no se muestra ningún card
+                            return false 
                         }
                     })
                     .filter((post) => {

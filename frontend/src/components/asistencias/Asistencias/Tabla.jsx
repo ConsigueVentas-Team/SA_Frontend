@@ -11,7 +11,6 @@ export const Tabla = ({ data, currentPage, lastPage, total, setCurrentPage, open
 		openImageModal();
 		setImage(attendance)
 	};
-
 	return (
 		<>
 			<div className='w-full bg-[#0e161b] shadow-md  rounded-lg overflow-hidden'>
@@ -43,15 +42,13 @@ export const Tabla = ({ data, currentPage, lastPage, total, setCurrentPage, open
 							</tr>
 						</thead>
 						<tbody className='bg-cv-primary'>
-							{data.map((attendance) => (
+							{data && data.map((attendance) => (
 								<tr key={attendance.id} className='border-b border-cv-secondary'>
 									<th scope="row" className="px-6 py-4 text-center whitespace-nowrap">
-										{attendance.user.position[0].core.department.name}
-										
+										{attendance.user.position.core.department.name}
 									</th>
 									<td className="px-6 py-4 text-center whitespace-nowrap">
-										{attendance.user.position[0].core.name}
-										
+										{attendance.user.position.core.name}	
 									</td>
 									<td className="px-6 py-4 text-center whitespace-nowrap">
 										{attendance.user.shift}

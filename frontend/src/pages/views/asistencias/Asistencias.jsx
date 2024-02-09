@@ -12,14 +12,12 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import Loading from "../../../components/essentials/Loading";
 
-
 export const Asistencias = () => {
-
   const newDate = new Date();
-  const strDate = `${newDate.getFullYear()}-${newDate.getMonth() + 1
-    }-${newDate.getDate()}`;
-    console.log(strDate)
-  const [currentData, setCurrentData] = useState([])
+  const strDate = `${newDate.getFullYear()}-${
+    newDate.getMonth() + 1
+  }-${newDate.getDate()}`;
+  const [currentData, setCurrentData] = useState([]);
   const [attendance, setAttendance] = useState([]);
 
   const [showImageModal, setShowImageModal] = useState(false);
@@ -76,45 +74,48 @@ export const Asistencias = () => {
 
   const [fetchingInProgress, setFetchingInProgress] = useState(true);
 
-
   useEffect(() => {
     fetch(import.meta.env.VITE_API_URL + "/departments/list", {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setDepartments([...data]));
-
-
-    fetch(import.meta.env.VITE_API_URL + "/cores/list", {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setCores([...data]));
-
-
-    fetch(`${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`, 
-  {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     })
+      .then((response) => response.json())
+      .then((data) => setDepartments([data]));
+
+    fetch(import.meta.env.VITE_API_URL + "/cores/list", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setCores([data]));
+
+    fetch(
+      `${
+        import.meta.env.VITE_API_URL
+      }/attendance/list?page=${currentPage}&date=${date}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => {
-        console.log(response);
         return response.json();
       })
       .then((response) => {
         if (response && response.data && Array.isArray(response.data)) {
           setCurrentData([...response.data]);
-          console.log(response.data);
+          console.log("DTA: ", response.data);
         } else {
-          console.error("La estructura de datos de la respuesta no es válida:", response);
+          console.error(
+            "La estructura de datos de la respuesta no es válida:",
+            response
+          );
         }
         setCargando(false);
         setLastPage(response.last_page);
@@ -127,8 +128,8 @@ export const Asistencias = () => {
   }, [date]);
 
   useEffect(() => {
-    setAttendance([...currentData])
-  }, [currentData])
+    setAttendance([...currentData]);
+  }, [currentData]);
 
   const handleClearFilter = () => {
     setShift("");
@@ -154,37 +155,50 @@ export const Asistencias = () => {
     setDate(formattedDate);
   };
 
-
   const getCore = (coreId) => {
-    const searchedCore = cores.filter(e => e.id == coreId)[0]
-    return searchedCore.name
-  }
+    const searchedCore = cores.filter((e) => e.id == coreId)[0];
+    return searchedCore.name;
+  };
 
   const getDepartment = (departmentId) => {
-    const searchedDepartment = departments.filter(e => e.id == departmentId)[0]
-    return searchedDepartment.name
-  }
+    const searchedDepartment = departments.filter(
+      (e) => e.id == departmentId
+    )[0];
+    return searchedDepartment.name;
+  };
+
+  const getAsistencias = async () => {
+    setFetchingInProgress(true);
+
+    let url = `${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`;
+    url = core ? `${url}&core=${getCore(core)}` : url;
+    url = shift ? `${url}&shift=${shift}` : url;
+    url = department ? `${url}&department=${getDepartment(department)}` : url;
+
+    try {
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setAttendance(data.data);
+      closeCalendar();
+      setFetchingInProgress(false);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   useEffect(() => {
-    setFetchingInProgress(true);
-    let url = `${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`
-    url = (core) ? `${url}&core=${getCore(core)}` : url
-    url = (shift) ? `${url}&shift=${shift}` : url
-    url = (department) ? `${url}&department=${getDepartment(department)}` : url
-
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        setAttendance([...response.data])
-        closeCalendar()
-        setFetchingInProgress(false);
-      });
-  }, [date, currentPage, shift, core, department])
+    getAsistencias();
+  }, [date, currentPage, shift, core, department]);
 
   return (
     <>
@@ -201,77 +215,79 @@ export const Asistencias = () => {
         </ol>
       </nav>
       {fetchingInProgress && <Loading />}
-      {!fetchingInProgress && <div className="h-full bg-cv-secondary mt-5">
-        <div className="space-y-3 w-full">
-          <div className="flex w-full">
-            <div>
-              <button
-                className="flex items-center justify-center p-2 mr-3 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold"
-                onClick={isOpenCalendar ? closeCalendar : openCalendar}
-              >
-                {isOpenCalendar ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </button>
-            </div>
-            <div className="w-full">
-              <Filtros
-                name={name}
-                shift={shift}
-                department={department}
-                core={core}
-                departmentOptions={departmentOptions}
-                coreOptions={coreOptions}
-                selectedDepartment={selectedDepartment}
-                selectedCore={selectedCore}
-                handleShiftChange={handleShiftChange}
-                handleNameChange={handleNameChange}
-                handleClearFilter={handleClearFilter}
-                setDepartment={setDepartment}
-                setCore={setCore}
-                setSelectedDepartment={setSelectedDepartment}
-                setSelectedCore={setSelectedCore}
-                openImageModal={openImageModal}
-                setImage={setImage}
-              />
-            </div>
-          </div>
-          {isOpenCalendar && (
-            <div className="w-full flex flex-col md:flex-row justify-start gap-3">
-              <div className={`w-full md:w-1/3 animate-fade-in`}>
-                <Leyenda />
+      {!fetchingInProgress && (
+        <div className="h-full bg-cv-secondary mt-5">
+          <div className="space-y-3 w-full">
+            <div className="flex w-full">
+              <div>
+                <button
+                  className="flex items-center justify-center p-2 mr-3 rounded-md text-cv-primary bg-cv-cyan hover:bg-cv-cyan/90font-semibold"
+                  onClick={isOpenCalendar ? closeCalendar : openCalendar}
+                >
+                  {isOpenCalendar ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </button>
               </div>
-              <div className={`w-full md:w-4/6 space-y-3 animate-fade-in`}>
-                <div className="w-full bg-cv-primary rounded-lg">
-                  <div className="w-full flex flex-col items-center justify-between">
-                    <Calendar
-                      setSelectedMonth={setMonth}
-                      onDayClick={handleDayClick}
-                      selectedDay={date}
-                    />
+              <div className="w-full">
+                <Filtros
+                  name={name}
+                  shift={shift}
+                  department={department}
+                  core={core}
+                  departmentOptions={departmentOptions}
+                  coreOptions={coreOptions}
+                  selectedDepartment={selectedDepartment}
+                  selectedCore={selectedCore}
+                  handleShiftChange={handleShiftChange}
+                  handleNameChange={handleNameChange}
+                  handleClearFilter={handleClearFilter}
+                  setDepartment={setDepartment}
+                  setCore={setCore}
+                  setSelectedDepartment={setSelectedDepartment}
+                  setSelectedCore={setSelectedCore}
+                  openImageModal={openImageModal}
+                  setImage={setImage}
+                />
+              </div>
+            </div>
+            {isOpenCalendar && (
+              <div className="w-full flex flex-col md:flex-row justify-start gap-3">
+                <div className={`w-full md:w-1/3 animate-fade-in`}>
+                  <Leyenda />
+                </div>
+                <div className={`w-full md:w-4/6 space-y-3 animate-fade-in`}>
+                  <div className="w-full bg-cv-primary rounded-lg">
+                    <div className="w-full flex flex-col items-center justify-between">
+                      <Calendar
+                        setSelectedMonth={setMonth}
+                        onDayClick={handleDayClick}
+                        selectedDay={date}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {cargando ? (
-            <Loading />
-          ) : (
-            <Tabla
-              data={attendance}
-              currentPage={currentPage}
-              lastPage={lastPage}
-              total={total}
-              setCurrentPage={setCurrentPage}
-              openImageModal={openImageModal}
-              setImage={setImage}
-            />
-          )}
+            {cargando ? (
+              <Loading />
+            ) : (
+              <Tabla
+                data={attendance}
+                currentPage={currentPage}
+                lastPage={lastPage}
+                total={total}
+                setCurrentPage={setCurrentPage}
+                openImageModal={openImageModal}
+                setImage={setImage}
+              />
+            )}
 
-          {showImageModal && (
-            <ModalImagen image={image} closeImageModal={closeImageModal} />
-          )}
+            {showImageModal && (
+              <ModalImagen image={image} closeImageModal={closeImageModal} />
+            )}
+          </div>
         </div>
-      </div>}
+      )}
     </>
   );
 };
