@@ -47,7 +47,7 @@ export const RevisarJustificacion = () => {
     const token = tokenD.toString(enc.Utf8);
 
     fetch(import.meta.env.VITE_API_URL + `/justification/accept/${item.id}`, {
-      method: "POST",
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -122,9 +122,9 @@ export const RevisarJustificacion = () => {
   };
 
   const isRechazadoOrAceptado = (prop) => {
-    if (prop.status === 2) {
+    if (prop.justification_status === 2) {
       return "Rechazado";
-    } else if (prop.status === 3) {
+    } else if (prop.justification_status === 3) {
       return "En proceso";
     } else {
       return "Aceptado";

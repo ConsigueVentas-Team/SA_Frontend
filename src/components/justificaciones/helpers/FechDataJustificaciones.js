@@ -10,9 +10,8 @@ export const FechDataJustificaciones = async ({ page }) => {
         const token = tokenD.toString(enc.Utf8)
         const iduser = localStorage.getItem('iduser')
 
-        let url = `${
-            import.meta.env.VITE_API_URL
-        }/justification/list?exclude_user=${iduser}&page=${page}`
+        let url = `${import.meta.env.VITE_API_URL
+            }/justification/list?exclude_user=${iduser}&page=${page}`
 
         const response = await fetch(url, {
             headers: {
@@ -21,7 +20,6 @@ export const FechDataJustificaciones = async ({ page }) => {
         })
 
         const data = await response.json()
-        console.log(data.data)
         return data
     } catch (error) {
         // Manejo de errores en caso de fallo en la llamada a la API

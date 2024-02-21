@@ -1,6 +1,15 @@
 import moment from "moment";
 
-export function CardDetail({buttonLoading, faltasList, isRechazadoOrAceptado,id, iduser,rol,handleAceptar,handleRechazar }) {
+export function CardDetail({
+  buttonLoading,
+  faltasList,
+  isRechazadoOrAceptado,
+  id,
+  iduser,
+  rol,
+  handleAceptar,
+  handleRechazar,
+}) {
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
@@ -30,9 +39,9 @@ export function CardDetail({buttonLoading, faltasList, isRechazadoOrAceptado,id,
                         <label className="text-slate-400 text-base">
                           Tipo:
                         </label>
-                        <p className="capitalize text-lg">{`${
-                          item.type === 0 ? "Falta" : "Tardanza"
-                        }`}</p>
+                        <p className="capitalize text-lg">
+                          {item.justification_type ? "Tardanza" : "Falta"}
+                        </p>
                       </div>
                     </div>
                     <div className="w-full md:w-auto flex-1">

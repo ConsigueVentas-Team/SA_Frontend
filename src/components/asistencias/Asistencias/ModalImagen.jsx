@@ -52,9 +52,9 @@ export const ModalImagen = ({ image, closeImageModal }) => {
                                     <div className='flex flex-col items-center justify-between space-y-2 md:flex-row md:space-x-2 md:space-y-0'>
                                         <div className='flex flex-col items-center justify-center w-full space-y-2 text-center'>
                                             <h4 className='text-lg font-semibold'>Fotografía de Entrada</h4>
-                                            {image.admission_image ? (
+                                            {image.admissionImage ? (
                                                 <div className="w-auto h-64">
-                                                    <img className='w-auto h-full border rounded-lg md:w-full' src={import.meta.env.VITE_BACKEND_SERVER_URL + '/' + image.admission_image} alt="Fotografía de entrada" />
+                                                    <img className='w-auto h-full border rounded-lg md:w-full' src={import.meta.env.VITE_BACKEND_SERVER_URL + '/' + image.admissionImage} alt="Fotografía de entrada" />
                                                 </div>
                                             ) : (
                                                 <div className='w-4/5 h-64 flex items-center justify-center border rounded-lg md:w-full'>
@@ -64,15 +64,15 @@ export const ModalImagen = ({ image, closeImageModal }) => {
                                             {(image.attendance === 1 || image.delay === 1) && (
                                                 <p className='space-x-3 text-lg font-semibold text-cv-primary'>
                                                     <span>Hora de Entrada:</span>
-                                                    <span>{image.admission_time ? image.admission_time : 'No registrada'}</span>
+                                                    <span>{image.admissionTime ? image.admissionTime : 'No registrada'}</span>
                                                 </p>
                                             )}
                                         </div>
                                         <div className='flex flex-col items-center justify-center w-full space-y-2 text-center'>
                                             <h4 className='text-lg font-semibold'>Fotografía de Salida</h4>
-                                            {image.departure_image ? (
+                                            {image.departureImage ? (
                                                 <div className="w-auto h-64">
-                                                <img className='w-auto h-64 border rounded-lg md:w-full' src={import.meta.env.VITE_BACKEND_SERVER_URL + '/' + image.departure_image} alt="Fotografía de salida" />
+                                                <img className='w-auto h-64 border rounded-lg md:w-full' src={import.meta.env.VITE_BACKEND_SERVER_URL + '/' + image.departureImage} alt="Fotografía de salida" />
                                                 </div>
                                             ) : (
                                                 <div className='w-4/5 flex items-center justify-center h-auto border rounded-lg md:w-full'>
@@ -82,7 +82,7 @@ export const ModalImagen = ({ image, closeImageModal }) => {
                                             {(image.attendance === 1 || image.delay === 1) && (
                                                 <p className='space-x-3 text-lg font-semibold text-cv-primary'>
                                                     <span>Hora de Salida:</span>
-                                                    <span>{image.departure_time ? image.departure_time : 'No registrada'}</span>
+                                                    <span>{image.departureTime ? image.departureTime : 'No registrada'}</span>
                                                 </p>
                                             )}
                                         </div>

@@ -65,7 +65,7 @@ export const Perfil = () => {
             colaborador={colaborador}
             isChecked={isChecked}
           ></DatosPersonales>
-          <FotoPerfil colaborador={colaborador}></FotoPerfil>
+          <FotoPerfil colaborador={colaborador}/>
 
           <DatosEmpresa
             colaborador={colaborador}

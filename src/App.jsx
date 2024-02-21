@@ -10,7 +10,6 @@ import { CambiarContraseña } from "./pages/auth/CambiarContraseña";
 import { Home } from "./pages/views/Home";
 import { Perfil } from "./pages/views/Perfil";
 import { PerfilColaborador } from './pages/views/PerfilColaborador'
-import { Cumpleaños } from "./pages/views/Cumpleaños";
 import { Colaboradores } from "./pages/views/Colaboradores";
 import { Asistencias } from "./pages/views/asistencias/Asistencias";
 import { MarcarAsistencia } from "./pages/views/asistencias/MarcarAsistencia";
@@ -27,6 +26,8 @@ import Reportes from './pages/views/Reportes';
 import { useEffect, useState } from 'react';
 import { MiEvaluacion } from './pages/views/evaluaciones/MiEvaluacion';
 import { GestionEvaluaciones } from './pages/views/evaluaciones/GestionEvaluaciones';
+import { Birthday } from './pages/views/Birthday';
+
 function App() {
   const rol = localStorage.getItem("rol");
   const isLoggedIn = localStorage.getItem("login") === "true";
@@ -83,7 +84,7 @@ function App() {
             <Route path="perfil" element={<Perfil />} />
             <Route path="marcar-asistencia" element={<MarcarAsistencia />} />
             <Route path="marcar-asistencia2" element={<MarcarAsistencia2 />} />
-            <Route path="cumpleaños" element={<Cumpleaños />} />
+            <Route path="cumpleaños" element={<Birthday />} />
             <Route
               path="añadir-justificacion"
               element={<AñadirJustificacion />}

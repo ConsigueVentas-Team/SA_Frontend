@@ -55,7 +55,7 @@ export const ModalAgregar = ({
         formData.append('justification_date', justification_date)
         formData.append('reason', reason)
         formData.append('evidence', evidence)
-        formData.append('type', justification_type)
+        formData.append('justification_type', justification_type)
 
         if (
             !justification_date ||

@@ -179,11 +179,11 @@ export const Sidebar = () => {
         route: '/empresa',
         icon: <MapsHomeWorkOutlinedIcon />,
       },
-      {
-        title: 'Reportes',
-        route: '/reportes',
-        icon: <BarChartIcon />,
-      },
+      // {
+      //   title: 'Reportes',
+      //   route: '/reportes',
+      //   icon: <BarChartIcon />,
+      // },
     ],
     "Lider Departamento": [
       {

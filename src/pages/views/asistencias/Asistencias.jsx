@@ -52,7 +52,7 @@ export const Asistencias = () => {
   }));
 
   const coreOptions = cores
-    .filter((core) => core.department_id === parseInt(selectedDepartment))
+    .filter((core) => core.department === parseInt(selectedDepartment))
     .map((core) => ({
       value: core.id,
       label: core.name,
@@ -82,7 +82,10 @@ export const Asistencias = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setDepartments([data]));
+      .then((data) => {
+        setDepartments(data.data);
+        console.log("DEPARTAMENTOS: ", data.data);
+      });
 
     fetch(import.meta.env.VITE_API_URL + "/cores/list", {
       headers: {
@@ -91,12 +94,15 @@ export const Asistencias = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setCores([data]));
+      .then((data) => {
+        setCores(data.data);
+        console.log("CORES: ", data.data);
+      });
 
     fetch(
       `${
         import.meta.env.VITE_API_URL
-      }/attendance/list?page=${currentPage}&date=${date}`,
+      }/attendance/list?page=${currentPage}&date=2023-11-8`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -170,7 +176,9 @@ export const Asistencias = () => {
   const getAsistencias = async () => {
     setFetchingInProgress(true);
 
-    let url = `${import.meta.env.VITE_API_URL}/attendance/list?page=${currentPage}&date=${date}`;
+    let url = `${
+      import.meta.env.VITE_API_URL
+    }/attendance/list?page=${currentPage}&date=${date}`;
     url = core ? `${url}&core=${getCore(core)}` : url;
     url = shift ? `${url}&shift=${shift}` : url;
     url = department ? `${url}&department=${getDepartment(department)}` : url;
