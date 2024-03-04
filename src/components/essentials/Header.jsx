@@ -49,7 +49,7 @@ export const Header = () => {
           <Avatar
             alt={name}
             src={`${import.meta.env.VITE_BACKEND_SERVER_URL
-              }/photos/${userId}/${avatar}`}
+              }${avatar}`}
             className="ring-2 ring-cv-cyan"
           />
           <Name name={name} rol={rol} />

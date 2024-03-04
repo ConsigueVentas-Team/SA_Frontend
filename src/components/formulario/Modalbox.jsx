@@ -89,7 +89,7 @@ const ModalBox = ({
 
                     {cores
                       ? cores.map((core) => {
-                          if (core.department_id == Departamento) {
+                          if (core.department.id == Departamento) {
                             return (
                               <option key={core.id} value={core.id}>
                                 {core.name}
@@ -104,7 +104,8 @@ const ModalBox = ({
                               {core.name}
                             </option>
                           );
-                        })}
+                        })
+                      }
                   </select>
                 </div>
               </div>

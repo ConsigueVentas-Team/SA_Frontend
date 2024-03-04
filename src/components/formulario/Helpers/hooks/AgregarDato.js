@@ -15,13 +15,13 @@ const AgregarDato = async (
     } else if (core_id == "false") {
       dataToSend = {
         name: palabra,
-        department_id,
+        department:parseInt(department_id),
       };
     } else {
       dataToSend = {
         name: palabra,
-        department_id,
-        core_id,
+        department:parseInt(department_id),
+        core:parseInt(core_id),
       };
     }
 

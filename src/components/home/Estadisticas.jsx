@@ -6,7 +6,7 @@ export const Estadisticas = ({ data }) => {
 			className="w-full flex items-center justify-between gap-4 bg-cv-primary text-white rounded-md p-5"
 		>
 			<div className="w-full flex items-center justify-center">
-				{data.icon}
+				{data.icon} 
 			</div>
 			<div className="w-full flex flex-col items-center justify-center gap-4">
 				<h3 className="text-lg">{data.title}</h3>

@@ -19,7 +19,7 @@ export const Inputs = ({ actualizarValor, valor, setDepartment_id, token }) => {
   useEffect(() => {
     async function fetchData() {
       const data = await ObtenerDatos(token, "departments");
-      setAreas(data);
+      setAreas(data.data);
     }
     fetchData();
   }, []);

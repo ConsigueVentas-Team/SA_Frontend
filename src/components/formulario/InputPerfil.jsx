@@ -31,8 +31,8 @@ export const InputArea = ({
     async function fetchData() {
       const data1 = await ObtenerDatos(token, "departments");
       const data2 = await ObtenerDatos(token, "cores");
-      setAreas(data1);
-      setNucleo(data2);
+      setAreas(data1.data);
+      setNucleo(data2.data);
     }
     fetchData();
   }, []);
@@ -79,7 +79,7 @@ export const InputArea = ({
         >
           <option value={0}>Selecciona</option>{" "}
           {Nucleo.map((core) => {
-            if (core.department_id === parseInt(filterShift)) {
+            if (core.department.id === parseInt(filterShift)) {
               return (
                 <option key={core.id} value={core.id}>
                   {core.name}

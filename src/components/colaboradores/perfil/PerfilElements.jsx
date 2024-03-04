@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 export const ProfileItem = ({ label, value }) => {
 	return (
-		<div className='w-full'>
+		<div className='w-full '>
 			<span className="text-sm text-gray-400">{label}:</span>
 			<p className='text-base md:text-xl font-semibold leading-tight'>
 				{value}

@@ -33,7 +33,7 @@ const ActualizarDato = async (
     const response = await fetch(
       import.meta.env.VITE_API_URL + `/${url}/update/${id}`,
       {
-        method: "POST",
+        method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -44,14 +44,14 @@ const ActualizarDato = async (
     );
     const data = await response.json();
     if (response.ok) {
-      console.log("Datos de usuario modificado exitosamente");
+      console.log("Datos modificado exitosamente");
       //actualizar data
       setIsChecked((prevIsChecked) => !prevIsChecked);
     } else {
-      console.log(`Error al modificar usuario: ${data.error}`);
+      console.log(`Error al editar: ${data.error}`);
     }
   } catch (error) {
-    console.log(`Error al modificar: ${error}`);
+    console.log(`Error al editar: ${error}`);
   }
 };
 

@@ -111,7 +111,7 @@ export const Login = () => {
               localStorage.setItem("iduser", responseData.user.id);
               localStorage.setItem("rol", responseData.role.name);
               localStorage.setItem("name", responseData.user.name);
-              localStorage.setItem("avatar", responseData.user.image);
+              localStorage.setItem("avatar", responseData.user.avatar);
               localStorage.setItem("surname", responseData.user.surname);
               // localStorage.setItem('shift', responseData.profile.shift)
               localStorage.setItem("shift", responseData.user.shift);
@@ -121,7 +121,7 @@ export const Login = () => {
             }
           } else {
             setViewLoading(false);
-            setError(responseData.message);
+            setError(responseData.error);
           }
         } catch (err) {
           setViewLoading(false);

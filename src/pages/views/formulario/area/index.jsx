@@ -42,9 +42,9 @@ export const Area = () => {
       const data = await ObtenerDatos(token, "position", setCargando);
       const department = await ObtenerDatos(token, "departments", setCargando);
       const core = await ObtenerDatos(token, "cores", setCargando);
-      setCores(core);
-      setPosition(data);
-      setDepartments(department);
+      setCores(core.data);
+      setPosition(data.data);
+      setDepartments(department.data);
     }
     fetchData();
   }, [isChecked]);
@@ -143,7 +143,7 @@ export const Area = () => {
           ></ModalBoxEliminar>
         )}
 
-        <button onClick={openModal} className="w-50 py-2 px-5 mt-10 rounded-md text-cv-primary text-white bg-cv-primary flex items-center justify-center text-l font-semibold">AGREGAR</button>
+        <button onClick={openModal} className="w-50 py-2 px-5 mt-10 rounded-md text-white bg-cv-primary flex items-center justify-center text-l font-semibold">AGREGAR</button>
         {mostrarModal && (
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -168,8 +168,8 @@ export const Area = () => {
         )}
         {alertMessage && (
           <div className="bg-green-200 border-green-400 text-green-700 border px-4 py-3 rounded relative mt-4" role="alert">
-            <strong className="font-bold">¡Éxito!</strong>
-            <span className="block sm:inline">El envío se ha completado con éxito.</span>
+            <strong className="font-bold">¡Éxito! </strong>
+            <span className="block sm:inline">Se ha completado con éxito.✔️</span>
             <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
               <button onClick={closeAlert} className="text-green-700">
                 <span className="text-green-400">×</span>

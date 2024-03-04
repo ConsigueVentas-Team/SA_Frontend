@@ -40,8 +40,8 @@ export const Nucleo = () => {
       const data = await ObtenerDatos(token, "cores", setCargando);
       const department = await ObtenerDatos(token, "departments", setCargando);
 
-      setNucleos(data);
-      setDepartments(department);
+      setNucleos(data.data);
+      setDepartments(department.data);
     }
     fetchData();
   }, [isChecked]);
@@ -167,8 +167,8 @@ export const Nucleo = () => {
         )}
         {alertMessage && (
           <div className="bg-green-200 border-green-400 text-green-700 border px-4 py-3 rounded relative mt-4" role="alert">
-            <strong className="font-bold">¡Éxito!</strong>
-            <span className="block sm:inline">El envío se ha completado con éxito.</span>
+            <strong className="font-bold">¡Éxito! </strong>
+            <span className="block sm:inline">Se ha completado con éxito.✔️</span>
             <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
               <button onClick={closeAlert} className="text-green-700">
                 <span className="text-green-400">×</span>
