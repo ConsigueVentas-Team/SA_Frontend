@@ -197,7 +197,7 @@ export const Select = ({ label, id, value, options, onChange, disabled = false }
 			</label>
 			<select
 				id={id}
-				value={value}
+				value={String(value)}
 				onChange={onChange}
 				disabled={disabled}
 				className="w-full p-2 font-semibold text-gray-900 placeholder-gray-500 bg-white border-b-2 border-gray-300 rounded-md outline-none drop-shadow-md sm:text-md"
@@ -213,19 +213,19 @@ export const Select = ({ label, id, value, options, onChange, disabled = false }
 	);
 }
 
-Select.propTypes = {
-	label: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
-	options: PropTypes.arrayOf(
-		PropTypes.shape({
-			value: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		})
-	).isRequired,
-	onChange: PropTypes.func.isRequired,
-	disabled: PropTypes.bool,
-}
+// Select.propTypes = {
+// 	label: PropTypes.string.isRequired,
+// 	id: PropTypes.string.isRequired,
+// 	value: PropTypes.string.isRequired,
+// 	options: PropTypes.arrayOf(
+// 		PropTypes.shape({
+// 			value: PropTypes.string.isRequired,
+// 			label: PropTypes.string.isRequired,
+// 		})
+// 	).isRequired,
+// 	onChange: PropTypes.func.isRequired,
+// 	disabled: PropTypes.bool,
+// }
 
 
 export const SelectRole = ({ label, id, value, options, onChange }) => {
@@ -239,7 +239,7 @@ export const SelectRole = ({ label, id, value, options, onChange }) => {
 			</label>
 			<select
 				id={id}
-				value={value}
+				value={String(value)}
 				onChange={onChange}
 				disabled={localStorage.getItem('rol') === 'Gerencia' ? false : (value === 1 ? true : false)}
 				className="w-full p-2 font-semibold text-gray-900 placeholder-gray-500 bg-white border-b-2 border-gray-300 rounded-md outline-none drop-shadow-md sm:text-md"
@@ -256,18 +256,18 @@ export const SelectRole = ({ label, id, value, options, onChange }) => {
 	)
 }
 
-SelectRole.propTypes = {
-	label: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
-	options: PropTypes.arrayOf(
-		PropTypes.shape({
-			value: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		})
-	).isRequired,
-	onChange: PropTypes.func.isRequired,
-}
+// SelectRole.propTypes = {
+// 	label: PropTypes.string.isRequired,
+// 	id: PropTypes.string.isRequired,
+// 	value: PropTypes.string.isRequired,
+// 	options: PropTypes.arrayOf(
+// 		PropTypes.shape({
+// 			value: PropTypes.string.isRequired,
+// 			label: PropTypes.string.isRequired,
+// 		})
+// 	).isRequired,
+// 	onChange: PropTypes.func.isRequired,
+// }
 
 export const Switch = ({ label, id, value, onChange, statusValue, status_onChange }) => {
 	return (
@@ -307,14 +307,14 @@ export const Switch = ({ label, id, value, onChange, statusValue, status_onChang
 	)
 }
 
-Switch.propTypes = {
-	label: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
-	statusValue: PropTypes.string.isRequired,
-	status_onChange: PropTypes.func.isRequired,
-}
+// Switch.propTypes = {
+// 	label: PropTypes.string.isRequired,
+// 	id: PropTypes.string.isRequired,
+// 	value: PropTypes.string.isRequired,
+// 	onChange: PropTypes.func.isRequired,
+// 	statusValue: PropTypes.string.isRequired,
+// 	status_onChange: PropTypes.func.isRequired,
+// }
 
 
 export const ModalButton = ({ label, onClick, className }) => {

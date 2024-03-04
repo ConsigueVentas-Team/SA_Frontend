@@ -46,38 +46,37 @@ SearchBar.propTypes = {
 }
 
 export const SelectOption = ({ label, value, options, onChange, disabled = false }) => {
-	return (
-		<div className="w-full">
-			<select
-				value={value}
-				onChange={onChange}
-				disabled={disabled}
-				className="w-full box-border w-50 h-50 border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
-			>
-				<option value={''}>{label}</option>
-				{options.map((option) => (
-					<option key={option.value} value={option.value}>
-						{option.label}
-					</option>
-				))}
-			</select>
-		</div>
-	);
+    return (
+        <div className="w-full">
+            <select
+                value={String(value)}
+                onChange={onChange}
+                disabled={disabled}
+                className="w-full box-border w-50 h-50 border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
+            >
+                <option value={''}>{label}</option>
+                {options.map((option) => (
+                    <option key={option.value} value={String(option.value)}>
+                        {option.label}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
 }
 
-SelectOption.propTypes = {
-	label: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
-	options: PropTypes.arrayOf(
-		PropTypes.shape({
-			value: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		})
-	).isRequired,
-	onChange: PropTypes.func.isRequired,
-	disabled: PropTypes.bool,
-}
-
+// SelectOption.propTypes = {
+//     label: PropTypes.string.isRequired,
+//     value: PropTypes.string.isRequired,
+//     options: PropTypes.arrayOf(
+//         PropTypes.shape({
+//             value: PropTypes.string.isRequired,
+//             label: PropTypes.string.isRequired,
+//         })
+//     ).isRequired,
+//     onChange: PropTypes.func.isRequired,
+//     disabled: PropTypes.bool,
+// }
 
 export const Button = ({ onClick, icon, label, title }) => {
 	return (

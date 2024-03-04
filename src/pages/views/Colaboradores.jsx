@@ -13,6 +13,7 @@ import {
   Tabla,
 } from "../../components/colaboradores";
 import Loading from "../../components/essentials/Loading";
+import mostrarErrores from "../../functions/mostrarErrores";
 
 export const Colaboradores = () => {
   const [users, setUsers] = useState(null);
@@ -147,9 +148,6 @@ export const Colaboradores = () => {
       });
 
       const data = await response.json();
-
-      console.log("DATA: ", data);
-
       if (response.ok) {
         setUsers(data.data);
         setPagination(data);
@@ -194,9 +192,12 @@ export const Colaboradores = () => {
           setCargando(false);
         } else {
           setCargando(false);
-          throw new Error("Error al guardar los datos");
-
+          return response.json()
         }
+      })
+      .then(errors=>{
+        mostrarErrores(errors)
+        setCargando(false)
       })
       .catch((error) => {
         toast.error(`Error al agregar usuario: ${error}`);

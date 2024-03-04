@@ -32,7 +32,7 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [dateStart, setDateStart] = useState("");
   const [dateEnd, setDateEnd] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(true);
   const [statusDescription, setStatusDescription] = useState("");
   const [role, setRole] = useState("");
 
@@ -394,9 +394,9 @@ export const ModalEditar = ({ close, updateUser, user, cargando }) => {
     </>
   );
 };
-ModalEditar.propTypes = {
-  close: PropTypes.func.isRequired,
-  updateUser: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  cargando: PropTypes.bool.isRequired,
-};
+// ModalEditar.propTypes = {
+//   close: PropTypes.func.isRequired,
+//   updateUser: PropTypes.func.isRequired,
+//   user: PropTypes.object.isRequired,
+//   cargando: PropTypes.bool.isRequired,
+// };
