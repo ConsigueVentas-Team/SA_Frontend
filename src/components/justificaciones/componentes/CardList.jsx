@@ -9,7 +9,6 @@ export const CardList = ({
     buscadorFecha,
     searchName,
 }) => {
-
     return (
         <>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5'>
@@ -25,10 +24,10 @@ export const CardList = ({
                     })
                     .filter((post) => {
                         const justificationTypeArray = Array.isArray(
-                            post.status
+                            post.justification_status
                         )
-                            ? post.status
-                            : [post.status]
+                            ? post.justification_status
+                            : [post.justification_status]
 
                         if (buscadorStatus === '') {
                             // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards

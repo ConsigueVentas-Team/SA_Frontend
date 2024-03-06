@@ -92,7 +92,7 @@ export const MarcarAsistencia = () => {
     );
 
     const token = tokenD.toString(enc.Utf8);
-
+    console.log(formData)
     fetch(import.meta.env.VITE_API_URL + "/attendance/create", {
       method: "POST",
       body: formData,
@@ -163,6 +163,7 @@ export const MarcarAsistencia = () => {
           videoRef.current.srcObject = stream;
           videoRef.current.style.transform = "scaleX(-1)";
           toast.success('Cámara activa');
+          return
         })
         .catch((error) => {
           console.error("Error al acceder a la cámara:", error);

@@ -147,18 +147,12 @@ export function CardDetail({
                 item.evidence.endsWith(".png") ||
                 item.evidence.endsWith(".jpeg") ? (
                   <img
-                    src={
-                      import.meta.env.VITE_BACKEND_SERVER_URL +
-                      `/${item.evidence}`
-                    }
+                    src={import.meta.env.VITE_BACKEND_SERVER_URL + "/" +item.evidence}
                     alt="Image"
                   />
                 ) : item.evidence.endsWith(".pdf") ? (
                   <embed
-                    src={
-                      import.meta.env.VITE_BACKEND_SERVER_URL +
-                      `/${item.evidence}`
-                    }
+                    src={import.meta.env.VITE_BACKEND_SERVER_URL + "/" +item.evidence}
                     type="application/pdf"
                     width="100%"
                     height="600px"

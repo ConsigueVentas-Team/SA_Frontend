@@ -27,7 +27,7 @@ export const FechData = async ({ page }) => {
         //     throw new Error('Unhandled role')
         // }
 
-        let url = `${import.meta.env.VITE_API_URL}/justification/list?page=${page}&shift=${turno}&user=${user_id}`
+        let url = `${import.meta.env.VITE_API_URL}/justification/list?page=1&shift=${turno}&user=${user_id}`
 
         const response = await fetch(url, {
             headers: {

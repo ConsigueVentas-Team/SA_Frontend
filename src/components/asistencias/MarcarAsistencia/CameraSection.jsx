@@ -105,20 +105,20 @@ export const CameraSection = ({
     );
 };
 
-CameraSection.defaultProps = {
-    cameraStream: null
-};
+// CameraSection.defaultProps = {
+//     cameraStream: null
+// };
 
-CameraSection.propTypes = {
-    // fotoUsuario: PropTypes.bool.isRequired,
-    fotoUsuario: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
-    videoEnabled: PropTypes.bool.isRequired,
-    capturing: PropTypes.bool.isRequired,
-    handleCapture: PropTypes.func.isRequired,
-    toggleCamera: PropTypes.func.isRequired,
-    videoRef: PropTypes.object.isRequired,
-    mostrarBotonCamara: PropTypes.bool.isRequired,
-    // cameraStream: PropTypes.func.isRequired
-    cameraStream: PropTypes.object.isRequired
-    // cameraStream: PropTypes.object
-};
+// CameraSection.propTypes = {
+//     // fotoUsuario: PropTypes.bool.isRequired,
+//     fotoUsuario: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
+//     videoEnabled: PropTypes.bool.isRequired,
+//     capturing: PropTypes.bool.isRequired,
+//     handleCapture: PropTypes.func.isRequired,
+//     toggleCamera: PropTypes.func.isRequired,
+//     videoRef: PropTypes.object.isRequired,
+//     mostrarBotonCamara: PropTypes.bool.isRequired,
+//     // cameraStream: PropTypes.func.isRequired
+//     cameraStream: PropTypes.object.isRequired
+//     // cameraStream: PropTypes.object
+// };
