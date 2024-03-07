@@ -75,33 +75,30 @@ export const EvaluacionesAdmin = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setCores(data).data);
+      .then((data) => setCores(data.data));
 
     getPositionList();
   }, [token]);
 
-  const departmentOptions = () => {
-    departments
-      ? departments.map((department) => ({
-          value: department.id,
-          label: department.name,
-        }))
-      : [];
-  };
+  const departmentOptions = departments.map((department) => ({
+    value: department.id,
+    label: department.name,
+  }));
 
-  // const coreOptions = cores
-  //     .filter((core) => core.department_id === parseInt(selectedDepartment))
-  //     .map((core) => ({
-  //         value: core.id,
-  //         label: core.name,
-  //     }));
+  const coreOptions = cores
+    .filter((core) => core.department.id === parseInt(selectedDepartment))
+    .map((core) => ({
+      value: core.id,
+      label: core.name,
+    }));
 
   const profileOptions = profiles
-    .filter((profile) => profile.core_id === parseInt(selectedCore))
+    .filter((profile) => profile.core.id=== parseInt(selectedCore))
     .map((profile) => ({
       value: profile.id,
       label: profile.name,
     }));
+
 
   const handleProfileChange = (event) => {
     setSelectedProfile(event.target.value);
@@ -126,7 +123,7 @@ export const EvaluacionesAdmin = () => {
     try {
       const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
 
-      url.searchParams.append("page", page);
+      url.searchParams.append("page=1", page);
 
       if (name) url.searchParams.append("name", name);
       if (department) url.searchParams.append("department", department);
@@ -201,17 +198,17 @@ export const EvaluacionesAdmin = () => {
             />
           </div>
           <div className="col-span-2 md:col-start-3 md:row-start-2">
-            {/* <SelectOption
-                            label="Núcleo"
-                            value={selectedCore}
-                            options={coreOptions}
-                            onChange={(e) => {
-                                setSelectedCore(e.target.value);
-                                setCore(e.target.value);
-                                setPosition("");
-                            }}
-                            disabled={!selectedDepartment}
-                        /> */}
+            <SelectOption
+              label="Núcleo"
+              value={selectedCore}
+              options={coreOptions}
+              onChange={(e) => {
+              setSelectedCore(e.target.value);
+              setCore(e.target.value);
+              setPosition("");
+              }}
+              disabled={!selectedDepartment}
+            />
           </div>
           <div className="col-span-2 md:col-start-5 md:row-start-2">
             <SelectOption

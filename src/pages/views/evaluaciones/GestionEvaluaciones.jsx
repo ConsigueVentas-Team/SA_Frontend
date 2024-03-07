@@ -59,7 +59,7 @@ export const GestionEvaluaciones = () => {
 
             if (data && data.length > 0) {
                 const foundUser = data.find(
-                    item => item.user_id === parseInt(id)
+                    item => item.user === parseInt(id)
                 )
 
                 if (foundUser) {
@@ -69,10 +69,6 @@ export const GestionEvaluaciones = () => {
                         `No se encontró evaluaciones con el usuario con el ID ${id}.`
                     )
                 }
-            } else {
-                console.error(
-                    'No exiten evaluaciones registradas en la base de datos.'
-                )
             }
 
             setIsLoading(false)

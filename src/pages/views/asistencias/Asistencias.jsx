@@ -69,9 +69,7 @@ export const Asistencias = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [total, setTotal] = useState(0);
-
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-
   const [fetchingInProgress, setFetchingInProgress] = useState(true);
 
   useEffect(() => {
@@ -84,7 +82,6 @@ export const Asistencias = () => {
       .then((response) => response.json())
       .then((data) => {
         setDepartments(data.data);
-        console.log("DEPARTAMENTOS: ", data.data);
       });
 
     fetch(import.meta.env.VITE_API_URL + "/cores/list", {
@@ -96,7 +93,6 @@ export const Asistencias = () => {
       .then((response) => response.json())
       .then((data) => {
         setCores(data.data);
-        console.log("CORES: ", data.data);
       });
 
     fetch(
@@ -116,7 +112,6 @@ export const Asistencias = () => {
       .then((response) => {
         if (response && response.data && Array.isArray(response.data)) {
           setCurrentData([...response.data]);
-          console.log("DTA: ", response.data);
         } else {
           console.error(
             "La estructura de datos de la respuesta no es válida:",

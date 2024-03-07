@@ -71,7 +71,7 @@ const Reportes = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const {data} = await response.json();
         setApiDataUser(data.reportes_usuarios.reporte_general);
         setApiDataAsis(data.reportes_asistencias);
 
@@ -81,7 +81,7 @@ const Reportes = () => {
           data.reportes_usuarios.reporte_total.usuarios_activos
         );
         setIngresosMes(
-          data.reportes_usuarios.reporte_total.ingresos_mes[0].count
+          data.reportes_usuarios.reporte_total.ingresos_mes.count
         );
 
         /////
@@ -90,22 +90,10 @@ const Reportes = () => {
           return uniqueValues.reduce((acc, count) => acc + count, 0);
         };
 
-        const totalAsistencias = sumUniqueValues(
-          data.reportes_asistencias,
-          "department_attendance_count"
-        );
-        const totalFaltas = sumUniqueValues(
-          data.reportes_asistencias,
-          "department_absence_count"
-        );
-        const totalTardanzas = sumUniqueValues(
-          data.reportes_asistencias,
-          "department_delay_count"
-        );
-        const totalJustificaciones = sumUniqueValues(
-          data.reportes_asistencias,
-          "department_justification_count"
-        );
+        const totalAsistencias = sumUniqueValues(data.reportes_asistencias,"department_attendance_count");
+        const totalFaltas = sumUniqueValues(data.reportes_asistencias,"department_absence_count");
+        const totalTardanzas = sumUniqueValues(data.reportes_asistencias,"department_delay_count");
+        const totalJustificaciones = sumUniqueValues(data.reportes_asistencias,"department_justification_count");
 
         setTotalAsistencias(totalAsistencias);
         setTotalFaltas(totalFaltas);
@@ -114,15 +102,15 @@ const Reportes = () => {
 
         /////
         setAceptado(
-          data.reportes_justificacion[0].total_justification_aceptado
+          data.reportes_justificacion.total_justification_aceptado
         );
         setRechazado(
-          data.reportes_justificacion[0].total_justification_rechazado
+          data.reportes_justificacion.total_justification_rechazado
         );
         setEnProceso(
-          data.reportes_justificacion[0].total_justification_en_proceso
+          data.reportes_justificacion.total_justification_en_proceso
         );
-        setTotalJus(data.reportes_justificacion[0].total_justifications);
+        setTotalJus(data.reportes_justificacion.total_justifications);
 
         //----------------------------------------------
         const filteredData = data.reportes_usuarios.reporte_general.reduce(
@@ -162,8 +150,8 @@ const Reportes = () => {
     async function fetchData() {
       const listaDepartamentos = await ObtenerDatos(token, "departments");
       const listaNucleos = await ObtenerDatos(token, "cores");
-      setNucleos(listaNucleos);
-      setDepartamentos(listaDepartamentos);
+      setNucleos(listaNucleos.data);
+      setDepartamentos(listaDepartamentos.data);
     }
     fetchData();
   }, []);
@@ -634,7 +622,7 @@ const Reportes = () => {
                         name3="Justificaciones Rechazadas"
                         name4="Justificaciones en Progreso"
                         asistencias={totalJus}
-                        faltas={aceptado}
+                        faltas={rechazado}
                         justificaciones={enProceso}
                         tardanzas={rechazado}
                       />

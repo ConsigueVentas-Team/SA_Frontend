@@ -46,7 +46,7 @@ SearchBar.propTypes = {
 }
 
 export const SelectOption = ({ label, value, options, onChange, disabled = false }) => {
-    return (
+	return (
         <div className="w-full">
             <select
                 value={String(value)}

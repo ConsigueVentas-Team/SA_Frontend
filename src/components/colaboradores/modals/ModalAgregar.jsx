@@ -69,14 +69,14 @@ export const ModalAgregar = ({ close, addUser, cargando }) => {
   }));
 
   const coreOptions = cores
-    .filter((core) => core.department === parseInt(selectedDepartment))
+    .filter((core) => core.department.id === parseInt(selectedDepartment))
     .map((core) => ({
       value: core.id,
       label: core.name,
     }));
 
   const profileOptions = profiles
-    .filter((profile) => profile.core === parseInt(selectedCore))
+    .filter((profile) => profile.core.id === parseInt(selectedCore))
     .map((profile) => ({
       value: profile.id,
       label: profile.name,

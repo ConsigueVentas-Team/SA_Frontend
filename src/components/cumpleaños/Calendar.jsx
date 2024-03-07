@@ -123,10 +123,10 @@ export const Calendar = ({ birthdays, fetchBirthdays, setSelectedMonth, onDayCli
     )
 }
 
-Calendar.propTypes = {
-    birthdays: PropTypes.array.isRequired,
-    fetchBirthdays: PropTypes.func.isRequired,
-    selectedMonth: PropTypes.string.isRequired,
-    setSelectedMonth: PropTypes.func.isRequired,
-    onDayClick: PropTypes.func.isRequired,
-}
+// Calendar.propTypes = {
+//     birthdays: PropTypes.array.isRequired,
+//     fetchBirthdays: PropTypes.func.isRequired,
+//     selectedMonth: PropTypes.string.isRequired,
+//     setSelectedMonth: PropTypes.func.isRequired,
+//     onDayClick: PropTypes.func.isRequired,
+// }

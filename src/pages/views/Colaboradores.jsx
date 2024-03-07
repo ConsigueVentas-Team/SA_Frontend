@@ -96,14 +96,14 @@ export const Colaboradores = () => {
   }));
 
   const coreOptions = cores
-    .filter((core) => core.department === parseInt(selectedDepartment))
+    .filter((core) => core.department.id === parseInt(selectedDepartment))
     .map((core) => ({
       value: core.id,
       label: core.name,
     }));
 
   const profileOptions = profiles
-    .filter((profile) => profile.core=== parseInt(selectedCore))
+    .filter((profile) => profile.core.id=== parseInt(selectedCore))
     .map((profile) => ({
       value: profile.id,
       label: profile.name,
@@ -316,8 +316,8 @@ export const Colaboradores = () => {
               value={selectedCore}
               options={coreOptions}
               onChange={(e) => {
-                setSelectedCore(e.target.value);
-                setCore(e.target.value);
+                setSelectedCore(parseInt(e.target.value));
+                setCore(parseInt(e.target.value));
                 setPosition("");
               }}
               disabled={!selectedDepartment}

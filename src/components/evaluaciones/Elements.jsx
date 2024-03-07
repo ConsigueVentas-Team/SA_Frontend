@@ -65,18 +65,18 @@ export const SelectOption = ({ label, value, options, onChange, disabled = false
 	);
 }
 
-SelectOption.propTypes = {
-	label: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
-	options: PropTypes.arrayOf(
-		PropTypes.shape({
-			value: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		})
-	).isRequired,
-	onChange: PropTypes.func.isRequired,
-	disabled: PropTypes.bool,
-}
+// SelectOption.propTypes = {
+// 	label: PropTypes.string.isRequired,
+// 	value: PropTypes.string.isRequired,
+// 	options: PropTypes.arrayOf(
+// 		PropTypes.shape({
+// 			value: PropTypes.string.isRequired,
+// 			label: PropTypes.string.isRequired,
+// 		})
+// 	).isRequired,
+// 	onChange: PropTypes.func.isRequired,
+// 	disabled: PropTypes.bool,
+// }
 
 
 export const Button = ({ onClick, icon, label, title }) => {

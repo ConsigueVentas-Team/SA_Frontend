@@ -60,7 +60,7 @@ export const MiEvaluacion = () => {
 
         if(data){
           const dataMisEvaluaciones = data.filter(
-            (element) => element.user_id == parseInt(id)
+            (element) => element.user== parseInt(id)
           );
           setDataMisEvaluacionesFiltradas([...dataMisEvaluaciones])
           if(dataMisEvaluaciones.length > 0){

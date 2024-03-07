@@ -62,7 +62,7 @@ const TablaEvaluaciones = ({
 
             if (data) {
                 const dataMisEvaluaciones = data.filter(
-                    element => element.user_id == parseInt(id)
+                    element => element.user == parseInt(id)
                 )
                 setEvaluacion([...dataMisEvaluaciones])
             }
@@ -77,19 +77,24 @@ const TablaEvaluaciones = ({
     const confirmarAgregarFila = async () => {
         setNumFilas(numFilas)
         setMostrarModal(false)
-
+    
         try {
             const apiUrl = import.meta.env.VITE_API_URL
             const tokenKey = import.meta.env.VITE_TOKEN_KEY
             const url = new URL(`${apiUrl}/evaluation/create`)
-
+    
             const tokenD = AES.decrypt(localStorage.getItem('token'), tokenKey)
             const token = tokenD.toString(enc.Utf8)
-
+    
             const data = {
-                user_id: id,
+                user: parseInt(id),
+                date: "2024-01-25",
+                softskills: 0,
+                performance: 0,
+                hardskills: 0,
+                autoevaluation: 0
             }
-
+    
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -98,22 +103,22 @@ const TablaEvaluaciones = ({
                 },
                 body: JSON.stringify(data),
             })
-
+    
             if (!response.ok) {
                 throw new Error(
                     `Error al agregar evaluación: ${response.status}`
                 )
             }
-
             const result = await response.json()
-            setIdd(result.data.id)
-
+            setIdd(result.id)
             setIsLoading(false)
             fetchUser()
         } catch (error) {
-            console.error('Error al agregar la evaluación:', error.message)
+            setIsLoading(false)
+            console.error(error.message)
         }
     }
+    
 
     const cancelarAgregarFila = () => {
         setMostrarModal(false)

@@ -19,12 +19,10 @@ const Modal = ({
     const [hardskills, setHardskills] = useState(nota4 || '')
     const [error, setError] = useState(null)
     const [isSaving, setIsSaving] = useState(false)
-
     const clearForm = () => {
         onClose()
         setError(null)
     }
-
     const handleGuardar = async () => {
         try {
             // Establecer valores en cero para los campos no utilizados
@@ -45,7 +43,7 @@ const Modal = ({
             const token = tokenD.toString(enc.Utf8)
 
             const response = await fetch(url, {
-                method: 'POST',
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,

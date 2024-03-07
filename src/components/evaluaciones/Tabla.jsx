@@ -62,24 +62,24 @@ export const Tabla = ({ data, pagination, handlePageChange }) => {
                                         {`${users.name} ${users.surname}`}
                                     </th>
                                     <td className='px-6 py-4 whitespace-nowrap'>
-                                        {users.position[0].core.department.name}
+                                        {users.position.core.department.name}
                                     </td>
                                     <td className='px-6 py-4 whitespace-nowrap'>
-                                        {users.position[0].core.name}
+                                        {users.position.core.name}
                                     </td>
                                     <td className='px-6 py-4 whitespace-nowrap'>
-                                        {users.position[0].name}
+                                        {users.position.name}
                                     </td>
                                     <td className='px-6 py-4 whitespace-nowrap'>
                                         {users.shift}
                                     </td>
                                     <td className='px-6 py-4 whitespace-nowrap'>
-                                        {users.roles[0].name}
+                                        {users.role.name}
                                     </td>
                                     <td className='sticky right-0 w-48 p-1 px-6 py-4 text-center bg-cv-primary'>
                                         <div className='flex flex-row items-center justify-center space-x-2'>
                                             <Link
-                                                to={`/evaluacion/${users.id}/${users.name}-${users.surname}-${users.roles[0].name}`}
+                                                to={`/evaluacion/${users.id}/${users.name}-${users.surname}-${users.role.name}`}
                                                 key={users.id}>
                                                 <button
                                                     onClick={() => users.id}
