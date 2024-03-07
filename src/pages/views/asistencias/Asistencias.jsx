@@ -98,7 +98,7 @@ export const Asistencias = () => {
     fetch(
       `${
         import.meta.env.VITE_API_URL
-      }/attendance/list?page=${currentPage}&date=2023-11-8`,
+      }/attendance/list?page=${currentPage}&date=${strDate}`,
       {
         headers: {
           "Content-Type": "application/json",

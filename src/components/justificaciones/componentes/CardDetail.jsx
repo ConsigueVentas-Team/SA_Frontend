@@ -163,7 +163,7 @@ export function CardDetail({
               </div>
             </div>
 
-            {hasRole("Lider Nucleo") && item.user.id != iduser && (
+            {hasRole("Gerencia") && item.user.id != iduser && (
               <div className="flex justify-center flex-row gap-10 mt-4">
                 <button
                   onClick={() => handleRechazar(item)}

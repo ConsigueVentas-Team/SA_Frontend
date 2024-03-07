@@ -114,13 +114,13 @@ export const CardModal = ({ userData, close }) => {
               />
               <BirthdayItem
                 name={"Departamento"}
-                item={userData.position[0].core.department.name}
+                item={userData.position.core.department.name}
               />
               <BirthdayItem
                 name={"Núcleo"}
-                item={userData.position[0].core.name}
+                item={userData.position.core.name}
               />
-              <BirthdayItem name={"Perfil"} item={userData.position[0].name} />
+              <BirthdayItem name={"Perfil"} item={userData.position.name} />
               <BirthdayItem name={"Turno"} item={userData.shift} />
             </div>
           </div>
