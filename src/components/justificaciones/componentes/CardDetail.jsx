@@ -13,7 +13,6 @@ export function CardDetail({
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
-
   return (
     <div className="rounded-lg mt-2">
       {faltasList
@@ -163,7 +162,7 @@ export function CardDetail({
               </div>
             </div>
 
-            {hasRole("Gerencia") && item.user.id != iduser && (
+            {hasRole("Gerencia") && item.user.id != iduser && item?.justification_status ==3 && (
               <div className="flex justify-center flex-row gap-10 mt-4">
                 <button
                   onClick={() => handleRechazar(item)}
