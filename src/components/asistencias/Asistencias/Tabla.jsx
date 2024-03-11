@@ -97,7 +97,7 @@ export const Tabla = ({ data, currentPage, lastPage, total, setCurrentPage, open
 					</div>
 					<div className='flex items-center justify-center w-full gap-2 md:justify-end'>
 						<p className='text-sm font-normal whitespace-nowrap'>
-							{`${currentPage*12 +1} - ${currentPage*12 +12} de ${total}`}
+							{`${(currentPage-1)*12 +1} - ${(currentPage-1)*12 +12} de ${total}`}
 						</p>
 						<div className='inline-flex items-center gap-1 whitespace-nowrap'>
 							<button
