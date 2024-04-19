@@ -60,7 +60,7 @@ ListItem.propTypes = {
     surname: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     birthday: PropTypes.string.isRequired,
-    image_url: PropTypes.string,
+    avatar: PropTypes.string,
   }).isRequired,
 };
 
@@ -131,7 +131,7 @@ export const CardModal = ({ userData, close }) => {
 };
 
 CardModal.propTypes = {
-  userData: PropTypes.array.isRequired,
+  userData: PropTypes.object.isRequired,
   close: PropTypes.func.isRequired,
 };
 
@@ -139,7 +139,7 @@ export const BirthdayImage = ({ item }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <img
-        src={item.image_url.replace(
+        src={item.avatar.replace(
           "http://127.0.0.1:8000",
           "https://backend.consigueventas.com"
         )}
@@ -161,14 +161,14 @@ BirthdayImage.propTypes = {
     email: PropTypes.string.isRequired,
     surname: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
-    image_url: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
   }).isRequired,
 };
 
 export const BirthdayItem = ({ name, item }) => {
   return (
     <div className="flex items-center gap-1 sm:gap-5">
-      <p className="w-full text-lg font-semibold text-start">{name}:</p>
+      <p className="w-full text-lg font-semibold text-end">{name}:</p>
       <p className="w-full text-base font-light text-start">{item}</p>
     </div>
   );

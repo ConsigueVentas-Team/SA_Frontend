@@ -14,9 +14,8 @@ import Loading from "../../../components/essentials/Loading";
 
 export const Asistencias = () => {
   const newDate = new Date();
-  const strDate = `${newDate.getFullYear()}-${
-    newDate.getMonth() + 1
-  }-${newDate.getDate()}`;
+  const strDate = `${newDate.getFullYear()}-${newDate.getMonth() + 1
+    }-${newDate.getDate()}`;
   const [currentData, setCurrentData] = useState([]);
   const [attendance, setAttendance] = useState([]);
 
@@ -52,7 +51,7 @@ export const Asistencias = () => {
   }));
 
   const coreOptions = cores
-    .filter((core) => core.department === parseInt(selectedDepartment))
+    .filter((core) => core.department.id === parseInt(selectedDepartment))
     .map((core) => ({
       value: core.id,
       label: core.name,
@@ -96,8 +95,7 @@ export const Asistencias = () => {
       });
 
     fetch(
-      `${
-        import.meta.env.VITE_API_URL
+      `${import.meta.env.VITE_API_URL
       }/attendance/list?page=${currentPage}&date=${date}`,
       {
         headers: {
@@ -171,9 +169,8 @@ export const Asistencias = () => {
   const getAsistencias = async () => {
     setFetchingInProgress(true);
 
-    let url = `${
-      import.meta.env.VITE_API_URL
-    }/attendance/list?page=${currentPage}&date=${date}`;
+    let url = `${import.meta.env.VITE_API_URL
+      }/attendance/list?page=${currentPage}&date=${date}`;
     url = core ? `${url}&core=${getCore(core)}` : url;
     url = shift ? `${url}&shift=${shift}` : url;
     url = department ? `${url}&department=${getDepartment(department)}` : url;

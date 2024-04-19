@@ -33,7 +33,7 @@ export const SelectOption = ({ label, value, options, onChange, disabled = false
 				className="w-full box-border w-50 h-50 border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
 			>
 				<option value={''}>{label}</option>
-				{options.map((option) => (
+				{options.length > 0 && options.map((option) => (
 					<option key={option.value} value={option.value}>
 						{option.label}
 					</option>
@@ -82,13 +82,13 @@ Button.propTypes = {
 
 
 export const ButtonNavigation = ({ onClick, children }) => {
-    return (
-        <span onClick={onClick} className='flex items-center justify-center p-1 text-white duration-300 ease-in-out rounded-full hover:bg-cv-secondary active:scale-95'>
-            {children}
-        </span>
-    )
+	return (
+		<span onClick={onClick} className='flex items-center justify-center p-1 text-white duration-300 ease-in-out rounded-full hover:bg-cv-secondary active:scale-95'>
+			{children}
+		</span>
+	)
 }
 ButtonNavigation.propTypes = {
-    onClick: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+	onClick: PropTypes.func.isRequired,
+	children: PropTypes.node.isRequired,
 }

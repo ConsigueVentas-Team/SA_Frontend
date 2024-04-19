@@ -10,7 +10,6 @@ export const Filtros = (props) => {
     selectedDepartment,
     selectedCore,
     handleShiftChange,
-    handleClearFilter,
     setDepartment,
     setCore,
     setSelectedDepartment,

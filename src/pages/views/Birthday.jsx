@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { AES, enc } from "crypto-js";
 import CakeIcon from "@mui/icons-material/Cake";
 import { BirthdayList, Calendar } from "../../components/cumpleaños";
+import Loading from "../../components/essentials/Loading";
 
 export const Birthday = () => {
   const [birthdays, setBirthdays] = useState([]);
   const [month, setMonth] = useState(
     new Date().toLocaleString("es-ES", { month: "long" }).toUpperCase()
   );
+  const [loading, setLoading] = useState(false);
   // const [selectedDay, setSelectedDay] = useState('')
 
   const tokenD = AES.decrypt(
@@ -25,6 +27,7 @@ export const Birthday = () => {
     selectedDay = ""
   ) => {
     try {
+      setLoading(true)
       const url = new URL(import.meta.env.VITE_API_URL + "/birthday/details");
 
       url.searchParams.append("m", selectedMonth);
@@ -45,6 +48,8 @@ export const Birthday = () => {
       }
     } catch (error) {
       console.error("Error al obtener los cumpleaños:", error);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -72,19 +77,22 @@ export const Birthday = () => {
           </nav>
         </div>
 
-        <div className="flex flex-col-reverse gap-4 sm:flex-row">
-          <div className="w-full">
-            <BirthdayList data={birthdays} selectedMonth={month} />
-          </div>
-          <div className="w-full">
-            <Calendar
-              birthdays={birthdays}
-              fetchBirthdays={fetchBirthdays}
-              setSelectedMonth={setMonth}
-              onDayClick={handleDayClick}
-            />
-          </div>
-        </div>
+        {loading ? <Loading />
+          : (
+            <div className="flex flex-col-reverse gap-4 sm:flex-row">
+              <div className="w-full">
+                <BirthdayList data={birthdays} selectedMonth={month} />
+              </div>
+              <div className="w-full">
+                <Calendar
+                  birthdays={birthdays}
+                  fetchBirthdays={fetchBirthdays}
+                  setSelectedMonth={setMonth}
+                  onDayClick={handleDayClick}
+                />
+              </div>
+            </div>
+          )}
       </section>
     </>
   );
