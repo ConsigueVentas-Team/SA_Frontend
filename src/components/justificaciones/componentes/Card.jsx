@@ -33,8 +33,8 @@ export const Card = ({ card, page }) => {
         <div className="w-full flex items-center justify-between">
           <Avatar
             alt={card.user.name}
-            src={`${import.meta.env.VITE_BACKEND_SERVER_URL}/photos/${
-              card.user.image_url
+            src={`${import.meta.env.VITE_BACKEND_SERVER_URL}${
+              card.user.avatar
             }`}
             sx={{ width: 52, height: 52 }}
             className="ring-2 ring-cv-cyan w-full h-full object-cover"

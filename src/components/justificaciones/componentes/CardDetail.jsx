@@ -10,6 +10,7 @@ export function CardDetail({
   handleAceptar,
   handleRechazar,
 }) {
+  console.log(faltasList)
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
@@ -110,7 +111,7 @@ export function CardDetail({
                         <label className="font-medium text-slate-400 text-base">
                           Nombre:
                         </label>
-                        <p className="capitalize text-lg">{item.user.name}</p>
+                          <p className="capitalize text-lg">{`${item.user.name} ${item.user.surname}`}</p>
                       </div>
                     </div>
                     <div className="w-full flex flex-col md:flex-row md:space-x-12 items-center ">
@@ -146,12 +147,12 @@ export function CardDetail({
                 item.evidence.endsWith(".png") ||
                 item.evidence.endsWith(".jpeg") ? (
                   <img
-                    src={import.meta.env.VITE_BACKEND_SERVER_URL + "/" +item.evidence}
+                    src={import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence}
                     alt="Image"
                   />
                 ) : item.evidence.endsWith(".pdf") ? (
                   <embed
-                    src={import.meta.env.VITE_BACKEND_SERVER_URL + "/" +item.evidence}
+                    src={import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence}
                     type="application/pdf"
                     width="100%"
                     height="600px"

@@ -50,6 +50,23 @@ export const MarcarAsistencia = () => {
 
     const token = tokenD.toString(enc.Utf8);
 
+    // obtener fecha actual con el formato de acuerdo a la data que se obtiene del backend y poder filtrar correctamente
+    const getCurrentDate = () => {
+      const newDate = new Date();
+      const options = {
+        timezone: "America/Lima",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      };
+      const date = newDate
+        .toLocaleString("en-US", options)
+        .split("/")
+        .reverse();
+      const currentDate = [date[0], date[2], date[1]].join("-");
+      return currentDate
+    }
+
     fetch(import.meta.env.VITE_API_URL + "/attendance/id", {
       method: "GET",
       headers: {
@@ -58,7 +75,11 @@ export const MarcarAsistencia = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.results[0].admissionTime == "00:00:00") {
+        let asistenciaDeHoy = data.results.filter((asistencia) =>
+          asistencia.created_at.includes(getCurrentDate())
+        );
+        console.log(asistenciaDeHoy, fecha)
+        if (asistenciaDeHoy.length === 0 || asistenciaDeHoy[0]?.admissionTime === "00:00:00" || asistenciaDeHoy[0]?.admissionTime === null ) {
           setSegundaFotoTomada(false);
         }
         else {

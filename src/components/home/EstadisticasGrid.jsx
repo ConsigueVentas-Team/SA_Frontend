@@ -26,7 +26,6 @@ export const EstadisticasGrid = () => {
 				});
 				const data = await response.json();
 				if (response.ok) {
-					console.log(data);
 					setUserData(data);
 				} else {
 					console.error('Error al obtener los usuarios:', data.error);

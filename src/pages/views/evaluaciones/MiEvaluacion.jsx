@@ -20,6 +20,7 @@ const NOTAS_USER_HEADERS={
 export const MiEvaluacion = () => {
   const id = localStorage.getItem("iduser");
   const name = localStorage.getItem("name");
+  const surname = localStorage.getItem("surname");
   const rol = localStorage.getItem("rol");  
 
   const evaluarRol = (usuarioRol) => {
@@ -60,7 +61,7 @@ export const MiEvaluacion = () => {
 
         if(data){
           const dataMisEvaluaciones = data.filter(
-            (element) => element.user== parseInt(id)
+            (element) => element.user === parseInt(id)
           );
           setDataMisEvaluacionesFiltradas([...dataMisEvaluaciones])
           if(dataMisEvaluaciones.length > 0){
@@ -93,7 +94,7 @@ export const MiEvaluacion = () => {
               <p className="text-gray-400 font-medium">Nota Final:</p>
             </div>
             <div className="flex flex-row justify-between">
-              <p className="text-white font-medium">{name}</p>
+              <p className="text-white font-medium">{name + " " + surname}</p>
               <p className="text-white font-medium">{promedio}</p>
             </div>
           </div>
