@@ -139,10 +139,7 @@ export const BirthdayImage = ({ item }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <img
-        src={item.avatar.replace(
-          "http://127.0.0.1:8000",
-          "https://backend.consigueventas.com"
-        )}
+        src={item.avatar}
         alt={item.name}
         className="w-40 h-40 rounded-full shadow-lg ring-2 ring-cv-cyan"
       />
