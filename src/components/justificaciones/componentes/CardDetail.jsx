@@ -9,11 +9,30 @@ export function CardDetail({
   rol,
   handleAceptar,
   handleRechazar,
-}) {
-  console.log(faltasList)
+}) {  
+
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
+
+
+  //Función para descargar la imagen al hacer click al botton
+  const handleDownloadImage = (name, lastName, url)=>{    
+    fetch(url)
+      .then(res => res.blob())
+      .then(blob => {
+        const _url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.style.display = 'none';
+        link.href = _url;
+        link.download = `${name}${lastName}-justificacion.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        window.URL.revokeObjectURL(_url);
+      })
+      .catch((e)=> console.log(e));
+  }
+
   return (
     <div className="rounded-lg mt-2">
       {faltasList
@@ -146,10 +165,13 @@ export function CardDetail({
                 {item.evidence.endsWith(".jpg") ||
                 item.evidence.endsWith(".png") ||
                 item.evidence.endsWith(".jpeg") ? (
-                  <img
-                    src={import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence}
-                    alt="Image"
-                  />
+                  <div className="flex flex-col w-full f-center justify-center items-center">
+                    <img className="max-w-lg object-cover w-full object-cover object-center aspect-square"
+                      src={import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence}
+                      alt="Image"
+                    />
+                    <button onClick={()=>{handleDownloadImage(item.user.name, item.user.surname, import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence)}} className="w-fit m-auto mt-4 uppercase basis-1/6 border-2  border-cv-cyan hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300 text-cv-cyan">Descargar</button>
+                  </div>
                 ) : item.evidence.endsWith(".pdf") ? (
                   <embed
                     src={import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence}
