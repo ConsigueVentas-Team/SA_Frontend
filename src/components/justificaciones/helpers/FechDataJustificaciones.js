@@ -11,7 +11,7 @@ export const FechDataJustificaciones = async ({ page }) => {
         const iduser = localStorage.getItem('iduser')
 
         let url = `${import.meta.env.VITE_API_URL
-            }/justification/list?page=1&exclude_user=${iduser}`
+            }/justification/list?page=${page}&exclude_user=${iduser}`
         const response = await fetch(url, {
             headers: {
                 Authorization: `Bearer ${token}`,

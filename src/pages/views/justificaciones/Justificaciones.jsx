@@ -38,8 +38,7 @@ export const Justificaciones = () => {
     FechDataJustificaciones({ page })
       .then((e) => {
         setCards(e.data);
-        setCountPage(e.total);
-        // console.log(e)
+        setCountPage(e.total);                
       })
       .catch((error) => {
         console.log(error);
@@ -47,7 +46,7 @@ export const Justificaciones = () => {
       .finally(() => {
         setLoading(false);
       });
-  };
+  };  
 
   useEffect(() => {
     handleBuscar(page);
@@ -130,11 +129,11 @@ export const Justificaciones = () => {
             <Pagination
               color="primary"
               className="flex w-100 justify-around"
-              count={Math.ceil(countPage / 6)}
+              count={Math.ceil(countPage / 10)}
               page={page}
-              onChange={(event, value) => {
+              onChange={(event, value) => {                
                 setPage(value);
-                handleBuscar(value);
+                handleBuscar(value);                
               }}
               sx={{
                 "& .MuiPaginationItem-root": {
