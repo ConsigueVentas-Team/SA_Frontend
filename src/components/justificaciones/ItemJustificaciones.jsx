@@ -2,6 +2,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { STATUS } from "../../constantes/JustificationStatus";
 
 export const ItemJustificaciones = ({
   cards,
@@ -14,28 +15,27 @@ export const ItemJustificaciones = ({
 
   const isRechazadoOrAceptado = (prop) => {
     if (prop.justification_status === 2) {
-      return "Rechazado";
+      return STATUS.RECHAZADO;
     } else if (prop.justification_status === 3) {
-      return "En proceso";
+      return STATUS.PROCESO;
     } else {
-      return "Aceptado";
+      return STATUS.ACEPTADO;
     }
   };
 
   const colorIcon = (prop) => {
-    if (isRechazadoOrAceptado(prop) === "Rechazado") {
+    if (isRechazadoOrAceptado(prop) === STATUS.RECHAZADO) {
       return "red";
     }
-    if (isRechazadoOrAceptado(prop) === "En proceso") {
+    if (isRechazadoOrAceptado(prop) === STATUS.PROCESO) {
       return "yellow";
     }
-    if (isRechazadoOrAceptado(prop) === "Aceptado") {
+    if (isRechazadoOrAceptado(prop) === STATUS.ACEPTADO) {
       return "green";
     }
   };
 
-  const mostrarDetalles = (id) => {
-    // console.log(currentPage)
+  const mostrarDetalles = (id) => {    
     navigate(`/details/${id}`, { state: { page } });
   };
 
@@ -162,9 +162,12 @@ export const ItemJustificaciones = ({
             <div className=" text-sm font-medium text-cv-primary">
               <button
                 onClick={() => mostrarDetalles(card.id)}
-                className="block w-full font-semibold p-2 text-md text-center uppercase rounded-b-lg bg-cv-cyan"
+                className={`block w-full font-semibold p-2 text-md text-center uppercase rounded-b-lg 
+                ${isRechazadoOrAceptado(card) === STATUS.PROCESO && "bg-yellow-500" ||
+                isRechazadoOrAceptado(card) === STATUS.ACEPTADO && "bg-cv-cyan" ||
+                isRechazadoOrAceptado(card) === STATUS.RECHAZADO && "bg-red-500"    }`}
               >
-                Revisar
+                {isRechazadoOrAceptado(card)}
               </button>
             </div>
           </div>
