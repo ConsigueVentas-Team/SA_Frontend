@@ -11,6 +11,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import Loading from "../../../components/essentials/Loading";
+import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
+
 
 export const Asistencias = () => {
   const newDate = new Date();
@@ -130,15 +132,6 @@ export const Asistencias = () => {
     setAttendance([...currentData]);
   }, [currentData]);
 
-  const handleClearFilter = () => {
-    setShift("");
-    setDepartment("");
-    setCore("");
-    setName("");
-    setSelectedDepartment("");
-    setSelectedCore("");
-  };
-
   const openImageModal = () => {
     setShowImageModal(true);
   };
@@ -198,19 +191,34 @@ export const Asistencias = () => {
 
   useEffect(() => {
     getAsistencias();
-  }, [date, currentPage, shift, core, department]);
+  }, [date, currentPage, shift, core, department]);  
+
+  const handleClearFilters = () => {
+    setShift("");
+    setDepartment("");
+    setCore("");
+    setName("");
+    setSelectedDepartment("");
+    setSelectedCore("");
+  };
 
   return (
     <>
-      <nav className="flex">
-        <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
-          <li className="inline-flex items-center">
+      <nav className="flex w-full">
+        <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase w-full">
+          <li className="inline-flex items-center justify-between w-full">
             <div className="inline-flex items-center text-base font-medium text-white">
               <ChecklistIcon />
               <span className="ml-1 text-base font-medium md:ml-2">
                 Asistencias
               </span>
-            </div>
+            </div>            
+            <button
+                className="w-fit text-cv-primary outline-none px-8 py-1.5 font-semibold text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300 uppercase"
+                onClick={handleClearFilters}
+              >
+                <CleaningServicesIcon />
+              </button>
           </li>
         </ol>
       </nav>
@@ -239,7 +247,7 @@ export const Asistencias = () => {
                   selectedCore={selectedCore}
                   handleShiftChange={handleShiftChange}
                   handleNameChange={handleNameChange}
-                  handleClearFilter={handleClearFilter}
+                  handleClearFilter={handleClearFilters}
                   setDepartment={setDepartment}
                   setCore={setCore}
                   setSelectedDepartment={setSelectedDepartment}

@@ -104,8 +104,7 @@ export const RevisarJustificacion = () => {
     } else if (bandera == true) {
       FechDataJustificaciones({ page })
         .then((e) => {
-          setFaltasList(e.data);
-          // console.log(page)
+          setFaltasList(e.data);          
         })
         .catch((e) => console.log(e))
         .finally(() => {
@@ -114,8 +113,7 @@ export const RevisarJustificacion = () => {
     } else {
       FechData({ page })
         .then((e) => {
-          setFaltasList(e.data);
-          // console.log(page)
+          setFaltasList(e.data);          
         })
         .catch((e) => console.log(e))
         .finally(() => {
