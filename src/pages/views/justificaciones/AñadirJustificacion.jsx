@@ -46,8 +46,7 @@ export const AñadirJustificacion = () => {
     FechData({ page })
       .then((e) => {
         setCards(e.data);
-        setCountPage(e.total);
-        // console.log(e)
+        setCountPage(e.total);        
       })
       .catch((e) => setCards(e))
       .finally(() => {
@@ -175,7 +174,7 @@ export const AñadirJustificacion = () => {
 
           <Pagination
             className="flex justify-center"
-            count={Math.ceil(countPage / 6)}
+            count={Math.ceil(countPage / 10)}
             page={page}
             onChange={(event, value) => {
               setPage(value);
