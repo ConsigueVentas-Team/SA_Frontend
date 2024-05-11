@@ -166,8 +166,8 @@ export const EvaluacionesAdmin = () => {
     setName("");
     setSelectedDepartment("");
     setSelectedCore("");
-    setSelectedProfile("");
-  };
+    setSelectedProfile("");    
+  };  
 
   return (
     <>
@@ -181,7 +181,7 @@ export const EvaluacionesAdmin = () => {
 
         <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-9 gap-x-0 md:gap-4">
           <div className="col-span-1 row-start-2 md:col-span-8 md:row-start-1">
-            <SearchBar value={name} onChange={handleSearchChange} />
+            <SearchBar inputValue={name} setInputValue={handleSearchChange} />
           </div>
           <div className="col-span-2 md:col-start-1 md:row-start-2">
             <SelectOption

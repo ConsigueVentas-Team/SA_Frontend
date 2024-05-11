@@ -3,20 +3,20 @@ import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import Tooltip from "@mui/material/Tooltip";
 
-export const SearchBar = ({ value, onChange }) => {
-	const [inputValue, setInputValue] = useState(value);
-	const debounceTime = 500; // Establece el tiempo de debounce en milisegundos
+export const SearchBar = ({ inputValue, setInputValue }) => {
+	// const [inputValue, setInputValue] = useState(value);
+	const debounceTime = 500; // Establece el tiempo de debounce en milisegundos	
 
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
 			// Capitaliza la primera letra antes de llamar a onChange
 			const capitalizedValue = capitalizeFirstLetter(inputValue);
-			onChange(capitalizedValue);
+			setInputValue(capitalizedValue);
 		}, debounceTime);
 
 		// Limpia el temporizador anterior en cada cambio de inputValue
 		return () => clearTimeout(timeoutId);
-	}, [inputValue, onChange]);
+	}, [inputValue]);
 
 	const handleInputChange = (e) => {
 		setInputValue(e.target.value);
@@ -41,8 +41,8 @@ export const SearchBar = ({ value, onChange }) => {
 };
 
 SearchBar.propTypes = {
-	value: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
+	inputValue: PropTypes.string.isRequired,
+	setInputValue: PropTypes.func.isRequired,
 }
 
 export const SelectOption = ({ label, value, options, onChange, disabled = false }) => {
