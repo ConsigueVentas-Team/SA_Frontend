@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Submit, InputArea } from "../../../../components/formulario";
 import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar";
-import Tabla from "../../../../components/formulario/Tabla";
 import { AES, enc } from "crypto-js";
 import ModalBox from "../../../../components/formulario/Modalbox";
 import Loading from "../../../../components/essentials/Loading";
@@ -10,6 +9,8 @@ import AgregarDato from "../../../../components/formulario/Helpers/hooks/Agregar
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
 import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
+import CustomTable from "../../../../components/formulario/CustomTable";
+import { getTotalData } from "../../../../services/getTotalData";
 
 export const Area = () => {
   const tokenD = AES.decrypt(
@@ -38,16 +39,18 @@ export const Area = () => {
 
   useEffect(() => {
     setCargando(false);
-    async function fetchData() {
-      const data = await ObtenerDatos(token, "position", setCargando);
-      const department = await ObtenerDatos(token, "departments", setCargando);
-      const core = await ObtenerDatos(token, "cores", setCargando);
-      setCores(core.data);
-      setPosition(data.data);
-      setDepartments(department.data);
-    }
     fetchData();
   }, [isChecked]);
+  
+  async function fetchData() {      
+    let data = await getTotalData("position", setCargando);
+    const department = await getTotalData("departments", setCargando);
+    const core = await getTotalData("cores", setCargando);
+    
+    setCores(core);
+    setPosition(data);
+    setDepartments(department);
+  }
 
   const abrirEditarModal = (departamento) => {
     setMostrarEditarModal(true);
@@ -178,13 +181,13 @@ export const Area = () => {
           </div>
         )}
         {loading ? <Loading /> : (
-          <Tabla
+          <CustomTable
             data={Position}
             abrirEliminarModal={abrirEliminarModal}
             abrirEditarModal={abrirEditarModal}
             nucleo={"Núcleo"}
             perfil={"Perfil"}
-          ></Tabla>
+          ></CustomTable>
         )}
       </div>
     </>

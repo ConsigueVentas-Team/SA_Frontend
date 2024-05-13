@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Submit, Inputs } from "../../../../components/formulario";
-import Tabla from "../../../../components/formulario/Tabla";
 import { AES, enc } from "crypto-js";
 import ModalBox from "../../../../components/formulario/Modalbox";
 import Loading from "../../../../components/essentials/Loading";
@@ -10,6 +9,8 @@ import AgregarDato from "../../../../components/formulario/Helpers/hooks/Agregar
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
 import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
+import CustomTable from "../../../../components/formulario/CustomTable";
+import { getTotalData } from "../../../../services/getTotalData";
 export const Nucleo = () => {
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
@@ -36,16 +37,17 @@ export const Nucleo = () => {
 
   useEffect(() => {
     setCargando(false);
-    async function fetchData() {
-      const data = await ObtenerDatos(token, "cores", setCargando);
-      const department = await ObtenerDatos(token, "departments", setCargando);
-
-      setNucleos(data.data);
-      setDepartments(department.data);
-    }
     fetchData();
   }, [isChecked]);
+  
+  async function fetchData() {
+    const data = await getTotalData("cores", setCargando);
+    const department = await getTotalData("departments", setCargando);
 
+    setNucleos(data);
+    setDepartments(department);
+  }
+  
   const abrirEditarModal = (departamento) => {
     setMostrarEditarModal(true);
     setValueDefault(departamento.name);
@@ -177,12 +179,12 @@ export const Nucleo = () => {
           </div>
         )}
         {loading ? <Loading /> : (
-          <Tabla
+          <CustomTable
             data={Nucleos}
             abrirEliminarModal={abrirEliminarModal}
             abrirEditarModal={abrirEditarModal}
             nucleo={"Núcleo"}
-          ></Tabla>
+          ></CustomTable>
         )}
       </div >
     </>

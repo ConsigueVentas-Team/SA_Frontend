@@ -12,6 +12,7 @@ import ActualizarDato from "../../../../components/formulario/Helpers/hooks/Actu
 import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
 import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
 import CustomTable from "../../../../components/formulario/CustomTable";
+import { getTotalData } from "../../../../services/getTotalData";
 
 export const Departamento = () => {
   const tokenD = AES.decrypt(
@@ -39,27 +40,9 @@ export const Departamento = () => {
   }, [isChecked]);
 
   async function fetchData() {    
-    const list = await getTotalData();
+    const list = await getTotalData("departments", setCargando);
     setDepartamentos(list)    
-  }
-
-  //Función que obtiene todos los datos de todas las páginas
-  //porque el componente Tabla(Material-UI) asi lo requiere.
-  const getTotalData = async ()=>{
-    let currentPage = 1;
-    let pieceOfList;
-    let flag;
-    let listData = [];
-
-    while(flag !== null) {      
-      pieceOfList =  await ObtenerDatos(token, "departments", setCargando, currentPage);
-      listData = listData.concat(pieceOfList.data);
-      flag = pieceOfList.next_page_url;
-      currentPage++;      
-    }
-
-    return listData;
-  }
+  }  
 
   const abrirEditarModal = (departamento) => {
     setMostrarEditarModal(true);
