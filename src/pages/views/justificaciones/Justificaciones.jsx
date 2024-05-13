@@ -15,18 +15,19 @@ export const Justificaciones = () => {
   const [page, setPage] = useState(1);
   const [countPage, setCountPage] = useState(null);
   const [cards, setCards] = useState([]);
+  const [filteredCards, setFilteredCards] = useState([]);
   const [name, setName] = useState("");
   const [buscador_tipoJustificacion, setbuscador_tipoJustificacion] = useState("");
   const [buscadorStatus, setBuscadorStatus] = useState("");
   const [buscadorFecha, setBuscadorFecha] = useState("");
   const [loading, setLoading] = useState(true);
-
+    
   const limpiar = () => {
     setName("");
-    setbuscador_tipoJustificacion("");
-    setBuscadorStatus("");
     setBuscadorFecha("");
     setPage(1);
+    setbuscador_tipoJustificacion("")
+    setBuscadorStatus("");
   };
 
   const handleNameChange = (event) => {
@@ -37,8 +38,8 @@ export const Justificaciones = () => {
     setLoading(true);
     FechDataJustificaciones({ page })
       .then((e) => {
-        setCards(e.data);
-        setCountPage(e.total);                
+        setCards(e.data);        
+        setCountPage(e.total);                  
       })
       .catch((error) => {
         console.log(error);
@@ -48,9 +49,75 @@ export const Justificaciones = () => {
       });
   };  
 
-  useEffect(() => {
+  useEffect(() => {    
     handleBuscar(page);
   }, [page]);
+  
+  const handleFilters = ()=>{    
+    const newList = cards
+    //SOLUCIONAR
+        .filter((post) => {
+            if (buscador_tipoJustificacion === '') {
+              return true
+            } 
+            else if(buscador_tipoJustificacion === 'Tardanza'){                            
+              return post.justification_type === true
+            }
+            else if(buscador_tipoJustificacion === 'Falta'){                                     
+              return post.justification_type === false
+            }            
+        })
+        .filter((post) => {
+            const justificationTypeArray = Array.isArray(
+                post.justification_status
+            )
+                ? post.justification_status
+                : [post.justification_status]
+
+            if (buscadorStatus === '') {
+                // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
+                return true
+            } else if (buscadorStatus === '3') {
+                // Filtrar por "En proceso"                
+                return justificationTypeArray.includes(3)
+            } else if (buscadorStatus === '1') {
+                // Filtrar por "Aceptado"
+                return justificationTypeArray.includes(1)
+            } else if (buscadorStatus === '2') {
+                // Filtrar por "Rechazado"
+                return justificationTypeArray.includes(2)
+            } else {
+                // Valor de búsqueda inválido, no se muestra ningún card
+                return false 
+            }
+        })
+        .filter((post) => {
+            if (buscadorFecha === '') {
+                return true
+            } else if (buscadorFecha !== '') {
+                const fechaPost = post.justification_date
+                const fechaBuscador = buscadorFecha
+                return fechaPost === fechaBuscador
+            }
+        })
+        .filter((post) => {
+            if (
+                post.user.name
+                    .toUpperCase()
+                    .includes(name.toUpperCase())
+            ) {
+                return true
+            }
+
+            return false
+        })        
+    setFilteredCards(newList);
+  }
+
+
+  useEffect(()=>{    
+      handleFilters();    
+  },[buscador_tipoJustificacion,buscadorStatus,buscadorFecha,name,cards]);
 
   return (
     <>
@@ -59,7 +126,7 @@ export const Justificaciones = () => {
       {/* </div> */}
       <div className="min-h-screen px-8">
         <p className="flex gap-2 ml-1 text-base mb-3 font-medium md:ml-2 uppercase text-white hover:text-white">
-            <BalanceIcon />
+          <BalanceIcon />
           justificacion
         </p>
 
@@ -72,11 +139,11 @@ export const Justificaciones = () => {
               <select
                 className="px-3 py-2 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full"
                 value={buscador_tipoJustificacion}
-                onChange={(e) => setbuscador_tipoJustificacion(e.target.value)}
+                onChange={(e)=>{setbuscador_tipoJustificacion(e.target.value)}}
               >
                 <option value="">Tipo de justificación</option>
-                <option value={false}>Falta</option>
-                <option value={true}>Tardanza</option>
+                <option value='Falta'>Falta</option>
+                <option value='Tardanza'>Tardanza</option>
               </select>
             </div>
             {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
@@ -117,12 +184,8 @@ export const Justificaciones = () => {
             <Loading />
           ) : (
             <CardList
-              cards={cards}
-              page={page}
-              buscador_tipoJustificacion={buscador_tipoJustificacion}
-              buscadorStatus={buscadorStatus}
-              buscadorFecha={buscadorFecha}
-              searchName={name}
+              cards={filteredCards}
+              page={page}              
             />
           )}
           <div className="mt-5">
@@ -132,8 +195,7 @@ export const Justificaciones = () => {
               count={Math.ceil(countPage / 10)}
               page={page}
               onChange={(event, value) => {                
-                setPage(value);
-                handleBuscar(value);                
+                setPage(value);                            
               }}
               sx={{
                 "& .MuiPaginationItem-root": {

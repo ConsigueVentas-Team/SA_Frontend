@@ -113,8 +113,8 @@ export const AñadirJustificacion = () => {
                 onChange={(e) => setbuscador_tipoJustificacion(e.target.value)}
               >
                 <option value="">Tipo de justificación</option>
-                <option value="0">Falta</option>
-                <option value="1">Tardanza</option>
+                <option value="Falta">Falta</option>
+                <option value="Tardanza">Tardanza</option>
               </select>
             </div>
             {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}

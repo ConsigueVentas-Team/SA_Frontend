@@ -84,7 +84,7 @@ export const Card = ({ card, page }) => {
                   {" "}
                   Tipo:{" "}
                 </span>{" "}
-                {card.type === 0 ? "Falta" : "Tardanza"}
+                {card.justification_type === false ? "Falta" : "Tardanza"}
               </p>
             </li>
             <li className="w-full text-sm font-normal">

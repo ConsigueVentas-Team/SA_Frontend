@@ -41,25 +41,24 @@ export const ItemJustificaciones = ({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5">
-      {cards
+      {cards        
         .filter((post) => {
-          const justificationTypeArray = Array.isArray(post.type)
-            ? post.type
-            : [post.type];
-          if (buscador_tipoJustificacion === "") {
-            // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
-            return true;
-          } else {
-            // Filtrar por el tipo de justificación seleccionado
-            return justificationTypeArray.includes(
-              Number(buscador_tipoJustificacion)
-            );
+          if (buscador_tipoJustificacion === '') {
+            return true
+          } 
+          else if(buscador_tipoJustificacion === 'Tardanza'){                            
+            return post.justification_type === true
           }
-        })
+          else if(buscador_tipoJustificacion === 'Falta'){                                     
+            return post.justification_type === false
+          }            
+      })
         .filter((post) => {
-          const justificationTypeArray = Array.isArray(post.status)
-            ? post.status
-            : [post.status];
+          const justificationTypeArray = Array.isArray(
+            post.justification_status
+          )
+            ? post.justification_status
+            : [post.justification_status]
 
           if (buscadorStatus === "") {
             // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
