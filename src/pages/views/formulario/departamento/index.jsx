@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Submit } from "../../../../components/formulario";
-import Tabla from "../../../../components/formulario/Tabla";
 import { AES, enc } from "crypto-js";
 import Input from "../../../../components/formulario/Input";
 import ModalBox from "../../../../components/formulario/Modalbox";
@@ -12,6 +11,7 @@ import EliminarDato from "../../../../components/formulario/Helpers/hooks/Elimin
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
 import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
 import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
+import CustomTable from "../../../../components/formulario/CustomTable";
 
 export const Departamento = () => {
   const tokenD = AES.decrypt(
@@ -31,17 +31,35 @@ export const Departamento = () => {
   const [cargando, setCargando] = useState(true);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(false);
-
+  const [alertMessage, setAlertMessage] = useState(false);  
 
   useEffect(() => {
-    setCargando(false);
-    async function fetchData() {
-      const data = await ObtenerDatos(token, "departments", setCargando);
-      setDepartamentos(data.data);
-    }
-    fetchData();
+    setCargando(false);            
+    fetchData();    
   }, [isChecked]);
+
+  async function fetchData() {    
+    const list = await getTotalData();
+    setDepartamentos(list)    
+  }
+
+  //Función que obtiene todos los datos de todas las páginas
+  //porque el componente Tabla(Material-UI) asi lo requiere.
+  const getTotalData = async ()=>{
+    let currentPage = 1;
+    let pieceOfList;
+    let flag;
+    let listData = [];
+
+    while(flag !== null) {      
+      pieceOfList =  await ObtenerDatos(token, "departments", setCargando, currentPage);
+      listData = listData.concat(pieceOfList.data);
+      flag = pieceOfList.next_page_url;
+      currentPage++;      
+    }
+
+    return listData;
+  }
 
   const abrirEditarModal = (departamento) => {
     setMostrarEditarModal(true);
@@ -165,12 +183,8 @@ export const Departamento = () => {
               </span>
             </div>
           )}
-          {loading ? <Loading /> : (
-            <Tabla
-              data={Departamentos}
-              abrirEliminarModal={abrirEliminarModal}
-              abrirEditarModal={abrirEditarModal}
-            ></Tabla>
+          {loading ? <Loading /> : (            
+            <CustomTable abrirEditarModal={abrirEditarModal} abrirEliminarModal={abrirEliminarModal} data={Departamentos}/>
           )}
         </div>
       )}

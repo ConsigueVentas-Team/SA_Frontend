@@ -1,8 +1,8 @@
-const ObtenerDatos = async (token, url, setCargando) => {
+const ObtenerDatos = async (token, url, setCargando, page=1) => {
   if (url === "position" || url === "cores" || url === "departments") {
     try {
       const response = await fetch(
-        import.meta.env.VITE_API_URL + `/${url}/list`,
+        import.meta.env.VITE_API_URL + `/${url}/list?page=${page}`,
         {
           headers: {
             "Content-Type": "application/json",
