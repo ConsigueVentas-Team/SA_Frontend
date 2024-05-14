@@ -34,27 +34,36 @@ export const Justificaciones = () => {
     setName(event.target.value);
   };
 
-  const handleBuscar = (page) => {
-    setLoading(true);
-    FechDataJustificaciones({ page })
-      .then((e) => {
-        setCards(e.data);        
-        setCountPage(e.total);                  
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };  
-
-  useEffect(() => {    
-    handleBuscar(page);
-  }, [page]);
+  //Función que carga todas las paginas 
+  const getAllData = async ()=>{
+    let page = 1;
+    let pieceOfList;
+    let flag;
+    let listData = [];    
+    
+    while(flag !== null) {      
+      pieceOfList = await FechDataJustificaciones({page});    
+      listData = listData.concat(pieceOfList.data)
+      flag = pieceOfList.next_page_url;
+      page++;
+    }
+    return listData
+  }
   
-  const handleFilters = ()=>{    
-    const newList = cards
+  //Función que actualiza la lista  de cards
+  const updatePage = async ()=>{
+    const list = await getAllData();    
+    setLoading(false);
+    setCards(list);
+    setCountPage(list.length)
+  }
+
+  useEffect(() => {        
+    updatePage();
+  }, []);
+  
+  const handleFilters = ()=>{        
+    let newList = cards
     //SOLUCIONAR
         .filter((post) => {
             if (buscador_tipoJustificacion === '') {
@@ -111,13 +120,20 @@ export const Justificaciones = () => {
 
             return false
         })        
-    setFilteredCards(newList);
+        
+        //Actualizo el estado CountPage antes de cortar la lista filtrada(newList)
+        setCountPage(newList.length);
+
+        //Corto la lista para que se muestren 10 justificaciónes por página
+        newList = newList.slice((page-1)*10, ((page-1)*10) + 10);
+
+        //Seteo el estado filteredCards para que se renderize
+        setFilteredCards(newList);
   }
 
-
   useEffect(()=>{    
-      handleFilters();    
-  },[buscador_tipoJustificacion,buscadorStatus,buscadorFecha,name,cards]);
+      handleFilters();          
+  },[buscador_tipoJustificacion,buscadorStatus,buscadorFecha,name,cards,page]);
 
   return (
     <>
