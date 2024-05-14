@@ -118,12 +118,12 @@ export const EvaluacionesAdmin = () => {
   }, [shift, position, department, core, name]);
 
   //* Listar Colaboradores
-  const obtenerUsuarios = async (page) => {
+  const obtenerUsuarios = async (page) => {        
     setCargando(true);
     try {
       const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
 
-      url.searchParams.append("page=1", page);
+      if (page) url.searchParams.append("page", page);
 
       if (name) url.searchParams.append("name", name);
       if (department) url.searchParams.append("department", department);
@@ -140,7 +140,7 @@ export const EvaluacionesAdmin = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setUsers(data.data);
+        setUsers(data.data);        
         setPagination(data);
         setCargando(false);
       } else {
@@ -153,7 +153,7 @@ export const EvaluacionesAdmin = () => {
   };
 
   //* Paginación
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage) => {    
     obtenerUsuarios(newPage);
   };
 
