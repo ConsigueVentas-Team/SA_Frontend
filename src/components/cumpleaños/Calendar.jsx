@@ -5,30 +5,24 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { ButtonNavigation } from './Elements';
 
 
-export const Calendar = ({ birthdays, fetchBirthdays, setSelectedMonth, onDayClick }) => {
-
-    const [currentMonth, setCurrentMonth] = useState(new Date());
+export const Calendar = ({currentMonth, birthdays, fetchBirthdays, setCurrentMonth, onDayClick }) => {
 
     const prevMonth = () => {
         const prevMonthDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1);
         setCurrentMonth(prevMonthDate);
-        fetchBirthdays(prevMonthDate.toLocaleString('es-ES', { month: 'numeric' }).toUpperCase(), '');
-        setSelectedMonth(prevMonthDate.toLocaleString('es-ES', { month: 'long' }).toUpperCase());
+        fetchBirthdays(prevMonthDate.toLocaleString('es-ES', { month: 'numeric' }).toUpperCase(), '');        
     };
-
 
     const nextMonth = () => {
         const nextMonthDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1);
         setCurrentMonth(nextMonthDate);
-        fetchBirthdays(nextMonthDate.toLocaleString('es-ES', { month: 'numeric' }).toUpperCase(), '');
-        setSelectedMonth(nextMonthDate.toLocaleString('es-ES', { month: 'long' }).toUpperCase());
+        fetchBirthdays(nextMonthDate.toLocaleString('es-ES', { month: 'numeric' }).toUpperCase(), '');        
     };
 
     const goToToday = () => {
         const today = new Date();
         setCurrentMonth(today);
-        fetchBirthdays(today.toLocaleString('es-ES', { month: 'numeric' }).toUpperCase(), '');
-        setSelectedMonth(today.toLocaleString('es-ES', { month: 'long' }).toUpperCase());
+        fetchBirthdays(today.toLocaleString('es-ES', { month: 'numeric' }).toUpperCase(), '');        
     };
 
     function monthName(date) {
@@ -123,10 +117,10 @@ export const Calendar = ({ birthdays, fetchBirthdays, setSelectedMonth, onDayCli
     )
 }
 
-// Calendar.propTypes = {
-//     birthdays: PropTypes.array.isRequired,
-//     fetchBirthdays: PropTypes.func.isRequired,
-//     selectedMonth: PropTypes.string.isRequired,
-//     setSelectedMonth: PropTypes.func.isRequired,
-//     onDayClick: PropTypes.func.isRequired,
-// }
+Calendar.propTypes = {
+    birthdays: PropTypes.array.isRequired,
+    fetchBirthdays: PropTypes.func.isRequired,
+    currentMonth: PropTypes.string.isRequired,
+    setCurrentMonth: PropTypes.func.isRequired,
+    onDayClick: PropTypes.func.isRequired,
+}
