@@ -14,8 +14,7 @@ export function CardDetail({
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
-
-
+  
   //Función para descargar la imagen al hacer click al botton
   const handleDownloadImage = (name, lastName, url)=>{    
     fetch(url)

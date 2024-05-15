@@ -102,7 +102,7 @@ export const RevisarJustificacion = () => {
           setLoading(false);
         });
     } else if (bandera == true) {
-      FechDataJustificaciones({ page })
+      FechDataJustificaciones({ page, exclude:true })
         .then((e) => {
           setFaltasList(e.data);          
         })

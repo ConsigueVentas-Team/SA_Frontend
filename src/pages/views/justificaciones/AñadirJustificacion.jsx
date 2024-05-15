@@ -10,7 +10,8 @@ import { Alert, Box, Modal, Pagination, Snackbar } from "@mui/material";
 import Loading from "../../../components/essentials/Loading";
 import BalanceIcon from "@mui/icons-material/Balance";
 import { getAllData } from "./getAllData";
-import { filterByJustificationDate, filterByJustificationStatus, filterByJustificationType, filterBySearch } from "./FiltersJustification";
+import { filterByJustificationDate, filterByJustificationStatus, filterByJustificationType } from "./FiltersJustification";
+import MessageNotFound from "../../../components/MessageNotFound";
 
 export const AñadirJustificacion = () => {
   const [page, setPage] = useState(1);
@@ -44,7 +45,7 @@ export const AñadirJustificacion = () => {
 
   const updatePage = async()=>{
     setLoading(true);
-    const list= await getAllData();
+    const list= await getAllData(false);    
     setLoading(false);
     setCards(list);
     setCountPage(list.length)   
@@ -115,7 +116,7 @@ export const AñadirJustificacion = () => {
             <ModalAgregar
               cancelarModalAlert={setModal}
               setToasSuccess={setToasSuccess}
-              handleBuscar={handleBuscar}
+              handleBuscar={updatePage}
               setMensajeAlerta={setMensajeAlerta}
             />
           )}
@@ -187,13 +188,16 @@ export const AñadirJustificacion = () => {
           {loading ? (
             <Loading />
           ) : (
-            <ItemJustificaciones
-              cards={filteredCards}
-              page={page}
-              buscador_tipoJustificacion={buscador_tipoJustificacion}
-              buscadorStatus={buscadorStatus}
-              buscadorFecha={buscadorFecha}
-            />
+            filteredCards.length > 0 ?
+              <ItemJustificaciones
+                cards={filteredCards}
+                page={page}
+                buscador_tipoJustificacion={buscador_tipoJustificacion}
+                buscadorStatus={buscadorStatus}
+                buscadorFecha={buscadorFecha}
+              />
+              :
+              <MessageNotFound/>
           )}
 
           <Pagination

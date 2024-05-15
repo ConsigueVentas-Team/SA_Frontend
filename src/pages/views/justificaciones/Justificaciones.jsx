@@ -6,12 +6,12 @@ import {
   SearchBar,
 } from "../../../components/justificaciones";
 import { Pagination } from "@mui/material";
-import { FechDataJustificaciones } from "../../../components/justificaciones/helpers/FechDataJustificaciones";
 // import { ResponsiveContainer } from 'recharts'
 import Loading from "../../../components/essentials/Loading";
 import BalanceIcon from "@mui/icons-material/Balance";
 import { getAllData } from "./getAllData";
 import { filterByJustificationDate, filterByJustificationStatus, filterByJustificationType, filterBySearch } from "./FiltersJustification";
+import MessageNotFound from "../../../components/MessageNotFound";
 
 export const Justificaciones = () => {
   const [page, setPage] = useState(1);
@@ -39,7 +39,7 @@ export const Justificaciones = () => {
   //Función que actualiza la lista  de cards
   const updatePage = async ()=>{
     setLoading(true);
-    const list = await getAllData();    
+    const list = await getAllData(true);    
     setLoading(false);
     setCards(list);
     setCountPage(list.length)
@@ -139,12 +139,15 @@ export const Justificaciones = () => {
         <>
           {loading ? (
             <Loading />
-          ) : (
-            <CardList
-              cards={filteredCards}
-              page={page}              
-            />
-          )}
+          ) : 
+            filteredCards.length > 0 ?
+              <CardList
+                cards={filteredCards}
+                page={page}              
+              />
+              :
+              <MessageNotFound/>
+          }
           <div className="mt-5">
             <Pagination
               color="primary"
