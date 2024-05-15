@@ -55,7 +55,7 @@ export const ModalAgregar = ({
         formData.append('justification_date', justification_date)
         formData.append('reason', reason)
         formData.append('evidence', evidence)
-        formData.append('justification_type', justification_type)
+        formData.append('justification_type', justification_type)                
 
         if (
             !justification_date ||
@@ -82,12 +82,11 @@ export const ModalAgregar = ({
                     })
                 }
                 return response.json()
-            })
-            // eslint-disable-next-line no-unused-vars
+            })            
             .then(data => {
                 setMensajeAlerta(data.message)
                 setToasSuccess(e => !e)
-                handleBuscar()
+                handleBuscar(1)
             })
             .catch(error => {
                 setMessage(error.message)

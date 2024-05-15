@@ -10,6 +10,8 @@ import { FechDataJustificaciones } from "../../../components/justificaciones/hel
 // import { ResponsiveContainer } from 'recharts'
 import Loading from "../../../components/essentials/Loading";
 import BalanceIcon from "@mui/icons-material/Balance";
+import { getAllData } from "./getAllData";
+import { filterByJustificationDate, filterByJustificationStatus, filterByJustificationType, filterBySearch } from "./FiltersJustification";
 
 export const Justificaciones = () => {
   const [page, setPage] = useState(1);
@@ -34,24 +36,9 @@ export const Justificaciones = () => {
     setName(event.target.value);
   };
 
-  //Función que carga todas las paginas 
-  const getAllData = async ()=>{
-    let page = 1;
-    let pieceOfList;
-    let flag;
-    let listData = [];    
-    
-    while(flag !== null) {      
-      pieceOfList = await FechDataJustificaciones({page});    
-      listData = listData.concat(pieceOfList.data)
-      flag = pieceOfList.next_page_url;
-      page++;
-    }
-    return listData
-  }
-  
   //Función que actualiza la lista  de cards
   const updatePage = async ()=>{
+    setLoading(true);
     const list = await getAllData();    
     setLoading(false);
     setCards(list);
@@ -60,80 +47,34 @@ export const Justificaciones = () => {
 
   useEffect(() => {        
     updatePage();
-  }, []);
-  
-  const handleFilters = ()=>{        
-    let newList = cards
-    //SOLUCIONAR
-        .filter((post) => {
-            if (buscador_tipoJustificacion === '') {
-              return true
-            } 
-            else if(buscador_tipoJustificacion === 'Tardanza'){                            
-              return post.justification_type === true
-            }
-            else if(buscador_tipoJustificacion === 'Falta'){                                     
-              return post.justification_type === false
-            }            
-        })
-        .filter((post) => {
-            const justificationTypeArray = Array.isArray(
-                post.justification_status
-            )
-                ? post.justification_status
-                : [post.justification_status]
+  }, []); 
 
-            if (buscadorStatus === '') {
-                // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
-                return true
-            } else if (buscadorStatus === '3') {
-                // Filtrar por "En proceso"                
-                return justificationTypeArray.includes(3)
-            } else if (buscadorStatus === '1') {
-                // Filtrar por "Aceptado"
-                return justificationTypeArray.includes(1)
-            } else if (buscadorStatus === '2') {
-                // Filtrar por "Rechazado"
-                return justificationTypeArray.includes(2)
-            } else {
-                // Valor de búsqueda inválido, no se muestra ningún card
-                return false 
-            }
-        })
-        .filter((post) => {
-            if (buscadorFecha === '') {
-                return true
-            } else if (buscadorFecha !== '') {
-                const fechaPost = post.justification_date
-                const fechaBuscador = buscadorFecha
-                return fechaPost === fechaBuscador
-            }
-        })
-        .filter((post) => {
-            if (
-                post.user.name
-                    .toUpperCase()
-                    .includes(name.toUpperCase())
-            ) {
-                return true
-            }
+  const handleFilters = ()=>{       
+    //Aplico todos los filtros 
+    let newList = filterByJustificationType(cards, buscador_tipoJustificacion);
+    newList = filterByJustificationStatus(newList, buscadorStatus);                
+    newList = filterByJustificationDate(newList, buscadorFecha)
+    newList = filterBySearch(newList, name);
 
-            return false
-        })        
-        
-        //Actualizo el estado CountPage antes de cortar la lista filtrada(newList)
-        setCountPage(newList.length);
+    //Actualizo el estado CountPage antes de cortar la lista filtrada(newList)
+    setCountPage(newList.length);
 
-        //Corto la lista para que se muestren 10 justificaciónes por página
-        newList = newList.slice((page-1)*10, ((page-1)*10) + 10);
+    //Corto la lista para que se muestren 10 justificaciónes por página
+    newList = newList.slice((page-1)*10, ((page-1)*10) + 10);
 
-        //Seteo el estado filteredCards para que se renderize
-        setFilteredCards(newList);
+    //Seteo el estado filteredCards para que se renderize
+    setFilteredCards(newList);
   }
 
+  //Ejecutamos los filtros cada vez que se cambian los estados
   useEffect(()=>{    
-      handleFilters();          
+    handleFilters();          
   },[buscador_tipoJustificacion,buscadorStatus,buscadorFecha,name,cards,page]);
+
+  //Cada vez que se ejecuta un filtro, mostramos la primera página
+  useEffect(()=>{    
+    setPage(1);
+  },[buscador_tipoJustificacion,buscadorStatus,buscadorFecha,name]);
 
   return (
     <>

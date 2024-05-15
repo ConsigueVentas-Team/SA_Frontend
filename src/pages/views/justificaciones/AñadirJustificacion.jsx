@@ -7,9 +7,10 @@ import {
   ModalAlert,
 } from "../../../components/justificaciones";
 import { Alert, Box, Modal, Pagination, Snackbar } from "@mui/material";
-import { FechData } from "../../../components/justificaciones/helpers/FechData";
 import Loading from "../../../components/essentials/Loading";
 import BalanceIcon from "@mui/icons-material/Balance";
+import { getAllData } from "./getAllData";
+import { filterByJustificationDate, filterByJustificationStatus, filterByJustificationType, filterBySearch } from "./FiltersJustification";
 
 export const AñadirJustificacion = () => {
   const [page, setPage] = useState(1);
@@ -20,11 +21,11 @@ export const AñadirJustificacion = () => {
   const [modalAlert, setModalAlert] = useState(false);
   const [modalAgregar, setModalAgregar] = useState(false);
 
-  const [buscador_tipoJustificacion, setbuscador_tipoJustificacion] =
-    useState("");
+  const [buscador_tipoJustificacion, setbuscador_tipoJustificacion] = useState("");
   const [buscadorStatus, setBuscadorStatus] = useState("");
   const [buscadorFecha, setBuscadorFecha] = useState("");
   const [loading, setLoading] = useState(true);
+  const [filteredCards, setFilteredCards] = useState([]);
 
   // Para Toas Alert Success
   const [toasSuccess, setToasSuccess] = useState(false);
@@ -41,18 +42,29 @@ export const AñadirJustificacion = () => {
     setModalAlert(true);
   };
 
-  const handleBuscar = (page) => {
+  const updatePage = async()=>{
     setLoading(true);
-    FechData({ page })
-      .then((e) => {
-        setCards(e.data);
-        setCountPage(e.total);        
-      })
-      .catch((e) => setCards(e))
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+    const list= await getAllData();
+    setLoading(false);
+    setCards(list);
+    setCountPage(list.length)   
+  }
+
+  const handleFilters = ()=>{       
+    //Aplico todos los filtros 
+    let newList = filterByJustificationType(cards, buscador_tipoJustificacion);
+    newList = filterByJustificationStatus(newList, buscadorStatus);                
+    newList = filterByJustificationDate(newList, buscadorFecha)    
+
+    //Actualizo el estado CountPage antes de cortar la lista filtrada(newList)
+    setCountPage(newList.length);
+
+    //Corto la lista para que se muestren 10 justificaciónes por página
+    newList = newList.slice((page-1)*10, ((page-1)*10) + 10);
+
+    //Seteo el estado filteredCards para que se renderize
+    setFilteredCards(newList);    
+  }  
 
   const limpiar = () => {
     setbuscador_tipoJustificacion("");
@@ -61,10 +73,22 @@ export const AñadirJustificacion = () => {
     setPage(1);
   };
 
+  //Cargamos los datos
   useEffect(() => {
-    handleBuscar(page);
-  }, [page]);
+    updatePage();
+  }, []);
 
+  //Ejecutamos los filtros cada vez que se cambian los estados
+  useEffect(() => {
+    handleFilters();        
+  }, [buscadorFecha, buscadorStatus, buscador_tipoJustificacion, cards, page])    
+  
+  //Cada vez que se ejecuta un filtro, mostramos la primera página
+  useEffect(() => {
+    setPage(1);
+  }, [buscadorFecha, buscadorStatus, buscador_tipoJustificacion])    
+
+  
   return (
     <>
       <Snackbar
@@ -110,7 +134,7 @@ export const AñadirJustificacion = () => {
               <select
                 className="px-3 py-3 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full"
                 value={buscador_tipoJustificacion}
-                onChange={(e) => setbuscador_tipoJustificacion(e.target.value)}
+                onChange={(e) => {setbuscador_tipoJustificacion(e.target.value)}}
               >
                 <option value="">Tipo de justificación</option>
                 <option value="Falta">Falta</option>
@@ -122,7 +146,7 @@ export const AñadirJustificacion = () => {
               <select
                 className="px-3 py-3 rounded-md outline-none bg-cv-secondary border border-cv-primary w-full"
                 value={buscadorStatus}
-                onChange={(e) => setBuscadorStatus(e.target.value)}
+                onChange={(e) => {setBuscadorStatus(e.target.value)}}
               >
                 <option value="">Estado</option>
                 <option value="1">Aceptado</option>
@@ -164,7 +188,7 @@ export const AñadirJustificacion = () => {
             <Loading />
           ) : (
             <ItemJustificaciones
-              cards={cards}
+              cards={filteredCards}
               page={page}
               buscador_tipoJustificacion={buscador_tipoJustificacion}
               buscadorStatus={buscadorStatus}
@@ -177,8 +201,7 @@ export const AñadirJustificacion = () => {
             count={Math.ceil(countPage / 10)}
             page={page}
             onChange={(event, value) => {
-              setPage(value);
-              handleBuscar(value);
+              setPage(value);              
             }}
             sx={{
               "& .MuiPaginationItem-root": {
