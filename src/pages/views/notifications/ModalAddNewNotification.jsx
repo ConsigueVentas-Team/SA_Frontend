@@ -1,16 +1,19 @@
 import { Box, Modal } from '@mui/material';
 import React from 'react';
+import useNotificationActions from './hooks/useNotificationActions';
 
-const ModalAddNewNotification = ({openModal, setOpenModal, addNewNotification}) => {
+const ModalAddNewNotification = ({openModal, setOpenModal}) => {
+    const { addNewNotification } = useNotificationActions();
+
     return (
         <Modal
-        open={openModal}
-        onClose={()=>{
-            setOpenModal(false)
-        }}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-description"
-        className='flex items-center justify-center'
+            open={openModal}
+            onClose={()=>{
+                setOpenModal(false)
+            }}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-description"
+            className='flex items-center justify-center'
         >      
         <Box className=''>
             <div className='bg-white px-4 py-6 w-96 rounded-md overflow-hidden'>

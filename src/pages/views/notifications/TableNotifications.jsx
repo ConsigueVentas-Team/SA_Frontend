@@ -13,40 +13,55 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { CustomTableCell, StyledTableRow, darkTheme } from '../../../components/formulario/StyleTable';
 import TablePaginationActions from '../../../components/formulario/TablePaginationActions';
 import useNotifications from './hooks/useNotifications';
-import useNotificationActions from './hooks/useNotificationActions';
 import ModalAddNewNotification from './ModalAddNewNotification';
 import ModalEditNotification from './ModalEditNotification';
+import ModalAlert from './ModalAlert';
 
 const TableNotifications = ({setOpenModal, openModal}) => {
     const [page, setPage] = useState(0);     
-    const {data} = useNotifications();
+    const {data, setData} = useNotifications();
     const [rowsPerPage, setRowsPerPage] = useState(5);  
-    const {addNewNotification} = useNotificationActions();    
-    const [openEditModal, setOpenEditModal] = useState(false);
-    const [selectedMessage, setSelectedMessage] = useState(null);
+    const [openEditModal, setOpenEditModal] = useState(false);    
+    const [selectedId, setSelectedId] = useState(null);
+    const [openAlertModal, setOpenAlertModal] = useState(false);
+    const [selectedNotification, setSelectedNotification] = useState(null);
 
     // Evitar un salto de diseño al llegar a la última página con filas vacias.
-     const emptyRows =
-     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
- 
-     //Función que manaje el cambio de página
-     const handleChangePage = (event, newPage) => {    
-     setPage(newPage);
-     };
- 
-     //Función que cambia la cantidad de filas por página(RowsPerPage)
-     const handleChangeRowsPerPage = (event) => {
-     setRowsPerPage(parseInt(event.target.value, 10));
-     setPage(0);
-     };  
+    const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
+    //Función que manaje el cambio de página
+    const handleChangePage = (event, newPage) => {    
+        setPage(newPage);
+    };
+
+    //Función que cambia la cantidad de filas por página(RowsPerPage)
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };  
+
+    //Abrir modal de alerta
+    const handleDeleteNotification = (id)=>{
+        setSelectedId(id)
+        setOpenAlertModal(true);    
+    }
+
+    //Abrir modal para modificar la notificación
+    const handleModificationNotification = (data)=>{
+        setSelectedId(data.id)        
+        setOpenEditModal(true)        
+        setSelectedNotification(data)
+    }
+    
     return (
         <Box
-            sx={{ width: "100%" }}
-            className=" bg-cv-primary rounded-md overflow-hidden mt-10"
+        sx={{ width: "100%" }}
+        className=" bg-cv-primary rounded-md overflow-hidden mt-10"
         >   
-        <ModalAddNewNotification addNewNotification={addNewNotification} openModal={openModal} setOpenModal={setOpenModal}/>
-        <ModalEditNotification currentMessage={selectedMessage} openEditModal={openEditModal} setOpenEditModal={setOpenEditModal}/>
+        <ModalAddNewNotification openModal={openModal} setOpenModal={setOpenModal}/>
+        <ModalEditNotification notification={selectedNotification} openEditModal={openEditModal} setOpenEditModal={setOpenEditModal}/>
+        <ModalAlert id={selectedId} data={data} setData={setData} openModal={openAlertModal} setOpenModal={setOpenAlertModal}/>
         <TableContainer  component={Paper}>
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         <TableHead className="bg-[#0e161b]">
@@ -61,8 +76,7 @@ const TableNotifications = ({setOpenModal, openModal}) => {
             {(rowsPerPage > 0
                 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : data  
-            ).map((data) => (    
-                <>
+            ).map((data) => (                    
                 <StyledTableRow
                     key={data.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -87,17 +101,19 @@ const TableNotifications = ({setOpenModal, openModal}) => {
                         style={{border:'none', borderBottom:'1px solid #393737'}}
                     >
                         <button
-                            onClick={() => {setSelectedMessage(data.message);setOpenEditModal(true)}}
+                            onClick={()=>{handleModificationNotification(data)}}
                             className="p-2 rounded-md text-yellow-500 hover:bg-yellow-500 hover:text-white active:scale-95 ease-in-out duration-300"
                             >
                             <EditIcon />
                         </button>
-                        <button className='hover:text-white hover:bg-red-500 p-2 rounded-md text-medium text-red-500 duration-300 active:scale-95'>
+                        <button 
+                            onClick={()=>{handleDeleteNotification(data.id)}}
+                            className='hover:text-white hover:bg-red-500 p-2 rounded-md text-medium text-red-500 duration-300 active:scale-95'
+                        >
                             <DeleteIcon/>
                         </button>
                     </TableCell>
-                    </StyledTableRow>
-                </>        
+                    </StyledTableRow>                
             ))}          
             {emptyRows > 0 && (
                 <TableRow className='bg-cv-primary' style={{ height: 53 * emptyRows }}>
@@ -111,24 +127,24 @@ const TableNotifications = ({setOpenModal, openModal}) => {
         {" "}
         <ThemeProvider theme={darkTheme}>
         <TablePagination
-                rowsPerPageOptions={[5,10,15]}
-                component="div"
-                colSpan={3}
-                count={data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                slotProps={{
-                    select: {
+            rowsPerPageOptions={[5,10,15]}
+            component="div"
+            colSpan={3}
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            SelectProps={{
+                select: {
                     inputProps: {
                         'aria-label': 'rows per page',
                     },
                     native: true,
-                    },
-                }}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-                />
+                },
+            }}            
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            ActionsComponent={TablePaginationActions}
+        />
         </ThemeProvider>
         </div>
         </Box>
