@@ -48,7 +48,7 @@ const ModalAlert = ({id, setOpenModal, openModal, setData, data}) => {
                                 className='text-white uppercase border-2 border-cv-primary bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'
                                 onClick={handleDelete}
                                 >
-                                ACEPTO
+                                ELIMINAR
                             </button>
                         </div>
                     </div>

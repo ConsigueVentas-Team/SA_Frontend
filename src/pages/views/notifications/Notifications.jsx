@@ -3,10 +3,11 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import TableNotifications from '../../../components/notificaciones/TableNotifications';
 import useNotifications from '../../../components/notificaciones/hooks/useNotifications';
 import MessageNotFound from '../../../components/MessageNotFound';
+import Loading from '../../../components/essentials/Loading';
 
 const Notifications = () => {  
     const [openModal, setOpenModal] = useState(false);            
-    const {data, setData} = useNotifications();
+    const {data, setData, loading} = useNotifications();
 
     return (
     <>
@@ -20,11 +21,13 @@ const Notifications = () => {
       >
         Agregar notificación
       </button>
-      {data.length > 0 ?
-        <TableNotifications data={data} setData={setData} setOpenModal={setOpenModal} openModal={openModal}/>
-        :
-        <MessageNotFound/>
-      }
+
+      {loading ? <Loading/> :(
+        data.length > 0 ?
+          <TableNotifications data={data} setData={setData} setOpenModal={setOpenModal} openModal={openModal}/>
+          :
+          <MessageNotFound/>
+        )}
     </>
     );
 };

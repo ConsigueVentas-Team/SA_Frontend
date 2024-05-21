@@ -4,6 +4,7 @@ import getTokens from '../helpers/getTokens';
 const useNotifications = () => {
     const {token} = getTokens();
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const getNotificationsPerPage = async (page)=>{        
         try {
@@ -28,22 +29,25 @@ const useNotifications = () => {
     const getAllData = async ()=>{
         let flag= "";
         let page = 1;
-        let dataList = [];        
+        let dataList = [];      
+        
+        setLoading(true);
         while(flag != null) {
             const data = await getNotificationsPerPage(page)
             flag = data.next_page_url;
             dataList = dataList.concat(data.data);            
             page++;            
         }
+        setLoading(false);
         
         setData(dataList);
     }
-
+    
     useEffect(()=>{
         getAllData();
     }, []);
 
-    return {data, setData};
+    return {data, setData, loading};
 };
 
 export default useNotifications;
