@@ -150,7 +150,7 @@ export default function CustomTable({data, nucleo = null, perfil = null, abrirEd
               count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              slotProps={{
+              SelectProps={{
                 select: {
                   inputProps: {
                     'aria-label': 'rows per page',
