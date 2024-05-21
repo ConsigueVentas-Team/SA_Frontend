@@ -39,6 +39,12 @@ const ModalAlert = ({id, setOpenModal, openModal, setData, data}) => {
                         </div>
                         <div className='flex  justify-evenly items-center p-2 border-t border-gray-200  '>
                             <button
+                                className='text-cv-primary hover:text-white uppercase border-2 border-cv-primary hover:bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'
+                                onClick={()=> setOpenModal(false)}
+                                >
+                                CANCELAR
+                            </button>
+                            <button
                                 className='text-white uppercase border-2 border-cv-primary bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300'
                                 onClick={handleDelete}
                                 >
