@@ -4,13 +4,14 @@ import { AES, enc } from "crypto-js";
 import ModalBox from "../../../../components/formulario/Modalbox";
 import Loading from "../../../../components/essentials/Loading";
 import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar";
-import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
 import AgregarDato from "../../../../components/formulario/Helpers/hooks/AgregarDato";
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
 import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
 import CustomTable from "../../../../components/formulario/CustomTable";
 import { getTotalData } from "../../../../services/getTotalData";
+import MessageNotFound from "../../../../components/MessageNotFound";
+
 export const Nucleo = () => {
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
@@ -179,12 +180,15 @@ export const Nucleo = () => {
           </div>
         )}
         {loading ? <Loading /> : (
-          <CustomTable
-            data={Nucleos}
-            abrirEliminarModal={abrirEliminarModal}
-            abrirEditarModal={abrirEditarModal}
-            nucleo={"Núcleo"}
-          ></CustomTable>
+            Nucleos.length > 0 ?
+              <CustomTable
+                data={Nucleos}
+                abrirEliminarModal={abrirEliminarModal}
+                abrirEditarModal={abrirEditarModal}
+                nucleo={"Núcleo"}
+              />
+              :
+              <MessageNotFound/>
         )}
       </div >
     </>

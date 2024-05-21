@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import TableNotifications from '../../../components/notificaciones/TableNotifications';
+import useNotifications from '../../../components/notificaciones/hooks/useNotifications';
+import MessageNotFound from '../../../components/MessageNotFound';
 
 const Notifications = () => {  
     const [openModal, setOpenModal] = useState(false);            
-  
+    const {data, setData} = useNotifications();
+
     return (
     <>
       <h1 className='flex w-fit gap-1 items-center text-2xl mt-2'>            
@@ -17,7 +20,11 @@ const Notifications = () => {
       >
         Agregar notificación
       </button>
-      <TableNotifications setOpenModal={setOpenModal} openModal={openModal}/>
+      {data.length > 0 ?
+        <TableNotifications data={data} setData={setData} setOpenModal={setOpenModal} openModal={openModal}/>
+        :
+        <MessageNotFound/>
+      }
     </>
     );
 };

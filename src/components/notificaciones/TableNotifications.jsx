@@ -12,14 +12,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CustomTableCell, StyledTableRow, darkTheme } from '../formulario/StyleTable';
 import TablePaginationActions from '../formulario/TablePaginationActions';
-import useNotifications from './hooks/useNotifications';
 import ModalAddNewNotification from './ModalAddNewNotification';
 import ModalEditNotification from './ModalEditNotification';
 import ModalAlert from './ModalAlert';
 
-const TableNotifications = ({setOpenModal, openModal}) => {
-    const [page, setPage] = useState(0);     
-    const {data, setData} = useNotifications();
+const TableNotifications = ({data, setData, setOpenModal, openModal}) => {
+    const [page, setPage] = useState(0);         
     const [rowsPerPage, setRowsPerPage] = useState(5);  
     const [openEditModal, setOpenEditModal] = useState(false);    
     const [selectedId, setSelectedId] = useState(null);

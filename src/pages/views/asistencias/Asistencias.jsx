@@ -12,6 +12,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import Loading from "../../../components/essentials/Loading";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
+import MessageNotFound from "../../../components/MessageNotFound";
 
 
 export const Asistencias = () => {
@@ -279,15 +280,18 @@ export const Asistencias = () => {
             {cargando ? (
               <Loading />
             ) : (
-              <Tabla
-                data={attendance}
-                currentPage={currentPage}
-                lastPage={lastPage}
-                total={total}
-                setCurrentPage={setCurrentPage}
-                openImageModal={openImageModal}
-                setImage={setImage}
-              />
+              attendance.length > 0 ?
+                <Tabla
+                  data={attendance}
+                  currentPage={currentPage}
+                  lastPage={lastPage}
+                  total={total}
+                  setCurrentPage={setCurrentPage}
+                  openImageModal={openImageModal}
+                  setImage={setImage}
+                />
+                :
+                <MessageNotFound/>
             )}
 
             {showImageModal && (

@@ -78,7 +78,7 @@ export const MarcarAsistencia = () => {
         let asistenciaDeHoy = data.results.filter((asistencia) =>
           asistencia.created_at.includes(getCurrentDate())
         );
-        console.log(asistenciaDeHoy, fecha)
+                
         if (asistenciaDeHoy.length === 0 || asistenciaDeHoy[0]?.admissionTime === "00:00:00" || asistenciaDeHoy[0]?.admissionTime === null ) {
           setSegundaFotoTomada(false);
         }

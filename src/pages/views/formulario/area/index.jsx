@@ -4,13 +4,13 @@ import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar
 import { AES, enc } from "crypto-js";
 import ModalBox from "../../../../components/formulario/Modalbox";
 import Loading from "../../../../components/essentials/Loading";
-import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
 import AgregarDato from "../../../../components/formulario/Helpers/hooks/AgregarDato";
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
 import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
 import CustomTable from "../../../../components/formulario/CustomTable";
 import { getTotalData } from "../../../../services/getTotalData";
+import MessageNotFound from "../../../../components/MessageNotFound";
 
 export const Area = () => {
   const tokenD = AES.decrypt(
@@ -32,20 +32,18 @@ export const Area = () => {
   const [idDepartamento, setIdDepartamento] = useState("");
   const [idArea, setIdArea] = useState("");
   const [cores, setCores] = useState([]);
-  const [cargando, setCargando] = useState(true);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
 
-  useEffect(() => {
-    setCargando(false);
-    fetchData();
+  useEffect(() => {    
+    fetchData();    
   }, [isChecked]);
   
   async function fetchData() {      
-    let data = await getTotalData("position", setCargando);
-    const department = await getTotalData("departments", setCargando);
-    const core = await getTotalData("cores", setCargando);
+    let data = await getTotalData("position", setLoading);
+    const department = await getTotalData("departments", setLoading);
+    const core = await getTotalData("cores", setLoading);
     
     setCores(core);
     setPosition(data);
@@ -181,13 +179,16 @@ export const Area = () => {
           </div>
         )}
         {loading ? <Loading /> : (
-          <CustomTable
-            data={Position}
-            abrirEliminarModal={abrirEliminarModal}
-            abrirEditarModal={abrirEditarModal}
-            nucleo={"Núcleo"}
-            perfil={"Perfil"}
-          ></CustomTable>
+          Position.length > 0 ? 
+            <CustomTable
+              data={Position}
+              abrirEliminarModal={abrirEliminarModal}
+              abrirEditarModal={abrirEditarModal}
+              nucleo={"Núcleo"}
+              perfil={"Perfil"}
+            ></CustomTable>
+            :
+            <MessageNotFound/>
         )}
       </div>
     </>

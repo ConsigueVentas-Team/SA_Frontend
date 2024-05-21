@@ -9,10 +9,10 @@ import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar
 import AgregarDato from "../../../../components/formulario/Helpers/hooks/AgregarDato";
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
-import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
 import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
 import CustomTable from "../../../../components/formulario/CustomTable";
 import { getTotalData } from "../../../../services/getTotalData";
+import MessageNotFound from "../../../../components/MessageNotFound";
 
 export const Departamento = () => {
   const tokenD = AES.decrypt(
@@ -167,7 +167,14 @@ export const Departamento = () => {
             </div>
           )}
           {loading ? <Loading /> : (            
-            <CustomTable abrirEditarModal={abrirEditarModal} abrirEliminarModal={abrirEliminarModal} data={Departamentos}/>
+            Departamentos.length > 0 ?
+              <CustomTable 
+                abrirEditarModal={abrirEditarModal}
+                abrirEliminarModal={abrirEliminarModal} 
+                data={Departamentos} 
+              />
+              : 
+              <MessageNotFound/>
           )}
         </div>
       )}

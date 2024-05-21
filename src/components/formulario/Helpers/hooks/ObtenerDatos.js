@@ -1,6 +1,7 @@
 const ObtenerDatos = async (token, url, setCargando, page=1) => {
   if (url === "position" || url === "cores" || url === "departments") {
     try {
+      setCargando(true);
       const response = await fetch(
         import.meta.env.VITE_API_URL + `/${url}/list?page=${page}`,
         {
@@ -14,7 +15,7 @@ const ObtenerDatos = async (token, url, setCargando, page=1) => {
       if (setCargando != null) {
         setCargando(true);
       }
-
+      setCargando(false)
       return data;
     } catch (error) {
       console.error("Error al obtener los departamentos:", error);

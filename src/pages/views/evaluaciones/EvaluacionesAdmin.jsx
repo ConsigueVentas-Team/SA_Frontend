@@ -9,6 +9,7 @@ import {
   Tabla,
 } from "../../../components/evaluaciones";
 import Loading from "../../../components/essentials/Loading";
+import MessageNotFound from "../../../components/MessageNotFound";
 
 export const EvaluacionesAdmin = () => {
   const [users, setUsers] = useState(null);
@@ -248,11 +249,14 @@ export const EvaluacionesAdmin = () => {
           {cargando ? (
             <Loading></Loading>
           ) : (
-            <Tabla
-              data={users}
-              pagination={pagination}
-              handlePageChange={handlePageChange}
-            />
+            users.length > 0 ?
+              <Tabla
+                data={users}
+                pagination={pagination}
+                handlePageChange={handlePageChange}
+              />
+              :
+              <MessageNotFound/>
           )}
         </div>
       </section>

@@ -14,6 +14,7 @@ import {
 } from "../../components/colaboradores";
 import Loading from "../../components/essentials/Loading";
 import mostrarErrores from "../../functions/mostrarErrores";
+import MessageNotFound from "../../components/MessageNotFound";
 
 export const Colaboradores = () => {
   const [users, setUsers] = useState(null);
@@ -368,12 +369,15 @@ export const Colaboradores = () => {
           {cargando ? (
             <Loading></Loading>
           ) : (
-            <Tabla
-              data={users}
-              pagination={pagination}
-              handlePageChange={handlePageChange}
-              toggleEditarModal={toggleEditarModal}
-            />
+            users.length > 0 ?
+              <Tabla
+                data={users}
+                pagination={pagination}
+                handlePageChange={handlePageChange}
+                toggleEditarModal={toggleEditarModal}
+              />
+              :
+              <MessageNotFound/>
           )}
         </div>
         <Toaster />
