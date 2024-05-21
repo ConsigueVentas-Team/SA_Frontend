@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import TableNotifications from './TableNotifications';
+import TableNotifications from '../../../components/notificaciones/TableNotifications';
 
 const Notifications = () => {  
     const [openModal, setOpenModal] = useState(false);            
