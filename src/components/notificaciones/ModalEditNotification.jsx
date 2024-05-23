@@ -1,18 +1,23 @@
-import { Box, Modal } from '@mui/material';
-import React from 'react';
+import { Alert, Box, Modal } from '@mui/material';
+import React, { useState } from 'react';
 import useNotificationActions from './hooks/useNotificationActions';
 import EditIcon from "@mui/icons-material/Edit"; 
 
 const ModalEditNotification = ({notification, setOpenEditModal, openEditModal, setIsModifyDone}) => {
     const { updateNotification } = useNotificationActions();    // const currentMessage = notification.message;
-    
+    const [isEmpty, setIsEmpty] = useState(false);
+
     const handleUpdate = (e)=>{                
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
         const newMessage = formData.get('message')
-        
-        updateNotification(newMessage, notification, setIsModifyDone);
+        const loggedId = localStorage.getItem('iduser');
+        formData.append('user', loggedId)
+
+        if(!newMessage) return setIsEmpty(true)
+
+        updateNotification(notification.id, formData, setIsModifyDone);
     }
 
     return (        
@@ -41,6 +46,12 @@ const ModalEditNotification = ({notification, setOpenEditModal, openEditModal, s
                             <label className='mt-5 block' htmlFor="message">
                                 <span>Notificación modificada:</span>
                                 <textarea name='message' className='mt-2.5 h-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2 outline-none' placeholder='Escribe la notificación...' ></textarea>
+                                {
+                                    isEmpty &&
+                                    <Alert className='mt-5 w-fit mx-auto' variant="outlined" severity="error">
+                                        Escribe la nueva notificación
+                                    </Alert>
+                                }
                             </label>
                         </div>
                         <hr className='border-slate-300 w-full mt-7'/>

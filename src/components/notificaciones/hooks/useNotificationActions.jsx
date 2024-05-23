@@ -4,23 +4,25 @@ import { ACTIONSTATE } from '../states/actionState';
 const useNotificationActions = () => {
     const {token} = getTokens();            
 
-    const updateNotification = (message, notification) => {
-        const { id } = notification;
-        const data = {...notification, message}        
-        
-        fetch(import.meta.env.VITE_TOKEN_KEY + `/notification/list/${id}`, {
+    const updateNotification = (id, formData, setIsModifyDone) => {                
+        const url = new URL(import.meta.env.VITE_API_URL + `/notification/update/${id}`);        
+
+        fetch(url, {
             method: 'PUT',
             headers: {
                 Authorization: `Bearer ${token}`,
                 Accept: 'application/json'
             },
-            body: JSON.stringify(data)
+            body: formData
         })
         .then(res => {
             if (!res.ok) throw new Error("Error al actualizar la notificación");
-            //Codigo para mostrar message que todo salio bien
+            setIsModifyDone(ACTIONSTATE.SUCCESSFUL)
         })
-        .catch(err=> console.log(err))
+        .catch(err=> {
+            setIsModifyDone(ACTIONSTATE.ERROR)
+            console.log(err)
+        })
     }
 
     const removeNotification = (id, setIsDeleteDone)=>{                
