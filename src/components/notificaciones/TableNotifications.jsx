@@ -15,7 +15,7 @@ import TablePaginationActions from '../formulario/TablePaginationActions';
 import ModalEditNotification from './ModalEditNotification';
 import ModalAlert from './ModalAlert';
 
-const TableNotifications = ({data, setData}) => {
+const TableNotifications = ({data, setData, setIsDeleteDone, setIsModifyDone}) => {
     const [page, setPage] = useState(0);         
     const [rowsPerPage, setRowsPerPage] = useState(5);  
     const [openEditModal, setOpenEditModal] = useState(false);    
@@ -56,8 +56,8 @@ const TableNotifications = ({data, setData}) => {
         sx={{ width: "100%" }}
         className=" bg-cv-primary rounded-md overflow-hidden mt-10"
         >   
-        <ModalEditNotification notification={selectedNotification} openEditModal={openEditModal} setOpenEditModal={setOpenEditModal}/>
-        <ModalAlert id={selectedId} data={data} setData={setData} openModal={openAlertModal} setOpenModal={setOpenAlertModal}/>
+        <ModalEditNotification setIsModifyDone={setIsModifyDone} notification={selectedNotification} openEditModal={openEditModal} setOpenEditModal={setOpenEditModal}/>
+        <ModalAlert setIsDeleteDone={setIsDeleteDone} id={selectedId} openModal={openAlertModal} setOpenModal={setOpenAlertModal}/>
         <TableContainer  component={Paper}>
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         <TableHead className="bg-[#0e161b]">

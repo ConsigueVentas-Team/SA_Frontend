@@ -3,12 +3,12 @@ import React from 'react';
 import useNotificationActions from './hooks/useNotificationActions';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem'
 
-const ModalAlert = ({id, setOpenModal, openModal, setData, data}) => {
+const ModalAlert = ({id, setOpenModal, openModal, setIsDeleteDone}) => {
     const { removeNotification } = useNotificationActions();
 
     const handleDelete = ()=>{
         setOpenModal(false)
-        removeNotification(id, data, setData)
+        removeNotification(id, setIsDeleteDone)
     }
 
     return (

@@ -3,7 +3,7 @@ import React from 'react';
 import useNotificationActions from './hooks/useNotificationActions';
 import EditIcon from "@mui/icons-material/Edit"; 
 
-const ModalEditNotification = ({notification, setOpenEditModal, openEditModal}) => {
+const ModalEditNotification = ({notification, setOpenEditModal, openEditModal, setIsModifyDone}) => {
     const { updateNotification } = useNotificationActions();    // const currentMessage = notification.message;
     
     const handleUpdate = (e)=>{                
@@ -12,7 +12,7 @@ const ModalEditNotification = ({notification, setOpenEditModal, openEditModal}) 
         const formData = new FormData(form);
         const newMessage = formData.get('message')
         
-        updateNotification(newMessage, notification);
+        updateNotification(newMessage, notification, setIsModifyDone);
     }
 
     return (        

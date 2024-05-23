@@ -5,8 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
 
-const AlertMessage = ({open, setOpen}) => {
-//   const [open, setOpen] = React.useState(true);
+const AlertMessage = ({open, setOpen, text, type}) => {
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -25,8 +24,9 @@ const AlertMessage = ({open, setOpen}) => {
             </IconButton>
           }
           sx={{ mb: 2 }}
+          severity={type}
         >
-          Click the close icon to see the Collapse transition in action!
+          {text}
         </Alert>
       </Collapse>      
     </Box>

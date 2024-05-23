@@ -6,11 +6,14 @@ import MessageNotFound from '../../../components/MessageNotFound';
 import Loading from '../../../components/essentials/Loading';
 import ModalAddNewNotification from '../../../components/notificaciones/ModalAddNewNotification';
 import AlertMessage from '../../../components/AlertMessage';
+import { ACTIONSTATE } from '../../../components/notificaciones/states/actionState';
 
 const Notifications = () => {  
     const [openModal, setOpenModal] = useState(false);//Estado para abrir o cerrar el modal crear notificación
     const {data, setData, loading} = useNotifications();
-    const [isTaskDone, setIsTaskDone] = useState(false);
+    const [isCreateDone, setIsCreateDone] = useState("");
+    const [isDeleteDone, setIsDeleteDone] = useState("");
+    const [isModifyDone, setIsModifyDone] = useState("");
 
     return (
     <>
@@ -24,16 +27,31 @@ const Notifications = () => {
       >
         Agregar notificación
       </button>
-      <ModalAddNewNotification setAlert={setIsTaskDone} openModal={openModal} setOpenModal={setOpenModal}/>
+      <ModalAddNewNotification setAlert={setIsCreateDone} openModal={openModal} setOpenModal={setOpenModal}/>
       {loading ? <Loading/> :(
         data.length > 0 ?
-          <TableNotifications data={data} setData={setData} setOpenModal={setOpenModal} openModal={openModal}/>
+          <TableNotifications setIsDeleteDone={setIsDeleteDone} setIsModifyDone={setIsModifyDone} data={data} setData={setData} setOpenModal={setOpenModal} openModal={openModal}/>
           :
           <MessageNotFound/>)
       }
       <div className='fixed top-6 left-1/2 -translate-x-1/2'>
-        <AlertMessage open={isTaskDone} setOpen={setIsTaskDone}/>
+        <AlertMessage type='success' text={'Notificación creada correctamente.'} open={isCreateDone === ACTIONSTATE.SUCCESSFUL ? true : false} setOpen={setIsCreateDone}/>
       </div>
+      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
+        <AlertMessage type='warning' text={'Error al crear notificación.'} open={isCreateDone === ACTIONSTATE.ERROR ? true : false} setOpen={setIsCreateDone}/>
+      </div>
+      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
+        <AlertMessage type='success' text={'Notificación eliminada correctamente.'} open={isDeleteDone === ACTIONSTATE.SUCCESSFUL ? true : false} setOpen={setIsDeleteDone}/>
+      </div>
+      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
+        <AlertMessage type='warning' text={'Error al eliminar la notificación.'} open={isDeleteDone === ACTIONSTATE.ERROR ? true : false} setOpen={setIsDeleteDone}/>
+      </div>      
+      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
+        <AlertMessage type='success' text={'Notificación modificada correctamente.'} open={isModifyDone === ACTIONSTATE.SUCCESSFUL ? true : false} setOpen={setIsModifyDone}/>
+      </div>
+      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
+        <AlertMessage type='warning' text={'Error al eliminar la notificación.'} open={isModifyDone === ACTIONSTATE.ERROR ? true : false} setOpen={setIsModifyDone}/>
+      </div>      
     </>
     );
 };

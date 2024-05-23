@@ -1,4 +1,5 @@
 import getTokens from '../helpers/getTokens';
+import { ACTIONSTATE } from '../states/actionState';
 
 const useNotificationActions = () => {
     const {token} = getTokens();            
@@ -22,11 +23,8 @@ const useNotificationActions = () => {
         .catch(err=> console.log(err))
     }
 
-    const removeNotification = (id, data, setData)=>{
-        const list = data.filter(notification => notification.id !== id)
-        setData(list);        
-        //Falta id en la url
-        const url = new URL(import.meta.env.VITE_API_URL + `/notification/list`);            
+    const removeNotification = (id, setIsDeleteDone)=>{                
+        const url = new URL(import.meta.env.VITE_API_URL + `/notification/delete/${id}`);            
 
         fetch(url, {
             method: 'DELETE',
@@ -36,19 +34,24 @@ const useNotificationActions = () => {
             }       
         })
         .then(res => {
-            if(!res.ok) throw new Error("Error al eliminar la notificación");
-            //code
+            if(!res.ok) throw new Error("Error al eliminar la notificación");                        
+            setIsDeleteDone(ACTIONSTATE.SUCCESSFUL);            
+        })        
+        .catch(err=>{
+            setIsDeleteDone(ACTIONSTATE.ERROR);                        
+            console.log(err)
         })
-        .catch(err=>console.log(err))
     }
 
-    const addNewNotification = (event, setIsEmpty, setAlert, setOpenModal)=>{
+    const addNewNotification = (event, setIsEmpty, setAlert)=>{
         event.preventDefault();
 
         const form = event.target;
         const formData = new FormData(form);           
         const message = formData.get('message');
-        formData.append("user", 7)        
+        const loggedId = localStorage.getItem('iduser');
+        
+        formData.append("user", loggedId)        
         
         if(!message) return setIsEmpty(true);
 
@@ -64,10 +67,12 @@ const useNotificationActions = () => {
         })
         .then(res => {
             if(!res.ok) throw new Error("Error al crear notificación");
-            setAlert(true)
-            setOpenModal(false)            
+            setAlert(ACTIONSTATE.SUCCESSFUL)            
         })        
-        .catch(err=> console.log(err))        
+        .catch(err=> {            
+            setAlert(ACTIONSTATE.ERROR)            
+            console.log(err)
+        })        
     }    
 
     return {addNewNotification, removeNotification, updateNotification};
