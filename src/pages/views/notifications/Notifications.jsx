@@ -4,10 +4,13 @@ import TableNotifications from '../../../components/notificaciones/TableNotifica
 import useNotifications from '../../../components/notificaciones/hooks/useNotifications';
 import MessageNotFound from '../../../components/MessageNotFound';
 import Loading from '../../../components/essentials/Loading';
+import ModalAddNewNotification from '../../../components/notificaciones/ModalAddNewNotification';
+import AlertMessage from '../../../components/AlertMessage';
 
 const Notifications = () => {  
-    const [openModal, setOpenModal] = useState(false);            
+    const [openModal, setOpenModal] = useState(false);//Estado para abrir o cerrar el modal crear notificación
     const {data, setData, loading} = useNotifications();
+    const [isTaskDone, setIsTaskDone] = useState(false);
 
     return (
     <>
@@ -21,13 +24,16 @@ const Notifications = () => {
       >
         Agregar notificación
       </button>
-
+      <ModalAddNewNotification setAlert={setIsTaskDone} openModal={openModal} setOpenModal={setOpenModal}/>
       {loading ? <Loading/> :(
         data.length > 0 ?
           <TableNotifications data={data} setData={setData} setOpenModal={setOpenModal} openModal={openModal}/>
           :
-          <MessageNotFound/>
-        )}
+          <MessageNotFound/>)
+      }
+      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
+        <AlertMessage open={isTaskDone} setOpen={setIsTaskDone}/>
+      </div>
     </>
     );
 };

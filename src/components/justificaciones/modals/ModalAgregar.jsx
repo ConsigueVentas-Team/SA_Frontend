@@ -43,8 +43,7 @@ export const ModalAgregar = ({
         formData.append('justification_date', justification_date)
         formData.append('reason', reason)
         formData.append('evidence', evidence)
-        formData.append('justification_type', justification_type)                
-        console.log(evidence)
+        formData.append('justification_type', justification_type)                        
 
         if (
             !justification_date ||
@@ -101,8 +100,7 @@ export const ModalAgregar = ({
                 setJustification_date(e.target.value)
             } else {
                 setJustification_date_max(e.target.value)
-            }
-            // setJustification_date(e.target.value)
+            }            
             setDateError('')
         } else {
             setDateError(

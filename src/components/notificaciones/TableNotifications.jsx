@@ -12,11 +12,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CustomTableCell, StyledTableRow, darkTheme } from '../formulario/StyleTable';
 import TablePaginationActions from '../formulario/TablePaginationActions';
-import ModalAddNewNotification from './ModalAddNewNotification';
 import ModalEditNotification from './ModalEditNotification';
 import ModalAlert from './ModalAlert';
 
-const TableNotifications = ({data, setData, setOpenModal, openModal}) => {
+const TableNotifications = ({data, setData}) => {
     const [page, setPage] = useState(0);         
     const [rowsPerPage, setRowsPerPage] = useState(5);  
     const [openEditModal, setOpenEditModal] = useState(false);    
@@ -57,7 +56,6 @@ const TableNotifications = ({data, setData, setOpenModal, openModal}) => {
         sx={{ width: "100%" }}
         className=" bg-cv-primary rounded-md overflow-hidden mt-10"
         >   
-        <ModalAddNewNotification openModal={openModal} setOpenModal={setOpenModal}/>
         <ModalEditNotification notification={selectedNotification} openEditModal={openEditModal} setOpenEditModal={setOpenEditModal}/>
         <ModalAlert id={selectedId} data={data} setData={setData} openModal={openAlertModal} setOpenModal={setOpenAlertModal}/>
         <TableContainer  component={Paper}>
