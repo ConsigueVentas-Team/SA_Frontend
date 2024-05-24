@@ -2,21 +2,31 @@ import { Alert, Box, Modal } from '@mui/material';
 import React, { useState } from 'react';
 import EditIcon from "@mui/icons-material/Edit"; 
 
-const ModalEditNotification = ({updateNotification, notification, setOpenEditModal, openEditModal}) => {    
-    const [isEmpty, setIsEmpty] = useState(false);
+const ModalEditNotification = ({updateNotification, notification, setOpenEditModal, openEditModal}) => {        
+    const [isLonger, setIsLonger] = useState(false);
+    const [isShort, setIsShort] = useState(false);
 
     const handleUpdate = (e)=>{                
         e.preventDefault();
         const form = e.target;
-        const formData = new FormData(form);
-        const newMessage = formData.get('message')
+        const formData = new FormData(form);        
         const loggedId = localStorage.getItem('iduser');
         formData.append('user', loggedId)
 
-        if(!newMessage) return setIsEmpty(true)
+        if(isLonger || isShort) return;
 
         updateNotification(notification.id, formData);
         setOpenEditModal(false);
+    }
+
+    const handleLongText = (e)=>{
+        const message = e.target.value;
+        
+        if(message.length > 250) setIsLonger(true)
+        else setIsLonger(false)          
+
+        if(message.length < 10) setIsShort(true);
+        else setIsShort(false);
     }
 
     return (        
@@ -44,11 +54,17 @@ const ModalEditNotification = ({updateNotification, notification, setOpenEditMod
                             </div>                    
                             <label className='mt-5 block' htmlFor="message">
                                 <span>Notificación modificada:</span>
-                                <textarea name='message' className='mt-2.5 h-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2 outline-none' placeholder='Escribe la notificación...' ></textarea>
+                                <textarea onChange={handleLongText} name='message' className='mt-2.5 h-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2 outline-none' placeholder='Escribe la notificación...' ></textarea>
                                 {
-                                    isEmpty &&
-                                    <Alert className='mt-5 w-fit mx-auto' variant="outlined" severity="error">
-                                        Escribe la nueva notificación
+                                    isLonger &&
+                                    <Alert className='mt-5 w-fit mx-auto flex items-center' variant="outlined" severity="error">                            
+                                        Max. caracteres: 250
+                                    </Alert>
+                                }
+                                {
+                                    isShort &&
+                                    <Alert className='mt-5 w-fit mx-auto flex items-center' variant="outlined" severity="error">                            
+                                        Min. caracteres: 10
                                     </Alert>
                                 }
                             </label>
