@@ -64,7 +64,7 @@ const Notifications = () => {
         <AlertMessage type='success' text={'Notificación modificada correctamente.'} open={isModifyDone === ACTIONSTATE.SUCCESSFUL ? true : false} setOpen={setIsModifyDone}/>
       </div>
       <div className='fixed top-6 left-1/2 -translate-x-1/2'>
-        <AlertMessage type='warning' text={'Error al eliminar la notificación.'} open={isModifyDone === ACTIONSTATE.ERROR ? true : false} setOpen={setIsModifyDone}/>
+        <AlertMessage type='warning' text={'Error al modificar la notificación.'} open={isModifyDone === ACTIONSTATE.ERROR ? true : false} setOpen={setIsModifyDone}/>
       </div>      
     </>
     );

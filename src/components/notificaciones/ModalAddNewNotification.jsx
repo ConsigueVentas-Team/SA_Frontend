@@ -24,6 +24,8 @@ const ModalAddNewNotification = ({addNewNotification, openModal, setOpenModal}) 
     const handleLongText = (e)=>{
         const message = e.target.value;
         
+        if(message === " ") e.target.value = ""
+
         if(message.length > 250) setIsLonger(true)
         else setIsLonger(false)          
 
