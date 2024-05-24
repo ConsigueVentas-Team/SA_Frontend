@@ -7,13 +7,27 @@ import Loading from '../../../components/essentials/Loading';
 import ModalAddNewNotification from '../../../components/notificaciones/ModalAddNewNotification';
 import AlertMessage from '../../../components/AlertMessage';
 import { ACTIONSTATE } from '../../../components/notificaciones/states/actionState';
+import useNotificationActions from '../../../components/notificaciones/hooks/useNotificationActions';
 
 const Notifications = () => {  
     const [openModal, setOpenModal] = useState(false);//Estado para abrir o cerrar el modal crear notificación
-    const {data, setData, loading} = useNotifications();
+    const {data, setUpdateTable, loading} = useNotifications();
     const [isCreateDone, setIsCreateDone] = useState("");
     const [isDeleteDone, setIsDeleteDone] = useState("");
     const [isModifyDone, setIsModifyDone] = useState("");
+    const { addNewNotification, removeNotification, updateNotification } = useNotificationActions();
+
+    const handleAddNewNotification = (formData)=>{
+      addNewNotification(formData, setIsCreateDone, setUpdateTable);
+    }
+
+    const handleRemoveNotification = (id)=>{
+      removeNotification(id, setIsDeleteDone, setUpdateTable)
+    }
+
+    const handleUpdateNotification = (id, formData)=>{
+      updateNotification(id, formData, setIsModifyDone, setUpdateTable);
+    }
 
     return (
     <>
@@ -27,10 +41,10 @@ const Notifications = () => {
       >
         Agregar notificación
       </button>
-      <ModalAddNewNotification setAlert={setIsCreateDone} openModal={openModal} setOpenModal={setOpenModal}/>
+      <ModalAddNewNotification addNewNotification={handleAddNewNotification} openModal={openModal} setOpenModal={setOpenModal}/>
       {loading ? <Loading/> :(
         data.length > 0 ?
-          <TableNotifications setIsDeleteDone={setIsDeleteDone} setIsModifyDone={setIsModifyDone} data={data} setData={setData} setOpenModal={setOpenModal} openModal={openModal}/>
+          <TableNotifications updateNotification={handleUpdateNotification} removeNotification={handleRemoveNotification} setIsModifyDone={setIsModifyDone} data={data} setOpenModal={setOpenModal} openModal={openModal}/>
           :
           <MessageNotFound/>)
       }

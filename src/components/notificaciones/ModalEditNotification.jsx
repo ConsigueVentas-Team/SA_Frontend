@@ -1,10 +1,8 @@
 import { Alert, Box, Modal } from '@mui/material';
 import React, { useState } from 'react';
-import useNotificationActions from './hooks/useNotificationActions';
 import EditIcon from "@mui/icons-material/Edit"; 
 
-const ModalEditNotification = ({notification, setOpenEditModal, openEditModal, setIsModifyDone}) => {
-    const { updateNotification } = useNotificationActions();    // const currentMessage = notification.message;
+const ModalEditNotification = ({updateNotification, notification, setOpenEditModal, openEditModal}) => {    
     const [isEmpty, setIsEmpty] = useState(false);
 
     const handleUpdate = (e)=>{                
@@ -17,7 +15,8 @@ const ModalEditNotification = ({notification, setOpenEditModal, openEditModal, s
 
         if(!newMessage) return setIsEmpty(true)
 
-        updateNotification(notification.id, formData, setIsModifyDone);
+        updateNotification(notification.id, formData);
+        setOpenEditModal(false);
     }
 
     return (        

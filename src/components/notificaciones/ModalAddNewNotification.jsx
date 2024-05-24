@@ -1,11 +1,25 @@
 import { Alert, Box, Modal } from '@mui/material';
 import React, { useState } from 'react';
-import useNotificationActions from './hooks/useNotificationActions';
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 
-const ModalAddNewNotification = ({setAlert, openModal, setOpenModal}) => {
-    const { addNewNotification } = useNotificationActions();
+const ModalAddNewNotification = ({addNewNotification, openModal, setOpenModal}) => {
     const [isEmpty, setIsEmpty] = useState(null);
+
+    const handleCreateNotification = (event)=>{
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);           
+        const message = formData.get('message');
+        const loggedId = localStorage.getItem('iduser');
+        
+        formData.append("user", loggedId)        
+        
+        if(!message) return setIsEmpty(true);
+        
+        addNewNotification(formData)
+        setOpenModal(false);
+    }
 
     return (
         <Modal
@@ -24,7 +38,7 @@ const ModalAddNewNotification = ({setAlert, openModal, setOpenModal}) => {
                     <span className='font-medium text-black text-xl block m-auto w-fit'>Crear Notificación</span>
                 </div>                
             <hr className='border-slate-300 w-full mt-5'/>
-            <form className='mt-5' onSubmit={(event)=>{addNewNotification(event, setIsEmpty, setAlert, setOpenModal)}} action="">
+            <form className='mt-5' onSubmit={handleCreateNotification} action="">
                 <div className='px-4'>
                     <label className='block mb-5' htmlFor="message">Notificación: </label>
                     <textarea name='message' className='h-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2 outline-none' placeholder='Escribe la notificación...' ></textarea>

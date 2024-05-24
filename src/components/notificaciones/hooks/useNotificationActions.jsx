@@ -4,7 +4,7 @@ import { ACTIONSTATE } from '../states/actionState';
 const useNotificationActions = () => {
     const {token} = getTokens();            
 
-    const updateNotification = (id, formData, setIsModifyDone) => {                
+    const updateNotification = (id, formData, setIsModifyDone, setUpdateTable) => {                
         const url = new URL(import.meta.env.VITE_API_URL + `/notification/update/${id}`);        
 
         fetch(url, {
@@ -18,6 +18,7 @@ const useNotificationActions = () => {
         .then(res => {
             if (!res.ok) throw new Error("Error al actualizar la notificación");
             setIsModifyDone(ACTIONSTATE.SUCCESSFUL)
+            setUpdateTable(prevValue=>!prevValue);
         })
         .catch(err=> {
             setIsModifyDone(ACTIONSTATE.ERROR)
@@ -25,7 +26,7 @@ const useNotificationActions = () => {
         })
     }
 
-    const removeNotification = (id, setIsDeleteDone)=>{                
+    const removeNotification = (id, setIsDeleteDone, setUpdateTable)=>{                
         const url = new URL(import.meta.env.VITE_API_URL + `/notification/delete/${id}`);            
 
         fetch(url, {
@@ -38,6 +39,7 @@ const useNotificationActions = () => {
         .then(res => {
             if(!res.ok) throw new Error("Error al eliminar la notificación");                        
             setIsDeleteDone(ACTIONSTATE.SUCCESSFUL);            
+            setUpdateTable(prevValue=>!prevValue);
         })        
         .catch(err=>{
             setIsDeleteDone(ACTIONSTATE.ERROR);                        
@@ -45,18 +47,7 @@ const useNotificationActions = () => {
         })
     }
 
-    const addNewNotification = (event, setIsEmpty, setAlert)=>{
-        event.preventDefault();
-
-        const form = event.target;
-        const formData = new FormData(form);           
-        const message = formData.get('message');
-        const loggedId = localStorage.getItem('iduser');
-        
-        formData.append("user", loggedId)        
-        
-        if(!message) return setIsEmpty(true);
-
+    const addNewNotification = (formData, setAlert, setUpdateTable)=>{        
         const url = new URL(import.meta.env.VITE_API_URL + `/notification/list`);        
 
         fetch(url, {
@@ -70,6 +61,7 @@ const useNotificationActions = () => {
         .then(res => {
             if(!res.ok) throw new Error("Error al crear notificación");
             setAlert(ACTIONSTATE.SUCCESSFUL)            
+            setUpdateTable(prevValue=> !prevValue)
         })        
         .catch(err=> {            
             setAlert(ACTIONSTATE.ERROR)            

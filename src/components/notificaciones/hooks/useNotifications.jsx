@@ -5,6 +5,7 @@ const useNotifications = () => {
     const {token} = getTokens();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [updateTable, setUpdateTable] = useState(false);
 
     const getNotificationsPerPage = async (page)=>{        
         try {
@@ -45,9 +46,9 @@ const useNotifications = () => {
     
     useEffect(()=>{
         getAllData();
-    }, []);
+    }, [updateTable]);
 
-    return {data, setData, loading};
+    return {data, setData, loading, setUpdateTable};
 };
 
 export default useNotifications;
