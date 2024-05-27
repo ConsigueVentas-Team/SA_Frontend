@@ -25,7 +25,7 @@ BirthdayImage.propTypes = {
 		name: PropTypes.string.isRequired,
 		surname: PropTypes.string.isRequired,
 		id: PropTypes.number.isRequired,
-		image_url: PropTypes.string.isRequired,
+		avatar: PropTypes.string.isRequired,
 	}).isRequired,
 };
 
