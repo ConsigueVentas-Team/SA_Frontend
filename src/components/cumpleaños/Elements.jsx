@@ -96,7 +96,7 @@ export const CardModal = ({ userData, close }) => {
         <button
           type="button"
           onClick={close}
-          className="absolute top-3 right-2.5 text-cv-primary bg-cv-cyan hover:bg-cv-cyan/80 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
+          className="absolute top-3 right-8 text-cv-primary bg-cv-cyan hover:bg-cv-cyan/80 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
         >
           <CloseIcon />
           <span className="sr-only">Cerrar modal</span>
@@ -139,10 +139,7 @@ export const BirthdayImage = ({ item }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <img
-        src={item.avatar.replace(
-          "http://127.0.0.1:8000",
-          "https://backend.consigueventas.com"
-        )}
+        src={item.avatar}
         alt={item.name}
         className="w-40 h-40 rounded-full shadow-lg ring-2 ring-cv-cyan"
       />
