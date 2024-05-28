@@ -11,6 +11,8 @@ import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed
 import CustomTable from "../../../../components/formulario/CustomTable";
 import { getTotalData } from "../../../../services/getTotalData";
 import MessageNotFound from "../../../../components/MessageNotFound";
+import { ACTIONSTATE } from "../../../../components/notificaciones/states/actionState";
+import AlertMessage from "../../../../components/AlertMessage";
 
 export const Nucleo = () => {
   const tokenD = AES.decrypt(
@@ -30,20 +32,19 @@ export const Nucleo = () => {
   const [MostrarEditarModal, setMostrarEditarModal] = useState(false);
   const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);
   const [idActualizar, setIdActualizar] = useState("");
-  const [idDepartamento, setIdDepartamento] = useState("");
-  const [cargando, setCargando] = useState(true);
+  const [idDepartamento, setIdDepartamento] = useState("");  
   const [mostrarModal, setMostrarModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(false);
+  const [loading, setLoading] = useState(false);  
+  const [isCreateDone, setIsCreateDone] = useState("");
+  const [isUpdateDone, setIsUpdateDone] = useState("");
 
-  useEffect(() => {
-    setCargando(false);
+  useEffect(() => {    
     fetchData();
   }, [isChecked]);
   
   async function fetchData() {
-    const data = await getTotalData("cores", setCargando);
-    const department = await getTotalData("departments", setCargando);
+    const data = await getTotalData("cores", setLoading);
+    const department = await getTotalData("departments", setLoading);
 
     setNucleos(data);
     setDepartments(department);
@@ -66,10 +67,6 @@ export const Nucleo = () => {
     setMostrarEliminarModal(false);
   };
 
-  const closeAlert = () => {
-    setAlertMessage(false);
-  };
-
   const manejarEnvio = (e) => {
     e.preventDefault();
     if (palabra == "") return;
@@ -84,9 +81,9 @@ export const Nucleo = () => {
     ).then(() => {
       setPalabra("");
       setLoading(false);
-      setAlertMessage(true);
+      setIsCreateDone(ACTIONSTATE.SUCCESSFUL)
       setMostrarModal(false);
-    });
+    }).catch(setIsCreateDone(ACTIONSTATE.ERROR))
   };
 
   const openModal = () => {
@@ -102,6 +99,25 @@ export const Nucleo = () => {
     return <Loading></Loading>;
   }
 
+  const updateData = async (valor, area, Departamento)=>{
+    try {      
+      await ActualizarDato(
+        token,
+        valor,
+        "cores",
+        idActualizar,
+        idDepartamento,
+        "false",
+        setIsChecked,
+        area,
+        Departamento
+      )
+      setIsUpdateDone(ACTIONSTATE.SUCCESSFUL)
+    }catch {
+      setIsUpdateDone(ACTIONSTATE.ERROR)
+    }
+  }
+
   return (
     <>
       <div className="w-full">
@@ -114,14 +130,8 @@ export const Nucleo = () => {
             label={"Núcleo: "}
             cerrarEditarModal={cerrarEditarModal}
             actualizarDepartamento={(valor, area, Departamento) =>
-              ActualizarDato(
-                token,
-                valor,
-                "cores",
-                idActualizar,
-                idDepartamento,
-                "false",
-                setIsChecked,
+              updateData(                
+                valor,                                                                
                 area,
                 Departamento
               )
@@ -168,17 +178,11 @@ export const Nucleo = () => {
             </div>
           </div>
         )}
-        {alertMessage && (
-          <div className="bg-green-200 border-green-400 text-green-700 border px-4 py-3 rounded relative mt-4" role="alert">
-            <strong className="font-bold">¡Éxito! </strong>
-            <span className="block sm:inline">Se ha completado con éxito.✔️</span>
-            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-              <button onClick={closeAlert} className="text-green-700">
-                <span className="text-green-400">×</span>
-              </button>
-            </span>
-          </div>
-        )}
+        <AlertMessage open={isCreateDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsCreateDone} text='El núcleo ha sido creado correctamente' type='success'/>          
+        <AlertMessage open={isCreateDone === ACTIONSTATE.ERROR} setOpen={setIsCreateDone} text='Error al crear núcleo' type='warning'/>          
+
+        <AlertMessage open={isUpdateDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsUpdateDone} text='El núcleo ha sido modificado correctamente' type='success'/>          
+        <AlertMessage open={isUpdateDone === ACTIONSTATE.ERROR} setOpen={setIsUpdateDone} text='Error al modificar el núcleo' type='warning'/>          
         {loading ? <Loading /> : (
             Nucleos.length > 0 ?
               <CustomTable

@@ -24,9 +24,7 @@ const ActualizarDato = async (
       name: palabra,
       core_id: area,
       department_id: Departamento,
-    };
-    console.log(area + " id area");
-    console.log(Departamento + " id departamento");
+    };    
   }
 
   try {
@@ -42,14 +40,9 @@ const ActualizarDato = async (
         body: JSON.stringify(dataToSend),
       }
     );
-    const data = await response.json();
-    if (response.ok) {
-      console.log("Datos modificado exitosamente");
-      //actualizar data
-      setIsChecked((prevIsChecked) => !prevIsChecked);
-    } else {
-      console.log(`Error al editar: ${data.error}`);
-    }
+
+    if (!response.ok) throw new Error;    
+    setIsChecked((prevIsChecked) => !prevIsChecked);
   } catch (error) {
     console.log(`Error al editar: ${error}`);
   }

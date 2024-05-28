@@ -13,6 +13,8 @@ import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed
 import CustomTable from "../../../../components/formulario/CustomTable";
 import { getTotalData } from "../../../../services/getTotalData";
 import MessageNotFound from "../../../../components/MessageNotFound";
+import AlertMessage from "../../../../components/AlertMessage";
+import { ACTIONSTATE } from "../../../../components/notificaciones/states/actionState";
 
 export const Departamento = () => {
   const tokenD = AES.decrypt(
@@ -28,19 +30,18 @@ export const Departamento = () => {
   const [palabra, setPalabra] = useState("");
   const [idActualizar, setIdActualizar] = useState("");
   const [MostrarEditarModal, setMostrarEditarModal] = useState(false);
-  const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);
-  const [cargando, setCargando] = useState(true);
+  const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);  
   const [mostrarModal, setMostrarModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(false);  
+  const [loading, setLoading] = useState(false);  
+  const [isCreateDone, setIsCreateDone] = useState("");
+  const [isUpdateDone, setIsUpdateDone] = useState("");
 
-  useEffect(() => {
-    setCargando(false);            
+  useEffect(() => {                
     fetchData();    
   }, [isChecked]);
 
   async function fetchData() {    
-    const list = await getTotalData("departments", setCargando);
+    const list = await getTotalData("departments", setLoading);
     setDepartamentos(list)    
   }  
 
@@ -49,37 +50,37 @@ export const Departamento = () => {
     setValueDefault(departamento.name);
     setIdActualizar(departamento.id);
   };
+
   const cerrarEditarModal = () => {
     setMostrarEditarModal(false);
   };
+
   const abrirEliminarModal = (id) => {
     setMostrarEliminarModal(true);
     setIdEliminar(id);
   };
+
   const cerrarEliminarModal = () => {
     setMostrarEliminarModal(false);
   };
 
-  const closeAlert = () => {
-    setAlertMessage(false);
-  };
-
   const manejarEnvio = async (e) => {
     e.preventDefault();
+    
     if (palabra === "") return;
     setLoading(true);
+
     try {
       await AgregarDato(token, palabra, "departments", "false", "false", setIsChecked);
-      setPalabra("");
-      setAlertMessage(true);
+      setPalabra("");      
+      setIsCreateDone(ACTIONSTATE.SUCCESSFUL)
     } catch (error) {
+      setIsCreateDone(ACTIONSTATE.ERROR);
     } finally {
       setLoading(false);
       setMostrarModal(false);
     }
   };
-
-
 
   if (Departamentos === null) {
     return <Loading></Loading>;
@@ -93,6 +94,25 @@ export const Departamento = () => {
     setMostrarModal(false);
   };
 
+  const updateData = async (valor)=>{
+    try {      
+      await ActualizarDato(
+        token,
+        valor,
+        "departments",
+        idActualizar,
+        "false",
+        "false",
+        setIsChecked,
+        setLoading
+      );
+      setIsUpdateDone(ACTIONSTATE.SUCCESSFUL);
+    }
+    catch {
+      setIsUpdateDone(ACTIONSTATE.ERROR);
+    }
+  }
+
   return (
     <>
       {Departamentos && (
@@ -105,19 +125,10 @@ export const Departamento = () => {
               title={"edite departamento"}
               label={"Departamento: "}
               cerrarEditarModal={cerrarEditarModal}
-              cargando={cargando}
+              cargando={loading}
               actualizarDepartamento={(valor) => {
-                setCargando(true);
-                ActualizarDato(
-                  token,
-                  valor,
-                  "departments",
-                  idActualizar,
-                  "false",
-                  "false",
-                  setIsChecked,
-                  setCargando
-                );
+                setLoading(true);
+                updateData(valor);
               }}
               checkbox={1}
             ></ModalBox>
@@ -154,18 +165,12 @@ export const Departamento = () => {
                 </form>
               </div>
             </div>
-          )}
-          {alertMessage && (
-            <div className="bg-green-200 border-green-400 text-green-700 border px-4 py-3 rounded relative mt-4" role="alert">
-              <strong className="font-bold">¡Éxito! </strong>
-              <span className="block sm:inline">Se ha completado con éxito.✔️</span>
-              <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                <button onClick={closeAlert} className="text-green-700">
-                  <span className="text-green-400">×</span>
-                </button>
-              </span>
-            </div>
-          )}
+          )}                          
+          <AlertMessage open={isCreateDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsCreateDone} text='El departamento ha sido creado correctamente' type='success'/>          
+          <AlertMessage open={isCreateDone === ACTIONSTATE.ERROR} setOpen={setIsCreateDone} text='Error al crear departamento' type='warning'/>          
+
+          <AlertMessage open={isUpdateDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsUpdateDone} text='El departamento ha sido modificado correctamente' type='success'/>          
+          <AlertMessage open={isUpdateDone === ACTIONSTATE.ERROR} setOpen={setIsUpdateDone} text='Error al modificar el departamento' type='warning'/>          
           {loading ? <Loading /> : (            
             Departamentos.length > 0 ?
               <CustomTable 

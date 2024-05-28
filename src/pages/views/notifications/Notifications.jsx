@@ -47,25 +47,15 @@ const Notifications = () => {
           <TableNotifications updateNotification={handleUpdateNotification} removeNotification={handleRemoveNotification} setIsModifyDone={setIsModifyDone} data={data} setOpenModal={setOpenModal} openModal={openModal}/>
           :
           <MessageNotFound/>)
-      }
-      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
-        <AlertMessage type='success' text={'Notificación creada correctamente.'} open={isCreateDone === ACTIONSTATE.SUCCESSFUL ? true : false} setOpen={setIsCreateDone}/>
-      </div>
-      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
-        <AlertMessage type='warning' text={'Error al crear notificación.'} open={isCreateDone === ACTIONSTATE.ERROR ? true : false} setOpen={setIsCreateDone}/>
-      </div>
-      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
-        <AlertMessage type='success' text={'Notificación eliminada correctamente.'} open={isDeleteDone === ACTIONSTATE.SUCCESSFUL ? true : false} setOpen={setIsDeleteDone}/>
-      </div>
-      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
-        <AlertMessage type='warning' text={'Error al eliminar la notificación.'} open={isDeleteDone === ACTIONSTATE.ERROR ? true : false} setOpen={setIsDeleteDone}/>
-      </div>      
-      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
-        <AlertMessage type='success' text={'Notificación modificada correctamente.'} open={isModifyDone === ACTIONSTATE.SUCCESSFUL ? true : false} setOpen={setIsModifyDone}/>
-      </div>
-      <div className='fixed top-6 left-1/2 -translate-x-1/2'>
-        <AlertMessage type='warning' text={'Error al modificar la notificación.'} open={isModifyDone === ACTIONSTATE.ERROR ? true : false} setOpen={setIsModifyDone}/>
-      </div>      
+      }      
+        <AlertMessage type='success' text={'Notificación creada correctamente.'} open={isCreateDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsCreateDone}/>            
+        <AlertMessage type='warning' text={'Error al crear notificación.'} open={isCreateDone === ACTIONSTATE.ERROR} setOpen={setIsCreateDone}/>      
+      
+        <AlertMessage type='success' text={'Notificación eliminada correctamente.'} open={isDeleteDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsDeleteDone}/>      
+        <AlertMessage type='warning' text={'Error al eliminar la notificación.'} open={isDeleteDone === ACTIONSTATE.ERROR} setOpen={setIsDeleteDone}/>      
+      
+        <AlertMessage type='success' text={'Notificación modificada correctamente.'} open={isModifyDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsModifyDone}/>      
+        <AlertMessage type='warning' text={'Error al modificar la notificación.'} open={isModifyDone === ACTIONSTATE.ERROR} setOpen={setIsModifyDone}/>      
     </>
     );
 };

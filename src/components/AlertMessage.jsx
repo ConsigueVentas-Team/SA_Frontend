@@ -15,16 +15,18 @@ const AlertMessage = ({open, setOpen, text, type}) => {
   },[open])
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Collapse in={open}>
-        <Alert                    
-          sx={{ mb: 2 }}
-          severity={type}
-        >
-          {text}
-        </Alert>
-      </Collapse>      
-    </Box>
+    <div className='fixed top-6 left-1/2 -translate-x-1/2'>
+      <Box sx={{ width: '100%' }}>
+        <Collapse in={open}>
+          <Alert                    
+            sx={{ mb: 2 }}
+            severity={type}
+            >
+            {text}
+          </Alert>
+        </Collapse>      
+      </Box>
+    </div>
   );
 }
 

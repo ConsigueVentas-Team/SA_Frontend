@@ -11,6 +11,8 @@ import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed
 import CustomTable from "../../../../components/formulario/CustomTable";
 import { getTotalData } from "../../../../services/getTotalData";
 import MessageNotFound from "../../../../components/MessageNotFound";
+import { ACTIONSTATE } from "../../../../components/notificaciones/states/actionState";
+import AlertMessage from "../../../../components/AlertMessage";
 
 export const Area = () => {
   const tokenD = AES.decrypt(
@@ -33,8 +35,9 @@ export const Area = () => {
   const [idArea, setIdArea] = useState("");
   const [cores, setCores] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(false);
+  const [loading, setLoading] = useState(false);  
+  const [isCreateDone, setIsCreateDone] = useState("");
+  const [isUpdateDone, setIsUpdateDone] = useState("");
 
   useEffect(() => {    
     fetchData();    
@@ -68,10 +71,6 @@ export const Area = () => {
     setMostrarEliminarModal(false);
   };
 
-  const closeAlert = () => {
-    setAlertMessage(false);
-  };
-
   const manejarEnvio = (e) => {
     e.preventDefault();
     if (palabra === "") return;
@@ -85,10 +84,12 @@ export const Area = () => {
       setIsChecked
     ).then(() => {
       setPalabra("");
-      setLoading(false);
-      setAlertMessage(true);
+      setLoading(false);      
       setMostrarModal(false);
-    });
+      setIsCreateDone(ACTIONSTATE.SUCCESSFUL)
+    }).catch(      
+      setIsCreateDone(ACTIONSTATE.ERROR)
+    )
   };
 
   const openModal = () => {
@@ -103,6 +104,25 @@ export const Area = () => {
     return <Loading />;
   }
 
+  const updateData = async (valor, area, Departamento)=>{
+    try {
+      await ActualizarDato(
+        token,
+        valor,
+        "position",
+        idActualizar,
+        idDepartamento,
+        idArea,
+        setIsChecked,
+        area,
+        Departamento
+      )      
+      setIsUpdateDone(ACTIONSTATE.SUCCESSFUL)
+    }catch {
+      setIsUpdateDone(ACTIONSTATE.ERROR)
+    }
+  }
+
   return (
     <>
       <ActiveLastBreadcrumb actual={"perfil"}></ActiveLastBreadcrumb>
@@ -114,14 +134,8 @@ export const Area = () => {
             title={"edite perfil"}
             label={"Perfil: "}
             actualizarDepartamento={(valor, area, Departamento) =>
-              ActualizarDato(
-                token,
-                valor,
-                "position",
-                idActualizar,
-                idDepartamento,
-                idArea,
-                setIsChecked,
+              updateData(                
+                valor,                                
                 area,
                 Departamento
               )
@@ -167,17 +181,11 @@ export const Area = () => {
             </div>
           </div>
         )}
-        {alertMessage && (
-          <div className="bg-green-200 border-green-400 text-green-700 border px-4 py-3 rounded relative mt-4" role="alert">
-            <strong className="font-bold">¡Éxito! </strong>
-            <span className="block sm:inline">Se ha completado con éxito.✔️</span>
-            <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-              <button onClick={closeAlert} className="text-green-700">
-                <span className="text-green-400">×</span>
-              </button>
-            </span>
-          </div>
-        )}
+        <AlertMessage open={isCreateDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsCreateDone} text='El perfil ha sido creado correctamente' type='success'/>          
+        <AlertMessage open={isCreateDone === ACTIONSTATE.ERROR} setOpen={setIsCreateDone} text='Error al crear perfil' type='warning'/>          
+
+        <AlertMessage open={isUpdateDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsUpdateDone} text='El perfil ha sido modificado correctamente' type='success'/>          
+        <AlertMessage open={isUpdateDone === ACTIONSTATE.ERROR} setOpen={setIsUpdateDone} text='Error al modificar el perfil' type='warning'/>          
         {loading ? <Loading /> : (
           Position.length > 0 ? 
             <CustomTable
