@@ -172,6 +172,8 @@ const Modal = ({
                         value={autoevaluation}
                         onChange={e => setAutoevaluation(e.target.value)}
                         className='w-3/4 rounded p-2 ml-2 border border-gray-300'
+                        max={20}
+                        min={0}
                     />
                 </div>
             </div>
@@ -192,6 +194,7 @@ const Modal = ({
                     <h2 className=' font-bold text-center mb-4'>
                         CARGAR NOTAS
                     </h2>
+                    <hr className='mb-6 border-gray-400'/>
                     <div className='mb-4 rounded-lg border border-gray-400 bg-gray-100 px-2 py-1'>
                         <div className='flex items-center'>
                             <label className='w-2/4 text-gray-500'>ID:</label>

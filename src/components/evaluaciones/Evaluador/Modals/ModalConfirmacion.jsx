@@ -1,3 +1,5 @@
+import ReportProblemIcon from '@mui/icons-material/ReportProblem'
+
 const ModalConfirmacion = ({ isOpen, onConfirm, onClose, setIsLoading }) => {
     return (
         <div
@@ -10,9 +12,17 @@ const ModalConfirmacion = ({ isOpen, onConfirm, onClose, setIsLoading }) => {
                 style={{ margin: '50px' }}
                 onClick={e => e.stopPropagation()} // Evitar que el clic dentro del modal lo cierre
             >
+                <div className='flex pt-0 items-center justify-center p-4 border-b rounded-t '>
+                            <h3 className='items-center'>
+                                <ReportProblemIcon
+                                    sx={{ color: '#F3AE37', fontSize: 60 }}
+                                />
+                            </h3>
+                        </div>
                 <p className='text-black text-center font-medium  mb-4 p-10'>
                     ¿Estás seguro de que deseas crear una evaluación?
                 </p>
+                <hr className='mb-4'/>
                 <div className='flex justify-center'>
                     <button
                         onClick={() => {
