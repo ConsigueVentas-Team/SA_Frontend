@@ -111,7 +111,7 @@ export const Calendar = ({currentMonth, birthdays, fetchBirthdays, setCurrentMon
                 </div>
             </div>
             <footer className="flex justify-center gap-4 px-5 py-3 text-base text-white border-t border-cv-secondary bg-cv-primary">
-                <button onClick={goToToday} className='w-full p-1 border rounded-md border-cv-secondary hover:bg-cv-secondary'>Hoy</button>
+                <button onClick={goToToday} className='w-full p-1 border rounded-md border-cv-secondary hover:bg-cv-secondary'>Todos</button>
             </footer>
         </div>
     )
