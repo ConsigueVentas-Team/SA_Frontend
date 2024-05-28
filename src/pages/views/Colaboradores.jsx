@@ -356,8 +356,7 @@ export const Colaboradores = () => {
             <Button
               title="Limpiar filtros"
               onClick={() => {
-                handleClearFilter();
-                handleClearFilter();
+                handleClearFilter();                
               }}
               label="Limpiar"
               icon={<CleaningServicesIcon />}
