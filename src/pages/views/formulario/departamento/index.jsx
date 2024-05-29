@@ -15,6 +15,7 @@ import { getTotalData } from "../../../../services/getTotalData";
 import MessageNotFound from "../../../../components/MessageNotFound";
 import AlertMessage from "../../../../components/AlertMessage";
 import { ACTIONSTATE } from "../../../../components/notificaciones/states/actionState";
+import { Alert } from "@mui/material";
 
 export const Departamento = () => {
   const tokenD = AES.decrypt(
@@ -35,10 +36,11 @@ export const Departamento = () => {
   const [loading, setLoading] = useState(false);  
   const [isCreateDone, setIsCreateDone] = useState("");
   const [isUpdateDone, setIsUpdateDone] = useState("");
+  const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {                
     fetchData();    
-  }, [isChecked]);
+  }, [isChecked]);  
 
   async function fetchData() {    
     const list = await getTotalData("departments", setLoading);
@@ -67,7 +69,8 @@ export const Departamento = () => {
   const manejarEnvio = async (e) => {
     e.preventDefault();
     
-    if (palabra === "") return;
+    if(palabra === '') return setIsEmpty(true);
+    setIsEmpty(false)
     setLoading(true);
 
     try {
@@ -95,6 +98,7 @@ export const Departamento = () => {
   };
 
   const updateData = async (valor)=>{
+    if(valor === '') return setLoading(false)    
     try {      
       await ActualizarDato(
         token,
@@ -111,7 +115,7 @@ export const Departamento = () => {
     catch {
       setIsUpdateDone(ACTIONSTATE.ERROR);
     }
-  }
+  }  
 
   return (
     <>
@@ -150,6 +154,7 @@ export const Departamento = () => {
               <div className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <form onSubmit={manejarEnvio}>
                   <h2 className="text-xl font-bold mb-4 text-black flex justify-center">AGREGAR DEPARTAMENTO</h2>
+                  <hr className="border-gray-400 mb-5"/>
                   <div className="flex gap-12 w-12/12 sm:items-center flex-col sm:flex-row items-start text-black">
                     <Input
                       valor={palabra}
@@ -158,6 +163,13 @@ export const Departamento = () => {
                       textoHolder={"Ingresa departamento"}
                     ></Input>
                   </div>
+                  {
+                    isEmpty && 
+                    <Alert className="mt-4" variant="outlined" severity="error">
+                      Escribre el nombre del departamento
+                    </Alert>
+                  }
+                  <hr className="border-gray-400 mb-4 mt-4"/>
                   <div className="flex justify-center gap-4 mt-4">
                     <Submit></Submit>
                     <button onClick={closeModal} className="w-50 py-1 px-5 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-l font-semibold uppercase active:scale-95 ease-in-out duration-300">Cerrar</button>

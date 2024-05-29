@@ -26,15 +26,15 @@ export const Inputs = ({ actualizarValor, valor, setDepartment_id, token }) => {
 
   return (
     <div className="flex flex-col items-start w-full gap-5 sm:items-center sm:flex-col text-black ">
-      <label htmlFor="names" className="block font-medium text-black">
-        Departamento
-      </label>
+      <label htmlFor="names" className="block text-black w-full font-medium">
+        Departamento:
+      </label>      
       <div className="w-full ">
         <select
           id="filerRole"
           value={filterShift}
           onChange={handleFilterShiftChange}
-          placeholder="Seleccionasadas"
+          placeholder="Selecciona"
           className="w-full p-2 font-semibold bg-white rounded-md outline-none text-cv-primary drop-shadow-md sm:text-md placeholder-cv-primary"
         >
           <option>Selecciona</option>{" "}
@@ -46,12 +46,12 @@ export const Inputs = ({ actualizarValor, valor, setDepartment_id, token }) => {
           ))}
         </select>
       </div>
-      <div className="flex flex-col items-start w-full gap-8 sm:items-center sm:flex-row ">
+      <div className="flex flex-col w-full gap-4">
         <Input
           actualizarValor={actualizarValor}
           valor={valor}
           filterShift={filterShift}
-          label={"Núcleo"}
+          label={"Núcleo:"}
           textoHolder={"Ingresa núcleo"}
         ></Input>
       </div>

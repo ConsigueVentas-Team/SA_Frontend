@@ -26,7 +26,7 @@ const Input = ({
         type="text"
         id="names"
         disabled={filterShift === "Selecciona"}
-        className="w-full p-2  text-gray-900 rounded-md border-b-2 border-gray-300  bg-white outline-none sm:w-full sm:text-md placeholder-gray-500 font-semibold"
+        className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white outline-none sm:w-full sm:text-md placeholder-gray-500 font-semibold"
         placeholder={placeholderValue}
         value={valor}
         onChange={manejarEnvio}

@@ -13,6 +13,7 @@ import { getTotalData } from "../../../../services/getTotalData";
 import MessageNotFound from "../../../../components/MessageNotFound";
 import { ACTIONSTATE } from "../../../../components/notificaciones/states/actionState";
 import AlertMessage from "../../../../components/AlertMessage";
+import { Alert } from "@mui/material";
 
 export const Area = () => {
   const tokenD = AES.decrypt(
@@ -38,6 +39,7 @@ export const Area = () => {
   const [loading, setLoading] = useState(false);  
   const [isCreateDone, setIsCreateDone] = useState("");
   const [isUpdateDone, setIsUpdateDone] = useState("");
+  const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {    
     fetchData();    
@@ -73,7 +75,8 @@ export const Area = () => {
 
   const manejarEnvio = (e) => {
     e.preventDefault();
-    if (palabra === "") return;
+    if (palabra === "") return setIsEmpty(true);
+    setIsEmpty(false);
     setLoading(true);
     AgregarDato(
       token,
@@ -162,8 +165,10 @@ export const Area = () => {
         {mostrarModal && (
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="fixed inset-0 bg-black opacity-50"></div>
-            <div className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="modal w-[400px] max-w-6xl mx-auto bg-white p-4 rounded-lg shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <form onSubmit={manejarEnvio}>
+                <h2 className="text-black mx-auto block w-fit text-xl font-medium mb-4">Agregar</h2>
+                <hr className="w-full border-gray-300 my-5"/>
                 <div className="w-50 sm:items-center flex flex-col sm:flex-row items-start">
                   <InputArea
                     valor={palabra}
@@ -173,6 +178,10 @@ export const Area = () => {
                     token={token}
                   ></InputArea>
                 </div>
+                {
+                  isEmpty && <Alert className="mt-5" severity="error">Completa los campos</Alert>
+                }
+                <hr className="w-full border-gray-300 my-5"/>
                 <div className="flex justify-center gap-4 mt-4">
                   <Submit></Submit>
                   <button onClick={closeModal} className="w-50 py-1 px-5 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-l font-semibold uppercase active:scale-95 ease-in-out duration-300">Cerrar</button>
