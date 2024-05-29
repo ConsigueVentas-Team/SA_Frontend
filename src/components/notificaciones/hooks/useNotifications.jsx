@@ -41,7 +41,7 @@ const useNotifications = () => {
         }
         setLoading(false);
         
-        setData(dataList);
+        setData(dataList.reverse());
     }
     
     useEffect(()=>{
