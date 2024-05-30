@@ -37,7 +37,7 @@ export const ItemJustificaciones = ({ cards, page }) => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5">
       {cards.map((card, index) => (
           <div
-            className="bg-cv-primary text-white rounded-2xl shadow-2xl"
+            className="flex flex-col justify-between bg-cv-primary text-white rounded-2xl shadow-2xl"
             key={index}
           >
             <div className="w-full flex flex-col items-center justify-between p-4 overflow-hidden">
@@ -93,18 +93,18 @@ export const ItemJustificaciones = ({ cards, page }) => {
                       {card.justification_type ? "Tardanza" : "Falta"}
                     </p>
                   </li>
-                  <li className="w-full text-sm font-normal">
+                  <li className="w-full text-sm font-normal flex">
                     <span className="mr-2 uppercase text-gray-400 font-semibold mb-1">
                       Motivo:
                     </span>
-                    <div className="whitespace-normal">
-                      <textarea
-                        className="bg-transparent text-sm align-top w-full h-auto resize-none"
-                        disabled
-                        value={card.reason}
-                      ></textarea>
-                    </div>
+                    <span className="truncate text-nowrap">{card.reason}</span>
                   </li>
+                  {isRechazadoOrAceptado(card) === STATUS.ACEPTADO || isRechazadoOrAceptado(card) === STATUS.RECHAZADO ?             
+                  <li className="text-sm font-normal flex text-nowrap">
+                    <span className="mr-2 uppercase text-nowrap text-gray-400 font-semibold mb-1" style={{textWrap: 'nowrap'}}>Revisado Por:</span>
+                    <span className="truncate text-nowrap">{card.action_by?.name} {card.action_by?.surname}</span>                             
+                  </li>:null
+                }                 
                 </ul>
               </div>
             </div>

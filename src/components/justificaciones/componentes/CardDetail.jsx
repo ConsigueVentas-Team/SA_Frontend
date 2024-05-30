@@ -1,4 +1,5 @@
 import moment from "moment";
+import { STATUS } from "../../../constantes/JustificationStatus";
 
 export function CardDetail({
   buttonLoading,
@@ -10,7 +11,7 @@ export function CardDetail({
   handleAceptar,
   handleRechazar,
 }) {  
-
+  
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
@@ -31,7 +32,7 @@ export function CardDetail({
       })
       .catch((e)=> console.log(e));
   }
-
+  
   return (
     <div className="rounded-lg mt-2">
       {faltasList
@@ -45,6 +46,30 @@ export function CardDetail({
         })
         .map((item) => (
           <div key={item.id} className="mb-6">
+            {
+              item.justification_status !== 3 &&
+              <div className="mb-3 text-center w-full bg-cv-primary flex flex-col p-4 rounded-lg border border-gray-500">
+                <h2 className="font-medium text-slate-400 text-xl uppercase">
+                  {item.justification_status === 2 && STATUS.RECHAZADO}
+                  {item.justification_status === 1 && STATUS.ACEPTADO}
+                </h2>
+                <div className="text-start mt-5 flex justify-between">
+                  <div>
+                    <h3 className="text-slate-400 font-medium">Revisado por: </h3>
+                    <span className="font-medium">
+                      {item.action_by.name}
+                      {item.action_by.surname}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-slate-400 font-medium">Razón:</h3>
+                    <span className="font-medium">
+                      {item.reason_decline}
+                    </span>
+                  </div>
+                </div>              
+              </div>
+            }
             <div className="flex flex-col md:flex-row gap-2">
               <div className="bg-cv-primary text-slate-400 flex flex-col p-4 rounded-lg md:w-3/5 border border-gray-500">
                 <h2 className="text-lg font-semibold text-center">

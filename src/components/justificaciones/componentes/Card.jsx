@@ -87,22 +87,11 @@ export const Card = ({ card, page }) => {
                 {card.justification_type === false ? "Falta" : "Tardanza"}
               </p>
             </li>
-            <li className="w-full text-sm font-normal">
+            <li className="flex w-full text-sm font-normal">
               <span className="mr-2 uppercase text-gray-400 font-semibold mb-1">
                 Motivo:
-              </span>
-              <div className="whitespace-normal">
-                <textarea
-                  className="bg-transparent text-sm align-top w-full h-auto resize-none overflow-hidden"
-                  disabled
-                  maxLength={87} // Cambia el número 100 por el límite de caracteres que desees
-                  value={
-                    card.reason.length > 87
-                      ? `${card.reason.substring(0, 87)} ...`
-                      : card.reason
-                  }
-                />
-              </div>
+              </span>  
+              <span className="truncate text-nowrap">{card.reason}</span>                          
             </li>
                 {isRechazadoOrAceptado(card) === STATUS.ACEPTADO || isRechazadoOrAceptado(card) === STATUS.RECHAZADO ?             
                   <li className="text-sm font-normal">
