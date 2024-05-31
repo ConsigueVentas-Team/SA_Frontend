@@ -11,8 +11,11 @@ const ModalEditNotification = ({updateNotification, notification, setOpenEditMod
         const form = e.target;
         const formData = new FormData(form);        
         const loggedId = localStorage.getItem('iduser');
+        const message = formData.get('message');
+        
         formData.append('user', loggedId)
-
+        
+        if(message === '') return setIsShort(true);
         if(isLonger || isShort) return;
 
         updateNotification(notification.id, formData);

@@ -12,9 +12,11 @@ const ModalAddNewNotification = ({addNewNotification, openModal, setOpenModal}) 
         const form = event.target;
         const formData = new FormData(form);                   
         const loggedId = localStorage.getItem('iduser');
+        const message = formData.get('message');
         
         formData.append("user", loggedId)        
-                
+
+        if(message === '') return setIsShort(true);
         if(isLonger || isShort) return;
 
         addNewNotification(formData)
