@@ -128,10 +128,13 @@ const TablaEvaluaciones = ({
     const filaClase = 'rounded border-cv-secondary'
     const celdaClase = 'px-6 py-4 whitespace-nowrap'
 
-    useEffect(() => {
-        fetchUser()
-        setPromedio(calcularPromedio())
+    useEffect(() => {        
+        fetchUser();                        
     }, [feching])
+    
+    useEffect(()=>{
+        setPromedio(calcularPromedio());        
+    }, [evaluacion]);
 
     return (
         <div>
