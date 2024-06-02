@@ -27,6 +27,7 @@ export const EvaluacionesAdmin = () => {
   const [selectedCore, setSelectedCore] = useState("");
   const [selectedProfile, setSelectedProfile] = useState("");
 
+  const [page, setPage] = useState(1)
   const [name, setName] = useState("");
   const [shift, setShift] = useState("");
   const [department, setDepartment] = useState("");
@@ -106,7 +107,7 @@ export const EvaluacionesAdmin = () => {
     setPosition(event.target.value);
   };
 
-  const handleShiftChange = (event) => {
+  const handleShiftChange = (event) => {    
     setShift(event.target.value);
   };
 
@@ -115,7 +116,7 @@ export const EvaluacionesAdmin = () => {
   };
 
   useEffect(() => {
-    obtenerUsuarios(shift, position, department, core, name);
+    obtenerUsuarios(page, shift, position, department, core, name);
   }, [shift, position, department, core, name]);
 
   //* Listar Colaboradores
@@ -124,12 +125,12 @@ export const EvaluacionesAdmin = () => {
     try {
       const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
 
-      if (page) url.searchParams.append("page", page);
+      url.searchParams.append("page", page?page:1);
 
       if (name) url.searchParams.append("name", name);
       if (department) url.searchParams.append("department", department);
       if (core) url.searchParams.append("core", core);
-      if (position) url.searchParams.append("position", position);
+      if (position) url.searchParams.append("position", position);      
       if (shift) url.searchParams.append("shift", shift);
 
       const response = await fetch(url, {
@@ -236,8 +237,7 @@ export const EvaluacionesAdmin = () => {
             <Button
               title="Limpiar filtros"
               onClick={() => {
-                handleClearFilter();
-                handleClearFilter();
+                handleClearFilter();                
               }}
               label="Limpiar"
               icon={<CleaningServicesIcon />}
