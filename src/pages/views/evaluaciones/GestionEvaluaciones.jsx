@@ -8,9 +8,9 @@ import Loading from '../../../components/essentials/Loading'
 export const GestionEvaluaciones = () => {
     let { id, name } = useParams()
     const nombre = name.split('-')
-    const nombreComputado = nombre.join(' ')
+    const nombreComputado = nombre.join(' ')    
     const match = nombreComputado.match(
-        /^(.*?)\s(Colaborador|Lider Nucleo|Gerencia)$/
+        /^(.*?)\s(Colaborador|Lider Nucleo|Lider Departamento|Gerencia)$/
     )
     const nombreCompleto = match[1]
     const rolUsuario = match[2]

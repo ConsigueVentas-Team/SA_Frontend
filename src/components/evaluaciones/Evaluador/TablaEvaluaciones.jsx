@@ -157,7 +157,7 @@ const TablaEvaluaciones = ({
                                     : 7
                             }
                             className=' py-4 whitespace-nowrap text-base uppercase'>
-                            {rol === 'Lider Nucleo' || rol === 'Gerencia'
+                            {rol === 'Lider Nucleo' || rol === 'Gerencia' || rol === 'Lider Departamento'
                                 ? 'EVALUACIONES LIDER'
                                 : 'EVALUACIONES COLABORADOR'}
                             {/* EVALUACIONES */}
@@ -172,7 +172,7 @@ const TablaEvaluaciones = ({
                             FECHA
                         </td>
 
-                        {rol === 'Lider Nucleo' || rol === 'Gerencia' ? (
+                        {rol === 'Lider Nucleo' || rol === 'Gerencia' || rol === 'Lider Departamento' ? (
                             <td
                                 className={celdaClase}
                                 style={{ fontWeight: 'bold' }}>
@@ -221,7 +221,7 @@ const TablaEvaluaciones = ({
                             <td className={celdaClase}>
                                 {evaluacionItem.date}
                             </td>
-                            {rol === 'Lider Nucleo' || rol === 'Gerencia' ? (
+                            {rol === 'Lider Nucleo' || rol === 'Gerencia' || rol === 'Lider Departamento' ? (
                                 <td className={celdaClase}>
                                     {evaluacionItem.autoevaluation || 'N/A'}
                                 </td>
