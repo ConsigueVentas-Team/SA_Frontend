@@ -27,7 +27,7 @@ const SelectBox = ({ isActive, label, data, mostrarNucleo, valor, setSelectedVal
         value={valor}
         name=""
         id=""
-        className="text-white rounded-lg px-2 py-1  bg-cv-primary outline-none w-96"
+        className="text-white rounded-lg pl-2 pr-1 py-1 bg-cv-primary outline-none w-96"
         disabled={isActive}
         onChange={handleDepartamentoChange}
       >

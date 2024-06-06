@@ -33,48 +33,7 @@ const labelMap = {
   "Retirado": 'Retirado',
 }
 
-const Barras = ({ barras, isCore, isDepart }) => {    
-
-  let xAxisDataKey = "department_name";
-  let barDataKey = "department_automation_count";
-  let barDataKey1 = "department_management_count";
-  let barDataKey2 = "department_strategy_count";
-  let barDataKey3 = "department_commercial_count";
-  // let barDataKey4 = "department_operational_count";
-  let barDataKey4 = "Activos";
-  let barDataKey5 = "Termino su convenio";
-  let barDataKey6 = "Retirado";
-  
-  if (isDepart && !isCore) {
-    xAxisDataKey = "core_name";
-    barDataKey = "core_automation_count";
-    barDataKey1 = "core_management_count";
-    barDataKey2 = "core_strategy_count";
-    barDataKey3 = "core_commercial_count";
-    barDataKey4 = "core_operational_count";
-    barDataKey5 = "users_convenio";
-    barDataKey6 = "users_retirados";
-
-    const uniqueData = [];
-    const existingValues = new Set();
-    
-    for (const entry of barras) {
-      const value = entry[xAxisDataKey];
-      if (!existingValues.has(value)) {
-        existingValues.add(value);
-        uniqueData.push(entry);
-      }
-    }
-    
-    barras = uniqueData;
-  } else if (isDepart && isCore) {
-    xAxisDataKey = "profile_name";
-    barDataKey = "profile_automation_count";
-    barDataKey1 = "profile_management_count";
-    barDataKey2 = "profile_strategy_count";
-    barDataKey3 = "profile_commercial_count";
-    barDataKey4 = "profile_operational_count";    
-  }
+const Barras = ({ barras }) => {    
 
   return (
     <ResponsiveContainer width="100%">

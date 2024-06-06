@@ -62,7 +62,7 @@ const BarrasAsistencia = ({ barras, isCore, isDepart }) => {
     <ResponsiveContainer width="100%">
       <BarChart data={barras} barSize={30}>
         <XAxis
-          dataKey={xAxisDataKey}
+          dataKey='department_name'
           tickFormatter={(value) => {
             const words = value.split(" ");
             if (words.length > 1) {

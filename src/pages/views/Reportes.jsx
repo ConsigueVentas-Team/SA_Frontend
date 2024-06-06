@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { AES, enc } from "crypto-js";
 import SelectBox from "../../components/reportes/SelectBox";
 import TarjetaAsistencia from "../../components/reportes/TarjetaAsistencia";
 import Barras from "../../components/reportes/graficos/Barras";
@@ -15,124 +14,37 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SortIcon from "@mui/icons-material/Sort";
 import Loading from "../../components/essentials/Loading";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import logo from "../../assets/logo.png";
-import "jspdf-autotable";
 import useDepartmentReport from "../../components/reportes/hooks/useReportApi";
+import useReportList from "../../components/reportes/hooks/useReportList";
+import getTokens from "../../components/reportes/helpers/getTokens";
+import generatePDF from "../../components/reportes/helpers/generatePDF";
 
-const Reportes = () => {
-  const tokenD = AES.decrypt(
-    localStorage.getItem("token"),
-    import.meta.env.VITE_TOKEN_KEY
-  );
-
-  const token = tokenD.toString(enc.Utf8);
-  const [apiDataUsuariosSector, setApiDataUsuariosSector] = useState([]);
-  const [apiDataAsistenciasSector, setApiDataAsistenciasSector] = useState([]);
-  const [apiDataUser, setApiDataUser] = useState([]);
-  const [apiDataAsis, setApiDataAsis] = useState([]);
-
+const Reportes = () => {  
   const [departamentos, setDepartamentos] = useState([]);
   const [nucleos, setNucleos] = useState([]);
   const [nucleosFiltrados, setNucleosFiltrados] = useState([]);
   const [core, setCore] = useState("");
   const [departamento, setDepartamento] = useState("");
   const [mostrar, setMostrar] = useState(true);
-
-  const [totalUsuarios, setTotalUsuarios] = useState(0);
-  const [usuariosActivos, setUsuariosActivos] = useState(0);
-  const [ingresosMes, setIngresosMes] = useState(0);
-
-  const [totalAsistencias, setTotalAsistencias] = useState(0);
-  const [totalTardanzas, setTotalTardanzas] = useState(0);
-  const [totalFaltas, setTotalFaltas] = useState(0);
-  const [totalJustificaciones, setTotalJustificaciones] = useState(0);
-
-  const [totalJus, setTotalJus] = useState(0);
-  const [aceptado, setAceptado] = useState(0);
-  const [enProceso, setEnProceso] = useState(0);
-  const [rechazado, setRechazado] = useState(0);
-
-  const [loading, setLoading] = useState(true);
   const [isCore, seIsCore] = useState(false);
   const [isDepart, setIsDepart] = useState(false);
   const {report: reportDeparment} = useDepartmentReport('/departments/statistics');
   const {report: reportCore} = useDepartmentReport('/cores/statistics');
   const [activeNucleoOption, setActiveNucleoOption] = useState(true); 
   const [userDataBySector, setUserDataBySector] = useState([]);
+  const {totalUsuarios,usuariosActivos,ingresosMes,totalAsistencias,totalTardanzas,totalFaltas,
+         totalJustificaciones,totalJus,aceptado,enProceso,rechazado,apiDataAsistenciasSector,
+         loading, setLoading
+        } = useReportList();
+  const {token} = getTokens();
+
+  const handleGeneratePDF = ()=>{
+    generatePDF(totalUsuarios,usuariosActivos,ingresosMes,totalAsistencias,totalTardanzas,totalFaltas,totalJustificaciones,totalJus,aceptado,rechazado,enProceso,departamento,reportDeparment,userDataBySector,apiDataAsistenciasSector)
+  }
 
   useEffect(()=>{
     setUserDataBySector(reportDeparment);
   },[reportDeparment])
-  
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const url = new URL(import.meta.env.VITE_API_URL + "/reports/list");
-      url.searchParams.append("page", 0);
-
-      const response = await fetch(url, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const {data} = await response.json();        
-        setApiDataUser(data.reportes_usuarios.reporte_general);
-        setApiDataAsis(data.reportes_asistencias);
-
-        //----------------------------------------------
-        setTotalUsuarios(data.reportes_usuarios.reporte_total.total_usuarios);
-        setUsuariosActivos(
-          data.reportes_usuarios.reporte_total.usuarios_activos
-        );
-        setIngresosMes(
-          data.reportes_usuarios.reporte_total.ingresos_mes.count
-        );
-
-        /////
-        const sumUniqueValues = (data, property) => {
-          const uniqueValues = [...new Set(data.map((item) => item[property]))];
-          return uniqueValues.reduce((acc, count) => acc + count, 0);
-        };
-
-        //------------------------------------------------
-        const totalAsistencias = sumUniqueValues(data.reportes_asistencias,"department_attendance_count");
-        const totalFaltas = sumUniqueValues(data.reportes_asistencias,"department_absence_count");
-        const totalTardanzas = sumUniqueValues(data.reportes_asistencias,"department_delay_count");
-        const totalJustificaciones = sumUniqueValues(data.reportes_asistencias,"department_justification_count");
-
-        setTotalAsistencias(totalAsistencias);
-        setTotalFaltas(totalFaltas);
-        setTotalTardanzas(totalTardanzas);
-        setTotalJustificaciones(totalJustificaciones);
-
-        //Setteando datos para los estados de las justificaciones
-        setAceptado(
-          data.reportes_justificacion.total_justification_aceptado
-        );
-        setRechazado(
-          data.reportes_justificacion.total_justification_rechazado
-        );
-        setEnProceso(
-          data.reportes_justificacion.total_justification_en_proceso
-        );
-        setTotalJus(data.reportes_justificacion.total_justifications);        
-        
-        //Datos para barra de asistencias
-        const filteredAsisData = data.reportes_asistencias        
-        setApiDataAsistenciasSector(filteredAsisData);
-        setLoading(false);
-      } else {
-        console.error("Error al obtener datos de informes");
-      }
-    }
-
-    fetchData();
-  }, [token]);
 
   useEffect(() => {
     async function fetchData() {
@@ -155,266 +67,11 @@ const Reportes = () => {
     setNucleosFiltrados(filtrado);
   };
 
-  const loadImage = async (imagePath) => {
-    const response = await fetch(imagePath);
-    const blob = await response.blob();
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        resolve(event.target.result);
-      };
-      reader.readAsDataURL(blob);
-    });
-  };
-
-  const generatePDF = async () => {
-    const doc = new jsPDF();
-
-    // ------------------------------------------Logo
-    const logoDataUrl = await loadImage(logo);
-    const logoWidth = 30;
-    const logoHeight = 30;
-    const tHeight = 9;
-    const logoX = 20; 
-    const logoY = 20;
-    doc.addImage(logoDataUrl, "JPEG", logoX, logoY, logoWidth, logoHeight);
-
-    // -------------------------------------------titulo
-    const titleText = "Agencia Consigue Ventas Online";
-    const fontSize = 32;
-    const titleX = logoX + logoWidth + 10; 
-    const titleY = logoY + tHeight / 3 + fontSize * 0.35; 
-
-    doc.setFontSize(fontSize);
-    doc.setTextColor(0, 114, 177);
-
-    const maxWidth = 150; 
-    doc.text(titleText, titleX, titleY, { maxWidth });
-
-    // --------------------------------------------------tabla usuarioss
-    const tableData = [
-      ["USUARIOS", "ASISTENCIAS", "JUSTIFICACIONES"],
-      [
-        `Total: ${totalUsuarios}\nActivos: ${usuariosActivos}\nIngresos último mes: ${ingresosMes}`,
-        `Total: ${totalAsistencias}\nTardanzas: ${totalTardanzas}\nFaltas: ${totalFaltas}\nJustificaciones: ${totalJustificaciones}`,
-        `Total: ${totalJus}\nAceptadas: ${aceptado}\nRechazadas: ${rechazado}\nEn proceso: ${enProceso}`,
-      ],
-    ];
-
-    doc.autoTable({
-      startY: 60,
-      head: [
-        [
-          "",
-          { content: "USUARIOS", colSpan: 3, styles: { halign: "left" } },
-          "",
-          "",
-        ],
-      ],
-      body: tableData,
-    });
-
-    // --------------------------------------------------USUARIOS SECTORESSS
-
-    doc.setFontSize(16);
-    doc.text("USUARIOS POR SECTORES:", 14, 106);
-
-    if (isDepart && !isCore) {
-      const uniqueCoreNames = new Set();
-      const usuariosSectorData = [];
-
-      userDataBySector.forEach((sector) => {
-        const coreName = sector.core_name.toUpperCase();
-        
-        if (!uniqueCoreNames.has(coreName)) {
-          uniqueCoreNames.add(coreName);
-          usuariosSectorData.push([
-            { content: coreName, styles: { fontStyle: "bold" } },
-            { content: `Usuarios activos: ${sector.core_user_count}` },
-          ]);
-        }
-      });
-
-      doc.autoTable({
-        startY: 110,
-        head: [["Sector", "Usuarios Activos"]],
-        body: usuariosSectorData,
-      });
-    } else if (isDepart && isCore) {
-      const usuariosCoreData = userDataBySector.map((sector) => [
-        {
-          content: sector.profile_name.toUpperCase(),
-          styles: { fontStyle: "bold" },
-        },
-        { content: `Usuarios activos: ${sector.profile_user_count}` },
-      ]);
-
-      doc.autoTable({
-        startY: 110,
-        head: [["Sector", "Usuarios Activos"]],
-        body: usuariosCoreData,
-      });
-    } else {
-      let usuariosSectorData = [];
-
-      if(departamento == "") {
-        usuariosSectorData = [
-          allData["automatización"],
-          allData["comercial"],
-          allData["operativo"],
-          allData["gerencia"],
-          allData["audiovisual"],
-        ].map((sector) => [
-          {
-            content: sector.name,
-            styles: { fontStyle: "bold" },
-          },
-          { content: 
-              sector.department_automation_count
-            },                          
-          { content: 
-              sector.users_retirados
-            },                          
-          { content: 
-              sector.users_convenio
-            },         
-        ])           
-      } 
-      else {
-        usuariosSectorData = [userDataBySector].map((sector) => [
-          {
-            content: sector.name,
-            styles: { fontStyle: "bold" },
-          },
-          { content: 
-              sector.department_automation_count
-            },                          
-          { content: 
-              sector.users_retirados
-            },                          
-          { content: 
-              sector.users_convenio
-            },         
-        ])           
-      }
-
-      doc.autoTable({
-        startY: 110,
-        head: [["Sector", "Usuarios Activos", "retirados", "convenio"]],
-        body: usuariosSectorData,
-      });
-    }
-    // ------IMAGENS
-    const usuariosActivosPorSector = document.querySelector(
-      ".usuarios-activos-por-sector"
-    );
-    if (usuariosActivosPorSector) {
-      const usuariosActivosCanvas = await html2canvas(usuariosActivosPorSector);
-      const usuariosActivosDataUrl =
-        usuariosActivosCanvas.toDataURL("image/png");
-      doc.addImage(
-        usuariosActivosDataUrl,
-        "PNG",
-        14,
-        doc.autoTable.previous.finalY + 10,
-        180,
-        70
-      );
-    }
-
-    // --------------------------------------------------ASISTENCIAS SECTORESSS
-    if (apiDataAsistenciasSector.length > 0) {
-      doc.addPage();
-      doc.setFontSize(16);
-      doc.text("ASISTENCIA POR SECTORES:", 14, 24);
-
-      const processedNames = new Set();
-      const asistenciasSectorData = [];
-
-      apiDataAsistenciasSector.forEach((sector) => {
-        let name, attendance, absence, delay, justification;
-
-        if (isDepart && !isCore) {
-          // name = sector.core_name.toUpperCase();
-          name = "asistencia"
-
-          if (!processedNames.has(name)) {
-            processedNames.add(name);
-            attendance = sector.core_attendance_count;
-            absence = sector.core_absence_count;
-            delay = sector.core_delay_count;
-            justification = sector.core_justification_count;
-
-            asistenciasSectorData.push([
-              { content: name, styles: { fontStyle: "bold" } },
-              { content: attendance },
-              { content: delay },
-              { content: absence },
-              { content: justification },
-            ]);
-          }
-        } else if (isDepart && isCore) {
-          name = sector.profile_name.toUpperCase();          
-          attendance = sector.profile_attendance_count;
-          absence = sector.profile_absence_count;
-          delay = sector.profile_delay_count;
-          justification = sector.profile_justification_count;
-
-          asistenciasSectorData.push([
-            { content: name, styles: { fontStyle: "bold" } },
-            { content: attendance },
-            { content: delay },
-            { content: absence },
-            { content: justification },
-          ]);
-        } else {                    
-          name ='asistencia'
-          attendance = sector.department_attendance_count;
-          absence = sector.department_absence_count;
-          delay = sector.department_delay_count;
-          justification = sector.department_justification_count;
-
-          asistenciasSectorData.push([
-            { content: name, styles: { fontStyle: "bold" } },
-            { content: attendance },
-            { content: delay },
-            { content: absence },
-            { content: justification },
-          ]);
-        }
-      });
-
-      doc.autoTable({
-        startY: 30,
-        head: [
-          ["Sector", "Asistencias", "Tardanzas", "Faltas", "Justificaciones"],
-        ],
-        body: asistenciasSectorData,
-      });
-
-      // -------------------------------IMAGEN
-      const asistenciaPorSector = document.querySelector(
-        ".asistencia-por-sector"
-      );
-      if (asistenciaPorSector) {
-        const asistenciaCanvas = await html2canvas(asistenciaPorSector);
-        const asistenciaDataUrl = asistenciaCanvas.toDataURL("image/png");
-        doc.addImage(
-          asistenciaDataUrl,
-          "PNG",
-          14,
-          doc.autoTable.previous.finalY + 10,
-          180,
-          80
-        );
-      }
-    }
-
-    doc.save("consigue_ventas_report.pdf");
-  };
-
   const filtrar = ()=>{           
     let filteredData = [];
+
+    //Si no se ha seleccionado el departamento y/o el núcleo no se ejecuta el filtro
+    if(core === '' && departamento === '') return;
 
     if(core) {
       //Validación para porte de los nucleos
@@ -462,7 +119,7 @@ const Reportes = () => {
           <div className="flex gap-3">
             <button
               className="p-2 rounded pl-4 pr-4 text-gray-950 bg-red-500 flex items-center hover:bg-red-600"
-              onClick={generatePDF}
+              onClick={handleGeneratePDF}
             >
               <PictureAsPdfIcon className="mr-2" />
               <strong>Reporte</strong>
@@ -526,9 +183,7 @@ const Reportes = () => {
                         USUARIOS ACTIVOS POR SECTOR
                       </h1>
                       <Barras
-                        barras={userDataBySector}
-                        isCore={isCore}
-                        isDepart={isDepart}
+                        barras={userDataBySector}                        
                       />                        
                     </div>
                   </div>
@@ -558,7 +213,7 @@ const Reportes = () => {
                         <h1 className="text-lg font-medium ">
                           ASISTENCIAS POR SECTORES
                         </h1>
-                        <div className="w-full h-[360px]">
+                        <div className="w-full mt-5 h-[360px]">
                           <BarrasAsistencia
                             barras={apiDataAsistenciasSector}
                             isCore={isCore}
