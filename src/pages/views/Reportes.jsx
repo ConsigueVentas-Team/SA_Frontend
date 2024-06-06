@@ -19,6 +19,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import logo from "../../assets/logo.png";
 import "jspdf-autotable";
+import useDepartmentReport from "../../components/reportes/hooks/useReportApi";
 
 const Reportes = () => {
   const tokenD = AES.decrypt(
@@ -56,7 +57,15 @@ const Reportes = () => {
   const [loading, setLoading] = useState(true);
   const [isCore, seIsCore] = useState(false);
   const [isDepart, setIsDepart] = useState(false);
+  const {report: reportDeparment} = useDepartmentReport('/departments/statistics');
+  const {report: reportCore} = useDepartmentReport('/cores/statistics');
+  const [activeNucleoOption, setActiveNucleoOption] = useState(true); 
+  const [userDataBySector, setUserDataBySector] = useState([]);
 
+  useEffect(()=>{
+    setUserDataBySector(reportDeparment);
+  },[reportDeparment])
+  
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -71,7 +80,7 @@ const Reportes = () => {
       });
 
       if (response.ok) {
-        const {data} = await response.json();
+        const {data} = await response.json();        
         setApiDataUser(data.reportes_usuarios.reporte_general);
         setApiDataAsis(data.reportes_asistencias);
 
@@ -90,6 +99,7 @@ const Reportes = () => {
           return uniqueValues.reduce((acc, count) => acc + count, 0);
         };
 
+        //------------------------------------------------
         const totalAsistencias = sumUniqueValues(data.reportes_asistencias,"department_attendance_count");
         const totalFaltas = sumUniqueValues(data.reportes_asistencias,"department_absence_count");
         const totalTardanzas = sumUniqueValues(data.reportes_asistencias,"department_delay_count");
@@ -100,7 +110,7 @@ const Reportes = () => {
         setTotalTardanzas(totalTardanzas);
         setTotalJustificaciones(totalJustificaciones);
 
-        /////
+        //Setteando datos para los estados de las justificaciones
         setAceptado(
           data.reportes_justificacion.total_justification_aceptado
         );
@@ -110,32 +120,10 @@ const Reportes = () => {
         setEnProceso(
           data.reportes_justificacion.total_justification_en_proceso
         );
-        setTotalJus(data.reportes_justificacion.total_justifications);
-
-        //----------------------------------------------
-        const filteredData = data.reportes_usuarios.reporte_general.reduce(
-          (acc, current) => {
-            if (
-              !acc.find(
-                (item) => item.department_name === current.department_name
-              )
-            ) {
-              acc.push(current);
-            }
-            return acc;
-          },
-          []
-        );
-        setApiDataUsuariosSector(filteredData);
-        const filteredAsisData = data.reportes_asistencias.filter(
-          (item, index, self) => {
-            return (
-              self.findIndex(
-                (el) => el.department_name === item.department_name
-              ) === index
-            );
-          }
-        );
+        setTotalJus(data.reportes_justificacion.total_justifications);        
+        
+        //Datos para barra de asistencias
+        const filteredAsisData = data.reportes_asistencias        
         setApiDataAsistenciasSector(filteredAsisData);
         setLoading(false);
       } else {
@@ -148,87 +136,13 @@ const Reportes = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const listaDepartamentos = await ObtenerDatos(token, "departments");
-      const listaNucleos = await ObtenerDatos(token, "cores");
-      setNucleos(listaNucleos.data);
+      const listaDepartamentos = await ObtenerDatos(token, "departments", setLoading,1);
+      const listaNucleos = await ObtenerDatos(token, "cores", setLoading,1);
+      setNucleos(listaNucleos.data);      
       setDepartamentos(listaDepartamentos.data);
     }
     fetchData();
   }, []);
-
-  const filtrar = () => {
-    let datosFiltrados = [];
-    let datosFiltradoAsistencia = [];
-
-    const departamentoMappings = {
-      1: {
-        name: "Departamento Operativo",
-        cores: {
-          5: "Creativo",
-          6: "Audiovisual",
-          10: "Marca Cliente",
-          11: "Marca Proyecto",
-          33: "Marketing",
-        },
-      },
-      2: {
-        name: "Departamento Comercial",
-        cores: {
-          31: "Atencion al Cliente",
-          32: "Ejecutivo de Cuentas",
-          8: "Logística",
-          9: "Comercial",
-        },
-      },
-      3: {
-        name: "Departamento Estratégico",
-        cores: {
-          34: "Analisis de Datos",
-          4: "Publicidad Digital",
-        },
-      },
-      15: {
-        name: "Departamento Gestion",
-        cores: {
-          3: "Talento Humano",
-          2: "Administracion",
-        },
-      },
-      14: {
-        name: "Departamento Automatizacion",
-        cores: {
-          1: "Sistemas",
-          7: "Diseño Web",
-        },
-      },
-    };
-
-    const departamentoInfo = departamentoMappings[departamento];
-
-    if (departamentoInfo) {
-      datosFiltrados = apiDataUser.filter(
-        (dato) => dato.department_name == departamentoInfo.name
-      );
-      datosFiltradoAsistencia = apiDataAsis.filter(
-        (dato) => dato.department_name == departamentoInfo.name
-      );
-      setIsDepart(true);
-      const coreName = departamentoInfo.cores[core];
-      if (coreName) {
-        datosFiltrados = apiDataUser.filter(
-          (dato) => dato.core_name == coreName
-        );
-        datosFiltradoAsistencia = apiDataAsis.filter(
-          (dato) => dato.core_name == coreName
-        );
-        seIsCore(true);
-      }
-    }
-
-    setApiDataUsuariosSector(datosFiltrados);
-    setApiDataAsistenciasSector(datosFiltradoAsistencia);
-    setMostrar(true);
-  };
 
   const borrar = () => {
     window.location.reload();
@@ -309,8 +223,9 @@ const Reportes = () => {
       const uniqueCoreNames = new Set();
       const usuariosSectorData = [];
 
-      apiDataUsuariosSector.forEach((sector) => {
+      userDataBySector.forEach((sector) => {
         const coreName = sector.core_name.toUpperCase();
+        
         if (!uniqueCoreNames.has(coreName)) {
           uniqueCoreNames.add(coreName);
           usuariosSectorData.push([
@@ -326,7 +241,7 @@ const Reportes = () => {
         body: usuariosSectorData,
       });
     } else if (isDepart && isCore) {
-      const usuariosCoreData = apiDataUsuariosSector.map((sector) => [
+      const usuariosCoreData = userDataBySector.map((sector) => [
         {
           content: sector.profile_name.toUpperCase(),
           styles: { fontStyle: "bold" },
@@ -340,17 +255,52 @@ const Reportes = () => {
         body: usuariosCoreData,
       });
     } else {
-      const usuariosSectorData = apiDataUsuariosSector.map((sector) => [
-        {
-          content: sector.department_name.toUpperCase(),
-          styles: { fontStyle: "bold" },
-        },
-        { content: `Usuarios activos: ${sector.department_user_count}` },
-      ]);
+      let usuariosSectorData = [];
+
+      if(departamento == "") {
+        usuariosSectorData = [
+          allData["automatización"],
+          allData["comercial"],
+          allData["operativo"],
+          allData["gerencia"],
+          allData["audiovisual"],
+        ].map((sector) => [
+          {
+            content: sector.name,
+            styles: { fontStyle: "bold" },
+          },
+          { content: 
+              sector.department_automation_count
+            },                          
+          { content: 
+              sector.users_retirados
+            },                          
+          { content: 
+              sector.users_convenio
+            },         
+        ])           
+      } 
+      else {
+        usuariosSectorData = [userDataBySector].map((sector) => [
+          {
+            content: sector.name,
+            styles: { fontStyle: "bold" },
+          },
+          { content: 
+              sector.department_automation_count
+            },                          
+          { content: 
+              sector.users_retirados
+            },                          
+          { content: 
+              sector.users_convenio
+            },         
+        ])           
+      }
 
       doc.autoTable({
         startY: 110,
-        head: [["Sector", "Usuarios Activos"]],
+        head: [["Sector", "Usuarios Activos", "retirados", "convenio"]],
         body: usuariosSectorData,
       });
     }
@@ -385,7 +335,8 @@ const Reportes = () => {
         let name, attendance, absence, delay, justification;
 
         if (isDepart && !isCore) {
-          name = sector.core_name.toUpperCase();
+          // name = sector.core_name.toUpperCase();
+          name = "asistencia"
 
           if (!processedNames.has(name)) {
             processedNames.add(name);
@@ -403,7 +354,7 @@ const Reportes = () => {
             ]);
           }
         } else if (isDepart && isCore) {
-          name = sector.profile_name.toUpperCase();
+          name = sector.profile_name.toUpperCase();          
           attendance = sector.profile_attendance_count;
           absence = sector.profile_absence_count;
           delay = sector.profile_delay_count;
@@ -416,8 +367,8 @@ const Reportes = () => {
             { content: absence },
             { content: justification },
           ]);
-        } else {
-          name = sector.department_name.toUpperCase();
+        } else {                    
+          name ='asistencia'
           attendance = sector.department_attendance_count;
           absence = sector.department_absence_count;
           delay = sector.department_delay_count;
@@ -462,6 +413,27 @@ const Reportes = () => {
     doc.save("consigue_ventas_report.pdf");
   };
 
+  const filtrar = ()=>{           
+    let filteredData = [];
+
+    if(core) {
+      //Validación para porte de los nucleos
+      filteredData = reportCore.filter(_core => _core.id == core);                
+    }else {
+      //Validación para porte de los departamentos
+      filteredData = reportDeparment.filter(department => department.id == departamento);    
+    }   
+    setUserDataBySector(filteredData)
+  }    
+  
+  //Codigo para que se desactive o active el select de los nucleos 
+  //cada vez que se cambie el select departamento
+  useEffect(()=>{    
+    if(departamento == '') return setActiveNucleoOption(true)
+    setActiveNucleoOption(false)
+    setCore('');
+  },[departamento])
+
   return (
     <div className="flex flex-col items-center w-full gap-10 ">
       <section className="flex flex-col gap-5 ">
@@ -477,12 +449,14 @@ const Reportes = () => {
               mostrarNucleo={mostrarNucleo}
               valor={departamento}
               setSelectedValue={setDepartamento}
-            ></SelectBox>
-            <SelectBox
+            ></SelectBox>       
+            <div>   </div>     
+            <SelectBox          
               label={"Núcleo"}
               data={nucleosFiltrados}
               valor={core}
               setSelectedValue={setCore}
+              isActive={activeNucleoOption}
             ></SelectBox>
           </div>
           <div className="flex gap-3">
@@ -547,15 +521,15 @@ const Reportes = () => {
                     />
                   </div>
                   <div className="box-border flex items-start justify-between w-full gap-7">
-                    <div className="flex flex-col items-start w-full gap-4 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80 box usuarios-activos-por-sector">
+                    <div className="flex flex-col items-start w-full gap-4 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-[370px] box usuarios-activos-por-sector">
                       <h1 className="text-lg font-medium">
                         USUARIOS ACTIVOS POR SECTOR
                       </h1>
                       <Barras
-                        barras={apiDataUsuariosSector}
+                        barras={userDataBySector}
                         isCore={isCore}
                         isDepart={isDepart}
-                      />
+                      />                        
                     </div>
                   </div>
                 </section>
@@ -568,7 +542,7 @@ const Reportes = () => {
                   </h1>
                   <article>
                     <div className="box-content flex items-start justify-start w-full gap-4 ">
-                      <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                      <div className="box-border w-2/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-[360px]">
                         <TarjetaAsistencia
                           name1="Asistencias"
                           name2="Tardanzas"
@@ -580,11 +554,11 @@ const Reportes = () => {
                           tardanzas={totalTardanzas}
                         />
                       </div>
-                      <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80 asistencia-por-sector">
+                      <div className="box-border flex flex-col justify-between w-5/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-[360px] asistencia-por-sector">
                         <h1 className="text-lg font-medium ">
                           ASISTENCIAS POR SECTORES
                         </h1>
-                        <div className="w-full h-5/6">
+                        <div className="w-full h-[360px]">
                           <BarrasAsistencia
                             barras={apiDataAsistenciasSector}
                             isCore={isCore}

@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 
 const labelMap = {
@@ -71,6 +72,7 @@ const BarrasAsistencia = ({ barras, isCore, isDepart }) => {
           }}
         />
         <YAxis />
+        <Legend formatter={(name)=>[labelMap[name]]}/>
         <Tooltip
           formatter={(value, name) => [value, labelMap[name]]
         }
