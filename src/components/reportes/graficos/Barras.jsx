@@ -54,8 +54,8 @@ const Barras = ({ barras }) => {
         />
         <Tooltip
           formatter={(value, name) => [value, labelMap[name]]}
-          labelStyle={{ color: "black", textTransform: "uppercase" }}
-          contentStyle={{ fontWeight: "bold", fontSize: "16px" }}
+          labelStyle={{color: "black", fontWeight: 'bold', textTransform: "uppercase" }}
+          contentStyle={{fontFamily: 'sans-serif', fontWeight: "medium", fontSize: "16px" }}
           itemStyle={{ padding: 3, margin: 0 }}
         />        
         <CartesianGrid
@@ -66,12 +66,15 @@ const Barras = ({ barras }) => {
         <Bar
           dataKey={'Activos'}
           fill="#496ddb"
-        />                              
+          background={{fill: '#1e2e39'}}
+          />                              
         <Bar
           dataKey={'Termino su convenio'}
+          background={{fill: '#1e2e39'}}
           fill="#e16036"
-        />        
+          />        
         <Bar
+          background={{fill: '#1e2e39'}}
           dataKey={'Retirado'}
           fill="#136f63"
         />        
