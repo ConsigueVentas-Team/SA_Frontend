@@ -124,8 +124,8 @@ export const Tabla = ({ data, pagination, handlePageChange }) => {
                                 disabled={pagination.current_page === 1}
                                 className={`flex items-center justify-center p-1 rounded-full ${
                                     pagination.current_page === 1
-                                        ? 'text-white/25'
-                                        : 'text-white hover:bg-cv-secondary'
+                                    ? 'text-white/25'
+                                    : 'text-white hover:bg-cv-secondary'
                                 } `}>
                                 <KeyboardArrowLeft />
                             </button>
@@ -133,7 +133,7 @@ export const Tabla = ({ data, pagination, handlePageChange }) => {
                                 onClick={() =>
                                     handlePageChange(
                                         pagination.current_page + 1
-                                    )
+                                    )                                    
                                 }
                                 disabled={
                                     pagination.current_page ===

@@ -27,6 +27,7 @@ import { useEffect, useState } from 'react';
 import { MiEvaluacion } from './pages/views/evaluaciones/MiEvaluacion';
 import { GestionEvaluaciones } from './pages/views/evaluaciones/GestionEvaluaciones';
 import { Birthday } from './pages/views/Birthday';
+import Notifications from './pages/views/notifications/Notifications';
 
 function App() {
   const rol = localStorage.getItem("rol");
@@ -141,6 +142,7 @@ function App() {
                 <Route path="empresa/nucleo" element={<Nucleo />} />
                 <Route path="empresa/perfil" element={<Area></Area>} />
                 <Route path="reportes" element={<Reportes></Reportes>} />
+                <Route path="notificaciones" element={<Notifications/>}/>                
               </>
             )}
             <Route path="/*" element={<Error404 />} />

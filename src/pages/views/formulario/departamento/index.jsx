@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Submit } from "../../../../components/formulario";
-import Tabla from "../../../../components/formulario/Tabla";
 import { AES, enc } from "crypto-js";
 import Input from "../../../../components/formulario/Input";
 import ModalBox from "../../../../components/formulario/Modalbox";
@@ -10,8 +9,13 @@ import ModalBoxEliminar from "../../../../components/formulario/ModalBoxEliminar
 import AgregarDato from "../../../../components/formulario/Helpers/hooks/AgregarDato";
 import EliminarDato from "../../../../components/formulario/Helpers/hooks/EliminarDato";
 import ActualizarDato from "../../../../components/formulario/Helpers/hooks/ActualizarDato";
-import ObtenerDatos from "../../../../components/formulario/Helpers/hooks/ObtenerDatos";
 import ActiveLastBreadcrumb from "../../../../components/formulario/Helpers/Seed";
+import CustomTable from "../../../../components/formulario/CustomTable";
+import { getTotalData } from "../../../../services/getTotalData";
+import MessageNotFound from "../../../../components/MessageNotFound";
+import AlertMessage from "../../../../components/AlertMessage";
+import { ACTIONSTATE } from "../../../../components/notificaciones/states/actionState";
+import { Alert } from "@mui/material";
 
 export const Departamento = () => {
   const tokenD = AES.decrypt(
@@ -27,58 +31,59 @@ export const Departamento = () => {
   const [palabra, setPalabra] = useState("");
   const [idActualizar, setIdActualizar] = useState("");
   const [MostrarEditarModal, setMostrarEditarModal] = useState(false);
-  const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);
-  const [cargando, setCargando] = useState(true);
+  const [MostrarEliminarModal, setMostrarEliminarModal] = useState(false);  
   const [mostrarModal, setMostrarModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(false);
+  const [loading, setLoading] = useState(false);  
+  const [isCreateDone, setIsCreateDone] = useState("");
+  const [isUpdateDone, setIsUpdateDone] = useState("");
+  const [isEmpty, setIsEmpty] = useState(false);
 
+  useEffect(() => {                
+    fetchData();    
+  }, [isChecked]);  
 
-  useEffect(() => {
-    setCargando(false);
-    async function fetchData() {
-      const data = await ObtenerDatos(token, "departments", setCargando);
-      setDepartamentos(data.data);
-    }
-    fetchData();
-  }, [isChecked]);
+  async function fetchData() {    
+    const list = await getTotalData("departments", setLoading);
+    setDepartamentos(list)    
+  }  
 
   const abrirEditarModal = (departamento) => {
     setMostrarEditarModal(true);
     setValueDefault(departamento.name);
     setIdActualizar(departamento.id);
   };
+
   const cerrarEditarModal = () => {
     setMostrarEditarModal(false);
   };
+
   const abrirEliminarModal = (id) => {
     setMostrarEliminarModal(true);
     setIdEliminar(id);
   };
+
   const cerrarEliminarModal = () => {
     setMostrarEliminarModal(false);
   };
 
-  const closeAlert = () => {
-    setAlertMessage(false);
-  };
-
   const manejarEnvio = async (e) => {
     e.preventDefault();
-    if (palabra === "") return;
+    
+    if(palabra === '') return setIsEmpty(true);
+    setIsEmpty(false)
     setLoading(true);
+
     try {
       await AgregarDato(token, palabra, "departments", "false", "false", setIsChecked);
-      setPalabra("");
-      setAlertMessage(true);
+      setPalabra("");      
+      setIsCreateDone(ACTIONSTATE.SUCCESSFUL)
     } catch (error) {
+      setIsCreateDone(ACTIONSTATE.ERROR);
     } finally {
       setLoading(false);
       setMostrarModal(false);
     }
   };
-
-
 
   if (Departamentos === null) {
     return <Loading></Loading>;
@@ -92,6 +97,26 @@ export const Departamento = () => {
     setMostrarModal(false);
   };
 
+  const updateData = async (valor)=>{
+    if(valor === '') return setLoading(false)    
+    try {      
+      await ActualizarDato(
+        token,
+        valor,
+        "departments",
+        idActualizar,
+        "false",
+        "false",
+        setIsChecked,
+        setLoading
+      );
+      setIsUpdateDone(ACTIONSTATE.SUCCESSFUL);
+    }
+    catch {
+      setIsUpdateDone(ACTIONSTATE.ERROR);
+    }
+  }  
+
   return (
     <>
       {Departamentos && (
@@ -104,19 +129,10 @@ export const Departamento = () => {
               title={"edite departamento"}
               label={"Departamento: "}
               cerrarEditarModal={cerrarEditarModal}
-              cargando={cargando}
+              cargando={loading}
               actualizarDepartamento={(valor) => {
-                setCargando(true);
-                ActualizarDato(
-                  token,
-                  valor,
-                  "departments",
-                  idActualizar,
-                  "false",
-                  "false",
-                  setIsChecked,
-                  setCargando
-                );
+                setLoading(true);
+                updateData(valor);
               }}
               checkbox={1}
             ></ModalBox>
@@ -138,6 +154,7 @@ export const Departamento = () => {
               <div className="modal max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <form onSubmit={manejarEnvio}>
                   <h2 className="text-xl font-bold mb-4 text-black flex justify-center">AGREGAR DEPARTAMENTO</h2>
+                  <hr className="border-gray-400 mb-5"/>
                   <div className="flex gap-12 w-12/12 sm:items-center flex-col sm:flex-row items-start text-black">
                     <Input
                       valor={palabra}
@@ -146,6 +163,13 @@ export const Departamento = () => {
                       textoHolder={"Ingresa departamento"}
                     ></Input>
                   </div>
+                  {
+                    isEmpty && 
+                    <Alert className="mt-4" variant="outlined" severity="error">
+                      Escribre el nombre del departamento
+                    </Alert>
+                  }
+                  <hr className="border-gray-400 mb-4 mt-4"/>
                   <div className="flex justify-center gap-4 mt-4">
                     <Submit></Submit>
                     <button onClick={closeModal} className="w-50 py-1 px-5 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-l font-semibold uppercase active:scale-95 ease-in-out duration-300">Cerrar</button>
@@ -153,24 +177,21 @@ export const Departamento = () => {
                 </form>
               </div>
             </div>
-          )}
-          {alertMessage && (
-            <div className="bg-green-200 border-green-400 text-green-700 border px-4 py-3 rounded relative mt-4" role="alert">
-              <strong className="font-bold">¡Éxito! </strong>
-              <span className="block sm:inline">Se ha completado con éxito.✔️</span>
-              <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                <button onClick={closeAlert} className="text-green-700">
-                  <span className="text-green-400">×</span>
-                </button>
-              </span>
-            </div>
-          )}
-          {loading ? <Loading /> : (
-            <Tabla
-              data={Departamentos}
-              abrirEliminarModal={abrirEliminarModal}
-              abrirEditarModal={abrirEditarModal}
-            ></Tabla>
+          )}                          
+          <AlertMessage open={isCreateDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsCreateDone} text='El departamento ha sido creado correctamente' type='success'/>          
+          <AlertMessage open={isCreateDone === ACTIONSTATE.ERROR} setOpen={setIsCreateDone} text='Error al crear departamento' type='warning'/>          
+
+          <AlertMessage open={isUpdateDone === ACTIONSTATE.SUCCESSFUL} setOpen={setIsUpdateDone} text='El departamento ha sido modificado correctamente' type='success'/>          
+          <AlertMessage open={isUpdateDone === ACTIONSTATE.ERROR} setOpen={setIsUpdateDone} text='Error al modificar el departamento' type='warning'/>          
+          {loading ? <Loading /> : (            
+            Departamentos.length > 0 ?
+              <CustomTable 
+                abrirEditarModal={abrirEditarModal}
+                abrirEliminarModal={abrirEliminarModal} 
+                data={Departamentos} 
+              />
+              : 
+              <MessageNotFound/>
           )}
         </div>
       )}

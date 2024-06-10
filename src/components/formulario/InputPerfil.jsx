@@ -47,7 +47,7 @@ export const InputArea = ({
     }
   };
   return (
-    <div className="flex gap-4 w-full sm:items-center flex-col sm:flex-col items-start ">
+    <div className="flex gap-4 w-full flex-col sm:flex-col items-start ">
       <label htmlFor="names" className="block mb-1 font-medium text-black">
         Departamento:
       </label>
@@ -89,7 +89,7 @@ export const InputArea = ({
           })}
         </select>
       </div>
-      <div className="flex gap-1 w-full sm:items-center flex-col sm:flex-col items-start text-black">
+      <div className="flex gap-1 w-full flex-col sm:flex-col items-start text-black">
         <Input
           actualizarValor={actualizarValor}
           valor={valor}

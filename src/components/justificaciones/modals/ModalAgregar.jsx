@@ -13,20 +13,14 @@ export const ModalAgregar = ({
     const [justification_date, setJustification_date] = useState('')
     const [dateError, setDateError] = useState('')
     const [reason, setReason] = useState('')
-    const [evidence, setEvidence] = useState('')
-
-    // const [radioButton, setRadioButton] = useState(false)
-    // const [showLabel, setShowLabel] = useState(true)
-    const [justification_date_max, setJustification_date_max] = useState('')
-
-    // console.log({ justification_date, justification_date_max })
+    const [evidence, setEvidence] = useState('')    
+    const [justification_date_max, setJustification_date_max] = useState('')    
 
     const closeJusti = () => {
         setJustification_date('')
         setReason('')
         setEvidence(null)
         setJustification_type('')
-
         setJustification_date_max('')
     }
 
@@ -37,12 +31,6 @@ export const ModalAgregar = ({
             setReason(textArea)
         }
     }
-
-    // const validarDateMax = () => {
-    //     if (radioButton) {
-
-    //     }
-    // }
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -55,7 +43,7 @@ export const ModalAgregar = ({
         formData.append('justification_date', justification_date)
         formData.append('reason', reason)
         formData.append('evidence', evidence)
-        formData.append('justification_type', justification_type)
+        formData.append('justification_type', justification_type)                        
 
         if (
             !justification_date ||
@@ -82,12 +70,11 @@ export const ModalAgregar = ({
                     })
                 }
                 return response.json()
-            })
-            // eslint-disable-next-line no-unused-vars
+            })            
             .then(data => {
                 setMensajeAlerta(data.message)
                 setToasSuccess(e => !e)
-                handleBuscar()
+                handleBuscar(1)
             })
             .catch(error => {
                 setMessage(error.message)
@@ -113,8 +100,7 @@ export const ModalAgregar = ({
                 setJustification_date(e.target.value)
             } else {
                 setJustification_date_max(e.target.value)
-            }
-            // setJustification_date(e.target.value)
+            }            
             setDateError('')
         } else {
             setDateError(
@@ -191,27 +177,7 @@ export const ModalAgregar = ({
                                     <div className='flex flex-row items-center justify-between'>
                                         <label htmlFor='date' className='mb-2'>
                                             Fecha
-                                        </label>
-
-                                        {/* <div className='flex mb-2 gap-1'>
-                                            {showLabel && (
-                                                <label
-                                                    htmlFor='radio'
-                                                    className='text-gray-300'>
-                                                    establecer rango
-                                                </label>
-                                            )}
-
-                                            <input
-                                                id='radio'
-                                                className=''
-                                                type='radio'
-                                                onClick={() => {
-                                                    setRadioButton(!radioButton)
-                                                    setShowLabel(!showLabel)
-                                                }}
-                                            />
-                                        </div> */}
+                                        </label>                                        
                                     </div>
 
                                     <input
@@ -223,22 +189,6 @@ export const ModalAgregar = ({
                                         onChange={handleDateChange}
                                     />
                                 </div>
-
-                                {/* {radioButton && (
-                                    <div className='w-full flex flex-col text-sm text-black'>
-                                        <label htmlFor='date' className='mb-2'>
-                                            Fecha Máxima
-                                        </label>
-                                        <input
-                                            id='date'
-                                            className='border-gray-300 bg-gray-50 border p-2 rounded-md outline-none'
-                                            type='date'
-                                            name='justification_date_max'
-                                            value={justification_date_max}
-                                            onChange={handleDateChange}
-                                        />
-                                    </div>
-                                )} */}
                             </div>
                             <div className='w-full flex justify-center'>
                                 {dateError && (

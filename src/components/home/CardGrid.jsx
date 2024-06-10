@@ -54,9 +54,7 @@ export const CardGrid = () => {
 				{loading ? (
 					<Loading />
 				) : (
-					<div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 place-items-center">
-						<CardItem data={birthday} />
-					</div>
+					<CardItem data={birthday} />					
 				)}
 
 			</div>

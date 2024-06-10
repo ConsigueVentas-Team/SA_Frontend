@@ -7,6 +7,9 @@ export const SearchBar = ({ value, onChange }) => {
 	const [inputValue, setInputValue] = useState(value);
 	const debounceTime = 500; // Establece el tiempo de debounce en milisegundos
 
+	//Este codigo limpia el input search cuando el usuario hace click al botton limpiar
+	useEffect(()=>{if (value === "") setInputValue("")}, [value])
+
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
 			// Capitaliza la primera letra antes de llamar a onChange

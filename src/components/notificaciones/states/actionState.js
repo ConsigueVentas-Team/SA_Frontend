@@ -1,0 +1,4 @@
+export const ACTIONSTATE = {
+    SUCCESSFUL: 'SUCCESSFUL',
+    ERROR: 'ERROR'
+}

@@ -10,6 +10,7 @@ import { AES, enc } from "crypto-js";
 import { Alert, Snackbar } from "@mui/material";
 import { CardDetail } from "./componentes/CardDetail";
 import Loading from "../essentials/Loading";
+import { STATUS } from "../../constantes/JustificationStatus";
 
 export const RevisarJustificacion = () => {
   const navigate = useNavigate();
@@ -24,10 +25,13 @@ export const RevisarJustificacion = () => {
   // MODALES
   const [showModalRechazado, setShowModalRechazado] = useState(false);
   const [itemData, setItemData] = useState({});
+
+
   const handleRechazar = (item) => {
     setItemData(item);
     setShowModalRechazado(true);
   };
+  
   // Alerta
   const [toasSuccess, setToasSuccess] = useState(false);
   const handleClose = (event, reason) => {
@@ -91,18 +95,16 @@ export const RevisarJustificacion = () => {
     if (hasRole("Colaborador")) {
       FechData({ page })
         .then((e) => {
-          setFaltasList(e.data);
-          // console.log(page + 'colaborador')
+          setFaltasList(e.data);          
         })
         .catch((e) => console.log(e))
         .finally(() => {
           setLoading(false);
         });
     } else if (bandera == true) {
-      FechDataJustificaciones({ page })
+      FechDataJustificaciones({ page, exclude:true })
         .then((e) => {
-          setFaltasList(e.data);
-          // console.log(page)
+          setFaltasList(e.data);          
         })
         .catch((e) => console.log(e))
         .finally(() => {
@@ -111,8 +113,7 @@ export const RevisarJustificacion = () => {
     } else {
       FechData({ page })
         .then((e) => {
-          setFaltasList(e.data);
-          // console.log(page)
+          setFaltasList(e.data);          
         })
         .catch((e) => console.log(e))
         .finally(() => {
@@ -123,11 +124,11 @@ export const RevisarJustificacion = () => {
 
   const isRechazadoOrAceptado = (prop) => {
     if (prop.justification_status === 2) {
-      return "Rechazado";
+      return STATUS.RECHAZADO;
     } else if (prop.justification_status === 3) {
-      return "En proceso";
+      return STATUS.PROCESO;
     } else {
-      return "Aceptado";
+      return STATUS.ACEPTADO;
     }
   };
 

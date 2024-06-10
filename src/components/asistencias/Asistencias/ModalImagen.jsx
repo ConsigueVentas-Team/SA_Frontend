@@ -49,7 +49,7 @@ export const ModalImagen = ({ image, closeImageModal }) => {
                                     )}
                                 </div>
                                 <div className="relative flex-auto p-3 md:p-6">
-                                    <div className='flex flex-col items-center justify-between space-y-2 md:flex-row md:space-x-2 md:space-y-0'>
+                                    <div className='flex flex-col text-black uppercase items-center justify-between space-y-2 md:flex-row md:space-x-2 md:space-y-0'>
                                         <div className='flex flex-col items-center justify-center w-full space-y-2 text-center'>
                                             <h4 className='text-lg font-semibold'>Fotografía de Entrada</h4>
                                             {image.admissionImage ? (

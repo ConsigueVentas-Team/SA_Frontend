@@ -108,7 +108,7 @@ export const NotificationItem = ({ data, itemShow }) => {
 
     return (
         <>
-            {data.slice(0, itemShow).map((item) => (
+            {data.slice(0, itemShow).reverse().map((item) => (
                 <div key={item.id}>
                     <div className="w-full py-1.5 ">
                         <div className="flex items-center justify-between w-full ">

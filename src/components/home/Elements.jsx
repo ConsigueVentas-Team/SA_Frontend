@@ -15,7 +15,7 @@ export const Saludo = () => {
 export const BirthdayImage = ({ item }) => {
 	return (
 		<div className="flex flex-col items-center justify-center gap-4 w-28 md:w-40">
-			{<img src={item.avatar} alt={item.name} className="rounded-full shadow-lg w-28 h-28 md:w-40 md:h-40 ring-2 ring-cv-cyan" />}
+			{<img src={item.avatar} alt={item.name} className="object-cover rounded-full shadow-lg w-28 h-28 md:w-40 md:h-40 ring-2 ring-cv-cyan" />}
 		</div>
 	)
 }
@@ -25,7 +25,7 @@ BirthdayImage.propTypes = {
 		name: PropTypes.string.isRequired,
 		surname: PropTypes.string.isRequired,
 		id: PropTypes.number.isRequired,
-		image_url: PropTypes.string.isRequired,
+		avatar: PropTypes.string.isRequired,
 	}).isRequired,
 };
 

@@ -66,30 +66,29 @@ export const ModalRechazado = ({
             <div className='fixed inset-0 flex items-center justify-center z-10'>
                 <div className='relative max-w-2xl max-h-full'>
                     <div className='relative bg-white rounded-lg shadow'>
-                        <div className='flex flex-col items-center justify-center p-4 border-b rounded-t'>
+                        <div className='flex gap-2 items-center justify-center p-4 border-b rounded-t'>
+                            <ReportProblemIcon
+                                sx={{ color: '#F3AE37', fontSize: 28 }}
+                            />
                             <h1 className='uppercase text-slate-400 text-center font-semibold text-xl'>
-                                Rechazando la justificación
+                            Rechazando la justificación
                             </h1>
                         </div>
-                        <div className='w-full p-6 space-y-4'>
-                            <div className='flex items-center justify-center'>
-                                <ReportProblemIcon
-                                    sx={{ color: '#F3AE37', fontSize: 50 }}
-                                />
-                            </div>
-                            {messages && (
-                                <p className='text-red-500'>{messages}</p>
-                            )}
+                        <div className='w-full p-6 space-y-4'>                            
                             <p className='text-cv-primary text-base font-semibold'>
-                                Motivo
+                                Motivo:
                             </p>
                             <textarea
                                 value={reason_decline}
                                 onChange={(e) =>
                                     setReason_decline(e.target.value)
                                 }
-                                className='bg-gray-300 outline-none border-cv-primary text-cv-primary p-2 rounded-md w-full placeholder:text-gray-400 placeholder:text-sm'
-                                placeholder='Describa el motivo del RECHAZO de la justificación'></textarea>
+                                className='bg-gray-200 outline-none border-cv-primary text-cv-primary p-2 rounded-md w-full placeholder:text-gray-400 placeholder:text-sm'
+                                placeholder='Describa el motivo del RECHAZO de la justificación'>                                
+                            </textarea>
+                            {messages && (
+                                <p className='text-red-500'>{messages}</p>
+                            )}
                         </div>
                         <div className='flex items-center justify-evenly p-4 border-t border-gray-200 rounded-b'>
                             <button

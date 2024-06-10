@@ -96,7 +96,7 @@ export const CardModal = ({ userData, close }) => {
         <button
           type="button"
           onClick={close}
-          className="absolute top-3 right-2.5 text-cv-primary bg-cv-cyan hover:bg-cv-cyan/80 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
+          className="absolute top-3 right-8 text-cv-primary bg-cv-cyan hover:bg-cv-cyan/80 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
         >
           <CloseIcon />
           <span className="sr-only">Cerrar modal</span>

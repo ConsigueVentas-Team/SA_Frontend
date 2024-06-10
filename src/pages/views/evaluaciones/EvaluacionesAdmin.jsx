@@ -9,6 +9,7 @@ import {
   Tabla,
 } from "../../../components/evaluaciones";
 import Loading from "../../../components/essentials/Loading";
+import MessageNotFound from "../../../components/MessageNotFound";
 
 export const EvaluacionesAdmin = () => {
   const [users, setUsers] = useState(null);
@@ -26,6 +27,7 @@ export const EvaluacionesAdmin = () => {
   const [selectedCore, setSelectedCore] = useState("");
   const [selectedProfile, setSelectedProfile] = useState("");
 
+  const [page, setPage] = useState(1)
   const [name, setName] = useState("");
   const [shift, setShift] = useState("");
   const [department, setDepartment] = useState("");
@@ -105,7 +107,7 @@ export const EvaluacionesAdmin = () => {
     setPosition(event.target.value);
   };
 
-  const handleShiftChange = (event) => {
+  const handleShiftChange = (event) => {    
     setShift(event.target.value);
   };
 
@@ -114,21 +116,21 @@ export const EvaluacionesAdmin = () => {
   };
 
   useEffect(() => {
-    obtenerUsuarios(shift, position, department, core, name);
+    obtenerUsuarios(page, shift, position, department, core, name);
   }, [shift, position, department, core, name]);
 
   //* Listar Colaboradores
-  const obtenerUsuarios = async (page) => {
+  const obtenerUsuarios = async (page) => {        
     setCargando(true);
     try {
       const url = new URL(import.meta.env.VITE_API_URL + "/users/list");
 
-      url.searchParams.append("page=1", page);
+      url.searchParams.append("page", page?page:1);
 
       if (name) url.searchParams.append("name", name);
       if (department) url.searchParams.append("department", department);
       if (core) url.searchParams.append("core", core);
-      if (position) url.searchParams.append("position", position);
+      if (position) url.searchParams.append("position", position);      
       if (shift) url.searchParams.append("shift", shift);
 
       const response = await fetch(url, {
@@ -140,7 +142,7 @@ export const EvaluacionesAdmin = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setUsers(data.data);
+        setUsers(data.data);        
         setPagination(data);
         setCargando(false);
       } else {
@@ -153,7 +155,7 @@ export const EvaluacionesAdmin = () => {
   };
 
   //* Paginación
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage) => {    
     obtenerUsuarios(newPage);
   };
 
@@ -166,8 +168,8 @@ export const EvaluacionesAdmin = () => {
     setName("");
     setSelectedDepartment("");
     setSelectedCore("");
-    setSelectedProfile("");
-  };
+    setSelectedProfile("");    
+  };  
 
   return (
     <>
@@ -181,7 +183,7 @@ export const EvaluacionesAdmin = () => {
 
         <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-9 gap-x-0 md:gap-4">
           <div className="col-span-1 row-start-2 md:col-span-8 md:row-start-1">
-            <SearchBar value={name} onChange={handleSearchChange} />
+            <SearchBar inputValue={name} setInputValue={handleSearchChange} />
           </div>
           <div className="col-span-2 md:col-start-1 md:row-start-2">
             <SelectOption
@@ -235,8 +237,7 @@ export const EvaluacionesAdmin = () => {
             <Button
               title="Limpiar filtros"
               onClick={() => {
-                handleClearFilter();
-                handleClearFilter();
+                handleClearFilter();                
               }}
               label="Limpiar"
               icon={<CleaningServicesIcon />}
@@ -248,11 +249,14 @@ export const EvaluacionesAdmin = () => {
           {cargando ? (
             <Loading></Loading>
           ) : (
-            <Tabla
-              data={users}
-              pagination={pagination}
-              handlePageChange={handlePageChange}
-            />
+            users.length > 0 ?
+              <Tabla
+                data={users}
+                pagination={pagination}
+                handlePageChange={handlePageChange}
+              />
+              :
+              <MessageNotFound/>
           )}
         </div>
       </section>

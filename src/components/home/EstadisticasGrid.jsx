@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
 import { AES, enc } from "crypto-js";
 import { Estadisticas } from "./Estadisticas";
 
@@ -36,22 +35,22 @@ export const EstadisticasGrid = () => {
 		};
 		obtenerDataUser();
 	}, [userId, token]);
-
+	
 	const cardAsistencia = [
 		{ title: "Asistencia", icon: <InsertEmoticonIcon sx={{ fontSize: 80, color: '#4caf50' }}/>, item: userData.Asistencia },
 		{ title: "Tardanzas", icon: <SentimentNeutralIcon sx={{ fontSize: 80, color: '#ffeb3b' }}/>, item: userData.Tardanzas },
 		{ title: "Faltas", icon: <SentimentVeryDissatisfiedIcon sx={{ fontSize: 80, color: '#f44336' }}/>, item: userData.Faltas },
 		{ title: "Justificaciones", icon: <SentimentSatisfiedIcon sx={{ fontSize: 80, color: '#00bcd4' }}/>, item: userData.Justificaciones },
-	];
-
+	];	
+	
 	return (
 		<div className="w-full flex items-center justify-between gap-4 overflow-x-auto">
-			{cardAsistencia.map((card, index) => (
-				<Estadisticas key={index} data={card} />
-			))}
+			{
+				cardAsistencia[0].item != undefined &&
+				cardAsistencia.map((card, index) => (
+					<Estadisticas key={index} data={card} />
+				))
+			}
 		</div>
 	)
 }
-EstadisticasGrid.propTypes = {
-	userData: PropTypes.object.isRequired,
-};

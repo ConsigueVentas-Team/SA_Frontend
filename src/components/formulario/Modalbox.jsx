@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "./Input";
+import { Alert } from "@mui/material";
 
 const ModalBox = ({
   holder,
@@ -16,10 +17,14 @@ const ModalBox = ({
   cargando,
 }) => {
   const [palabra, setPalabra] = useState(valueDefault);
+  const [isShort, setIsShort] = useState(false);
+
   const enviarDatos = () => {
+    if(palabra === '' || palabra === valueDefault) return setIsShort(true);
     cerrarEditarModal(false);
     actualizarDepartamento(palabra, area, Departamento);
   };
+
   const [area, setArea] = useState(IdArea);
   const [Departamento, setDepartamento] = useState(idDepartamento);
 
@@ -38,7 +43,7 @@ const ModalBox = ({
       <div className=" fixed top-0 left-0 z-50  overflow-x-hidden overflow-y-auto scale-90 w-full h-full items-center flex justify-center sm:scale-95  ">
         <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full max-w-lg bg-white outline-none  p-2 md:p-0">
           <div className="flex items-center justify-center p-5 border-b border-solid border-slate-200 rounded-t">
-            <h3 className="text-lg md:text-3xl font-semibold uppercase text-black">
+            <h3 className="text-lg md:text-2xl font-semibold uppercase text-black">
               {title}
             </h3>
           </div>
@@ -70,12 +75,12 @@ const ModalBox = ({
               </div>
             )}
             {checkbox > 1 && (
-              <div className="">
+              <div className="mb-6">
                 <label
                   htmlFor="names"
-                  className="block mb-1 font-medium text-cv-primary"
+                  className="block mb-2 font-medium text-cv-primary"
                 >
-                  {checkbox == 2 ? "Departamento" : "Núcleo:"}
+                  {checkbox == 2 ? "Departamento:" : "Núcleo:"}
                 </label>
                 <div className="w-full ">
                   <select
@@ -119,19 +124,23 @@ const ModalBox = ({
                 actualizarValor={setPalabra}
               ></Input>
             </div>
-
             <p className="text-red-500 font-semibold"></p>
+            {isShort &&
+              <Alert className="w-fit mx-auto" variant="outlined" severity="error">
+                Completa los campos                
+              </Alert>
+            }
           </div>
           <div className="flex flex-col-reverse md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-slate-200 rounded-b gap-2 md:gap-4">
             <button
-              className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-semibold uppercase active:scale-95 ease-in-out duration-300"
+              className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-md font-semibold uppercase active:scale-95 ease-in-out duration-300"
               type="button"
               onClick={() => cerrarEditarModal(false)}
             >
               Cancelar
             </button>
             <button
-              className="w-full py-2 px-8 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase active:scale-95 ease-in-out duration-300"
+              className="w-full py-2 px-8 rounded-md text-white bg-cv-primary flex items-center justify-center text-md uppercase active:scale-95 ease-in-out duration-300"
               type="button"
               onClick={enviarDatos}
             >
