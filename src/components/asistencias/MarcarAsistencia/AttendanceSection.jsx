@@ -46,7 +46,7 @@ export const AttendanceSection = ({
         {entradaMarcada && (
           <p className="text-green-500 font-bold mt-4">Entrada marcada</p>
         )}
-        {mostrarBotonSalida &&
+        {mostrarBotonSalida&&
           (cargando ? (
             <div className="w-full h-20">
               <Loading></Loading>
@@ -60,7 +60,7 @@ export const AttendanceSection = ({
               Marcar salida
             </button>
           ))}
-        {buttonClicked && (
+        {(buttonClicked) && (
           <p className="text-blue-500 font-semibold mt-4">
             ¡Ya has marcado asistencia!
           </p>

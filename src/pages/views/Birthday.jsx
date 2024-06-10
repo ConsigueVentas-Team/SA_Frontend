@@ -6,9 +6,7 @@ import Loading from "../../components/essentials/Loading";
 
 export const Birthday = () => {
   const [birthdays, setBirthdays] = useState([]);
-  const [month, setMonth] = useState(
-    new Date().toLocaleString("es-ES", { month: "long" }).toUpperCase()
-  );
+  const [month, setMonth] = useState(new Date());  
   const [loading, setLoading] = useState(false);
   // const [selectedDay, setSelectedDay] = useState('')
 
@@ -81,14 +79,15 @@ export const Birthday = () => {
           : (
             <div className="flex flex-col-reverse gap-4 sm:flex-row">
               <div className="w-full">
-                <BirthdayList data={birthdays} selectedMonth={month} />
+                <BirthdayList data={birthdays} selectedMonth={month.toLocaleString("es-ES", { month: "long" }).toUpperCase()} />
               </div>
               <div className="w-full">
                 <Calendar
                   birthdays={birthdays}
-                  fetchBirthdays={fetchBirthdays}
-                  setSelectedMonth={setMonth}
-                  onDayClick={handleDayClick}
+                  fetchBirthdays={fetchBirthdays}                  
+                  setCurrentMonth={setMonth}
+                  onDayClick={handleDayClick}                  
+                  currentMonth={month}
                 />
               </div>
             </div>

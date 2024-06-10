@@ -4,16 +4,18 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../components/essentials/Loading";
 import { Avatar } from "@mui/material";
+import { STATUS } from "../../../constantes/JustificationStatus";
 
 export const Card = ({ card, page }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate();      
+
   const isRechazadoOrAceptado = (prop) => {
     if (prop.justification_status === 2) {
-      return "Rechazado";
+      return STATUS.RECHAZADO;
     } else if (prop.justification_status === 3) {
-      return "En proceso";
+      return STATUS.PROCESO;
     } else {
-      return "Aceptado";
+      return STATUS.ACEPTADO;
     }
   };
 
@@ -25,10 +27,10 @@ export const Card = ({ card, page }) => {
       // modifique bandera a true para que se muestre el boton de regresar
       state: { page, bandera },
     });
-  };
+  };    
 
   return (
-    <div className="bg-cv-primary text-white rounded-2xl shadow-2xl">
+    <div className="bg-cv-primary text-white rounded-2xl shadow-2xl flex flex-col justify-between">
       <div className="w-full flex flex-col items-center justify-between p-4 overflow-hidden">
         <div className="w-full flex items-center justify-between">
           <Avatar
@@ -72,60 +74,46 @@ export const Card = ({ card, page }) => {
                   Estado:
                 </span>
                 <span>
-                  {isRechazadoOrAceptado(card)}
-                  {/* {isRechazadoOrAceptado(card) ===
-                                        'Aceptado' ||
-                                    isRechazadoOrAceptado(card) ===
-                                        'Rechazado' ? (
-                                        <span>
-                                            {' '}
-                                            por {card.action_by_user.name}
-                                        </span>
-                                    ) : null} */}
-                </span>
-              </p>
-            </li>
+                  {isRechazadoOrAceptado(card)}                  
+                </span>                
+              </p>              
+            </li>            
             <li className="text-sm font-normal flex items-center ">
               <p>
                 <span className="mr-2 text-gray-400 uppercase font-semibold mb-1">
                   {" "}
                   Tipo:{" "}
                 </span>{" "}
-                {card.type === 0 ? "Falta" : "Tardanza"}
+                {card.justification_type === false ? "Falta" : "Tardanza"}
               </p>
             </li>
-            <li className="w-full text-sm font-normal">
+            <li className="flex w-full text-sm font-normal">
               <span className="mr-2 uppercase text-gray-400 font-semibold mb-1">
                 Motivo:
-              </span>
-              <div className="whitespace-normal">
-                <textarea
-                  className="bg-transparent text-sm align-top w-full h-auto resize-none overflow-hidden"
-                  disabled
-                  maxLength={87} // Cambia el número 100 por el límite de caracteres que desees
-                  value={
-                    card.reason.length > 87
-                      ? `${card.reason.substring(0, 87)} ...`
-                      : card.reason
-                  }
-                />
-              </div>
+              </span>  
+              <span className="truncate text-nowrap">{card.reason}</span>                          
             </li>
+                {isRechazadoOrAceptado(card) === STATUS.ACEPTADO || isRechazadoOrAceptado(card) === STATUS.RECHAZADO ?             
+                  <li className="text-sm font-normal">
+                    <span className="mr-2 uppercase text-gray-400 font-semibold mb-1">Revisado Por:</span>
+                    <span>{card.action_by?.name} {card.action_by?.surname}</span>                             
+                  </li>:null
+                }
           </ul>
         </div>
       </div>
       <div className="text-sm font-medium text-cv-primary">
         <button
-          className={`block w-full p-2 text-xl text-center uppercase rounded-b-lg ${
-            isRechazadoOrAceptado(card) === "En proceso"
-              ? "bg-yellow-500"
-              : "bg-cv-cyan"
+          className={`block w-full p-2 text-xl text-center uppercase rounded-b-lg item-end ${
+            isRechazadoOrAceptado(card) === STATUS.PROCESO && "bg-yellow-500" ||
+            isRechazadoOrAceptado(card) === STATUS.ACEPTADO && "bg-cv-cyan" ||
+            isRechazadoOrAceptado(card) === STATUS.RECHAZADO && "bg-red-500"            
           }`}
           onClick={() => {
             mostrarDetalles(card.id);
           }}
         >
-          Revisar
+          {isRechazadoOrAceptado(card)}
         </button>
       </div>
     </div>

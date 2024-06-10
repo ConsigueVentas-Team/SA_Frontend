@@ -18,7 +18,7 @@ export const Estadisticas = ({ data }) => {
 Estadisticas.propTypes = {
 	data: PropTypes.shape({
 		title: PropTypes.string.isRequired,
-		icon: PropTypes.string.isRequired,
+		icon: PropTypes.object.isRequired,
 		item: PropTypes.number.isRequired,
 	}).isRequired,
 };

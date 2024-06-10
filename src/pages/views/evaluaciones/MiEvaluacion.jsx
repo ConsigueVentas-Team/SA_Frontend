@@ -23,7 +23,7 @@ export const MiEvaluacion = () => {
   const surname = localStorage.getItem("surname");
   const rol = localStorage.getItem("rol");  
 
-  const evaluarRol = (usuarioRol) => {
+  const evaluarRol = (usuarioRol) => {    
     return rol === usuarioRol;
   } 
 
@@ -115,7 +115,7 @@ export const MiEvaluacion = () => {
             <div className="w-full min-w-full overflow-x-auto scrollbar">
               <table className="w-full text-sm text-left text-white">
                 <HeaderTableMyEvaluation 
-                headers={evaluarRol("Colaborador")? NOTAS_USER_HEADERS.coloborador.headers : NOTAS_USER_HEADERS.lider.headers} 
+                  headers={evaluarRol("Colaborador")? NOTAS_USER_HEADERS.coloborador.headers : NOTAS_USER_HEADERS.lider.headers} 
                 />
                 <BodyTableMyEvaluation
                   dataPerUser={dataMisEvaluacionesFiltradas}

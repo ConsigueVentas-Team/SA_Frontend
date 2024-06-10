@@ -128,10 +128,13 @@ const TablaEvaluaciones = ({
     const filaClase = 'rounded border-cv-secondary'
     const celdaClase = 'px-6 py-4 whitespace-nowrap'
 
-    useEffect(() => {
-        fetchUser()
-        setPromedio(calcularPromedio())
+    useEffect(() => {        
+        fetchUser();                        
     }, [feching])
+    
+    useEffect(()=>{
+        setPromedio(calcularPromedio());        
+    }, [evaluacion]);
 
     return (
         <div>
@@ -154,7 +157,7 @@ const TablaEvaluaciones = ({
                                     : 7
                             }
                             className=' py-4 whitespace-nowrap text-base uppercase'>
-                            {rol === 'Lider Nucleo' || rol === 'Gerencia'
+                            {rol === 'Lider Nucleo' || rol === 'Gerencia' || rol === 'Lider Departamento'
                                 ? 'EVALUACIONES LIDER'
                                 : 'EVALUACIONES COLABORADOR'}
                             {/* EVALUACIONES */}
@@ -169,7 +172,7 @@ const TablaEvaluaciones = ({
                             FECHA
                         </td>
 
-                        {rol === 'Lider Nucleo' || rol === 'Gerencia' ? (
+                        {rol === 'Lider Nucleo' || rol === 'Gerencia' || rol === 'Lider Departamento' ? (
                             <td
                                 className={celdaClase}
                                 style={{ fontWeight: 'bold' }}>
@@ -218,7 +221,7 @@ const TablaEvaluaciones = ({
                             <td className={celdaClase}>
                                 {evaluacionItem.date}
                             </td>
-                            {rol === 'Lider Nucleo' || rol === 'Gerencia' ? (
+                            {rol === 'Lider Nucleo' || rol === 'Gerencia' || rol === 'Lider Departamento' ? (
                                 <td className={celdaClase}>
                                     {evaluacionItem.autoevaluation || 'N/A'}
                                 </td>

@@ -13,8 +13,6 @@ export const FechData = async ({ page }) => {
         const turno = localStorage.getItem('shift')
         const user_id = localStorage.getItem('iduser')
 
-        // console.log(user_id)
-
         // if (rol === 'Colaborador') {
         //     url = `${
         //         import.meta.env.VITE_API_URL
@@ -27,7 +25,7 @@ export const FechData = async ({ page }) => {
         //     throw new Error('Unhandled role')
         // }
 
-        let url = `${import.meta.env.VITE_API_URL}/justification/list?page=1&shift=${turno}&user=${user_id}`
+        let url = `${import.meta.env.VITE_API_URL}/justification/list?page=${page}&shift=${turno}&user=${user_id}`
 
         const response = await fetch(url, {
             headers: {
@@ -35,9 +33,7 @@ export const FechData = async ({ page }) => {
             },
         })
         
-        const data = await response.json()
-
-        //console.log(data)
+        const data = await response.json()        
 
         return data
     } catch (error) {

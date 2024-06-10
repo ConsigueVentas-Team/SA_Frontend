@@ -2,93 +2,42 @@ import CircleIcon from "@mui/icons-material/Circle";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { STATUS } from "../../constantes/JustificationStatus";
 
-export const ItemJustificaciones = ({
-  cards,
-  page,
-  buscador_tipoJustificacion,
-  buscadorStatus,
-  buscadorFecha,
-}) => {
+export const ItemJustificaciones = ({ cards, page }) => {
   const navigate = useNavigate();
 
   const isRechazadoOrAceptado = (prop) => {
     if (prop.justification_status === 2) {
-      return "Rechazado";
+      return STATUS.RECHAZADO;
     } else if (prop.justification_status === 3) {
-      return "En proceso";
+      return STATUS.PROCESO;
     } else {
-      return "Aceptado";
+      return STATUS.ACEPTADO;
     }
   };
 
   const colorIcon = (prop) => {
-    if (isRechazadoOrAceptado(prop) === "Rechazado") {
+    if (isRechazadoOrAceptado(prop) === STATUS.RECHAZADO) {
       return "red";
     }
-    if (isRechazadoOrAceptado(prop) === "En proceso") {
+    if (isRechazadoOrAceptado(prop) === STATUS.PROCESO) {
       return "yellow";
     }
-    if (isRechazadoOrAceptado(prop) === "Aceptado") {
+    if (isRechazadoOrAceptado(prop) === STATUS.ACEPTADO) {
       return "green";
     }
   };
 
-  const mostrarDetalles = (id) => {
-    // console.log(currentPage)
+  const mostrarDetalles = (id) => {    
     navigate(`/details/${id}`, { state: { page } });
   };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5">
-      {cards
-        .filter((post) => {
-          const justificationTypeArray = Array.isArray(post.type)
-            ? post.type
-            : [post.type];
-          if (buscador_tipoJustificacion === "") {
-            // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
-            return true;
-          } else {
-            // Filtrar por el tipo de justificación seleccionado
-            return justificationTypeArray.includes(
-              Number(buscador_tipoJustificacion)
-            );
-          }
-        })
-        .filter((post) => {
-          const justificationTypeArray = Array.isArray(post.status)
-            ? post.status
-            : [post.status];
-
-          if (buscadorStatus === "") {
-            // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
-            return true;
-          } else if (buscadorStatus === "3") {
-            // Filtrar por "En proceso"
-            return justificationTypeArray.includes(3);
-          } else if (buscadorStatus === "1") {
-            // Filtrar por "Aceptado"
-            return justificationTypeArray.includes(1);
-          } else if (buscadorStatus === "2") {
-            // Filtrar por "Rechazado"
-            return justificationTypeArray.includes(2);
-          } else {
-            return false; // Valor de búsqueda inválido, no se muestra ningún card
-          }
-        })
-        .filter((post) => {
-          if (buscadorFecha === "") {
-            return true;
-          } else if (buscadorFecha !== "") {
-            const fechaPost = post.justification_date;
-            const fechaBuscador = buscadorFecha;
-            return fechaPost === fechaBuscador;
-          }
-        })
-        .map((card, index) => (
+      {cards.map((card, index) => (
           <div
-            className="bg-cv-primary text-white rounded-2xl shadow-2xl"
+            className="flex flex-col justify-between bg-cv-primary text-white rounded-2xl shadow-2xl"
             key={index}
           >
             <div className="w-full flex flex-col items-center justify-between p-4 overflow-hidden">
@@ -144,27 +93,30 @@ export const ItemJustificaciones = ({
                       {card.justification_type ? "Tardanza" : "Falta"}
                     </p>
                   </li>
-                  <li className="w-full text-sm font-normal">
+                  <li className="w-full text-sm font-normal flex">
                     <span className="mr-2 uppercase text-gray-400 font-semibold mb-1">
                       Motivo:
                     </span>
-                    <div className="whitespace-normal">
-                      <textarea
-                        className="bg-transparent text-sm align-top w-full h-auto resize-none"
-                        disabled
-                        value={card.reason}
-                      ></textarea>
-                    </div>
+                    <span className="truncate text-nowrap">{card.reason}</span>
                   </li>
+                  {isRechazadoOrAceptado(card) === STATUS.ACEPTADO || isRechazadoOrAceptado(card) === STATUS.RECHAZADO ?             
+                  <li className="text-sm font-normal flex text-nowrap">
+                    <span className="mr-2 uppercase text-nowrap text-gray-400 font-semibold mb-1" style={{textWrap: 'nowrap'}}>Revisado Por:</span>
+                    <span className="truncate text-nowrap">{card.action_by?.name} {card.action_by?.surname}</span>                             
+                  </li>:null
+                }                 
                 </ul>
               </div>
             </div>
             <div className=" text-sm font-medium text-cv-primary">
               <button
                 onClick={() => mostrarDetalles(card.id)}
-                className="block w-full font-semibold p-2 text-md text-center uppercase rounded-b-lg bg-cv-cyan"
+                className={`block w-full font-semibold p-2 text-md text-center uppercase rounded-b-lg 
+                ${isRechazadoOrAceptado(card) === STATUS.PROCESO && "bg-yellow-500" ||
+                isRechazadoOrAceptado(card) === STATUS.ACEPTADO && "bg-cv-cyan" ||
+                isRechazadoOrAceptado(card) === STATUS.RECHAZADO && "bg-red-500"    }`}
               >
-                Revisar
+                {isRechazadoOrAceptado(card)}
               </button>
             </div>
           </div>

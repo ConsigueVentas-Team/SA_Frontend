@@ -8,10 +8,12 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MapsHomeWorkOutlinedIcon from "@mui/icons-material/MapsHomeWorkOutlined";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { Logo } from "./Logo";
+
 const getRole = () => {
   return localStorage.getItem("rol");
 };
@@ -114,6 +116,11 @@ export const Sidebar = () => {
         route: "/reportes",
         title: "Reportes",
         icon: <BarChartIcon />,
+      },
+      {
+        title: 'Notificaciones',
+        icon: <NotificationsIcon/>        ,
+        route: '/notificaciones'
       },
     ],
     "Lider Nucleo": [

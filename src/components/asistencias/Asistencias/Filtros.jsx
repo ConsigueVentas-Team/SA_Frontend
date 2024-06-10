@@ -50,15 +50,14 @@ export const Filtros = (props) => {
         </div>
         <div className="w-full">
           <div className="flex items-center justify-between w-full rounded-md ">
-            <select
+            <SelectOption
+              label='Turno'
               value={shift}
+              options={[{label:'Mañana', value:'Mañana'},{label:'Tarde', value:'Tarde'}]}
               onChange={handleShiftChange}
-              className="box-border w-full p-2 border rounded-md outline-none w-50 h-50 border-cv-primary bg-cv-secondary"
-            >
-              <option value="">Turno</option>
-              <option value="Mañana">Mañana</option>
-              <option value="Tarde">Tarde</option>
-            </select>
+              disabled={false}
+            />
+            
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import moment from "moment";
+import { STATUS } from "../../../constantes/JustificationStatus";
 
 export function CardDetail({
   buttonLoading,
@@ -9,11 +10,29 @@ export function CardDetail({
   rol,
   handleAceptar,
   handleRechazar,
-}) {
-  console.log(faltasList)
+}) {  
+  
   const hasRole = (targetRole) => {
     return rol === targetRole;
   };
+  
+  //Función para descargar la imagen al hacer click al botton
+  const handleDownloadImage = (name, lastName, url)=>{    
+    fetch(url)
+      .then(res => res.blob())
+      .then(blob => {
+        const _url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.style.display = 'none';
+        link.href = _url;
+        link.download = `${name}${lastName}-justificacion.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        window.URL.revokeObjectURL(_url);
+      })
+      .catch((e)=> console.log(e));
+  }
+  
   return (
     <div className="rounded-lg mt-2">
       {faltasList
@@ -27,6 +46,30 @@ export function CardDetail({
         })
         .map((item) => (
           <div key={item.id} className="mb-6">
+            {
+              item.justification_status !== 3 &&
+              <div className="mb-3 text-center w-full bg-cv-primary flex flex-col p-4 rounded-lg border border-gray-500">
+                <h2 className="font-medium text-slate-400 text-xl uppercase">
+                  {item.justification_status === 2 && STATUS.RECHAZADO}
+                  {item.justification_status === 1 && STATUS.ACEPTADO}
+                </h2>
+                <div className="text-start mt-5 flex justify-between">
+                  <div>
+                    <h3 className="text-slate-400 font-medium">Revisado por: </h3>
+                    <span className="font-medium">
+                      {item.action_by.name}
+                      {item.action_by.surname}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-slate-400 font-medium">Razón:</h3>
+                    <span className="font-medium">
+                      {item.reason_decline}
+                    </span>
+                  </div>
+                </div>              
+              </div>
+            }
             <div className="flex flex-col md:flex-row gap-2">
               <div className="bg-cv-primary text-slate-400 flex flex-col p-4 rounded-lg md:w-3/5 border border-gray-500">
                 <h2 className="text-lg font-semibold text-center">
@@ -146,10 +189,13 @@ export function CardDetail({
                 {item.evidence.endsWith(".jpg") ||
                 item.evidence.endsWith(".png") ||
                 item.evidence.endsWith(".jpeg") ? (
-                  <img
-                    src={import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence}
-                    alt="Image"
-                  />
+                  <div className="flex flex-col w-full f-center justify-center items-center">
+                    <img className="max-w-lg object-cover w-full object-cover object-center aspect-square"
+                      src={import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence}
+                      alt="Image"
+                    />
+                    <button onClick={()=>{handleDownloadImage(item.user.name, item.user.surname, import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence)}} className="w-fit m-auto mt-4 uppercase basis-1/6 border-2  border-cv-cyan hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300 text-cv-cyan">Descargar</button>
+                  </div>
                 ) : item.evidence.endsWith(".pdf") ? (
                   <embed
                     src={import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence}
