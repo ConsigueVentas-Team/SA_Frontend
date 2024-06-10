@@ -113,7 +113,8 @@ export const MarcarAsistencia = () => {
     );
 
     const token = tokenD.toString(enc.Utf8);
-    console.log(formData)
+    
+    console.log(fotoCapturada)
     fetch(import.meta.env.VITE_API_URL + "/attendance/create", {
       method: "POST",
       body: formData,
@@ -121,12 +122,13 @@ export const MarcarAsistencia = () => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (tipo === "admission") {
-          const hora = horaActual.getHours();
-          const minutos = horaActual.getMinutes();
-          const turno = localStorage.getItem("shift");
+      .then((response) => {
+        // if(!response.ok) throw new Error;
+        const hora = horaActual.getHours();
+        const minutos = horaActual.getMinutes();
+        const turno = localStorage.getItem("shift");
+
+        if (tipo === "admission") {          
           setMostrarBotonEntrada(false);
           setFotoUsuario(false);
           setFotoCapturada(null);
@@ -135,13 +137,13 @@ export const MarcarAsistencia = () => {
 
           toast.success("Entrada Marcada");
 
-          if (turno === "Mañana" && hora >= 8 && minutos >= 10 && hora <= 13) {
+          if (turno === "Mañana" && hora >= 8 && minutos > 10 && hora <= 13) {
             setTardanzaMañana(true);
           } else {
             setTardanzaMañana(false);
           }
 
-          if (turno === "Tarde" && hora >= 14 && minutos >= 10 && hora <= 19) {
+          if (turno === "Tarde" && hora >= 14 && minutos > 10 && hora <= 19) {
             setTardanzaTarde(true);
           } else {
             setTardanzaTarde(false);
@@ -149,7 +151,10 @@ export const MarcarAsistencia = () => {
 
           localStorage.setItem(`entrada_${fecha}`, "true");
 
-        } else {
+        } else {          
+          if(turno === 'Manaña' && hora < 13) return toast.error('Aún no es la hora de salida');
+          if(turno === 'Tarde' && hora < 19) return toast.error('Aún no es la hora de salida');          
+          
           setMostrarBotonSalida(false);
           setMostrarBotonCamara(false);
           setFotoUsuario(false);
