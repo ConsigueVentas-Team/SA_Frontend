@@ -79,7 +79,7 @@ export const MarcarAsistencia = () => {
         let asistenciaDeHoy = data.results.filter((asistencia) =>
           asistencia.created_at.includes(getCurrentDate())
         );
-                
+        console.log(asistenciaDeHoy)        
         if (asistenciaDeHoy.length === 0 || asistenciaDeHoy[0]?.admissionTime === "00:00:00" || asistenciaDeHoy[0]?.admissionTime === null ) {
           setSegundaFotoTomada(false);
         }
@@ -106,6 +106,8 @@ export const MarcarAsistencia = () => {
     const photoName = `${shift.charAt(0)}-${iduser}-${tipo === "admission" ? "e" : "s"
       }-${fecha}.jpg`;
 
+    console.log("fotoCapturada: ",fotoCapturada)
+    console.log("photoName: ",photoName)
     formData.append(`${tipo}Image`, fotoCapturada, photoName);
 
     const tokenD = AES.decrypt(
@@ -301,20 +303,41 @@ export const MarcarAsistencia = () => {
         <div className="w-full md:w-2/3">
           <div className={`registro-Entrada min-h-[10vh] flex justify-center`}>
             {
-              (entradaMarcada && turno === 'Mañana' && horaActual.getHours() < 13) || 
-              (entradaMarcada && turno === 'Tarde' && horaActual.getHours() < 19) ?
-                <div className="text-xl font-medium p-6 border-2 border-[#57f3ff] rounded-xl mt-14 grid place-items-center h-96 bg-[#16232b]">La camara se activara cuando sea la hora de salida</div>
-              :
-              <CameraSection
-                fotoUsuario={fotoUsuario}
-                videoEnabled={videoEnabled}
-                capturing={capturing}
-                handleCapture={handleCapture}
-                toggleCamera={toggleCamera}
-                videoRef={videoRef}
-                mostrarBotonCamara={mostrarBotonCamara}
-                cameraStream={cameraStream}
-              />
+              segundaFotoTomada ? 
+                <div className="w-full text-xl font-medium px-6 py-12 border-2 border-[#57f3ff] rounded-xl mt-14 grid place-items-center bg-[#16232b]">
+                  <svg 
+                      xmlns="http://www.w3.org/2000/svg"                        
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      stroke-width="2" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round" 
+                      className="w-[100px]"
+                  >
+                      <circle cx="12" cy="12" r="10" stroke="#4CAF50" fill="#E8F5E9"></circle>
+                      <path d="M9 12l2 2 4-4" stroke="#4CAF50"></path>
+                  </svg>
+                  <span className="mt-6">
+                    ¡Ya has marcado tu asistencia!
+                  </span>
+                </div>
+                :
+              
+                (entradaMarcada && turno === 'Mañana' && horaActual.getHours() < 13) || 
+                (entradaMarcada && turno === 'Tarde' && horaActual.getHours() < 19) ?
+                  <div className="text-xl font-medium p-6 border-2 border-[#57f3ff] rounded-xl mt-14 grid place-items-center h-96 bg-[#16232b]">La camara se activara cuando sea la hora de salida</div>
+                  :
+                  <CameraSection
+                    fotoUsuario={fotoUsuario}
+                    videoEnabled={videoEnabled}
+                    capturing={capturing}
+                    handleCapture={handleCapture}
+                    toggleCamera={toggleCamera}
+                    videoRef={videoRef}
+                    mostrarBotonCamara={mostrarBotonCamara}
+                    cameraStream={cameraStream}
+                  />              
             }
           </div>
         </div>
