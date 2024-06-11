@@ -23,6 +23,7 @@ export const MarcarAsistencia = () => {
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const [cargando, setCargando] = useState(true);
+  const turno = localStorage.getItem("shift");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -113,8 +114,7 @@ export const MarcarAsistencia = () => {
     );
 
     const token = tokenD.toString(enc.Utf8);
-    
-    console.log(fotoCapturada)
+        
     fetch(import.meta.env.VITE_API_URL + "/attendance/create", {
       method: "POST",
       body: formData,
@@ -126,7 +126,6 @@ export const MarcarAsistencia = () => {
         // if(!response.ok) throw new Error;
         const hora = horaActual.getHours();
         const minutos = horaActual.getMinutes();
-        const turno = localStorage.getItem("shift");
 
         if (tipo === "admission") {          
           setMostrarBotonEntrada(false);
@@ -151,10 +150,7 @@ export const MarcarAsistencia = () => {
 
           localStorage.setItem(`entrada_${fecha}`, "true");
 
-        } else {          
-          if(turno === 'Manaña' && hora < 13) return toast.error('Aún no es la hora de salida');
-          if(turno === 'Tarde' && hora < 19) return toast.error('Aún no es la hora de salida');          
-          
+        } else {                              
           setMostrarBotonSalida(false);
           setMostrarBotonCamara(false);
           setFotoUsuario(false);
@@ -304,16 +300,22 @@ export const MarcarAsistencia = () => {
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-2/3">
           <div className={`registro-Entrada min-h-[10vh] flex justify-center`}>
-            <CameraSection
-              fotoUsuario={fotoUsuario}
-              videoEnabled={videoEnabled}
-              capturing={capturing}
-              handleCapture={handleCapture}
-              toggleCamera={toggleCamera}
-              videoRef={videoRef}
-              mostrarBotonCamara={mostrarBotonCamara}
-              cameraStream={cameraStream}
-            />
+            {
+              (entradaMarcada && turno === 'Mañana' && horaActual.getHours() < 13) || 
+              (entradaMarcada && turno === 'Tarde' && horaActual.getHours() < 19) ?
+                <div className="text-xl font-medium p-6 border-2 border-[#57f3ff] rounded-xl mt-14 grid place-items-center h-96 bg-[#16232b]">La camara se activara cuando sea la hora de salida</div>
+              :
+              <CameraSection
+                fotoUsuario={fotoUsuario}
+                videoEnabled={videoEnabled}
+                capturing={capturing}
+                handleCapture={handleCapture}
+                toggleCamera={toggleCamera}
+                videoRef={videoRef}
+                mostrarBotonCamara={mostrarBotonCamara}
+                cameraStream={cameraStream}
+              />
+            }
           </div>
         </div>
         <div
