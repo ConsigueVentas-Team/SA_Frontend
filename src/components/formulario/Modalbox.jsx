@@ -8,13 +8,9 @@ const ModalBox = ({
   title,
   label,
   cerrarEditarModal,
-  actualizarDepartamento,
-  checkbox,
-  departments,
-  cores,
+  actualizarDepartamento,  
   idDepartamento,
-  IdArea,
-  cargando,
+  IdArea  
 }) => {
   const [palabra, setPalabra] = useState(valueDefault);
   const [isShort, setIsShort] = useState(false);
@@ -22,22 +18,9 @@ const ModalBox = ({
   const enviarDatos = () => {
     if(palabra === '' || palabra === valueDefault) return setIsShort(true);
     cerrarEditarModal(false);
-    actualizarDepartamento(palabra, area, Departamento);
-  };
+    actualizarDepartamento(palabra, IdArea, idDepartamento);
+  };  
 
-  const [area, setArea] = useState(IdArea);
-  const [Departamento, setDepartamento] = useState(idDepartamento);
-
-  const handleDepartamentoChange = (e) => {
-    const selectedValue = e.target.value;
-
-    setDepartamento(selectedValue);
-  };
-  const AreaShiftChange = (e) => {
-    const selectedValue = e.target.value;
-
-    setArea(selectedValue);
-  };
   return (
     <div className="w-full h-full overflow-x-hidden overflow-y-auto   ">
       <div className=" fixed top-0 left-0 z-50  overflow-x-hidden overflow-y-auto scale-90 w-full h-full items-center flex justify-center sm:scale-95  ">
@@ -47,74 +30,7 @@ const ModalBox = ({
               {title}
             </h3>
           </div>
-          <div className="relative p-2 md:p-6 flex-auto space-y-4">
-            {checkbox > 2 && (
-              <div className="">
-                <label
-                  htmlFor="names"
-                  className="block mb-1 font-medium text-cv-primary"
-                >
-                  Departamento:
-                </label>
-                <div className="w-full ">
-                  <select
-                    id="filerRole"
-                    value={Departamento}
-                    onChange={handleDepartamentoChange}
-                    placeholder="Seleccionasadas"
-                    className="w-full p-2 text-cv-primary rounded-md bg-white drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
-                  >
-                    <option>Selecciona</option>
-                    {departments.map((department) => (
-                      <option key={department.id} value={department.id}>
-                        {department.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            )}
-            {checkbox > 1 && (
-              <div className="mb-6">
-                <label
-                  htmlFor="names"
-                  className="block mb-2 font-medium text-cv-primary"
-                >
-                  {checkbox == 2 ? "Departamento:" : "Núcleo:"}
-                </label>
-                <div className="w-full ">
-                  <select
-                    id="filerRole"
-                    value={area}
-                    onChange={AreaShiftChange}
-                    placeholder="Selecciona"
-                    className="w-full p-2 text-cv-primary rounded-md bg-white drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
-                  >
-                    <option>Selecciona</option>
-
-                    {cores
-                      ? cores.map((core) => {
-                          if (core.department.id == Departamento) {
-                            return (
-                              <option key={core.id} value={core.id}>
-                                {core.name}
-                              </option>
-                            );
-                          }
-                        })
-                      : // Aquí puedes colocar el código que deseas ejecutar cuando cores es null
-                        departments.map((core) => {
-                          return (
-                            <option key={core.id} value={core.id}>
-                              {core.name}
-                            </option>
-                          );
-                        })
-                      }
-                  </select>
-                </div>
-              </div>
-            )}
+          <div className="relative p-2 md:p-6 flex-auto space-y-4">                        
             <div className="w-full flex flex-col space-y-1">
               <Input
                 label={label}

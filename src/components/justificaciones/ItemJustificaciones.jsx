@@ -127,10 +127,7 @@ export const ItemJustificaciones = ({ cards, page }) => {
 
 ItemJustificaciones.propTypes = {
   cards: PropTypes.array.isRequired,
-  page: PropTypes.number.isRequired,
-  buscador_tipoJustificacion: PropTypes.string.isRequired,
-  buscadorStatus: PropTypes.string.isRequired,
-  buscadorFecha: PropTypes.string.isRequired,
+  page: PropTypes.number.isRequired
 };
 
 ItemJustificaciones.defaultProps = {

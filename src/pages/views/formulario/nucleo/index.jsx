@@ -138,12 +138,10 @@ export const Nucleo = () => {
                 area,
                 Departamento
               )
-            }
-            checkbox={2}
+            }            
             data={Nucleos}
             IdArea={idDepartamento}
-            idDepartamento={idDepartamento}
-            departments={departments}
+            idDepartamento={idDepartamento}                        
           ></ModalBox>
         )}
         {MostrarEliminarModal && (

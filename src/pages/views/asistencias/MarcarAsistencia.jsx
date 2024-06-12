@@ -23,6 +23,8 @@ export const MarcarAsistencia = () => {
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const [cargando, setCargando] = useState(true);
+  const [alreadyMarkedAttendance, setAlreadyMarkedAttendance] = useState(false);
+  const turno = localStorage.getItem("shift");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -48,7 +50,7 @@ export const MarcarAsistencia = () => {
       import.meta.env.VITE_TOKEN_KEY
     );
 
-    const token = tokenD.toString(enc.Utf8);
+    const token = tokenD.toString(enc.Utf8);    
 
     // obtener fecha actual con el formato de acuerdo a la data que se obtiene del backend y poder filtrar correctamente
     const getCurrentDate = () => {
@@ -78,12 +80,18 @@ export const MarcarAsistencia = () => {
         let asistenciaDeHoy = data.results.filter((asistencia) =>
           asistencia.created_at.includes(getCurrentDate())
         );
-                
+
         if (asistenciaDeHoy.length === 0 || asistenciaDeHoy[0]?.admissionTime === "00:00:00" || asistenciaDeHoy[0]?.admissionTime === null ) {
           setSegundaFotoTomada(false);
         }
         else {
+          setEntradaMarcada(true)
           setSegundaFotoTomada(true);
+        }
+        
+        //Validamos si ya se ha marcado la asistencia
+        if(asistenciaDeHoy.length !== 0 && asistenciaDeHoy[0]?.departureTime != null) {          
+          setAlreadyMarkedAttendance(true)          
         }
       })
       .catch((error) => {
@@ -104,7 +112,7 @@ export const MarcarAsistencia = () => {
     const iduser = localStorage.getItem("iduser");
     const photoName = `${shift.charAt(0)}-${iduser}-${tipo === "admission" ? "e" : "s"
       }-${fecha}.jpg`;
-
+    
     formData.append(`${tipo}Image`, fotoCapturada, photoName);
 
     const tokenD = AES.decrypt(
@@ -113,8 +121,7 @@ export const MarcarAsistencia = () => {
     );
 
     const token = tokenD.toString(enc.Utf8);
-    
-    console.log(fotoCapturada)
+
     fetch(import.meta.env.VITE_API_URL + "/attendance/create", {
       method: "POST",
       body: formData,
@@ -123,10 +130,9 @@ export const MarcarAsistencia = () => {
       },
     })
       .then((response) => {
-        // if(!response.ok) throw new Error;
+        if(!response.ok) throw new Error;
         const hora = horaActual.getHours();
         const minutos = horaActual.getMinutes();
-        const turno = localStorage.getItem("shift");
 
         if (tipo === "admission") {          
           setMostrarBotonEntrada(false);
@@ -134,6 +140,7 @@ export const MarcarAsistencia = () => {
           setFotoCapturada(null);
           setMostrarBotonCamara(true);
           setVideoEnabled(false);
+          setEntradaMarcada(true)
 
           toast.success("Entrada Marcada");
 
@@ -151,16 +158,15 @@ export const MarcarAsistencia = () => {
 
           localStorage.setItem(`entrada_${fecha}`, "true");
 
-        } else {          
-          if(turno === 'Manaña' && hora < 13) return toast.error('Aún no es la hora de salida');
-          if(turno === 'Tarde' && hora < 19) return toast.error('Aún no es la hora de salida');          
-          
+        } else {                              
           setMostrarBotonSalida(false);
           setMostrarBotonCamara(false);
           setFotoUsuario(false);
           setFotoCapturada(null);
           setVideoEnabled(false);
           setCameraStream(null);
+          setAlreadyMarkedAttendance(true)
+          setSalidaMarcada(true)
           toast.success("Salida Marcada");
           localStorage.setItem(`salida_${fecha}`, "true");
         }
@@ -237,7 +243,7 @@ export const MarcarAsistencia = () => {
         .then((blob) => {
           setFotoUsuario(URL.createObjectURL(blob));
           setCapturing(false);
-
+          
           if (!segundaFotoTomada) {
             setMostrarBotonEntrada(true);
             setMostrarBotonCamara(false);
@@ -304,16 +310,43 @@ export const MarcarAsistencia = () => {
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-2/3">
           <div className={`registro-Entrada min-h-[10vh] flex justify-center`}>
-            <CameraSection
-              fotoUsuario={fotoUsuario}
-              videoEnabled={videoEnabled}
-              capturing={capturing}
-              handleCapture={handleCapture}
-              toggleCamera={toggleCamera}
-              videoRef={videoRef}
-              mostrarBotonCamara={mostrarBotonCamara}
-              cameraStream={cameraStream}
-            />
+            {
+              alreadyMarkedAttendance ? 
+                <div className="w-full text-xl font-medium px-6 py-12 border-2 border-[#57f3ff] rounded-xl mt-14 grid place-items-center bg-[#16232b]">
+                  <svg 
+                      xmlns="http://www.w3.org/2000/svg"                        
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="2" 
+                      strokewinecap="round" 
+                      strokewinejoin="round" 
+                      className="w-[100px]"
+                  >
+                      <circle cx="12" cy="12" r="10" stroke="#4CAF50" fill="#E8F5E9"></circle>
+                      <path d="M9 12l2 2 4-4" stroke="#4CAF50"></path>
+                  </svg>
+                  <span className="mt-6">
+                    ¡Ya has marcado tu asistencia!
+                  </span>
+                </div>
+                :
+              
+                (entradaMarcada && turno === 'Mañana' && horaActual.getHours() < 13) || 
+                (entradaMarcada && turno === 'Tarde' && horaActual.getHours() < 19) ?
+                  <div className="text-xl font-medium p-6 border-2 border-[#57f3ff] rounded-xl mt-14 grid place-items-center h-96 bg-[#16232b]">La camara se activara cuando sea la hora de salida</div>
+                  :
+                  <CameraSection
+                    fotoUsuario={fotoUsuario}
+                    videoEnabled={videoEnabled}
+                    capturing={capturing}
+                    handleCapture={handleCapture}
+                    toggleCamera={toggleCamera}
+                    videoRef={videoRef}
+                    mostrarBotonCamara={mostrarBotonCamara}
+                    cameraStream={cameraStream}
+                  />              
+            }
           </div>
         </div>
         <div
