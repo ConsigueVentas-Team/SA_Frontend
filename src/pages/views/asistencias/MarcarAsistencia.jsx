@@ -23,6 +23,7 @@ export const MarcarAsistencia = () => {
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const [cargando, setCargando] = useState(true);
+  const [alreadyMarkedAttendance, setAlreadyMarkedAttendance] = useState(false);
   const turno = localStorage.getItem("shift");
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export const MarcarAsistencia = () => {
       import.meta.env.VITE_TOKEN_KEY
     );
 
-    const token = tokenD.toString(enc.Utf8);
+    const token = tokenD.toString(enc.Utf8);    
 
     // obtener fecha actual con el formato de acuerdo a la data que se obtiene del backend y poder filtrar correctamente
     const getCurrentDate = () => {
@@ -79,12 +80,18 @@ export const MarcarAsistencia = () => {
         let asistenciaDeHoy = data.results.filter((asistencia) =>
           asistencia.created_at.includes(getCurrentDate())
         );
-        console.log(asistenciaDeHoy)        
+
         if (asistenciaDeHoy.length === 0 || asistenciaDeHoy[0]?.admissionTime === "00:00:00" || asistenciaDeHoy[0]?.admissionTime === null ) {
           setSegundaFotoTomada(false);
         }
         else {
+          setEntradaMarcada(true)
           setSegundaFotoTomada(true);
+        }
+        
+        //Validamos si ya se ha marcado la asistencia
+        if(asistenciaDeHoy.length !== 0 && asistenciaDeHoy[0]?.departureTime != null) {          
+          setAlreadyMarkedAttendance(true)          
         }
       })
       .catch((error) => {
@@ -105,9 +112,7 @@ export const MarcarAsistencia = () => {
     const iduser = localStorage.getItem("iduser");
     const photoName = `${shift.charAt(0)}-${iduser}-${tipo === "admission" ? "e" : "s"
       }-${fecha}.jpg`;
-
-    console.log("fotoCapturada: ",fotoCapturada)
-    console.log("photoName: ",photoName)
+    
     formData.append(`${tipo}Image`, fotoCapturada, photoName);
 
     const tokenD = AES.decrypt(
@@ -116,7 +121,7 @@ export const MarcarAsistencia = () => {
     );
 
     const token = tokenD.toString(enc.Utf8);
-        
+
     fetch(import.meta.env.VITE_API_URL + "/attendance/create", {
       method: "POST",
       body: formData,
@@ -125,7 +130,7 @@ export const MarcarAsistencia = () => {
       },
     })
       .then((response) => {
-        // if(!response.ok) throw new Error;
+        if(!response.ok) throw new Error;
         const hora = horaActual.getHours();
         const minutos = horaActual.getMinutes();
 
@@ -135,6 +140,7 @@ export const MarcarAsistencia = () => {
           setFotoCapturada(null);
           setMostrarBotonCamara(true);
           setVideoEnabled(false);
+          setEntradaMarcada(true)
 
           toast.success("Entrada Marcada");
 
@@ -159,6 +165,8 @@ export const MarcarAsistencia = () => {
           setFotoCapturada(null);
           setVideoEnabled(false);
           setCameraStream(null);
+          setAlreadyMarkedAttendance(true)
+          setSalidaMarcada(true)
           toast.success("Salida Marcada");
           localStorage.setItem(`salida_${fecha}`, "true");
         }
@@ -235,7 +243,7 @@ export const MarcarAsistencia = () => {
         .then((blob) => {
           setFotoUsuario(URL.createObjectURL(blob));
           setCapturing(false);
-
+          
           if (!segundaFotoTomada) {
             setMostrarBotonEntrada(true);
             setMostrarBotonCamara(false);
@@ -303,16 +311,16 @@ export const MarcarAsistencia = () => {
         <div className="w-full md:w-2/3">
           <div className={`registro-Entrada min-h-[10vh] flex justify-center`}>
             {
-              segundaFotoTomada ? 
+              alreadyMarkedAttendance ? 
                 <div className="w-full text-xl font-medium px-6 py-12 border-2 border-[#57f3ff] rounded-xl mt-14 grid place-items-center bg-[#16232b]">
                   <svg 
                       xmlns="http://www.w3.org/2000/svg"                        
                       viewBox="0 0 24 24" 
                       fill="none" 
                       stroke="currentColor" 
-                      stroke-width="2" 
-                      stroke-linecap="round" 
-                      stroke-linejoin="round" 
+                      strokeWidth="2" 
+                      strokewinecap="round" 
+                      strokewinejoin="round" 
                       className="w-[100px]"
                   >
                       <circle cx="12" cy="12" r="10" stroke="#4CAF50" fill="#E8F5E9"></circle>

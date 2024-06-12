@@ -1,6 +1,5 @@
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import VideocamIcon from '@mui/icons-material/Videocam';
-import PropTypes from 'prop-types';
 import Loading from '../../essentials/Loading';
 
 export const CameraSection = ({
@@ -104,21 +103,3 @@ export const CameraSection = ({
         </div>
     );
 };
-
-// CameraSection.defaultProps = {
-//     cameraStream: null
-// };
-
-// CameraSection.propTypes = {
-//     // fotoUsuario: PropTypes.bool.isRequired,
-//     fotoUsuario: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
-//     videoEnabled: PropTypes.bool.isRequired,
-//     capturing: PropTypes.bool.isRequired,
-//     handleCapture: PropTypes.func.isRequired,
-//     toggleCamera: PropTypes.func.isRequired,
-//     videoRef: PropTypes.object.isRequired,
-//     mostrarBotonCamara: PropTypes.bool.isRequired,
-//     // cameraStream: PropTypes.func.isRequired
-//     cameraStream: PropTypes.object.isRequired
-//     // cameraStream: PropTypes.object
-// };
