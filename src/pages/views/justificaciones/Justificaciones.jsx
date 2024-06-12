@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import {
-  CardList,
-  // Graficos,
+  CardList,  
   SearchBar,
 } from "../../../components/justificaciones";
 import { Pagination } from "@mui/material";
-// import { ResponsiveContainer } from 'recharts'
 import Loading from "../../../components/essentials/Loading";
 import BalanceIcon from "@mui/icons-material/Balance";
-import { getAllData } from "./getAllData";
-import { filterByJustificationDate, filterByJustificationStatus, filterByJustificationType, filterBySearch } from "./FiltersJustification";
 import MessageNotFound from "../../../components/MessageNotFound";
+import { FechDataJustificaciones } from "../../../components/justificaciones/helpers/FechDataJustificaciones";
+import useDebounce from "../../../components/justificaciones/hooks/useDebounce";
 
 export const Justificaciones = () => {
   const [page, setPage] = useState(1);
   const [countPage, setCountPage] = useState(null);
-  const [cards, setCards] = useState([]);
-  const [filteredCards, setFilteredCards] = useState([]);
+  const [cards, setCards] = useState([]);  
   const [name, setName] = useState("");
   const [buscador_tipoJustificacion, setbuscador_tipoJustificacion] = useState("");
   const [buscadorStatus, setBuscadorStatus] = useState("");
@@ -32,55 +29,35 @@ export const Justificaciones = () => {
     setBuscadorStatus("");
   };
 
-  const handleNameChange = (event) => {
+  const debounceText = useDebounce(name, 250);
+
+  const handleNameChange = (event) => {    
     setName(event.target.value);
-  };
+  };        
 
-  //Función que actualiza la lista  de cards
-  const updatePage = async ()=>{
-    setLoading(true);
-    const list = await getAllData(true);    
+  useEffect(()=>{
+    if(buscador_tipoJustificacion !== '' || buscadorStatus !== '' || buscadorFecha !== '' || debounceText !== '') {
+      getJustifications(1);
+      setPage(1)
+    }else {      
+      getJustifications(page);
+    }
+  },[buscador_tipoJustificacion,buscadorStatus,buscadorFecha,debounceText,page])  
+  
+  //Función que obtiene las justificaciones
+  const getJustifications = async (page)=>{
+    setLoading(true);        
+    const exclude = true;
+    const response = await FechDataJustificaciones({page, exclude, name});    
+    const data = response.data;
+    const totalData = response.total;
     setLoading(false);
-    setCards(list);
-    setCountPage(list.length)
+    setCards(data);
+    setCountPage(totalData)
   }
-
-  useEffect(() => {        
-    updatePage();
-  }, []); 
-
-  const handleFilters = ()=>{       
-    //Aplico todos los filtros 
-    let newList = filterByJustificationType(cards, buscador_tipoJustificacion);
-    newList = filterByJustificationStatus(newList, buscadorStatus);                
-    newList = filterByJustificationDate(newList, buscadorFecha)
-    newList = filterBySearch(newList, name);
-
-    //Actualizo el estado CountPage antes de cortar la lista filtrada(newList)
-    setCountPage(newList.length);
-
-    //Corto la lista para que se muestren 10 justificaciónes por página
-    newList = newList.slice((page-1)*10, ((page-1)*10) + 10);
-
-    //Seteo el estado filteredCards para que se renderize
-    setFilteredCards(newList);
-  }
-
-  //Ejecutamos los filtros cada vez que se cambian los estados
-  useEffect(()=>{    
-    handleFilters();          
-  },[buscador_tipoJustificacion,buscadorStatus,buscadorFecha,name,cards,page]);
-
-  //Cada vez que se ejecuta un filtro, mostramos la primera página
-  useEffect(()=>{    
-    setPage(1);
-  },[buscador_tipoJustificacion,buscadorStatus,buscadorFecha,name]);
 
   return (
-    <>
-      {/* <div className='grid grid-cols-2'> */}
-      {/* <Circular /> */}
-      {/* </div> */}
+    <>      
       <div className="min-h-screen px-8">
         <p className="flex gap-2 ml-1 text-base mb-3 font-medium md:ml-2 uppercase text-white hover:text-white">
           <BalanceIcon />
@@ -140,9 +117,9 @@ export const Justificaciones = () => {
           {loading ? (
             <Loading />
           ) : 
-            filteredCards.length > 0 ?
+            cards.length > 0 ?
               <CardList
-                cards={filteredCards}
+                cards={cards}
                 page={page}              
               />
               :
@@ -154,9 +131,9 @@ export const Justificaciones = () => {
               className="flex w-100 justify-around"
               count={Math.ceil(countPage / 10)}
               page={page}
-              onChange={(event, value) => {                
-                setPage(value);                            
-              }}
+              onChange={((event, value)=>{
+                setPage(value)
+              })}
               sx={{
                 "& .MuiPaginationItem-root": {
                   color: "white", // Color del texto del número
@@ -166,10 +143,6 @@ export const Justificaciones = () => {
           </div>
         </>
       </div>
-
-      {/* <ResponsiveContainer width={100} height={400}>
-                <Graficos />
-            </ResponsiveContainer> */}
     </>
   );
 };

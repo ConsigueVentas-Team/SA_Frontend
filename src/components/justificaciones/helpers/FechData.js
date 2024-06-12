@@ -8,22 +8,9 @@ export const FechData = async ({ page }) => {
             import.meta.env.VITE_TOKEN_KEY
         )
         const token = tokenD.toString(enc.Utf8)
-
-        // const rol = localStorage.getItem('rol')
+        
         const turno = localStorage.getItem('shift')
         const user_id = localStorage.getItem('iduser')
-
-        // if (rol === 'Colaborador') {
-        //     url = `${
-        //         import.meta.env.VITE_API_URL
-        //     }/justification/list/${user_id}?page=${page}`
-        // } else if (rol === 'Lider Nucleo' || rol === 'Gerencia') {
-        //     url = `${
-        //         import.meta.env.VITE_API_URL
-        //     }/justification/list/${user_id}?page=${page}`
-        // } else {
-        //     throw new Error('Unhandled role')
-        // }
 
         let url = `${import.meta.env.VITE_API_URL}/justification/list?page=${page}&shift=${turno}&user=${user_id}`
 
