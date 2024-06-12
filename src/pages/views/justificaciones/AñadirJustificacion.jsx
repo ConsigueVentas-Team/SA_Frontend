@@ -9,9 +9,8 @@ import {
 import { Alert, Box, Modal, Pagination, Snackbar } from "@mui/material";
 import Loading from "../../../components/essentials/Loading";
 import BalanceIcon from "@mui/icons-material/Balance";
-import { getAllData } from "./getAllData";
-import { filterByJustificationDate, filterByJustificationStatus, filterByJustificationType } from "./FiltersJustification";
 import MessageNotFound from "../../../components/MessageNotFound";
+import { FechDataJustificaciones } from "../../../components/justificaciones/helpers/FechDataJustificaciones";
 
 export const AñadirJustificacion = () => {
   const [page, setPage] = useState(1);
@@ -25,8 +24,7 @@ export const AñadirJustificacion = () => {
   const [buscador_tipoJustificacion, setbuscador_tipoJustificacion] = useState("");
   const [buscadorStatus, setBuscadorStatus] = useState("");
   const [buscadorFecha, setBuscadorFecha] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [filteredCards, setFilteredCards] = useState([]);
+  const [loading, setLoading] = useState(true);  
 
   // Para Toas Alert Success
   const [toasSuccess, setToasSuccess] = useState(false);
@@ -42,31 +40,7 @@ export const AñadirJustificacion = () => {
     setModal(true);
     setModalAlert(true);
   };
-
-  const updatePage = async()=>{
-    setLoading(true);
-    const list= await getAllData(false);    
-    setLoading(false);
-    setCards(list);
-    setCountPage(list.length)   
-  }
-
-  const handleFilters = ()=>{       
-    //Aplico todos los filtros 
-    let newList = filterByJustificationType(cards, buscador_tipoJustificacion);
-    newList = filterByJustificationStatus(newList, buscadorStatus);                
-    newList = filterByJustificationDate(newList, buscadorFecha)    
-
-    //Actualizo el estado CountPage antes de cortar la lista filtrada(newList)
-    setCountPage(newList.length);
-
-    //Corto la lista para que se muestren 10 justificaciónes por página
-    newList = newList.slice((page-1)*10, ((page-1)*10) + 10);
-
-    //Seteo el estado filteredCards para que se renderize
-    setFilteredCards(newList);    
-  }  
-
+  
   const limpiar = () => {
     setbuscador_tipoJustificacion("");
     setBuscadorStatus("");
@@ -74,22 +48,27 @@ export const AñadirJustificacion = () => {
     setPage(1);
   };
 
-  //Cargamos los datos
-  useEffect(() => {
-    updatePage();
-  }, []);
-
-  //Ejecutamos los filtros cada vez que se cambian los estados
-  useEffect(() => {
-    handleFilters();        
-  }, [buscadorFecha, buscadorStatus, buscador_tipoJustificacion, cards, page])    
+  useEffect(()=>{
+    if(buscador_tipoJustificacion !== '' || buscadorStatus !== '' || buscadorFecha !== '') {
+      getJustifications(1);
+      setPage(1)
+    }else {      
+      getJustifications(page);
+    }
+  },[buscador_tipoJustificacion,buscadorStatus,buscadorFecha,page])  
   
-  //Cada vez que se ejecuta un filtro, mostramos la primera página
-  useEffect(() => {
-    setPage(1);
-  }, [buscadorFecha, buscadorStatus, buscador_tipoJustificacion])    
+  //Función que obtiene las justificaciones
+  const getJustifications = async (page)=>{
+    setLoading(true);        
+    const exclude = false;
+    const response = await FechDataJustificaciones({page, exclude, name});    
+    const data = response.data;
+    const totalData = response.total;
+    setLoading(false);
+    setCards(data);
+    setCountPage(totalData)
+  }
 
-  
   return (
     <>
       <Snackbar
@@ -116,7 +95,7 @@ export const AñadirJustificacion = () => {
             <ModalAgregar
               cancelarModalAlert={setModal}
               setToasSuccess={setToasSuccess}
-              handleBuscar={updatePage}
+              handleBuscar={getJustifications}
               setMensajeAlerta={setMensajeAlerta}
             />
           )}
@@ -188,13 +167,10 @@ export const AñadirJustificacion = () => {
           {loading ? (
             <Loading />
           ) : (
-            filteredCards.length > 0 ?
+            cards.length > 0 ?
               <ItemJustificaciones
-                cards={filteredCards}
-                page={page}
-                buscador_tipoJustificacion={buscador_tipoJustificacion}
-                buscadorStatus={buscadorStatus}
-                buscadorFecha={buscadorFecha}
+                cards={cards}
+                page={page}                
               />
               :
               <MessageNotFound/>
