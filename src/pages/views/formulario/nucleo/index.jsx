@@ -154,7 +154,7 @@ export const Nucleo = () => {
           ></ModalBoxEliminar>
         )}
 
-        <button onClick={openModal} className="w-50 py-2 px-5 mt-10 rounded-md text-cv-primary text-white bg-cv-primary flex items-center justify-center text-l font-semibold">AGREGAR</button>
+        <button onClick={openModal} className="w-50 py-2 px-5 mt-10 rounded-md text-white bg-cv-primary flex items-center justify-center text-l font-semibold">AGREGAR</button>
         {mostrarModal && (
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="fixed inset-0 bg-black opacity-50"></div>

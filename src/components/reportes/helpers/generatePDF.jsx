@@ -138,18 +138,15 @@ const generatePDF = async (
       doc.setFontSize(16);
       doc.text("ASISTENCIA POR SECTORES:", 14, 24);
 
-      const processedNames = new Set();
       const asistenciasSectorData = [];
 
-      apiDataAsistenciasSector.forEach((sector) => {        
-        const name ='asistencia'
+      apiDataAsistenciasSector.forEach((sector) => {                
         const attendance = sector.department_attendance_count;
         const absence = sector.department_absence_count;
         const delay = sector.department_delay_count;
         const justification = sector.department_justification_count;
 
-        asistenciasSectorData.push([
-        { content: name, styles: { fontStyle: "bold" } },
+        asistenciasSectorData.push([        
         { content: attendance },
         { content: delay },
         { content: absence },
@@ -160,7 +157,7 @@ const generatePDF = async (
       doc.autoTable({
         startY: 30,
         head: [
-          ["Sector", "Asistencias", "Tardanzas", "Faltas", "Justificaciones"],
+          ["Asistencias", "Tardanzas", "Faltas", "Justificaciones"],
         ],
         body: asistenciasSectorData,
       });
@@ -179,6 +176,36 @@ const generatePDF = async (
           doc.autoTable.previous.finalY + 10,
           180,
           80
+        );
+      }
+
+      doc.text("ESTADO DE JUSTIFICACIONES:", 14, 150);
+
+      const dataJustifications = [
+        { content: 'Justificaciones' },
+        { content: aceptado},
+        { content: enProceso },
+        { content: rechazado },
+      ]
+
+      doc.autoTable({
+        startY: 156,
+        head: [["Tipo", "Aceptado", "En proceso", "Rechazado"]],
+        body: [dataJustifications],
+      });
+      const justificationSection = document.querySelector(
+        ".content-justification"
+      );
+      if (justificationSection) {
+        const justificationCanvas = await html2canvas(justificationSection);
+        const justificationDataUrl = justificationCanvas.toDataURL("image/png");
+        doc.addImage(
+          justificationDataUrl,
+          "PNG",
+          29,
+          doc.autoTable.previous.finalY + 8,
+          150,
+          75
         );
       }
     }

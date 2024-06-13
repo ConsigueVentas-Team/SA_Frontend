@@ -232,7 +232,7 @@ const Reportes = () => {
                 </span>
               </h1>
               <div className="box-content flex items-start justify-start w-full gap-4 ">
-                <div className="box-border flex flex-col justify-between w-3/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
+                <div className="content-justification box-border flex flex-col justify-between w-3/6 p-5 mt-4 text-sm rounded-lg bg-cv-primary h-80">
                   <h1 className="text-lg font-medium ">
                     Estado de Justificaciones
                   </h1>
