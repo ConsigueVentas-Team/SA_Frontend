@@ -48,7 +48,7 @@ export const Justificaciones = () => {
   const getJustifications = async (page)=>{
     setLoading(true);        
     const exclude = true;
-    const response = await FechDataJustificaciones({page, exclude, name});    
+    const response = await FechDataJustificaciones({page, exclude, name, status:buscadorStatus, date:buscadorFecha, type:buscador_tipoJustificacion === 'True' ? '0': '1'});    
     const data = response.data;
     const totalData = response.total;
     setLoading(false);
