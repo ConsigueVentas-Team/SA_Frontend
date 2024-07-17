@@ -59,14 +59,17 @@ export const AñadirJustificacion = () => {
   
   //Función que obtiene las justificaciones
   const getJustifications = async (page)=>{
-    setLoading(true);        
-    const exclude = false;
-    const response = await FechDataJustificaciones({page, exclude, name});    
-    const data = response.data;
-    const totalData = response.total;
-    setLoading(false);
-    setCards(data);
-    setCountPage(totalData)
+    setLoading(true);            
+    const response = await FechDataJustificaciones({page, status:buscadorStatus, date:buscadorFecha, type:buscador_tipoJustificacion});    
+    if(response.data) {
+      const data = response.data.data;
+      const totalData = response.total;
+      setCards(data);
+      setCountPage(totalData)
+    }else {
+      setCards([]);
+    }
+    setLoading(false);    
   }
 
   return (
@@ -117,8 +120,8 @@ export const AñadirJustificacion = () => {
                 onChange={(e) => {setbuscador_tipoJustificacion(e.target.value)}}
               >
                 <option value="">Tipo de justificación</option>
-                <option value="Falta">Falta</option>
-                <option value="Tardanza">Tardanza</option>
+                <option value="0">Falta</option>
+                <option value="1">Tardanza</option>
               </select>
             </div>
             {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
