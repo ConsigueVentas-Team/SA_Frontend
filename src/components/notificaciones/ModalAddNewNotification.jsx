@@ -70,7 +70,7 @@ const ModalAddNewNotification = ({addNewNotification, openModal, setOpenModal}) 
                     }
                 </div>
                 <hr className='border-slate-300 w-full mt-7'/>
-                <div className='px-4 m-auto block mt-8 w-fit flex gap-5'>
+                <div className='px-4 m-auto mt-8 w-fit flex gap-5'>
                     <button onClick={()=>{setOpenModal(false)}} className='uppercase border-2 border-cv-primary hover:bg-cv-primary hover:text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300 text-black'>
                         cancelar
                     </button>

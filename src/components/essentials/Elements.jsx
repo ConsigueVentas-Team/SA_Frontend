@@ -10,6 +10,7 @@ import esLocale from 'date-fns/locale/es';
 
 export const Notifications = () => {
     const [notificacion, setNotificacion] = useState([]);
+    const [uncount, setUncount] = useState(1);
     const [showNotifications, setShowNotifications] = useState(false);
     const [itemShow, setItemShow] = useState(4);
     const [showAll, setShowAll] = useState(false);
@@ -19,6 +20,7 @@ export const Notifications = () => {
 
     const handleShowNotifications = () => {
         setShowNotifications(!showNotifications);
+        markAsRead();
     }
 
     const handleClickAway = () => {
@@ -29,6 +31,9 @@ export const Notifications = () => {
         fetchNotifications()
     }, []);
 
+    const markAsRead = ()=>{
+        setUncount(0);
+    }
 
     const fetchNotifications = async () => {
         try {
@@ -66,9 +71,12 @@ export const Notifications = () => {
             <div>
                 <Tooltip title="Notificaciones">
                     <button onClick={handleShowNotifications} className="relative outline-none transition-transform transform">
-                        <div className="absolute top-0 left-0 flex items-center justify-center w-5 h-5 bg-red-500 rounded-full">
-                            <span className="text-sm text-white ">{notificacion.length}</span>
-                        </div>
+                        {
+                            uncount > 0 && 
+                                <div className="absolute top-0 left-0 flex items-center justify-center w-5 h-5 bg-red-500 rounded-full">
+                                    <span className="text-sm text-white ">{uncount}</span>
+                                </div>
+                        }
                         <div className={`p-1.5 transform ${showNotifications ? 'rotate-y-180 scale-125' : 'rotate-y-0 scale-100'} transition-transform origin-center duration-5000 ease-in-out`}>
                             <NotificationsIcon sx={{ fontSize: 30 }} />
                         </div>
