@@ -1,6 +1,6 @@
 import { AES, enc } from 'crypto-js'
 
-export const FechDataJustificaciones = async ({ page, exclude, name='' }) => {
+export const FechDataJustificaciones = async ({ page, exclude=false, name='', status='', type='', date='' }) => {
     try {
         const tokenD = AES.decrypt(
             localStorage.getItem('token'),
@@ -8,15 +8,9 @@ export const FechDataJustificaciones = async ({ page, exclude, name='' }) => {
         )
 
         const token = tokenD.toString(enc.Utf8)
-        const iduser = localStorage.getItem('iduser')
-
-        let url;
-
-        if(exclude) {
-            url = `${import.meta.env.VITE_API_URL}/justification/list?page=${page}&exclude_user=${iduser}&name=${name}`;
-        }else {            
-            url = `${import.meta.env.VITE_API_URL}/justification/list?page=${page}&user=${iduser}`;
-        }
+        const iduser = localStorage.getItem('iduser')        
+        
+        const url = `${import.meta.env.VITE_API_URL}/justification/list?page=${page}${exclude ? `&exclude_user=${iduser}`: `&user=${iduser}`}${name && `&name=${name}`}${status && `&status=${status}`}${type && `&type=${type}`}${date && `&date=${date}`}`;                                                
             
         const response = await fetch(url, {
             headers: {
