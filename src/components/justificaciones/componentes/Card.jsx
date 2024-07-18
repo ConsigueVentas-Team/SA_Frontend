@@ -2,7 +2,6 @@ import { useState } from "react";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../../components/essentials/Loading";
 import { Avatar } from "@mui/material";
 import { STATUS } from "../../../constantes/JustificationStatus";
 
@@ -20,7 +19,6 @@ export const Card = ({ card, page }) => {
   };
 
   const bandera = true;
-  const [loading, setLoading] = useState(true);
 
   const mostrarDetalles = (id) => {
     navigate(`/details/${id}`, {
