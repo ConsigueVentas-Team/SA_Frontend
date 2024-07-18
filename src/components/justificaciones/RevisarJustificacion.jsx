@@ -95,7 +95,7 @@ export const RevisarJustificacion = () => {
     if (hasRole("Colaborador")) {
       FechData({ page })
         .then((e) => {
-          setFaltasList(e.data);          
+          setFaltasList(e.data.data);          
         })
         .catch((e) => console.log(e))
         .finally(() => {
@@ -104,7 +104,7 @@ export const RevisarJustificacion = () => {
     } else if (bandera == true) {
       FechDataJustificaciones({ page, exclude:true })
         .then((e) => {
-          setFaltasList(e.data);          
+          setFaltasList(e.data.data);          
         })
         .catch((e) => console.log(e))
         .finally(() => {
@@ -113,7 +113,7 @@ export const RevisarJustificacion = () => {
     } else {
       FechData({ page })
         .then((e) => {
-          setFaltasList(e.data);          
+          setFaltasList(e.data.data);          
         })
         .catch((e) => console.log(e))
         .finally(() => {
