@@ -39,11 +39,15 @@ const Reportes = () => {
   useEffect(()=>{
     //Calculamos el porcentaje de usuarios activos
     const pUsers = (usuariosActivos/totalUsuarios)*100
-    setPorcentageUser(pUsers)    
+
+    //Redondemos el número segun sea necesario    
+    setPorcentageUser(Math.round(pUsers))        
 
     //Calculamos el porcentaje de ingresos en el ultimo mes
     const pLastMonth = (ingresosMes/totalUsuarios)*100
-    setPorcentageLastMonth(pLastMonth)
+
+    //Redondemos el número segun sea necesario    
+    setPorcentageLastMonth(Math.round(pLastMonth))     
   },[totalUsuarios])
 
   //Función que ejecuta el generador de pdf para que lo descarge el usuario
@@ -188,7 +192,7 @@ const Reportes = () => {
                   numero={usuariosActivos}
                 />
                 <Tarjeta
-                  titulo="USUARIOS INACTIVOS"
+                  titulo="INGRESOS ULTIMO MES"
                   porcentaje={porcentageLastMonth}
                   numero={ingresosMes}
                 />
