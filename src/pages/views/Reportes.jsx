@@ -28,11 +28,27 @@ const Reportes = () => {
   const {report: reportCore} = useDepartmentReport('/cores/statistics');
   const [activeNucleoOption, setActiveNucleoOption] = useState(true); 
   const [userDataBySector, setUserDataBySector] = useState([]);  
+  const [porcentageUser, setPorcentageUser] = useState(0);
+  const [porcentageLastMonth, setPorcentageLastMonth] = useState(0);
   const { 
           totalUsuarios,usuariosActivos,ingresosMes,totalAsistencias,
           totalTardanzas,totalFaltas,totalJustificaciones,totalJus,aceptado,
           enProceso,rechazado,apiDataAsistenciasSector,loading,setLoading
         } = useReportList();
+
+  useEffect(()=>{
+    //Calculamos el porcentaje de usuarios activos
+    const pUsers = (usuariosActivos/totalUsuarios)*100
+
+    //Redondemos el número segun sea necesario    
+    setPorcentageUser(Math.round(pUsers))        
+
+    //Calculamos el porcentaje de ingresos en el ultimo mes
+    const pLastMonth = (ingresosMes/totalUsuarios)*100
+
+    //Redondemos el número segun sea necesario    
+    setPorcentageLastMonth(Math.round(pLastMonth))     
+  },[totalUsuarios])
 
   //Función que ejecuta el generador de pdf para que lo descarge el usuario
   const handleGeneratePDF = ()=>{
@@ -172,12 +188,12 @@ const Reportes = () => {
                 />
                 <Tarjeta
                   titulo="USUARIOS ACTIVOS"
-                  porcentaje={90}
+                  porcentaje={porcentageUser}
                   numero={usuariosActivos}
                 />
                 <Tarjeta
-                  titulo="INGRESOS ÚLTIMO MES"
-                  porcentaje={10}
+                  titulo="INGRESOS ULTIMO MES"
+                  porcentaje={porcentageLastMonth}
                   numero={ingresosMes}
                 />
               </div>

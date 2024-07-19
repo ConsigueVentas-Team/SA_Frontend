@@ -53,19 +53,23 @@ export function CardDetail({
                   {item.justification_status === 2 && STATUS.RECHAZADO}
                   {item.justification_status === 1 && STATUS.ACEPTADO}
                 </h2>
-                <div className="text-start mt-5 flex justify-between">
-                  <div>
+                <div className="text-start mt-5 flex m-auto w-full justify-between">
+                  <div className="">
                     <h3 className="text-slate-400 font-medium">Revisado por: </h3>
                     <span className="font-medium">
-                      {item.action_by.name}
-                      {item.action_by.surname}
+                      {item.action_by.name} {item.action_by.surname}
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-slate-400 font-medium">Razón:</h3>
-                    <span className="font-medium">
-                      {item.reason_decline}
-                    </span>
+                    {
+                      item.justification_status === 2 &&
+                      <>
+                        <h3 className="text-slate-400 font-medium">Razón:</h3>
+                        <span className="font-medium">
+                          {item.reason_decline}
+                        </span>
+                      </>
+                    }                    
                   </div>
                 </div>              
               </div>
@@ -190,15 +194,15 @@ export function CardDetail({
                 item.evidence.endsWith(".png") ||
                 item.evidence.endsWith(".jpeg") ? (
                   <div className="flex flex-col w-full f-center justify-center items-center">
-                    <img className="max-w-lg object-cover w-full object-cover object-center aspect-square"
-                      src={import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence}
+                    <img className="max-w-lg w-full object-cover object-center aspect-square"
+                      src={item.evidence}
                       alt="Image"
                     />
-                    <button onClick={()=>{handleDownloadImage(item.user.name, item.user.surname, import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence)}} className="w-fit m-auto mt-4 uppercase basis-1/6 border-2  border-cv-cyan hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300 text-cv-cyan">Descargar</button>
+                    <button onClick={()=>{handleDownloadImage(item.user.name, item.user.surname, item.evidence)}} className="w-fit m-auto mt-4 uppercase basis-1/6 border-2  border-cv-cyan hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300 text-cv-cyan">Descargar</button>
                   </div>
                 ) : item.evidence.endsWith(".pdf") ? (
                   <embed
-                    src={import.meta.env.VITE_BACKEND_SERVER_URL + item.evidence}
+                    src={item.evidence}
                     type="application/pdf"
                     width="100%"
                     height="600px"

@@ -10,7 +10,7 @@ import esLocale from 'date-fns/locale/es';
 
 export const Notifications = () => {
     const [notificacion, setNotificacion] = useState([]);
-    const [uncount, setUncount] = useState(1);
+    const [uncount, setUncount] = useState(0);
     const [showNotifications, setShowNotifications] = useState(false);
     const [itemShow, setItemShow] = useState(4);
     const [showAll, setShowAll] = useState(false);
@@ -48,6 +48,7 @@ export const Notifications = () => {
             const data = await response.json();
             if (response.ok) {
                 setNotificacion(data.data);
+                if(data.data.length > 0) setUncount(1);                
             } else {
                 console.error('Error al obtener las notificaciones:', data.error);
             }
