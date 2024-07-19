@@ -48,6 +48,7 @@ export const Notifications = () => {
             const data = await response.json();
             if (response.ok) {
                 setNotificacion(data.data);
+                if(data.data.length > 0) setUncount(1);                
             } else {
                 console.error('Error al obtener las notificaciones:', data.error);
             }
