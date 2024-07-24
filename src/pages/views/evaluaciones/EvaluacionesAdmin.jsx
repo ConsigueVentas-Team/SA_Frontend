@@ -10,6 +10,7 @@ import {
 } from "../../../components/evaluaciones";
 import Loading from "../../../components/essentials/Loading";
 import MessageNotFound from "../../../components/MessageNotFound";
+import { getTotalData } from "../../../services/getTotalData";
 
 export const EvaluacionesAdmin = () => {
   const [users, setUsers] = useState(null);
@@ -35,6 +36,7 @@ export const EvaluacionesAdmin = () => {
   const [position, setPosition] = useState("");
 
   const [cargando, setCargando] = useState(true);
+  const [loadingData, setLoadingData] = useState(false)
 
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
@@ -42,45 +44,27 @@ export const EvaluacionesAdmin = () => {
   );
   const token = tokenD.toString(enc.Utf8);
 
-  const getPositionList = async () => {
-    try {
-      await fetch(import.meta.env.VITE_API_URL + "/position/list", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setProfiles(data.data);
-        });
-    } catch (error) {
-      console.error("Error al obtener los cargos:", error);
-    }
-  };
+  const getCores = async ()=>{
+    const data = await getTotalData('cores', setLoadingData);
+    setCores(data);
+  }
 
-  //** Rellenar Select Options */
-  useEffect(() => {
-    fetch(import.meta.env.VITE_API_URL + "/departments/list", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setDepartments(data.data));
+  const getDeparments = async ()=>{
+    const data = await getTotalData('departments', setLoadingData);
+    setDepartments(data);
+  }
 
-    fetch(import.meta.env.VITE_API_URL + "/cores/list", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setCores(data.data));
+  const getPositions = async ()=>{
+    const data = await getTotalData('position', setLoadingData);
+    setProfiles(data);
+  }
 
-    getPositionList();
-  }, [token]);
+  //** Rellenar Select Options */  
+  useEffect(()=>{
+    getDeparments();
+    getCores();  
+    getPositions();  
+  }, [token])
 
   const departmentOptions = departments.map((department) => ({
     value: department.id,

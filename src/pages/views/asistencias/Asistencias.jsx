@@ -13,6 +13,7 @@ import ChecklistIcon from "@mui/icons-material/Checklist";
 import Loading from "../../../components/essentials/Loading";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import MessageNotFound from "../../../components/MessageNotFound";
+import { getTotalData } from "../../../services/getTotalData";
 
 
 export const Asistencias = () => {
@@ -42,6 +43,8 @@ export const Asistencias = () => {
   const [shift, setShift] = useState("");
   const [department, setDepartment] = useState("");
   const [core, setCore] = useState("");
+  const [loadingData, setLoadingData] = useState(false)
+
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
     import.meta.env.VITE_TOKEN_KEY
@@ -74,29 +77,23 @@ export const Asistencias = () => {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
   const [fetchingInProgress, setFetchingInProgress] = useState(true);
 
-  useEffect(() => {
-    fetch(import.meta.env.VITE_API_URL + "/departments/list", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setDepartments(data.data);
-      });
+  const getCores = async ()=>{
+    const data = await getTotalData('cores', setLoadingData);
+    setCores(data);
+  }
 
-    fetch(import.meta.env.VITE_API_URL + "/cores/list", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setCores(data.data);
-      });
+  const getDeparments = async ()=>{
+    const data = await getTotalData('departments', setLoadingData);
+    setDepartments(data);
+  }  
 
+  //** Rellenar Select Options */  
+  useEffect(()=>{
+    getDeparments();
+    getCores();      
+  }, [token])
+
+  useEffect(() => {    
     fetch(
       `${import.meta.env.VITE_API_URL
       }/attendance/list?page=${currentPage}&date=${date}`,

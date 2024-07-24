@@ -1,21 +1,16 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { AES, enc } from "crypto-js";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import CloseIcon from "@mui/icons-material/Close";
 import { Avatar, InputText, ModalButton, Select } from "./ModalElements";
 import Loading from "../../essentials/Loading";
 
-export const ModalAgregar = ({ close, addUser, cargando }) => {
-  // UseStates de campos a insertar
+export const ModalAgregar = ({departments, cores, profiles, close, addUser, cargando }) => {  
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
-  const [dni, setDni] = useState("");
-  const [departments, setDepartments] = useState([]);
-  const [cores, setCores] = useState([]);
-  const [profiles, setProfiles] = useState([]);
+  const [dni, setDni] = useState("");  
   const [cellphone, setCellphone] = useState("");
   const [shift, setShift] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -25,43 +20,7 @@ export const ModalAgregar = ({ close, addUser, cargando }) => {
 
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedCore, setSelectedCore] = useState("");
-  const [selectedProfile, setSelectedProfile] = useState("");
-
-  const tokenD = AES.decrypt(
-    localStorage.getItem("token"),
-    import.meta.env.VITE_TOKEN_KEY
-  );
-  const token = tokenD.toString(enc.Utf8);
-
-  //** Rellenar Select Options */
-  useEffect(() => {
-    fetch(import.meta.env.VITE_API_URL + "/departments/list", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setDepartments(data.data));
-
-    fetch(import.meta.env.VITE_API_URL + "/cores/list", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setCores(data.data));
-
-    fetch(import.meta.env.VITE_API_URL + "/position/list", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setProfiles(data.data));
-  }, [token]);
+  const [selectedProfile, setSelectedProfile] = useState("");    
 
   const departmentOptions = departments.map((department) => ({
     value: department.id,
