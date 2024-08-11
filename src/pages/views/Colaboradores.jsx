@@ -16,6 +16,7 @@ import Loading from "../../components/essentials/Loading";
 import mostrarErrores from "../../functions/mostrarErrores";
 import MessageNotFound from "../../components/MessageNotFound";
 import { getTotalData } from "../../services/getTotalData";
+import { optimizaciónUpdate } from "../../optimizaciónUpdate";
 
 export const Colaboradores = () => {
   const [users, setUsers] = useState(null);
@@ -150,6 +151,7 @@ export const Colaboradores = () => {
         setUsers(data.data);
         setPagination(data);
         setCargando(false);        
+        optimizaciónUpdate(data.data)
       } else {
         console.error("Error al obtener los usuarios:", data.error);
         setCargando(true);
