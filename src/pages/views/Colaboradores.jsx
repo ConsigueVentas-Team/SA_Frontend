@@ -150,8 +150,7 @@ export const Colaboradores = () => {
       if (response.ok) {
         setUsers(data.data);
         setPagination(data);
-        setCargando(false);        
-        optimizaciónUpdate(data.data)
+        setCargando(false);                
       } else {
         console.error("Error al obtener los usuarios:", data.error);
         setCargando(true);
