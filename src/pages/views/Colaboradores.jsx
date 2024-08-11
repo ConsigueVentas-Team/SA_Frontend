@@ -16,6 +16,7 @@ import Loading from "../../components/essentials/Loading";
 import mostrarErrores from "../../functions/mostrarErrores";
 import MessageNotFound from "../../components/MessageNotFound";
 import { getTotalData } from "../../services/getTotalData";
+import { optimizaciónUpdate } from "../../optimizaciónUpdate";
 
 export const Colaboradores = () => {
   const [users, setUsers] = useState(null);
@@ -47,6 +48,7 @@ export const Colaboradores = () => {
 
   const [cargando, setCargando] = useState(true);
   const [loadingData, setLoadingData] = useState(false);
+  const [selectedActive, setSelectedActive] = useState('');
 
   const tokenD = AES.decrypt(
     localStorage.getItem("token"),
@@ -119,8 +121,8 @@ export const Colaboradores = () => {
   };
 
   useEffect(() => {
-    obtenerUsuarios(page, shift, position, department, core, name);
-  }, [page, shift, position, department, core, name]);  
+    obtenerUsuarios(page, shift, position, department, core, name, selectedActive);
+  }, [page, shift, position, department, core, name, selectedActive]);  
 
   //* Listar Colaboradores
   const obtenerUsuarios = async (page) => {
@@ -135,6 +137,7 @@ export const Colaboradores = () => {
       if (core) url.searchParams.append("core", core);
       if (position) url.searchParams.append("position", position);
       if (shift) url.searchParams.append("shift", shift);
+      if (selectedActive) url.searchParams.append('is_active', selectedActive);
 
       const response = await fetch(url, {
         headers: {
@@ -147,7 +150,8 @@ export const Colaboradores = () => {
       if (response.ok) {
         setUsers(data.data);
         setPagination(data);
-        setCargando(false);
+        setCargando(false);        
+        optimizaciónUpdate(data.data)
       } else {
         console.error("Error al obtener los usuarios:", data.error);
         setCargando(true);
@@ -276,6 +280,7 @@ export const Colaboradores = () => {
     setSelectedDepartment("");
     setSelectedCore("");
     setSelectedProfile("");
+    setSelectedActive('');
   };
 
   return (
@@ -290,7 +295,25 @@ export const Colaboradores = () => {
 
         <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-9 gap-x-0 md:gap-4">
           <div className="col-span-1 row-start-2 md:col-span-8 md:row-start-1">
-            <SearchBar value={name} onChange={handleSearchChange} />
+            <div className="grid gap-4 grid-cols-3">
+              <div className="col-span-2">
+                <SearchBar value={name} onChange={handleSearchChange} />
+              </div>
+              <div className="w-full col-span-1">
+                  <select
+                      // value={String(value)}
+                      onChange={(e)=>{
+                        setSelectedActive(e.target.value);
+                      }}
+                      // disabled={disabled}
+                      className="w-full box-border w-50 h-full border border-cv-primary bg-cv-secondary rounded-md p-2 outline-none"
+                  >
+                      <option value={''}>Filtrar por actividad</option>
+                      <option value={'True'}>Usuarios activos</option>
+                      <option value={'False'}>Usuarios inactivos</option>                  
+                  </select>
+              </div>
+            </div>            
           </div>
           <div className="col-span-2 md:col-start-1 md:row-start-2">
             <SelectOption
