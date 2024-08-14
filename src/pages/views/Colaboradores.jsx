@@ -16,7 +16,6 @@ import Loading from "../../components/essentials/Loading";
 import mostrarErrores from "../../functions/mostrarErrores";
 import MessageNotFound from "../../components/MessageNotFound";
 import { getTotalData } from "../../services/getTotalData";
-import { optimizaciónUpdate } from "../../optimizaciónUpdate";
 
 export const Colaboradores = () => {
   const [users, setUsers] = useState(null);
