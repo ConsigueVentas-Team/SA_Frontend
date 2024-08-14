@@ -8,6 +8,7 @@ import Loading from "../../components/essentials/Loading";
 import LoginImage from "./LoginImage";
 import FrasesLogin from "./FrasesLogin";
 import Logo from "./Logo";
+
 export const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -97,8 +98,9 @@ export const Login = () => {
             if (
               responseData.message === "No autorizado" ||
               responseData.message ===
-                "Tu cuenta ha sido bloqueado, contacte a un administrador"
+              "Tu cuenta ha sido bloqueado, contacte a un administrador"
             ) {
+              localStorage.setItem("login", true);
               setError(responseData.message);
             } else {
               setMsg(responseData.message);
@@ -112,15 +114,13 @@ export const Login = () => {
               localStorage.setItem("rol", responseData.role.name);
               localStorage.setItem("name", responseData.user.name);
               localStorage.setItem("avatar", responseData.user.avatar);
-              localStorage.setItem("surname", responseData.user.surname);
-              // localStorage.setItem('shift', responseData.profile.shift)
+              localStorage.setItem("surname", responseData.user.surname);              
               localStorage.setItem("shift", responseData.user.shift);
               localStorage.setItem("login", true);
               navigate("/");
               window.location.reload();
             }
-          } else {
-            setViewLoading(false);
+          } else {                        
             setError(responseData.error);
           }
         } catch (err) {
